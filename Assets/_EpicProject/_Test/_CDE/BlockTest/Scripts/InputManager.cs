@@ -17,11 +17,8 @@ public class InputManager : MonoBehaviour
 
             if (clickable != null)
             {
+                Debug.Log("@@DE ---> 클릭!");
                 clickable.OnClicked();
-            }
-            else
-            {
-                // 팝업을 닫음
             }
         }
     }
