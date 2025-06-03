@@ -22,6 +22,8 @@ public class Block : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         _originalAnchorPos = _rectTransform.anchoredPosition;
         _originalParent = _rectTransform.parent;
         _prevSlot = _originalParent.GetComponent<DropSlot>();
+        
+        _rectTransform.SetParent(_canvas.transform);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -50,6 +52,8 @@ public class Block : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         }
         
         bool canDrop = (nextSlot != null) && (nextSlot.CanDrop());
+        
+        // 새 slot으로 이동
         if (canDrop)
         {
             _rectTransform.SetParent(nextSlot.transform,false);
@@ -58,6 +62,8 @@ public class Block : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
             nextSlot.OnBlockDrop(this);
             _prevSlot.OnBlockRemoved();
         }
+        
+        // 기존 slot으로 이동
         else
         {
             _rectTransform.SetParent(_originalParent, false);
