@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,7 +8,7 @@ public class Block : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     private RectTransform _rectTransform;
     private Vector3 _originalAnchorPos;
     private Transform _originalParent;
-    private DropSlot _prevSlot;
+    private Slot _prevSlot;
     
     private Canvas _canvas;
 
@@ -21,7 +22,7 @@ public class Block : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     {
         _originalAnchorPos = _rectTransform.anchoredPosition;
         _originalParent = _rectTransform.parent;
-        _prevSlot = _originalParent.GetComponent<DropSlot>();
+        _prevSlot = _originalParent.GetComponent<Slot>();
         
         _rectTransform.SetParent(_canvas.transform);
     }
@@ -44,10 +45,10 @@ public class Block : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         var results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
-        DropSlot nextSlot = null;
+        Slot nextSlot = null;
         foreach (var result in results)
         {
-            nextSlot = result.gameObject.GetComponent<DropSlot>();
+            nextSlot = result.gameObject.GetComponent<Slot>();
             if (nextSlot != null) break;
         }
         
