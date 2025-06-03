@@ -1,41 +1,43 @@
+using Define;
 using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
-    private Block _currentBlock;
+    public SlotType Type;
+    private DraggableBlock _currentDraggableBlock;
 
     private void Start()
     {
         // 초기 블록 체크
-        Block block = GetChildBlock();
-        if (block != null)
+        DraggableBlock draggableBlock = GetChildBlock();
+        if (draggableBlock != null)
         {
-            OnBlockDrop(block);
+            OnBlockDrop(draggableBlock);
         }
     }
 
     public bool CanDrop()
     {
-        return _currentBlock == null;
+        return _currentDraggableBlock == null;
     }
     
-    public void OnBlockDrop(Block block)
+    public void OnBlockDrop(DraggableBlock draggableBlock)
     {
-        _currentBlock = block;
+        _currentDraggableBlock = draggableBlock;
     }
 
     public void OnBlockRemoved()
     {
-        _currentBlock = null;
+        _currentDraggableBlock = null;
     }
 
-    private Block GetChildBlock()
+    private DraggableBlock GetChildBlock()
     {
         foreach (Transform child in transform)
         {
-            Block block = child.GetComponent<Block>(); 
-            if (block != null)
-                return block;
+            DraggableBlock draggableBlock = child.GetComponent<DraggableBlock>(); 
+            if (draggableBlock != null)
+                return draggableBlock;
         }
         return null;
     }

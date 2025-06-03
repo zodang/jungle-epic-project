@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
+using Define;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Block : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform _rectTransform;
     private Vector3 _originalAnchorPos;
@@ -54,9 +54,23 @@ public class Block : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         
         bool canDrop = (nextSlot != null) && (nextSlot.CanDrop());
         
+        // ToDo: 추후 기능 분리 필요
+        ClickableController target = FindAnyObjectByType<ClickableController>();
+        Block block = GetComponent<Block>();
+        
         // 새 slot으로 이동
         if (canDrop)
         {
+            if (nextSlot.Type == SlotType.Inventory)
+            {
+                target.RemoveBlock(block);
+            }
+            else if (nextSlot.Type == SlotType.Inspector)
+            {
+                target.AddBlock(block);
+            }
+            
+            // Block 위치 변경
             _rectTransform.SetParent(nextSlot.transform,false);
             _rectTransform.anchoredPosition = Vector3.zero;
             
