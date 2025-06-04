@@ -5,6 +5,7 @@ public class ClickableController : MonoBehaviour, IClickable
 {
     public InspectorData InspectorData = new InspectorData();
     
+    private InspectorSlot[] _slots;
     private PopInspectorUI _popInspector;
     
     private Action OnObjectClicked;
@@ -12,7 +13,14 @@ public class ClickableController : MonoBehaviour, IClickable
     private void Awake()
     {
         _popInspector = FindAnyObjectByType<PopInspectorUI>();
+        _slots = FindObjectsByType<InspectorSlot>(FindObjectsSortMode.None);
+        
         OnObjectClicked += WhenClicked;
+
+        foreach (var slot in _slots)
+        {
+            slot.OnBlockDropped += OnBlockDropped;
+        }
     }
     
     private void OnDestroy()
@@ -30,12 +38,24 @@ public class ClickableController : MonoBehaviour, IClickable
         _popInspector.Show(this);
     }
 
-    public void AddBlock(Block block)
+    private void OnBlockDropped(DraggableBlock draggable, Slot start, Slot end)
+    {
+        Block block = draggable.GetComponent<Block>();
+
+        if (start is InventorySlot slot)
+        {
+            // 인벤토리에서 제거
+        }
+
+        AddBlock(block);
+    }
+    private void AddBlock(Block block)
     {
         if (InspectorData.BlockList.Contains(block)) return;
-        
+
+        var feature = GetComponent(block.RequiredFeatureType);
         InspectorData.BlockList.Add(block);
-        block.Activate(this);
+        block.Activate(feature);
     }
 
     public void RemoveBlock(Block block)

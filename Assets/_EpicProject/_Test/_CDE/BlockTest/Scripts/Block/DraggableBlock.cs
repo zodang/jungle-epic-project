@@ -4,10 +4,10 @@ using UnityEngine.EventSystems;
 
 public class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public Slot PrevSlot { get; private set; }
     private RectTransform _rectTransform;
     private Vector3 _originalAnchorPos;
     private Transform _originalParent;
-    private Slot _prevSlot;
     
     private Canvas _canvas;
 
@@ -21,7 +21,7 @@ public class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     {
         _originalAnchorPos = _rectTransform.anchoredPosition;
         _originalParent = _rectTransform.parent;
-        _prevSlot = _originalParent.GetComponent<Slot>();
+        PrevSlot = _originalParent.GetComponent<Slot>();
         
         _rectTransform.SetParent(_canvas.transform);
     }
@@ -55,7 +55,7 @@ public class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         if (nextSlot != null && nextSlot.CanDrop())
         {
             nextSlot.OnBlockDrop(this);
-            _prevSlot.OnBlockRemoved();
+            PrevSlot.OnBlockRemoved();
             
             // Block 위치 변경
             _rectTransform.SetParent(nextSlot.transform,false);

@@ -1,17 +1,26 @@
-using Unity.VisualScripting;
+using System;
 
 public class ControlBlock : Block
 {
-    private ClickableController _target;
-    public override void Activate(ClickableController target)
+    private IControllable _controllable;
+    
+    public override Type RequiredFeatureType => typeof(IControllable);
+
+    public override void Activate(object feature)
     {
-        _target = target;
-        _target.AddComponent<Movement>();
+        _controllable = feature as IControllable;
+        _controllable?.EnableControl();
     }
 
-    public override void Deactivate(ClickableController target)
+    public override void Deactivate(object feature)
     {
-        Destroy(_target.GetComponent<Movement>());
-        _target = null;
+        IControllable target = _controllable;
+        if (target == null)
+            target = feature as IControllable;
+
+        if (target != null)
+            target.DisableControl();
+        
+        _controllable = null;
     }
 }
