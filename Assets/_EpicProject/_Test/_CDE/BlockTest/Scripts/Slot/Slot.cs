@@ -1,9 +1,7 @@
-using Define;
 using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
-    public SlotType Type;
     private DraggableBlock _currentDraggableBlock;
 
     private void Start()
@@ -21,12 +19,12 @@ public class Slot : MonoBehaviour
         return _currentDraggableBlock == null;
     }
     
-    public void OnBlockDrop(DraggableBlock draggableBlock)
+    public virtual void OnBlockDrop(DraggableBlock draggableBlock)
     {
         _currentDraggableBlock = draggableBlock;
     }
 
-    public void OnBlockRemoved()
+    public virtual void OnBlockRemoved()
     {
         _currentDraggableBlock = null;
     }

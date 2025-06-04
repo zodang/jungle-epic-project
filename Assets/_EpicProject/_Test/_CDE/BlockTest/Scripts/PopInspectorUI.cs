@@ -5,13 +5,16 @@ public class PopInspectorUI : MonoBehaviour
 {
     [SerializeField] private Button closeBtn;
     [SerializeField] private RectTransform popInspectorRect;
-
+    
     private Canvas _canvas;
+    private InspectorSlot[] _inspectorSlots;
     private Vector2 _offset = new Vector2(150, 0);
 
     private void Awake()
     {
         _canvas = GetComponent<Canvas>();
+        _inspectorSlots = GetComponentsInChildren<InspectorSlot>();
+
         closeBtn.onClick.AddListener(Hide);
     }
 
@@ -23,7 +26,14 @@ public class PopInspectorUI : MonoBehaviour
     public void Show(ClickableController clickable)
     {
         SetPosition(clickable);
-        // Todo: 슬롯 데이터 초기화
+        
+        // Todo: UI 초기화
+        
+        // TODO: clickable의 InspectorData에 따른 block 세팅
+        foreach (var slot in _inspectorSlots)
+        {
+            slot.SetSlot(clickable);
+        }
         
         _canvas.enabled = true;
     }
