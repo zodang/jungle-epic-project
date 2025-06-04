@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour, IControlable
+public class Player : MonoBehaviour
 {
     InputAction moveAction;
     InputAction attackAction;
@@ -23,7 +23,6 @@ public class Player : MonoBehaviour, IControlable
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
-        //attackAction = InputSystem.actions.FindAction("Attack");
         interactAction = InputSystem.actions.FindAction("Interact");
         //jumpAction = InputSystem.actions.FindAction("Jump");
         //sprintAction = InputSystem.actions.FindAction("Sprint");
@@ -103,13 +102,20 @@ public class Player : MonoBehaviour, IControlable
     void OnInteractAction()
     {
         if (_interactObject == null) return;
+        Debug.Log("InteractAction: " + _interactObject.name);
 
         DummyBlock dummyBlock;
         if(_interactObject.TryGetComponent<DummyBlock>(out dummyBlock))
         {
             Debug.Log("Get Block: " + _interactObject.name);
-            _interactObject.SetActive(false);
-            _interactObject = null;
+
+            if(GetComponent<BlockInventory>().TryAddBlock(dummyBlock))
+            {
+                _interactObject.SetActive(false);
+                _interactObject = null;
+            }
         }
+
+        
     }
 }
