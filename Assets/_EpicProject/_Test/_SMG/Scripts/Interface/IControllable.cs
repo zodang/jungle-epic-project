@@ -1,6 +1,5 @@
-using UnityEngine;
-
 public interface IControllable
 {
-    public void SetControll(Vector2 controll);
+    void EnableControl();   // 이동 활성화
+    void DisableControl();  // 이동 비활성화
 }

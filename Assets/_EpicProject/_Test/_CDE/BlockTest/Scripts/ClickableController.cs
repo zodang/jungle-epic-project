@@ -52,9 +52,10 @@ public class ClickableController : MonoBehaviour, IClickable
     private void AddBlock(Block block)
     {
         if (InspectorData.BlockList.Contains(block)) return;
-        
+
+        var feature = GetComponent(block.RequiredFeatureType);
         InspectorData.BlockList.Add(block);
-        block.Activate(this);
+        block.Activate(feature);
     }
 
     public void RemoveBlock(Block block)
