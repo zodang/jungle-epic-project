@@ -104,12 +104,12 @@ public class Player : MonoBehaviour
         if (_interactObject == null) return;
         Debug.Log("InteractAction: " + _interactObject.name);
 
-        DummyBlock dummyBlock;
-        if(_interactObject.TryGetComponent<DummyBlock>(out dummyBlock))
+        BlockBehaviour blockBehaviour;
+        if(_interactObject.TryGetComponent<BlockBehaviour>(out blockBehaviour))
         {
             Debug.Log("Get Block: " + _interactObject.name);
 
-            if(GetComponent<BlockInventory>().TryAddBlock(dummyBlock))
+            if(GetComponent<BlockInventory>().TryAddBlock(blockBehaviour))
             {
                 _interactObject.SetActive(false);
                 _interactObject = null;
