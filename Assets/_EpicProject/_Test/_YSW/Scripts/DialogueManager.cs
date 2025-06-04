@@ -21,7 +21,7 @@ public class DialogueManager : MonoBehaviour
     private const string PLAYER_SPEECH_ANCHOR_NAME = "PlayerSpeechAnchor";
     private const string DIALOGUE_TEXT_UI_NAME = "DialogueText";
     private const string SPEAKER_NAME_TEXT_UI_NAME = "SpeakerNameText";
-    private const string PLAYER_SPEAKER_ID = "Player";
+    private const string PLAYER_SPEAKER_ID = "´ç½Å";
 
     private DialogueCollection dialogueCollection;
     private Queue<DialogueLine> currentDialogueLines;
