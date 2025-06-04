@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
+    public Action<DraggableBlock, Slot, Slot> OnBlockDropped; // 블록, 이전 Slot, 이후 Slot 
     private DraggableBlock _currentDraggableBlock;
 
     private void Start()
@@ -22,6 +24,8 @@ public class Slot : MonoBehaviour
     public virtual void OnBlockDrop(DraggableBlock draggableBlock)
     {
         _currentDraggableBlock = draggableBlock;
+        
+        OnBlockDropped?.Invoke(draggableBlock, draggableBlock.PrevSlot, this);
     }
 
     public virtual void OnBlockRemoved()
