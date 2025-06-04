@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
+using Define;
 
 public class BlockInventory : MonoBehaviour
 {
     //private readonly List<DummyBlock> _blocks;
-    [SerializeField] private List<DummyBlock> _blocks = new List<DummyBlock>();
+    [SerializeField] private List<BlockBehaviour> _blocks = new List<BlockBehaviour>();
 
     private int _maxCnt = 5;
     public int Count { get { return _blocks.Count; } }
@@ -44,7 +44,7 @@ public class BlockInventory : MonoBehaviour
     }
 
     // Ãß°¡
-    void AddBlock(DummyBlock block)
+    void AddBlock(BlockBehaviour block)
     {
         if (IsFull || FindBlock(block)) return;
 
@@ -52,7 +52,7 @@ public class BlockInventory : MonoBehaviour
         ChangeBlockInventory?.Invoke();
     }
 
-    public bool TryAddBlock(DummyBlock block)
+    public bool TryAddBlock(BlockBehaviour block)
     {
         if (IsFull || FindBlock(block)) return false;
 
@@ -61,16 +61,25 @@ public class BlockInventory : MonoBehaviour
         return true;
     }
 
-    bool FindBlock(DummyBlock block)
+    public bool TryAddBlock(BlockType blockType)
+    {
+        if (IsFull) return false;
+
+        _blocks.Add(new BlockBehaviour());
+        ChangeBlockInventory?.Invoke();
+        return true;
+    }
+
+    bool FindBlock(BlockBehaviour block)
     {
         return _blocks.Contains(block);
     }
     
-    public DummyBlock TakeBlock(int index)
+    public BlockBehaviour TakeBlock(int index)
     {
         if (index < 0 || index >= _blocks.Count) return null;
 
-        DummyBlock block = _blocks[index];
+        BlockBehaviour block = _blocks[index];
         RemoveBlock(index);
         ChangeBlockInventory?.Invoke();
         return block;
