@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+    public static InputManager Instance { get; private set; }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
