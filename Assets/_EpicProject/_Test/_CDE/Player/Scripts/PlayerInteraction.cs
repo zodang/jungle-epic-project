@@ -2,17 +2,22 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] private LayerMask interactableLayer;
+    private LayerMask _interactableLayer;
     private float _collectRange = 1.5f;
     
     private void Start()
     {
+        // 상호작용할 레이어 설정
+        int layer = LayerMask.NameToLayer("Interactable");
+        _interactableLayer = 1 << layer;
+        
+        // E키로 상호작용
         InputManager.Instance.OnInteract += TryCollectBlock;
     }
 
     private void TryCollectBlock()
     {
-        Collider2D hit = Physics2D.OverlapCircle(transform.position, _collectRange, interactableLayer);
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, _collectRange, _interactableLayer);
         var interactable = hit.GetComponent<IInteractable>();
         
         if (interactable == null) return;
