@@ -84,15 +84,33 @@ public class NPCInteraction : MonoBehaviour
     // 매 프레임 호출 (플레이어 입력 감지용)
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.Space)) // DialogueManager와 동일한 키
+        if (playerInRange) // 플레이어가 범위 내에 있을 때만 로그를 남기도록 수정
         {
-            if (DialogueManager.Instance != null)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                // 대화가 활성화되어 있지 않고, "방금" 종료된 것도 아닐 때만 새 대화 시작
-                if (!DialogueManager.Instance.IsDialogueActive() &&
-                    !DialogueManager.Instance.WasDialogueJustEndedThisFrame()) // <--- 이 조건 추가!
+                Debug.Log("<NPCInteraction> Space key pressed while playerInRange."); // 스페이스바 입력 감지 로그
+
+                if (DialogueManager.Instance != null)
                 {
-                    InteractWithNPC();
+                    bool isDialogueActive = DialogueManager.Instance.IsDialogueActive();
+                    bool wasDialogueJustEnded = DialogueManager.Instance.WasDialogueJustEndedThisFrame();
+                    Debug.Log($"<NPCInteraction> Checking conditions: IsDialogueActive={isDialogueActive}, WasDialogueJustEndedThisFrame={wasDialogueJustEnded}");
+
+                    if (!isDialogueActive && !wasDialogueJustEnded)
+                    {
+                        Debug.Log("<NPCInteraction> Conditions met. Calling InteractWithNPC().");
+                        InteractWithNPC();
+                    }
+                    else
+                    {
+                        Debug.Log("<NPCInteraction> Conditions NOT met. Not calling InteractWithNPC().");
+                        if (isDialogueActive) Debug.Log("<NPCInteraction> Reason: Dialogue is already active.");
+                        if (wasDialogueJustEnded) Debug.Log("<NPCInteraction> Reason: Dialogue just ended this frame.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("<NPCInteraction> DialogueManager.Instance is null!");
                 }
             }
         }
