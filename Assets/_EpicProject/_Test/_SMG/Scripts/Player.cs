@@ -32,7 +32,7 @@ public class Player : MonoBehaviour, IControllable
         //jumpAction = InputSystem.actions.FindAction("Jump");
         //sprintAction = InputSystem.actions.FindAction("Sprint");
 
-        _enableMove = true;
+        // _enableMove = true;
     }
 
     // Update is called once per frame
