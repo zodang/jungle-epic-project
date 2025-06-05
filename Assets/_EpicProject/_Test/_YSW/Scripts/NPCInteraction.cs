@@ -84,17 +84,17 @@ public class NPCInteraction : MonoBehaviour
     // 매 프레임 호출 (플레이어 입력 감지용)
     void Update()
     {
-        // 플레이어가 범위 내에 있고, 상호작용 키 (예: E 또는 Space)를 눌렀을 때
-        if (playerInRange && Input.GetKeyDown(KeyCode.Space)) // 통합하려는 키로 변경 (예: KeyCode.Space)
+        if (playerInRange && Input.GetKeyDown(KeyCode.Space)) // DialogueManager와 동일한 키
         {
-            // DialogueManager가 존재하고, 현재 다른 대화가 진행 중이 아닐 때만 새 대화 시작
-            if (DialogueManager.Instance != null && !DialogueManager.Instance.IsDialogueActive())
+            if (DialogueManager.Instance != null)
             {
-                InteractWithNPC(); // 새 대화 시작
+                // 대화가 활성화되어 있지 않고, "방금" 종료된 것도 아닐 때만 새 대화 시작
+                if (!DialogueManager.Instance.IsDialogueActive() &&
+                    !DialogueManager.Instance.WasDialogueJustEndedThisFrame()) // <--- 이 조건 추가!
+                {
+                    InteractWithNPC();
+                }
             }
-            // 만약 DialogueManager.Instance.IsDialogueActive()가 true라면,
-            // 이 입력은 DialogueManager의 Update()에서 대화 넘기기로 처리될 것임.
-            // 따라서 여기서는 아무것도 하지 않음.
         }
     }
 }

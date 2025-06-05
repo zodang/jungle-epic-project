@@ -3,11 +3,9 @@ using TMPro;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text; // For StringBuilder
-
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
-
     [Header("UI Setup")]
     [SerializeField] private GameObject speechBubblePrefab;
     [SerializeField] private Transform canvasTransform;
@@ -37,6 +35,7 @@ public class DialogueManager : MonoBehaviour
 
     private bool dialogueActive = false;
     private bool justStartedDialogue = false;
+    private bool dialogueJustEnded = false; // 대화가 방금 종료되었는지 확인하는 플래그
     private bool isChoosing = false;
     private int currentSelectedChoiceIndex = 0;
 
@@ -60,6 +59,10 @@ public class DialogueManager : MonoBehaviour
         currentDialogueLines = new Queue<DialogueLine>();
         LoadDialogueData();
         FindPlayerAnchor();
+    }
+    public bool WasDialogueJustEndedThisFrame()
+    {
+        return dialogueJustEnded;
     }
 
     void LoadDialogueData()
@@ -271,25 +274,36 @@ public class DialogueManager : MonoBehaviour
         if (currentSpeechBubbleInstance != null) currentSpeechBubbleInstance.SetActive(false);
         dialogueActive = false;
         isChoosing = false;
+        dialogueJustEnded = true; // <--- 대화 종료 시 플래그 설정!
         if (pauseGameDuringDialogue) Time.timeScale = 1f;
 
         currentNpcSpeakerAnchor = null;
         currentBubbleTargetAnchor = null;
         currentDialogueLines?.Clear();
         currentChoices = null;
+
     }
 
     void Update()
     {
-        if (!dialogueActive) return;
+        // 이 플래그는 항상 가장 먼저 처리되어야 함
+        if (dialogueJustEnded)
+        {
+            dialogueJustEnded = false; // 다음 프레임에는 영향 없도록 리셋
+                                       // 이 프레임에는 NPCInteraction이 새 대화를 시작하지 못하도록 하기 위함
+                                       // dialogueActive는 이미 false이므로 아래 로직은 실행 안 됨
+        }
 
         if (justStartedDialogue)
         {
             justStartedDialogue = false;
+            // dialogueActive는 true인 상태지만, 이 프레임의 입력은 무시
             return;
         }
 
-        PositionSpeechBubble(); // 말풍선 위치는 항상 업데이트
+        if (!dialogueActive) return; // 이제 이 이후는 dialogueActive가 true일 때만 실행
+
+        PositionSpeechBubble();
 
         if (isChoosing)
         {
