@@ -2,7 +2,6 @@ using System;
 using UnityEngine.UI;
 using Define;
 
-
 public class ScaleBlock : FeatureBlock
 {
     private IScalable _scalable;
@@ -10,6 +9,13 @@ public class ScaleBlock : FeatureBlock
 
     public override BlockType Type => BlockType.Scale;
     public override Type RequiredFeatureType => typeof(IScalable);
+    
+    public override void Awake()
+    {
+        base.Awake();
+        
+        _slider = GetComponentInChildren<Slider>();
+    }
 
     public override void Activate(object feature)
     {
