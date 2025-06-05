@@ -251,25 +251,33 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        // 입력 잠금 플래그 처리
-        if (dialogueJustEndedInputLock) { dialogueJustEndedInputLock = false; }
-
-        // justStartedDialogueInputLock은 각 상태의 UpdateState 시작 부분에서 확인하거나,
-        // DialogueManager의 Update에서 currentState?.UpdateState(this) 호출 전에 확인하고
-        // 상태에 플래그를 전달하는 방식으로 처리할 수 있음.
-        // 여기서는 간단하게, 입력 처리가 있는 상태 (ShowingLine, ShowingChoices)의 UpdateState에서
-        // justStartedDialogueInputLock을 직접 확인하도록 유도.
-        // 또는, 아래처럼 처리:
-        if (justStartedDialogueInputLock && currentState != IdleState && currentState != null)
+        // 입력 잠금 플래그 처리 (대화 종료 직후)
+        if (dialogueJustEndedInputLock)
         {
-            justStartedDialogueInputLock = false;
-            // 이 프레임에는 상태 업데이트를 통한 입력 처리를 건너뛰고 싶다면 여기서 return.
-            // 하지만 상태 Enter에서 대부분의 작업이 이루어지므로, 그냥 둬도 큰 문제는 없을 수 있음.
-            // 일단은 상태의 Update가 호출되도록 둠.
+            dialogueJustEndedInputLock = false;
+            // 이 프레임에는 NPCInteraction의 재시작을 막는 것이 주 목적.
+            // 만약 dialogueActive도 false라면 아래 로직은 실행되지 않음.
         }
 
-        currentState?.UpdateState(this);
+        // 입력 잠금 플래그 처리 (대화 시작 직후)
+        if (justStartedDialogueInputLock) // && currentState != IdleState && currentState != null) <--- 이 조건은 불필요할 수 있음. justStarted는 StartDialogue에서만 true가 됨.
+        {
+            justStartedDialogueInputLock = false; // 다음 프레임을 위해 리셋
+            return; // <--- 중요! 이 프레임에는 더 이상 상태 업데이트나 입력 처리를 하지 않음.
+        }
 
+        // 현재 상태가 없거나 Idle 상태면 더 이상 진행 안 함
+        // (IsDialogueActive()를 사용하는 것과 유사하지만, Idle 상태의 Update도 막음)
+        if (currentState == null || currentState == IdleState) // 또는 if (!IsDialogueActive() && currentState != null && currentState != IdleState) // 좀 더 명확하게
+        {
+            return;
+        }
+
+        // 이제부터는 dialogueActive 상태라고 간주할 수 있음 (Idle이 아니므로)
+        currentState.UpdateState(this); // 현재 상태의 업데이트 로직 실행
+
+        // 말풍선 위치는 상태와 관계없이 대화 UI가 활성화되어 있다면 업데이트
+        // (IsDialogueActive()가 true이고 UI가 있을 때만)
         if (IsDialogueActive() && CurrentDialogueUI != null && CurrentDialogueUI.gameObject.activeInHierarchy)
         {
             PositionSpeechBubble();
