@@ -7,13 +7,12 @@ public class InventorySlot : Slot
             var clickable = FindAnyObjectByType<PopInspectorUI>().CurrentTarget;
             if (clickable == null) return;
 
-            // 상태 제거
+            // clickable의 리스트에서 제거 및 비활성화
             clickable.RemoveBlock(featureBlock.Type);
+            featureBlock.Deactivate(featureBlock);
 
-            // UI 제거
+            // Feature Block 제거 및 Block UI 생성
             Destroy(featureBlock.gameObject);
-
-            // BlockUI 생성
             FindAnyObjectByType<Inventory>().AddBlock(featureBlock.Type);
 
             // 슬롯 상태 갱신
