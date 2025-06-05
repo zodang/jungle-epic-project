@@ -6,10 +6,12 @@ public class PopInspectorUI : MonoBehaviour
 {
     public Clickable CurrentTarget { get; private set; }
 
-    [SerializeField] private List<InspectorSlot> slotList;
     [SerializeField] private Button closeBtn;
-    
+
     private BlockFactory _blockFactory;
+
+    private InspectorSlotGroup _inspectorSlotGroup;
+    private List<InspectorSlot> _slotList;
     
     private RectTransform _rectTransform;
     private Canvas _canvas;
@@ -20,6 +22,10 @@ public class PopInspectorUI : MonoBehaviour
         _canvas = GetComponentInParent<Canvas>();
         _rectTransform = GetComponent<RectTransform>();
         _blockFactory = FindAnyObjectByType<BlockFactory>();
+        
+        _inspectorSlotGroup = FindAnyObjectByType<InspectorSlotGroup>();
+        _slotList = new List<InspectorSlot>(_inspectorSlotGroup.GetComponentsInChildren<InspectorSlot>());
+
 
         closeBtn.onClick.AddListener(CloseInspector);
     }
@@ -34,7 +40,7 @@ public class PopInspectorUI : MonoBehaviour
         CurrentTarget = target;
         
         // 슬롯의 기존 블록 제거
-        foreach (var slot in slotList)
+        foreach (var slot in _slotList)
         {
             var existing = slot.GetChildBlock();
             if (existing != null)
@@ -45,10 +51,10 @@ public class PopInspectorUI : MonoBehaviour
         }
         
         // 현재 clickable의 block type대로 feature block 생성
-        for (int i = 0; i < target.BlockTypeList.Count && i < slotList.Count; i++)
+        for (int i = 0; i < target.BlockTypeList.Count && i < _slotList.Count; i++)
         {
             var type = target.BlockTypeList[i];
-            var slot = slotList[i];
+            var slot = _slotList[i];
 
             var featureBlock = _blockFactory.CreateFeatureBlock(type, slot.transform);
             slot.OnBlockDrop(featureBlock);
@@ -71,7 +77,7 @@ public class PopInspectorUI : MonoBehaviour
     {
         CurrentTarget = target;
         
-        foreach (var slot in slotList)
+        foreach (var slot in _slotList)
         {
             var existing = slot.GetChildBlock();
             if (existing is FeatureBlock featureBlock)
@@ -84,10 +90,10 @@ public class PopInspectorUI : MonoBehaviour
             slot.OnBlockRemoved();
         }
 
-        for (int i = 0; i < target.BlockTypeList.Count && i < slotList.Count; i++)
+        for (int i = 0; i < target.BlockTypeList.Count && i < _slotList.Count; i++)
         {
             var blockType = target.BlockTypeList[i];
-            var slot = slotList[i];
+            var slot = _slotList[i];
 
             var featureBlock = _blockFactory.CreateFeatureBlock(blockType, slot.transform);
             slot.OnBlockDrop(featureBlock);

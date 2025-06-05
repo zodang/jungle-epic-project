@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-
     public List<BlockType> BlockTypeList { get; private set; } = new List<BlockType>();
 
     private InventorySlotGroup _inventorySlotGroup;
