@@ -1,5 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace SMG
 {
@@ -10,18 +11,6 @@ namespace SMG
         public void Move(Vector2 move)
         {
             transform.Translate(move * _speed * Time.deltaTime);
-        }
-
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
 }

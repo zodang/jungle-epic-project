@@ -1,8 +1,9 @@
+Ôªøusing SMG;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IControllable
 {
     InputAction moveAction;
     InputAction attackAction;
@@ -15,9 +16,13 @@ public class Player : MonoBehaviour
 
     public LayerMask InteractLayer;
 
+    Movement movement;
+    private bool _enableMove;
+
 
     private void Awake()
     {
+        movement = GetComponent<Movement>();
     }
 
     void Start()
@@ -26,18 +31,23 @@ public class Player : MonoBehaviour
         interactAction = InputSystem.actions.FindAction("Interact");
         //jumpAction = InputSystem.actions.FindAction("Jump");
         //sprintAction = InputSystem.actions.FindAction("Sprint");
+
+        // _enableMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        OnMove(moveAction.ReadValue<Vector2>());
+        if(_enableMove)
+        {
+            movement.Move(moveAction.ReadValue<Vector2>());
+        }
 
         // Check Interaction
         if (FindInteract(out _interactObject, 1.5f, InteractLayer))
         {
             //Debug.Log("FindInteract: " + _interactObject.name);
-            // UI «•Ω√
+            // UI ÌëúÏãú
         }
 
         if(interactAction.WasPressedThisFrame())
@@ -47,7 +57,7 @@ public class Player : MonoBehaviour
     }
 
     
-    // ªÛ»£¿€øÎ ∞°¥…«— «‘ºˆ √£±‚
+    // ÏÉÅÌò∏ÏûëÏö© Í∞ÄÎä•Ìïú Ìï®Ïàò Ï∞æÍ∏∞
     bool FindInteract(out GameObject interactObject, float radius, int layerMask)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius, layerMask);
@@ -93,12 +103,6 @@ public class Player : MonoBehaviour
 
     }
 
-    void OnMove(Vector2 move)
-    {
-        //Debug.Log("OnMove: " + move);
-        transform.Translate(move * _speed * Time.deltaTime);
-    }
-
     void OnInteractAction()
     {
         if (_interactObject == null) return;
@@ -118,4 +122,16 @@ public class Player : MonoBehaviour
 
         
     }
+
+    #region 
+    public void EnableControl()
+    {
+        _enableMove = true;
+    }
+
+    public void DisableControl()
+    {
+        _enableMove = false;
+    }
+    #endregion
 }
