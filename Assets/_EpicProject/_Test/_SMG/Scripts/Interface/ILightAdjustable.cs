@@ -1,4 +1,4 @@
-public interface ILightAdjustable
+﻿public interface ILightAdjustable
 {
     float GetMinValue(); // 슬라이더의 최소값
     float GetMaxValue(); // 슬라이더의 최대값
