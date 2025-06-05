@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private List<InventorySlot> slots;
-    
-    public List<BlockType> BlockTypeList = new List<BlockType>();
 
+    public List<BlockType> BlockTypeList { get; private set; } = new List<BlockType>();
+
+    private InventorySlotGroup _inventorySlotGroup;
+    private List<InventorySlot> _slotList;
     private BlockFactory _blockFactory;
 
     private void Start()
     {
+        _inventorySlotGroup = FindAnyObjectByType<InventorySlotGroup>();
+        _slotList = new List<InventorySlot>(_inventorySlotGroup.GetComponentsInChildren<InventorySlot>());
+        
         _blockFactory = FindAnyObjectByType<BlockFactory>();
     }
 
@@ -24,7 +28,7 @@ public class Inventory : MonoBehaviour
     public void AddBlock(BlockType type)
     {
         // 빈 슬롯 찾기
-        foreach (var slot in slots)
+        foreach (var slot in _slotList)
         {
             if (slot.GetChildBlock() == null)
             {
