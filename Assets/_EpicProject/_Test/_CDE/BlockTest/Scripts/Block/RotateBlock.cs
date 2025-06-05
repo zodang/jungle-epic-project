@@ -1,13 +1,17 @@
 using System;
 using UnityEngine.UI;
+using Define;
 
-public class RotateBlock : Block
+public class RotateBlock : FeatureBlock
 {
     private Slider _slider;
     private IRotatable _rotatable;
+    public override BlockType Type => BlockType.Rotate;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
+        
         _slider = GetComponentInChildren<Slider>();
         _slider.gameObject.SetActive(false);
     }

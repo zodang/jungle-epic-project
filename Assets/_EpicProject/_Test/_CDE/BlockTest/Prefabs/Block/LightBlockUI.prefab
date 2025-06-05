@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7493147170983727175
+--- !u!1001 &8368632595279074386
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3289301944806916426, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_Name
-      value: ControlBlock
+      value: LightBlockUI
       objectReference: {fileID: 0}
     - target: {fileID: 5155685390873288326, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_Pivot.x
@@ -94,7 +94,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5827827111583576740, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_text
-      value: ControlFeature
+      value: Scale Block
       objectReference: {fileID: 0}
     - target: {fileID: 8744754465119319539, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_AnchorMax.y
@@ -104,31 +104,28 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9047809783411392540, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
-    - {fileID: 4131955310394387434, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
-    m_RemovedGameObjects:
-    - {fileID: 471068948487063400, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3289301944806916426, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1981171898387876582}
+      addedObject: {fileID: -2430023170348644052}
   m_SourcePrefab: {fileID: 100100000, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
---- !u!1 &5357299033293623565 stripped
+--- !u!1 &6451030095311836440 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3289301944806916426, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
-  m_PrefabInstance: {fileID: 7493147170983727175}
+  m_PrefabInstance: {fileID: 8368632595279074386}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1981171898387876582
+--- !u!114 &-2430023170348644052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5357299033293623565}
+  m_GameObject: {fileID: 6451030095311836440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b26f68e8f8d396458ff96bdee59547c, type: 3}
+  m_Script: {fileID: 11500000, guid: 45d776cea4f4f904db91f69a27da9a3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
