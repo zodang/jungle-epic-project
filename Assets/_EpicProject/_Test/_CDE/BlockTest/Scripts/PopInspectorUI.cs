@@ -23,7 +23,12 @@ public class PopInspectorUI : MonoBehaviour
 
         closeBtn.onClick.AddListener(CloseInspector);
     }
-    
+
+    private void Start()
+    {
+        CloseInspector();
+    }
+
     public void OpenInspector(Clickable target)
     {
         CurrentTarget = target;
