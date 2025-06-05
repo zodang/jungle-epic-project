@@ -7,6 +7,15 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
 
+    // --- 상태 인스턴스 ---
+    private IDialogueState currentState;
+    public readonly DialogueIdleState IdleState = new DialogueIdleState();
+    public readonly DialogueStartingState StartingState = new DialogueStartingState();
+    public readonly DialogueShowingLineState ShowingLineState = new DialogueShowingLineState();
+    public readonly DialogueShowingChoicesState ShowingChoicesState = new DialogueShowingChoicesState();
+    public readonly DialogueEndingState EndingState = new DialogueEndingState();
+    // ---             ---
+
     [Header("Core Setup")]
     [SerializeField] private GameObject speechBubblePrefab;
     [SerializeField] private Transform canvasTransform;
@@ -15,29 +24,34 @@ public class DialogueManager : MonoBehaviour
     [Header("Dialogue Settings")]
     [SerializeField] private bool pauseGameDuringDialogue = true;
 
-    public const string PLAYER_TAG = "Player";
+    public const string PLAYER_TAG = "Player"; // NPCInteraction에서 사용
     private const string PLAYER_SPEECH_ANCHOR_NAME = "PlayerSpeechAnchor";
-    private const string PLAYER_SPEAKER_ID = "당신";
+    // PLAYER_SPEAKER_ID는 상태 클래스에서 직접 사용하거나 DialogueManager에 상수로 둘 수 있음
+    public const string PLAYER_SPEAKER_ID_CONST = "당신"; // 상태 클래스에서 참조할 상수
 
     private DialogueLoader dialogueLoader;
     private DialogueCollection dialogueCollection;
 
-    private Queue<DialogueLine> currentDialogueLines;
-    private List<DialogueChoice> currentChoices;
-    private DialogueUI currentDialogueUI;
+    // 상태 클래스에서 접근해야 하는 현재 대화 데이터
+    private Queue<DialogueLine> currentDialogueLines = new Queue<DialogueLine>();
+    public List<DialogueChoice> CurrentChoices { get; private set; }
+    public DialogueLine CurrentLineToShow { get; private set; } // 현재 화면에 표시/표시될 대사
 
-    private Transform currentNpcSpeakerAnchor;
-    private Transform playerSpeechAnchor;
-    private Transform currentBubbleTargetAnchor;
+    public DialogueUI CurrentDialogueUI { get; private set; }
 
-    private bool dialogueActive = false;
-    private bool justStartedDialogue = false;
-    private bool isChoosing = false;
-    private int currentSelectedChoiceIndex = 0;
-    private bool dialogueJustEnded = false;
+    private Transform currentNpcSpeakerAnchor; // 현재 대화 중인 NPC의 앵커
+    public Transform PlayerSpeechAnchor { get; private set; }
+    public Transform CurrentBubbleTargetAnchor { get; set; } // 상태에 따라 변경될 수 있음
 
-    public bool IsDialogueActive() => dialogueActive;
-    public bool WasDialogueJustEndedThisFrame() => dialogueJustEnded;
+    // 입력 잠금 플래그 (상태 머신 외부의 입력 처리와 동기화 위해 유지)
+    private bool justStartedDialogueInputLock = false;
+    private bool dialogueJustEndedInputLock = false;
+    public int CurrentSelectedChoiceIndex { get; set; } = 0;
+
+
+    public bool IsDialogueActive() => currentState != null && currentState != IdleState;
+    public bool WasDialogueJustEndedThisFrame() => dialogueJustEndedInputLock;
+
 
     void Awake()
     {
@@ -49,207 +63,222 @@ public class DialogueManager : MonoBehaviour
         {
             GameObject loaderObject = new GameObject("DialogueLoader_AutoCreated");
             dialogueLoader = loaderObject.AddComponent<DialogueLoader>();
-            Debug.LogWarning("DialogueManager: DialogueLoader not found, created one automatically. Consider adding it to the scene manually.");
+            Debug.LogWarning("DialogueManager: DialogueLoader not found, created automatically.");
         }
 
-        currentDialogueLines = new Queue<DialogueLine>();
         dialogueCollection = dialogueLoader.LoadDialogueDataFromFile(dialogueFileName);
         if (dialogueCollection == null)
         {
-            Debug.LogError("DialogueManager: Failed to load dialogue collection in Awake. Dialogue system will be disabled.");
-            enabled = false;
-            return;
+            Debug.LogError("DialogueManager: Failed to load dialogue collection. System disabled.");
+            enabled = false; return;
         }
-        FindPlayerAnchor();
+
+        FindPlayerAnchorByName(); // 함수 이름 변경 및 PlayerSpeechAnchor 할당
+        InitializeDialogueUIInstance(); // UI 인스턴스 초기화
+
+        TransitionToState(IdleState); // 초기 상태는 Idle
     }
 
-    void FindPlayerAnchor()
+    void FindPlayerAnchorByName() // 함수 이름 구체화
     {
         GameObject playerObj = GameObject.FindWithTag(PLAYER_TAG);
         if (playerObj != null)
         {
             Transform anchor = playerObj.transform.Find(PLAYER_SPEECH_ANCHOR_NAME);
-            playerSpeechAnchor = anchor ?? playerObj.transform;
-            if (anchor == null) Debug.LogWarning($"DialogueManager: Child '{PLAYER_SPEECH_ANCHOR_NAME}' not found on Player. Using Player's root.");
+            PlayerSpeechAnchor = anchor ?? playerObj.transform; // public 프로퍼티에 할당
+            if (anchor == null) Debug.LogWarning($"DialogueManager: Child '{PLAYER_SPEECH_ANCHOR_NAME}' not found on Player.");
         }
         else Debug.LogError($"DialogueManager: Player object with tag '{PLAYER_TAG}' not found.");
     }
 
-    private bool InitializeDialogueUI()
+    bool InitializeDialogueUIInstance() // 함수 이름 구체화
     {
-        if (currentDialogueUI != null) return true;
+        if (CurrentDialogueUI != null) return true; // 이미 있으면 스킵
 
         if (speechBubblePrefab == null || canvasTransform == null)
         {
-            Debug.LogError("DialogueManager: SpeechBubblePrefab or CanvasTransform not set in Inspector.");
+            Debug.LogError("DialogueManager: SpeechBubblePrefab or CanvasTransform not set.");
             return false;
         }
-
         GameObject speechBubbleInstance = Instantiate(speechBubblePrefab, canvasTransform);
-        currentDialogueUI = speechBubbleInstance.GetComponent<DialogueUI>();
-
-        if (currentDialogueUI == null)
+        CurrentDialogueUI = speechBubbleInstance.GetComponent<DialogueUI>(); // public 프로퍼티에 할당
+        if (CurrentDialogueUI == null)
         {
-            Debug.LogError("DialogueManager: DialogueUI component not found on the instantiated SpeechBubblePrefab.");
-            Destroy(speechBubbleInstance);
-            return false;
+            Debug.LogError("DialogueManager: DialogueUI component not found on prefab.");
+            Destroy(speechBubbleInstance); return false;
         }
-
-        if (!currentDialogueUI.enabled)
-        {
-            Debug.LogError("DialogueManager: Instantiated DialogueUI is not enabled. Check DialogueUI.Awake for errors (e.g., missing child UI elements).");
+        if (!CurrentDialogueUI.enabled)
+        { // DialogueUI.Awake에서 실패 시
+            Debug.LogError("DialogueManager: DialogueUI failed to initialize its internal elements.");
             return false;
         }
         return true;
     }
 
+    public void TransitionToState(IDialogueState nextState)
+    {
+        // Debug.Log($"Transitioning from {currentState?.GetType().Name} to {nextState?.GetType().Name}");
+        currentState?.ExitState(this);
+        currentState = nextState;
+        currentState?.EnterState(this); // null 체크 추가
+    }
+
     public void StartDialogue(string dialogueId, Transform npcSpeechAnchor)
     {
-        if (dialogueCollection == null) { Debug.LogError("<DialogueManager> Dialogue collection is not loaded."); return; }
+        if (dialogueCollection == null) { Debug.LogError("DM: Dialogue collection not loaded."); return; }
 
         DialogueEntry entry = dialogueLoader.GetDialogueEntryById(dialogueCollection, dialogueId);
-        if (entry == null) { Debug.LogWarning($"<DialogueManager> Dialogue ID '{dialogueId}' not found."); EndDialogue(); return; }
+        if (entry == null) { Debug.LogWarning($"DM: Dialogue ID '{dialogueId}' not found."); TransitionToState(EndingState); return; }
 
-        if (!InitializeDialogueUI()) { Debug.LogError("<DialogueManager> InitializeDialogueUI failed."); EndDialogue(); return; }
+        if (!InitializeDialogueUIInstance()) { Debug.LogError("DM: InitializeDialogueUI failed."); TransitionToState(EndingState); return; }
 
         this.currentNpcSpeakerAnchor = npcSpeechAnchor;
-        dialogueActive = true;
-        isChoosing = false;
-        justStartedDialogue = true;
+        justStartedDialogueInputLock = true;
         if (pauseGameDuringDialogue) Time.timeScale = 0f;
 
         currentDialogueLines.Clear();
         foreach (var line in entry.lines) { currentDialogueLines.Enqueue(line); }
-        currentChoices = entry.choices;
+        CurrentChoices = entry.choices;
 
-        currentDialogueUI.Show(true);
-        DisplayNextLine();
+        CurrentDialogueUI.Show(true);
+        TransitionToState(StartingState);
     }
 
-    public void DisplayNextLine()
+    public void PrepareNextLine()
     {
-        if (!dialogueActive) return;
-        if (currentDialogueUI == null) { Debug.LogError("DialogueManager: currentDialogueUI is null."); EndDialogue(); return; }
+        CurrentLineToShow = currentDialogueLines.Count > 0 ? currentDialogueLines.Dequeue() : null;
+    }
 
-        if (currentDialogueLines.Count == 0)
+    public void DisplayCurrentLineOnUI()
+    {
+        if (CurrentDialogueUI == null || CurrentLineToShow == null)
         {
-            if (currentChoices != null && currentChoices.Count > 0) { ShowChoices(); }
-            else { EndDialogue(); }
+            // Debug.LogWarning("DM: Cannot display line, UI or Line is null.");
+            // 이 경우 보통 AdvanceDialogue에서 다른 상태로 이미 전이되었어야 함.
             return;
         }
 
-        DialogueLine currentLine = currentDialogueLines.Dequeue();
+        CurrentDialogueUI.SetDialogueText(CurrentLineToShow.text);
+        CurrentDialogueUI.SetSpeakerName(CurrentLineToShow.speaker);
 
-        currentDialogueUI.SetDialogueText(currentLine.text);
-        currentDialogueUI.SetSpeakerName(currentLine.speaker);
-
-        if (currentLine.speaker.Equals(PLAYER_SPEAKER_ID, System.StringComparison.OrdinalIgnoreCase))
+        if (CurrentLineToShow.speaker.Equals(PLAYER_SPEAKER_ID_CONST, System.StringComparison.OrdinalIgnoreCase))
         {
-            if (playerSpeechAnchor == null) { Debug.LogError("DialogueManager: PlayerSpeechAnchor is null."); EndDialogue(); return; }
-            currentBubbleTargetAnchor = playerSpeechAnchor;
+            if (PlayerSpeechAnchor == null) { Debug.LogError("DM: PlayerSpeechAnchor is null."); TransitionToState(EndingState); return; }
+            CurrentBubbleTargetAnchor = PlayerSpeechAnchor;
         }
         else
         {
-            if (currentNpcSpeakerAnchor == null) { Debug.LogError("DialogueManager: currentNpcSpeakerAnchor is null."); EndDialogue(); return; }
-            currentBubbleTargetAnchor = currentNpcSpeakerAnchor;
+            if (currentNpcSpeakerAnchor == null) { Debug.LogError("DM: currentNpcSpeakerAnchor is null."); TransitionToState(EndingState); return; }
+            CurrentBubbleTargetAnchor = currentNpcSpeakerAnchor;
         }
     }
 
-    void PositionSpeechBubble()
+    public void AdvanceDialogue()
     {
-        if (currentDialogueUI == null || !currentDialogueUI.gameObject.activeInHierarchy || currentBubbleTargetAnchor == null || Camera.main == null) return;
-        currentDialogueUI.SetBubblePosition(Camera.main.WorldToScreenPoint(currentBubbleTargetAnchor.position));
-    }
-
-    void ShowChoices()
-    {
-        if (currentDialogueUI == null || currentChoices == null || currentChoices.Count == 0)
+        PrepareNextLine(); // 다음 대사 준비 (CurrentLineToShow 업데이트)
+        if (CurrentLineToShow != null)
         {
-            Debug.LogError("DialogueManager: Cannot show choices - UI or choices data missing."); EndDialogue(); return;
+            TransitionToState(ShowingLineState);
+        }
+        else if (CurrentChoices != null && CurrentChoices.Count > 0)
+        {
+            TransitionToState(ShowingChoicesState);
+        }
+        else
+        {
+            TransitionToState(EndingState);
+        }
+    }
+
+    public void UpdateChoiceSelectionVisual()
+    {
+        if (CurrentDialogueUI != null && CurrentChoices != null)
+        {
+            CurrentDialogueUI.UpdateChoicesVisual(CurrentChoices, CurrentSelectedChoiceIndex);
+        }
+    }
+
+    public void SelectCurrentChoice()
+    {
+        if (CurrentChoices == null || CurrentSelectedChoiceIndex < 0 || CurrentSelectedChoiceIndex >= CurrentChoices.Count)
+        {
+            Debug.LogWarning("DM: Invalid choice selection attempt.");
+            TransitionToState(EndingState); // 안전하게 종료
+            return;
         }
 
-        isChoosing = true;
-        currentSelectedChoiceIndex = 0;
+        string nextDialogueId = CurrentChoices[CurrentSelectedChoiceIndex].nextDialogueId;
 
-        currentDialogueUI.SetSpeakerName(PLAYER_SPEAKER_ID);
-
-        if (playerSpeechAnchor != null) currentBubbleTargetAnchor = playerSpeechAnchor;
-
-        currentDialogueUI.UpdateChoicesVisual(currentChoices, currentSelectedChoiceIndex);
+        if (string.IsNullOrEmpty(nextDialogueId))
+        {
+            TransitionToState(EndingState);
+        }
+        else
+        {
+            // 다음 대화 세그먼트 로드 및 시작 상태로 전이
+            DialogueEntry nextEntry = dialogueLoader.GetDialogueEntryById(dialogueCollection, nextDialogueId);
+            if (nextEntry != null)
+            {
+                // 현재 NPC 앵커는 유지 (같은 NPC와 대화 가정, 달라진다면 StartDialogue 호출 필요)
+                currentDialogueLines.Clear();
+                foreach (var line in nextEntry.lines) { currentDialogueLines.Enqueue(line); }
+                CurrentChoices = nextEntry.choices;
+                // justStartedDialogueInputLock = true; // 새 세그먼트 시작 시 입력 잠금 필요
+                TransitionToState(StartingState);
+            }
+            else
+            {
+                Debug.LogWarning($"DM: Next Dialogue ID '{nextDialogueId}' not found.");
+                TransitionToState(EndingState);
+            }
+        }
     }
 
-    public void SelectChoice(string nextDialogueId)
+    public void FinalizeDialogue()
     {
-        isChoosing = false;
-        if (string.IsNullOrEmpty(nextDialogueId)) { EndDialogue(); }
-        else { StartDialogue(nextDialogueId, currentNpcSpeakerAnchor); }
-    }
-
-    public void EndDialogue()
-    {
-        if (currentDialogueUI != null) currentDialogueUI.Show(false);
-        dialogueActive = false;
-        isChoosing = false;
-        dialogueJustEnded = true;
+        if (CurrentDialogueUI != null) CurrentDialogueUI.Show(false);
+        dialogueJustEndedInputLock = true;
         if (pauseGameDuringDialogue) Time.timeScale = 1f;
 
         currentNpcSpeakerAnchor = null;
-        currentBubbleTargetAnchor = null;
+        CurrentBubbleTargetAnchor = null;
         currentDialogueLines?.Clear();
-        currentChoices = null;
+        CurrentChoices = null;
+        CurrentLineToShow = null;
+
+        TransitionToState(IdleState);
     }
 
     void Update()
     {
-        if (dialogueJustEnded) { dialogueJustEnded = false; }
-        if (justStartedDialogue) { justStartedDialogue = false; return; }
-        if (!dialogueActive) return;
+        // 입력 잠금 플래그 처리
+        if (dialogueJustEndedInputLock) { dialogueJustEndedInputLock = false; }
 
-        PositionSpeechBubble();
-
-        if (isChoosing)
+        // justStartedDialogueInputLock은 각 상태의 UpdateState 시작 부분에서 확인하거나,
+        // DialogueManager의 Update에서 currentState?.UpdateState(this) 호출 전에 확인하고
+        // 상태에 플래그를 전달하는 방식으로 처리할 수 있음.
+        // 여기서는 간단하게, 입력 처리가 있는 상태 (ShowingLine, ShowingChoices)의 UpdateState에서
+        // justStartedDialogueInputLock을 직접 확인하도록 유도.
+        // 또는, 아래처럼 처리:
+        if (justStartedDialogueInputLock && currentState != IdleState && currentState != null)
         {
-            HandleChoiceInput();
+            justStartedDialogueInputLock = false;
+            // 이 프레임에는 상태 업데이트를 통한 입력 처리를 건너뛰고 싶다면 여기서 return.
+            // 하지만 상태 Enter에서 대부분의 작업이 이루어지므로, 그냥 둬도 큰 문제는 없을 수 있음.
+            // 일단은 상태의 Update가 호출되도록 둠.
         }
-        else
+
+        currentState?.UpdateState(this);
+
+        if (IsDialogueActive() && CurrentDialogueUI != null && CurrentDialogueUI.gameObject.activeInHierarchy)
         {
-            HandleDialogueContinuationInput();
+            PositionSpeechBubble();
         }
     }
 
-    void HandleChoiceInput()
+    void PositionSpeechBubble() // private으로 변경해도 될 수 있음
     {
-        bool selectionChanged = false;
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            if (currentSelectedChoiceIndex > 0) { currentSelectedChoiceIndex--; selectionChanged = true; }
-            else if (currentChoices != null && currentChoices.Count > 1) { currentSelectedChoiceIndex = currentChoices.Count - 1; selectionChanged = true; }
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if (currentChoices != null && currentSelectedChoiceIndex < currentChoices.Count - 1) { currentSelectedChoiceIndex++; selectionChanged = true; }
-            else if (currentChoices != null && currentChoices.Count > 1) { currentSelectedChoiceIndex = 0; selectionChanged = true; }
-        }
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (currentChoices != null && currentSelectedChoiceIndex >= 0 && currentSelectedChoiceIndex < currentChoices.Count)
-            {
-                SelectChoice(currentChoices[currentSelectedChoiceIndex].nextDialogueId);
-            }
-            return;
-        }
-
-        if (selectionChanged && currentDialogueUI != null)
-        {
-            currentDialogueUI.UpdateChoicesVisual(currentChoices, currentSelectedChoiceIndex);
-        }
-    }
-
-    void HandleDialogueContinuationInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            DisplayNextLine();
-        }
+        if (CurrentDialogueUI == null || !CurrentDialogueUI.gameObject.activeInHierarchy || CurrentBubbleTargetAnchor == null || Camera.main == null) return;
+        CurrentDialogueUI.SetBubblePosition(Camera.main.WorldToScreenPoint(CurrentBubbleTargetAnchor.position));
     }
 }
