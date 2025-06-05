@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,9 +18,18 @@ public class InputManager : MonoBehaviour
 
             if (clickable != null)
             {
-                Debug.Log("@@DE ---> 클릭!");
                 clickable.OnClicked();
             }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            FindAnyObjectByType<Inventory>().Collect(BlockType.PlayerControl);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            FindAnyObjectByType<Inventory>().Collect(BlockType.Scale);
         }
     }
 }

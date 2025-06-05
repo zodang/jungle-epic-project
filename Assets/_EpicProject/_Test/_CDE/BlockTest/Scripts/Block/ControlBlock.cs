@@ -1,9 +1,11 @@
 using System;
+using Define;
 
-public class ControlBlock : Block
+public class ControlBlock : FeatureBlock
 {
     private IControllable _controllable;
-    
+
+    public override BlockType Type => BlockType.PlayerControl;
     public override Type RequiredFeatureType => typeof(IControllable);
 
     public override void Activate(object feature)

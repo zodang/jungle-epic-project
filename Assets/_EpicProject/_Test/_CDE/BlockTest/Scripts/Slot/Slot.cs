@@ -3,18 +3,7 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
-    public Action<DraggableBlock, Slot, Slot> OnBlockDropped; // 블록, 이전 Slot, 이후 Slot 
     private DraggableBlock _currentDraggableBlock;
-
-    private void Start()
-    {
-        // 초기 블록 체크
-        DraggableBlock draggableBlock = GetChildBlock();
-        if (draggableBlock != null)
-        {
-            OnBlockDrop(draggableBlock);
-        }
-    }
 
     public bool CanDrop()
     {
@@ -25,7 +14,10 @@ public class Slot : MonoBehaviour
     {
         _currentDraggableBlock = draggableBlock;
         
-        OnBlockDropped?.Invoke(draggableBlock, draggableBlock.PrevSlot, this);
+        // 위치 변경
+        draggableBlock.transform.SetParent(transform, false);
+        draggableBlock.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
     }
 
     public virtual void OnBlockRemoved()
@@ -33,14 +25,14 @@ public class Slot : MonoBehaviour
         _currentDraggableBlock = null;
     }
 
-    private DraggableBlock GetChildBlock()
+    public DraggableBlock GetChildBlock()
     {
         foreach (Transform child in transform)
         {
-            DraggableBlock draggableBlock = child.GetComponent<DraggableBlock>(); 
-            if (draggableBlock != null)
-                return draggableBlock;
+            var draggable = child.GetComponent<DraggableBlock>();
+            if (draggable != null) return draggable;
         }
+
         return null;
     }
 }

@@ -1,14 +1,18 @@
 using System;
-using UnityEngine;
 using UnityEngine.UI;
+using Define;
 
-public class LightAdustBlock : Block
+public class LightAdustFeatureBlock : FeatureBlock
 {
     private Slider _slider;
     private ILightAdjustable _adjustable;
+    
+    public override BlockType Type => BlockType.Light;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
+        
         _slider = GetComponentInChildren<Slider>();
         _slider.gameObject.SetActive(false);
     }

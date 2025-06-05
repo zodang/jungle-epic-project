@@ -1,40 +1,103 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PopInspectorUI : MonoBehaviour
 {
+    public Clickable CurrentTarget { get; private set; }
+
+    [SerializeField] private List<InspectorSlot> slotList;
     [SerializeField] private Button closeBtn;
-    [SerializeField] private RectTransform popInspectorRect;
     
+    private BlockFactory _blockFactory;
+    
+    private RectTransform _rectTransform;
     private Canvas _canvas;
     private Vector2 _offset = new Vector2(150, 0);
 
     private void Awake()
     {
-        _canvas = GetComponent<Canvas>();
+        _canvas = GetComponentInParent<Canvas>();
+        _rectTransform = GetComponent<RectTransform>();
+        _blockFactory = FindAnyObjectByType<BlockFactory>();
 
-        closeBtn.onClick.AddListener(Hide);
+        closeBtn.onClick.AddListener(CloseInspector);
     }
 
     private void Start()
     {
-        Hide();
+        CloseInspector();
     }
 
-    public void Show(ClickableController clickable)
+    public void OpenInspector(Clickable target)
     {
-        SetPosition(clickable);
-        // Todo: UI 초기화
+        CurrentTarget = target;
         
-        _canvas.enabled = true;
+        // 슬롯의 기존 블록 제거
+        foreach (var slot in slotList)
+        {
+            var existing = slot.GetChildBlock();
+            if (existing != null)
+            {
+                Destroy(existing.gameObject);
+                slot.OnBlockRemoved();
+            }
+        }
+        
+        // 현재 clickable의 block type대로 feature block 생성
+        for (int i = 0; i < target.BlockTypeList.Count && i < slotList.Count; i++)
+        {
+            var type = target.BlockTypeList[i];
+            var slot = slotList[i];
+
+            var featureBlock = _blockFactory.CreateFeatureBlock(type, slot.transform);
+            slot.OnBlockDrop(featureBlock);
+
+            var feature = target.GetComponent(featureBlock.RequiredFeatureType);
+            featureBlock.Activate(feature);
+        }
+        
+        SetPosition(target);
+        gameObject.SetActive(true);
+    }
+
+    public void CloseInspector()
+    {
+        CurrentTarget = null;
+        gameObject.SetActive(false);
+    }
+
+    public void RefreshSlot(Clickable target)
+    {
+        CurrentTarget = target;
+        
+        foreach (var slot in slotList)
+        {
+            var existing = slot.GetChildBlock();
+            if (existing is FeatureBlock featureBlock)
+            {
+                var feature = target.GetComponent(featureBlock.RequiredFeatureType);
+                featureBlock.Deactivate(feature); // ✅ 먼저 Deactivate 호출
+                Destroy(featureBlock.gameObject);
+            }
+
+            slot.OnBlockRemoved();
+        }
+
+        for (int i = 0; i < target.BlockTypeList.Count && i < slotList.Count; i++)
+        {
+            var blockType = target.BlockTypeList[i];
+            var slot = slotList[i];
+
+            var featureBlock = _blockFactory.CreateFeatureBlock(blockType, slot.transform);
+            slot.OnBlockDrop(featureBlock);
+
+            var feature = target.GetComponent(featureBlock.RequiredFeatureType);
+            featureBlock.Activate(feature);
+        }
     }
     
-    public void Hide()
-    {
-        _canvas.enabled = false;
-    }
-
-    private void SetPosition(ClickableController clickable)
+    private void SetPosition(Clickable clickable)
     {
         // 1. 월드 → 스크린 좌표로 변환
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
@@ -43,7 +106,7 @@ public class PopInspectorUI : MonoBehaviour
         Vector2 targetPos = screenPos + _offset;
 
         // 3. 팝업 UI 크기/캔버스 크기 가져오기
-        Vector2 uiSize = popInspectorRect.sizeDelta * _canvas.scaleFactor;
+        Vector2 uiSize = _rectTransform.sizeDelta * _canvas.scaleFactor;
         float halfWidth = uiSize.x * 0.5f;
         float halfHeight = uiSize.y * 0.5f;
 
@@ -69,6 +132,6 @@ public class PopInspectorUI : MonoBehaviour
             targetPos.y = halfHeight + 10;
 
         // 6. UI 실제 위치 반영
-        popInspectorRect.position = targetPos;
+        _rectTransform.position = targetPos;
     }
 }

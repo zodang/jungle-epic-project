@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public abstract class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Slot PrevSlot { get; private set; }
+    
     private RectTransform _rectTransform;
     private Vector3 _originalAnchorPos;
     private Transform _originalParent;
     
     private Canvas _canvas;
 
-    private void Awake()
+    public virtual void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
         _canvas = GetComponentInParent<Canvas>();
@@ -55,11 +56,7 @@ public class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         if (nextSlot != null && nextSlot.CanDrop())
         {
             nextSlot.OnBlockDrop(this);
-            PrevSlot.OnBlockRemoved();
-            
-            // Block 위치 변경
-            _rectTransform.SetParent(nextSlot.transform,false);
-            _rectTransform.anchoredPosition = Vector3.zero;
+            PrevSlot?.OnBlockRemoved();
         }
         
         // 기존 slot으로 이동
@@ -70,4 +67,3 @@ public class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         }
     }
 }
-    
