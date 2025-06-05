@@ -77,7 +77,7 @@ public class PopInspectorUI : MonoBehaviour
             if (existing is FeatureBlock featureBlock)
             {
                 var feature = target.GetComponent(featureBlock.RequiredFeatureType);
-                featureBlock.Deactivate(feature); // ✅ 먼저 Deactivate 호출
+                featureBlock.Deactivate(feature);
                 Destroy(featureBlock.gameObject);
             }
 
