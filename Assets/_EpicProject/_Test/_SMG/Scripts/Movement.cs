@@ -1,23 +1,17 @@
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Movement : MonoBehaviour
+namespace SMG
 {
-    float _speed = 5f;
-
-    public void Move(Vector2 move)
+    public class Movement : MonoBehaviour
     {
-        transform.Translate(move * _speed * Time.deltaTime);
-    }
+        float _speed = 5f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void Move(Vector2 move)
+        {
+            transform.Translate(move * _speed * Time.deltaTime);
+        }
     }
 }
+

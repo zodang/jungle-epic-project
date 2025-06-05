@@ -1,8 +1,9 @@
+Ôªøusing SMG;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour, IControlable
+public class Player : MonoBehaviour, IControllable
 {
     InputAction moveAction;
     InputAction attackAction;
@@ -15,30 +16,38 @@ public class Player : MonoBehaviour, IControlable
 
     public LayerMask InteractLayer;
 
+    Movement movement;
+    private bool _enableMove;
+
 
     private void Awake()
     {
+        movement = GetComponent<Movement>();
     }
 
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
-        //attackAction = InputSystem.actions.FindAction("Attack");
         interactAction = InputSystem.actions.FindAction("Interact");
         //jumpAction = InputSystem.actions.FindAction("Jump");
         //sprintAction = InputSystem.actions.FindAction("Sprint");
+
+        // _enableMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        OnMove(moveAction.ReadValue<Vector2>());
+        if(_enableMove)
+        {
+            movement.Move(moveAction.ReadValue<Vector2>());
+        }
 
         // Check Interaction
         if (FindInteract(out _interactObject, 1.5f, InteractLayer))
         {
             //Debug.Log("FindInteract: " + _interactObject.name);
-            // UI «•Ω√
+            // UI ÌëúÏãú
         }
 
         if(interactAction.WasPressedThisFrame())
@@ -48,7 +57,7 @@ public class Player : MonoBehaviour, IControlable
     }
 
     
-    // ªÛ»£¿€øÎ ∞°¥…«— «‘ºˆ √£±‚
+    // ÏÉÅÌò∏ÏûëÏö© Í∞ÄÎä•Ìïú Ìï®Ïàò Ï∞æÍ∏∞
     bool FindInteract(out GameObject interactObject, float radius, int layerMask)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius, layerMask);
@@ -94,22 +103,35 @@ public class Player : MonoBehaviour, IControlable
 
     }
 
-    void OnMove(Vector2 move)
-    {
-        //Debug.Log("OnMove: " + move);
-        transform.Translate(move * _speed * Time.deltaTime);
-    }
-
     void OnInteractAction()
     {
         if (_interactObject == null) return;
+        Debug.Log("InteractAction: " + _interactObject.name);
 
-        DummyBlock dummyBlock;
-        if(_interactObject.TryGetComponent<DummyBlock>(out dummyBlock))
+        BlockBehaviour blockBehaviour;
+        if(_interactObject.TryGetComponent<BlockBehaviour>(out blockBehaviour))
         {
             Debug.Log("Get Block: " + _interactObject.name);
-            _interactObject.SetActive(false);
-            _interactObject = null;
+
+            if(GetComponent<BlockInventory>().TryAddBlock(blockBehaviour))
+            {
+                _interactObject.SetActive(false);
+                _interactObject = null;
+            }
         }
+
+        
     }
+
+    #region 
+    public void EnableControl()
+    {
+        _enableMove = true;
+    }
+
+    public void DisableControl()
+    {
+        _enableMove = false;
+    }
+    #endregion
 }
