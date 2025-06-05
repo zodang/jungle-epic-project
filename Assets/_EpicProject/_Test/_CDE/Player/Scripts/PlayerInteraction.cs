@@ -2,39 +2,27 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] private float collectRadius = 3f;
-    [SerializeField] private LayerMask blockItemLayer;
+    [SerializeField] private LayerMask interactableLayer;
+    private float _collectRange = 1.5f;
     
-    private Inventory _inventory;
-
     private void Start()
     {
-        _inventory = GetComponent<Inventory>();
+        InputManager.Instance.OnInteract += TryCollectBlock;
     }
 
-    private void Update()
+    private void TryCollectBlock()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TryCollectNearestBlockItem();
-        }
-    }
-
-    private void TryCollectNearestBlockItem()
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, collectRadius);
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, _collectRange, interactableLayer);
+        var interactable = hit.GetComponent<IInteractable>();
         
-        foreach (var hit in hits)
-        {
-            var blockItem = hit.GetComponent<BlockItem>();
+        if (interactable == null) return;
+        
+        // 상호작용 작동
+        interactable?.Interact();
+    }
 
-            if (blockItem != null)
-            {
-                // Inventory에 추가
-                _inventory.Collect(blockItem.GetBlockType());
-                Destroy(blockItem.gameObject);
-                break;
-            }
-        }
+    private void OnDestroy()
+    {
+        InputManager.Instance.OnInteract -= TryCollectBlock;
     }
 }

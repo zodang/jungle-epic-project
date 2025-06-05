@@ -1,29 +1,79 @@
+using System;
 using Define;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public class InputManager : Singleton<InputManager>
 {
-    public static InputManager Instance { get; private set; }
+    public event Action OnInteract;
+    public Vector2 MoveInput { get; private set; }
+
+    private InputActionAsset _inputActionAsset;
+    private InputActionMap _actionMap;
+    
+    private InputAction _moveAction;
+    private InputAction _interactionAction;
+    private InputAction _talkAction;
+    private InputAction _clickAction;
+
+    public override void Awake()
+    {
+        base.Awake();
+        
+        _inputActionAsset = Resources.Load<InputActionAsset>("InputAction");
+        _actionMap = _inputActionAsset.FindActionMap("Player");
+
+        _moveAction = _actionMap.FindAction("Move");
+        _interactionAction = _actionMap.FindAction("Interact");
+        _talkAction = _actionMap.FindAction("Talk");
+        _clickAction = _actionMap.FindAction("Click");
+
+        _moveAction.performed += OnMovePerformed;
+        _moveAction.canceled += OnMoveCanceled;
+        _interactionAction.performed += OnInteractionPerformed;
+        _clickAction.performed += OnCLickPerformed;
+
+        _actionMap.Enable();
+    }
+    
+    private void OnMovePerformed(InputAction.CallbackContext context)
+    {
+        var input = context.ReadValue<Vector2>();
+        MoveInput = input;
+    }
+
+    private void OnMoveCanceled(InputAction.CallbackContext context)
+    {
+        MoveInput = Vector2.zero;
+    }
+
+    private void OnInteractionPerformed(InputAction.CallbackContext context)
+    {
+        OnInteract?.Invoke();
+    }
+    
+    private void OnCLickPerformed(InputAction.CallbackContext context)
+    {
+        Vector2 screenPos = Mouse.current.position.ReadValue();
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+            
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+        var clickable = hit.collider != null
+            ? hit.collider.GetComponent<IClickable>()
+            : null;
+
+        if (clickable != null)
+        {
+            // Clickable 오브젝트 클릭 시 작동
+            clickable.OnClicked();
+        }
+    }
+    
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector2 screenPos = Mouse.current.position.ReadValue();
-            Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-            
-            RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-            var clickable = hit.collider != null
-                ? hit.collider.GetComponent<IClickable>()
-                : null;
-
-            if (clickable != null)
-            {
-                clickable.OnClicked();
-            }
-        }
         
+        // 테스트용 코드
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.PlayerControl);
@@ -32,6 +82,16 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Scale);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            FindAnyObjectByType<Inventory>().Collect(BlockType.Rotate);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            FindAnyObjectByType<Inventory>().Collect(BlockType.Light);
         }
     }
 }
