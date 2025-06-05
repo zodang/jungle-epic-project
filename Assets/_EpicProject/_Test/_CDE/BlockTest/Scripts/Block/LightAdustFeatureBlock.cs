@@ -14,7 +14,6 @@ public class LightAdustFeatureBlock : FeatureBlock
         base.Awake();
         
         _slider = GetComponentInChildren<Slider>();
-        _slider.gameObject.SetActive(false);
     }
     
     public override Type RequiredFeatureType => typeof(ILightAdjustable);
