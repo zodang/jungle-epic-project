@@ -37,9 +37,9 @@ public class FeatureSample : MonoBehaviour, IControllable, ILightAdjustable, ISc
     float IScalable.GetMinValue() => scaleMin;
     float IScalable.GetMaxValue() => scaleMax;
     float IScalable.GetCurrentValue() => transform.localScale.x;
-    void IScalable.SetValue(float v)
+    void IScalable.SetValue(float value)
     {
-        transform.localScale = new Vector3(v, v, 1f);
+        transform.localScale = new Vector3(value, value, 1f);
     }
     #endregion
 
@@ -48,11 +48,10 @@ public class FeatureSample : MonoBehaviour, IControllable, ILightAdjustable, ISc
     float IRotatable.GetMinValue() => rotationMin;
     float IRotatable.GetMaxValue() => rotationMax;
     float IRotatable.GetCurrentValue() => transform.eulerAngles.z;
-    void IRotatable.SetValue(float v)
+    void IRotatable.SetValue(float value)
     {
-        Vector3 euler = transform.eulerAngles;
-        euler.z = v;
-        transform.eulerAngles = euler;
+        float clampedValue = Mathf.Clamp(value, rotationMin, rotationMax);
+        transform.localEulerAngles = new Vector3(0f, 0, clampedValue);
     }
 
     #endregion

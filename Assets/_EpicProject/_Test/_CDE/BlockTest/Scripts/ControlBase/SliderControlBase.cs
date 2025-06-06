@@ -23,9 +23,9 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
 
     public override void Deactivate(object feature)
     {
-        if (_slider != null)
-            _slider.onValueChanged.RemoveListener(OnSliderChanged);
+        if (_slider == null) return;
 
+        _slider.onValueChanged.RemoveListener(OnSliderChanged);
         _feature = null;
     }
     
