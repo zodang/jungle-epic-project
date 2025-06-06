@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca041f50b67246b42a99b235ea089a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speechBubblePrefab: {fileID: 5682641207033410957, guid: d29d852d68842b74c89ee6c292994441, type: 3}
+  dialogueBubblePrefab: {fileID: 5682641207033410957, guid: d29d852d68842b74c89ee6c292994441, type: 3}
+  choiceBubblePrefab: {fileID: 5682641207033410957, guid: 94c42f88ae473da40b576588eff33ceb, type: 3}
   canvasTransform: {fileID: 843854865}
   dialogueFileName: dialogues
   pauseGameDuringDialogue: 1
@@ -220,7 +221,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.01655972, y: 0.14509445}
+  m_Offset: {x: 2.2573102, y: 0.1450944}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.28866667}
@@ -230,7 +231,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.6890934, y: 2.7222128}
+  m_Size: {x: 7.236833, y: 2.7222128}
   m_EdgeRadius: 0
 --- !u!114 &134906019
 MonoBehaviour:
@@ -310,7 +311,7 @@ Transform:
   m_GameObject: {fileID: 134906017}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.02, y: -1.4, z: 0}
+  m_LocalPosition: {x: -12.58, y: -4.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -678,7 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88cf47ceaa09c8248b510e20c440c67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialDialogueId: npc2
+  initialDialogueId: npc3
   speechBubbleAnchor: {fileID: 2086690635}
 --- !u!212 &1036696404
 SpriteRenderer:
@@ -918,6 +919,55 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 134906021}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1122854764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122854766}
+  - component: {fileID: 1122854765}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1122854765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122854764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ff42117ac666f4f9d58bd3391caebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmClip: {fileID: 0}
+  bgmVolume: 0.2
+  sfxClips: []
+  sfxVolume: 0.5
+  channels: 16
+--- !u!4 &1122854766
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122854764}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.54454994, y: 5.8508596, z: -0.024618205}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1234130139
 GameObject:
@@ -1929,3 +1979,4 @@ SceneRoots:
   - {fileID: 134906021}
   - {fileID: 1036696405}
   - {fileID: 1541702485}
+  - {fileID: 1122854766}

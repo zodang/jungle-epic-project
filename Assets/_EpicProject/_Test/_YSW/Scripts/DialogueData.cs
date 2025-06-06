@@ -2,37 +2,37 @@
 using System;
 using System.Collections.Generic;
 
-// JSON ÆÄÀÏÀÇ "lines" ¹è¿­ ³» °¢ ¿ä¼Ò¿¡ ÇØ´ç
+// JSON íŒŒì¼ì˜ "lines" ë°°ì—´ ë‚´ ê° ìš”ì†Œì— í•´ë‹¹
 [Serializable]
 public class DialogueLine
 {
-    public string speaker; // È­ÀÚ (¿¹: "Player", "NPC_Guard")
-    public string text;    // ´ë»ç ³»¿ë
-    // ÇÊ¿äÇÏ´Ù¸é ¿©±â¿¡ Ç¥Á¤(string portraitKey), À½¼º ÆÄÀÏ¸í(string voiceClipName) µî Ãß°¡ °¡´É
+    public string speaker; // í™”ì (ì˜ˆ: "Player", "NPC_Guard")
+    public string text;    // ëŒ€ì‚¬ ë‚´ìš©
+    // í•„ìš”í•˜ë‹¤ë©´ ì—¬ê¸°ì— í‘œì •(string portraitKey), ìŒì„± íŒŒì¼ëª…(string voiceClipName) ë“± ì¶”ê°€ ê°€ëŠ¥
 }
 
-// JSON ÆÄÀÏÀÇ "choices" ¹è¿­ ³» °¢ ¿ä¼Ò¿¡ ÇØ´ç
+// JSON íŒŒì¼ì˜ "choices" ë°°ì—´ ë‚´ ê° ìš”ì†Œì— í•´ë‹¹
 [Serializable]
 public class DialogueChoice
 {
-    public string text;           // ¼±ÅÃÁö¿¡ Ç¥½ÃµÉ ÅØ½ºÆ®
-    public string nextDialogueId; // ÀÌ ¼±ÅÃÁö¸¦ °ñ¶úÀ» ¶§ ÀÌ¾îÁú ´ÙÀ½ ´ëÈ­ÀÇ ID
-    // ÇÊ¿äÇÏ´Ù¸é ¿©±â¿¡ Æ¯Á¤ Á¶°Ç(string condition), °á°ú ÀÌº¥Æ®(string outcomeEvent) µî Ãß°¡ °¡´É
+    public string text;           // ì„ íƒì§€ì— í‘œì‹œë  í…ìŠ¤íŠ¸
+    public string nextDialogueId; // ì´ ì„ íƒì§€ë¥¼ ê³¨ëì„ ë•Œ ì´ì–´ì§ˆ ë‹¤ìŒ ëŒ€í™”ì˜ ID
+    // í•„ìš”í•˜ë‹¤ë©´ ì—¬ê¸°ì— íŠ¹ì • ì¡°ê±´(string condition), ê²°ê³¼ ì´ë²¤íŠ¸(string outcomeEvent) ë“± ì¶”ê°€ ê°€ëŠ¥
 }
 
-// JSON ÆÄÀÏÀÇ "dialogues" ¹è¿­ ³» °¢ ´ëÈ­ ¹­À½¿¡ ÇØ´ç
+// JSON íŒŒì¼ì˜ "dialogues" ë°°ì—´ ë‚´ ê° ëŒ€í™” ë¬¶ìŒì— í•´ë‹¹
 [Serializable]
 public class DialogueEntry
 {
-    public string id;                      // °¢ ´ëÈ­ ¹­À½À» ½Äº°ÇÏ´Â °íÀ¯ ID
-    public List<DialogueLine> lines;       // ÇØ´ç ´ëÈ­ÀÇ ´ë»çµé
-    public List<DialogueChoice> choices;   // ÇØ´ç ´ëÈ­ ÈÄ ³ª¿Ã ¼±ÅÃÁöµé (¾øÀ» ¼öµµ ÀÖÀ½)
-    // ÇÊ¿äÇÏ´Ù¸é ¿©±â¿¡ ´ëÈ­ ½ÃÀÛ ½Ã ½ÇÇàÇÒ ÀÌº¥Æ®(string startEvent), Á¾·á ½Ã ÀÌº¥Æ®(string endEvent) µî Ãß°¡ °¡´É
+    public string id;                      // ê° ëŒ€í™” ë¬¶ìŒì„ ì‹ë³„í•˜ëŠ” ê³ ìœ  ID
+    public List<DialogueLine> lines;       // í•´ë‹¹ ëŒ€í™”ì˜ ëŒ€ì‚¬ë“¤
+    public List<DialogueChoice> choices;   // í•´ë‹¹ ëŒ€í™” í›„ ë‚˜ì˜¬ ì„ íƒì§€ë“¤ (ì—†ì„ ìˆ˜ë„ ìˆìŒ)
+    // í•„ìš”í•˜ë‹¤ë©´ ì—¬ê¸°ì— ëŒ€í™” ì‹œì‘ ì‹œ ì‹¤í–‰í•  ì´ë²¤íŠ¸(string startEvent), ì¢…ë£Œ ì‹œ ì´ë²¤íŠ¸(string endEvent) ë“± ì¶”ê°€ ê°€ëŠ¥
 }
 
-// JSON ÆÄÀÏ ÀüÃ¼ ±¸Á¶¿¡ ÇØ´ç (ÃÖ»óÀ§ °´Ã¼)
+// JSON íŒŒì¼ ì „ì²´ êµ¬ì¡°ì— í•´ë‹¹ (ìµœìƒìœ„ ê°ì²´)
 [Serializable]
 public class DialogueCollection
 {
-    public List<DialogueEntry> dialogues; // ¸ğµç ´ëÈ­ ¹­À½ÀÇ ¸®½ºÆ®
+    public List<DialogueEntry> dialogues; // ëª¨ë“  ëŒ€í™” ë¬¶ìŒì˜ ë¦¬ìŠ¤íŠ¸
 }

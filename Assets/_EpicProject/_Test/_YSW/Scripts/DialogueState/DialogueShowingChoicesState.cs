@@ -6,25 +6,15 @@ public class DialogueShowingChoicesState : IDialogueState
     public void EnterState(DialogueManager dialogueManager)
     {
         // Debug.Log("DM State: ShowingChoices");
-        dialogueManager.CurrentSelectedChoiceIndex = 0; // ¼±ÅÃÁö ÀÎµ¦½º ÃÊ±âÈ­
+        dialogueManager.CurrentSelectedChoiceIndex = 0; // ì„ íƒì§€ ì¸ë±ìŠ¤ ì´ˆê¸°í™”
 
-        if (dialogueManager.CurrentDialogueUI != null)
-        {
-            dialogueManager.CurrentDialogueUI.SetSpeakerName(DialogueManager.PLAYER_SPEAKER_ID_CONST); // »ó¼ö »ç¿ë
-            dialogueManager.CurrentDialogueUI.UpdateChoicesVisual(dialogueManager.CurrentChoices, dialogueManager.CurrentSelectedChoiceIndex);
-        }
-
-        if (dialogueManager.PlayerSpeechAnchor != null) // DialogueManager¿¡ PlayerSpeechAnchor getter ÇÊ¿ä
-        {
-            dialogueManager.CurrentBubbleTargetAnchor = dialogueManager.PlayerSpeechAnchor;
-        }
+        // ì¼ë°˜ ëŒ€í™” ë§í’ì„ ì€ ì´ì „ ë‚´ìš©ì„ ìœ ì§€ (ìˆ¨ê¸°ê±°ë‚˜ ë³€ê²½í•˜ì§€ ì•ŠìŒ)
+        // ì„ íƒì§€ ì „ìš© ë§í’ì„ ì— ì„ íƒì§€ í‘œì‹œ
+        dialogueManager.DisplayChoicesOnChoiceBubble();
     }
 
     public void UpdateState(DialogueManager dialogueManager)
     {
-        // ÀÔ·Â Àá±İ ÇÃ·¡±× È®ÀÎ (DialogueManagerÀÇ Update¿¡¼­ justStartedInputLock Ã³¸®)
-        // if (dialogueManager.justStartedDialogueInputLock) return;
-
         bool selectionChanged = false;
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -33,8 +23,8 @@ public class DialogueShowingChoicesState : IDialogueState
                 dialogueManager.CurrentSelectedChoiceIndex--;
                 selectionChanged = true;
             }
-            else if (dialogueManager.CurrentChoices != null && dialogueManager.CurrentChoices.Count > 1) // ¼øÈ¯
-            {
+            else if (dialogueManager.CurrentChoices != null && dialogueManager.CurrentChoices.Count > 1)
+            { // ìˆœí™˜
                 dialogueManager.CurrentSelectedChoiceIndex = dialogueManager.CurrentChoices.Count - 1;
                 selectionChanged = true;
             }
@@ -46,30 +36,35 @@ public class DialogueShowingChoicesState : IDialogueState
                 dialogueManager.CurrentSelectedChoiceIndex++;
                 selectionChanged = true;
             }
-            else if (dialogueManager.CurrentChoices != null && dialogueManager.CurrentChoices.Count > 1) // ¼øÈ¯
-            {
+            else if (dialogueManager.CurrentChoices != null && dialogueManager.CurrentChoices.Count > 1)
+            { // ìˆœí™˜
                 dialogueManager.CurrentSelectedChoiceIndex = 0;
                 selectionChanged = true;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            dialogueManager.SelectCurrentChoice(); // ¼±ÅÃ È®Á¤
-            return; // ÀÔ·Â Ã³¸® ÈÄ Á¾·á
+            dialogueManager.SelectCurrentChoice(); // ì„ íƒ í™•ì •
+            return;
         }
 
         if (selectionChanged)
         {
-            dialogueManager.UpdateChoiceSelectionVisual();
+            dialogueManager.UpdateChoiceSelectionVisualOnChoiceBubble(); // ì„ íƒì§€ ë§í’ì„  UI ì—…ë°ì´íŠ¸ï¼
         }
     }
 
     public void ExitState(DialogueManager dialogueManager)
     {
-        // ¼±ÅÃÁö UI Á¤¸® (¸¸¾à º°µµÀÇ UI ¿ä¼ÒµéÀ» µ¿ÀûÀ¸·Î »ı¼ºÇß´Ù¸é)
-        // if (dialogueManager.CurrentDialogueUI != null)
-        // {
-        //     dialogueManager.CurrentDialogueUI.ClearChoiceDisplayElements();
-        // }
+        // Debug.Log("Exiting ShowingChoices State");
+        // ì„ íƒì§€ ë§í’ì„  ìˆ¨ê¸°ê¸°ëŠ” SelectCurrentChoice ë˜ëŠ” FinalizeDialogueì—ì„œ ì²˜ë¦¬ë¨
+        // (SelectCurrentChoiceì—ì„œ ë‹¤ìŒ ìƒíƒœë¡œ ë„˜ì–´ê°€ê¸° ì „ì— ìˆ¨ê¸°ê±°ë‚˜,
+        //  FinalizeDialogueì—ì„œ ëª¨ë“  UIë¥¼ ìˆ¨ê¸¸ ë•Œ í•¨ê»˜ ì²˜ë¦¬)
+        // ì¢€ ë” ëª…í™•í•˜ê²Œ í•˜ë ¤ë©´ ì—¬ê¸°ì„œë„ ìˆ¨ê¸°ëŠ” í˜¸ì¶œì„ í•  ìˆ˜ ìˆì§€ë§Œ, ì¤‘ë³µ í˜¸ì¶œë  ìˆ˜ ìˆìŒ.
+        // í˜„ì¬ëŠ” SelectCurrentChoiceì™€ FinalizeDialogueì—ì„œ ì²˜ë¦¬í•˜ëŠ” ê²ƒìœ¼ë¡œ ê°€ì •.
+        if (dialogueManager.CurrentChoiceBubbleUI != null && dialogueManager.CurrentChoiceBubbleUI.gameObject.activeInHierarchy)
+        {
+            // dialogueManager.CurrentChoiceBubbleUI.Show(false); // ì—¬ê¸°ì„œ ë°”ë¡œ ìˆ¨ê¸¸ ìˆ˜ë„ ìˆìŒ
+        }
     }
 }

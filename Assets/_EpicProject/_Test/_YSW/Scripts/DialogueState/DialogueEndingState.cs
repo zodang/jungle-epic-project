@@ -6,12 +6,12 @@ public class DialogueEndingState : IDialogueState
     public void EnterState(DialogueManager dialogueManager)
     {
         // Debug.Log("DM State: Ending");
-        dialogueManager.FinalizeDialogue(); // ¸ğµç Á¤¸® ÀÛ¾÷ ¹× Idle »óÅÂ·Î ÀüÀÌ
+        dialogueManager.FinalizeDialogue(); // ëª¨ë“  ì •ë¦¬ ì‘ì—… ë° Idle ìƒíƒœë¡œ ì „ì´
     }
 
     public void UpdateState(DialogueManager dialogueManager)
     {
-        // ÀÌ »óÅÂ´Â Áï½Ã Idle »óÅÂ·Î ÀüÀÌµÇ¹Ç·Î Update ·ÎÁ÷ÀÌ ÇÊ¿ä ¾øÀ½.
+        // ì´ ìƒíƒœëŠ” ì¦‰ì‹œ Idle ìƒíƒœë¡œ ì „ì´ë˜ë¯€ë¡œ Update ë¡œì§ì´ í•„ìš” ì—†ìŒ.ï¼
     }
 
     public void ExitState(DialogueManager dialogueManager) { }

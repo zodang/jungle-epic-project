@@ -6,19 +6,14 @@ public class DialogueShowingLineState : IDialogueState
     public void EnterState(DialogueManager dialogueManager)
     {
         // Debug.Log("DM State: ShowingLine");
-        // ÇöÀç ÁØºñµÈ ´ë»ç¸¦ UI¿¡ Ç¥½Ã
-        dialogueManager.DisplayCurrentLineOnUI();
+        dialogueManager.DisplayCurrentLineOnDialogueBubble(); // ì¼ë°˜ ëŒ€í™” ë§í’ì„ ì— í‘œì‹œ
     }
 
     public void UpdateState(DialogueManager dialogueManager)
     {
-        // ´ÙÀ½ ´ë»ç·Î ³Ñ¾î°¡´Â ÀÔ·Â Ã³¸® (½ºÆäÀÌ½º¹Ù)
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)) // ì…ë ¥ì€ ì—¬ê¸°ì„œ ì§ì ‘ ì²˜ë¦¬ (InputHandler ë¶„ë¦¬ ì „)ï¼
         {
-            // ÀÔ·Â Àá±İ ÇÃ·¡±× È®ÀÎ (DialogueManagerÀÇ Update¿¡¼­ justStartedInputLock Ã³¸®)
-            // if (dialogueManager.justStartedDialogueInputLock) return; // ÀÌ ·ÎÁ÷Àº DM.Update·Î ÀÌµ¿
-
-            dialogueManager.AdvanceDialogue(); // ´ÙÀ½ ´ë»ç/¼±ÅÃÁö/Á¾·á·Î ÁøÇà
+            dialogueManager.AdvanceDialogue();
         }
     }
 
