@@ -20,7 +20,9 @@ public class InputManager : Singleton<InputManager>
     {
         base.Awake();
         
-        _inputActionAsset = Resources.Load<InputActionAsset>("InputAction");
+        var originalInputActionAsset = Resources.Load<InputActionAsset>("InputAction");
+        _inputActionAsset = Instantiate(originalInputActionAsset);
+        
         _actionMap = _inputActionAsset.FindActionMap("Player");
 
         _moveAction = _actionMap.FindAction("Move");
@@ -35,7 +37,7 @@ public class InputManager : Singleton<InputManager>
 
         _actionMap.Enable();
     }
-    
+
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
         var input = context.ReadValue<Vector2>();
@@ -69,10 +71,22 @@ public class InputManager : Singleton<InputManager>
         }
     }
     
+    public void OnDestroy()
+    {
+        _actionMap.Disable();
+
+        // InputAction 이벤트 연결 해제
+        _moveAction.performed -= OnMovePerformed;
+        _moveAction.canceled -= OnMoveCanceled;
+        _interactionAction.performed -= OnInteractionPerformed;
+        _clickAction.performed -= OnCLickPerformed;
+
+        _inputActionAsset = null;
+        _actionMap = null;
+    }
 
     private void Update()
     {
-        
         // 테스트용 코드
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
