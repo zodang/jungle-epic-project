@@ -17,16 +17,23 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable
     private float _maxRotate = 359f;
     private float _currentRotate;
 
-    private Transform model;
+    private Transform _model;
+    private GameObject _bridge;
+    private GameObject _footCollider;
 
     Movement movement;
 
     // Input
     InputAction moveAction;
 
+
+
     private void Awake()
     {
-        model = transform.GetChild(0);
+        _model = transform.GetChild(0);
+        _bridge = _model.GetChild(2).gameObject;
+        _footCollider = _model.GetChild(3).gameObject;
+
         movement = GetComponent<Movement>();
 
         ((IScalable)this).SetValue(1f);
@@ -49,23 +56,29 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable
 
     void Resize(float scale)
     {
-        model.localScale = new Vector3(scale, scale, scale);
+        _model.localScale = new Vector3(scale, scale, scale);
     }
 
     void Rotate(float angle)
     {
-        model.localEulerAngles = new Vector3(0f, 0, -angle);
+        _model.localEulerAngles = new Vector3(0f, 0, -angle);
     }
 
     #region 
     public void EnableControl()
     {
         _enableMove = true;
+        _bridge.SetActive(!_enableMove);
+        _footCollider.SetActive(_enableMove);
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
     }
 
     public void DisableControl()
     {
         _enableMove = false;
+        _bridge.SetActive(!_enableMove);
+        _footCollider.SetActive(_enableMove);
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
     }
     #endregion
 
