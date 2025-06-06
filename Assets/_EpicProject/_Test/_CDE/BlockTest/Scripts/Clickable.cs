@@ -7,11 +7,11 @@ public class Clickable : MonoBehaviour, IClickable
     public List<BlockType> BlockTypeList  = new List<BlockType>();
     [SerializeField] private List<BlockType> defaultBlockTypes = new List<BlockType>();
 
-    private PopInspectorUI _popInspectorUI;
+    private EngineUI _engineUI;
 
     private void Awake()
     {
-        _popInspectorUI = FindAnyObjectByType<PopInspectorUI>();
+        _engineUI = FindAnyObjectByType<EngineUI>();
     }
 
     private void Start()
@@ -30,20 +30,20 @@ public class Clickable : MonoBehaviour, IClickable
     public void OnClicked()
     {
         // 클릭 시 InspectorUI 활성화
-        _popInspectorUI.OpenInspector(this);
+        _engineUI.OpenInspector(this);
     }
     
     public void AddBlock(BlockType type)
     {
         // Inventory에서 Inspector에서 드롭 시
         BlockTypeList.Add(type);
-        _popInspectorUI.RefreshSlot(this);
+        _engineUI.RefreshSlot(this);
     }
     
     public void RemoveBlock(BlockType type)
     {
         // Inspector에서 Inventory로 드롭 시
         BlockTypeList.Remove(type);
-        _popInspectorUI.RefreshSlot(this);
+        _engineUI.RefreshSlot(this);
     }
 }

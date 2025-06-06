@@ -2,38 +2,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopInspectorUI : MonoBehaviour
+public class EngineUI : MonoBehaviour
 {
     public Clickable CurrentTarget { get; private set; }
 
-    [SerializeField] private Button closeBtn;
-
     private BlockFactory _blockFactory;
 
-    private InspectorSlotGroup _inspectorSlotGroup;
+    private EngineSlotGroup _engineSlotGroup;
     private List<InspectorSlot> _slotList;
     private Transform[] _slotTransforms;
     
-    private RectTransform _rectTransform;
+    public EngineUICloseBtn _closeBtn;
+    private EngineUIOpacitySlider _opacitySlider;
+    
     private Canvas _canvas;
+    private CanvasGroup _canvasGroup;
+    private RectTransform _rectTransform;
+    
     private Vector2 _offset = new Vector2(150, 0);
 
     private void Awake()
     {
-        _canvas = GetComponentInParent<Canvas>();
-        _rectTransform = GetComponent<RectTransform>();
         _blockFactory = FindAnyObjectByType<BlockFactory>();
+        _engineSlotGroup = FindAnyObjectByType<EngineSlotGroup>();
+
+        _canvas = GetComponentInParent<Canvas>();
+        _canvasGroup = GetComponent<CanvasGroup>();
+        _rectTransform = GetComponent<RectTransform>();
         
-        _inspectorSlotGroup = FindAnyObjectByType<InspectorSlotGroup>();
-        _slotList = new List<InspectorSlot>(_inspectorSlotGroup.GetComponentsInChildren<InspectorSlot>());
-        
+        _slotList = new List<InspectorSlot>(_engineSlotGroup.GetComponentsInChildren<InspectorSlot>());
         _slotTransforms = new Transform[_slotList.Count];
         for (int i = 0; i < _slotList.Count; i++)
         {
             _slotTransforms[i] = _slotList[i].transform;
         }
 
-        closeBtn.onClick.AddListener(CloseInspector);
+        // close button 기능 연결
+        _closeBtn = transform.GetComponentInChildren<EngineUICloseBtn>();
+        _closeBtn.GetComponent<Button>().onClick.AddListener(CloseInspector);
+
+        // opacity slider 기능 연결
+        _opacitySlider = transform.GetComponentInChildren<EngineUIOpacitySlider>();
+        _opacitySlider.GetComponent<Slider>().onValueChanged.AddListener(OnSliderValueChanged);
     }
 
     private void Start()
@@ -63,7 +73,7 @@ public class PopInspectorUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void CloseInspector()
+    private void CloseInspector()
     {
         CurrentTarget = null;
         gameObject.SetActive(false);
@@ -75,6 +85,11 @@ public class PopInspectorUI : MonoBehaviour
         
         BlockManager.RemoveBlockFromTarget(target, _slotTransforms);
         BlockManager.ApplyBlockToTarget(target, _blockFactory, _slotTransforms);
+    }
+
+    private void OnSliderValueChanged(float value)
+    {
+        _canvasGroup.alpha = value;
     }
     
     private void SetUIPosition(Clickable clickable)
