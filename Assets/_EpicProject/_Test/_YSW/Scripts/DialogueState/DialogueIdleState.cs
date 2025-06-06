@@ -6,9 +6,9 @@ public class DialogueIdleState : IDialogueState
     public void EnterState(DialogueManager dialogueManager)
     {
         // Debug.Log("DM State: Idle");
-        if (dialogueManager.CurrentDialogueUI != null)
+        if (dialogueManager.CurrentDialogueBubbleUI != null)
         {
-            dialogueManager.CurrentDialogueUI.Show(false);
+            dialogueManager.CurrentDialogueBubbleUI.Show(false);
         }
         // DialogueManager의 IsDialogueActive()가 이 상태를 반영하도록 함
     }

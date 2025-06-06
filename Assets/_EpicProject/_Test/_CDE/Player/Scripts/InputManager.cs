@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Define;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -61,7 +61,7 @@ public class InputManager : Singleton<InputManager>
             
         RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
         var clickable = hit.collider != null
-            ? hit.collider.GetComponent<IClickable>()
+            ? hit.collider.GetComponentInParent<IClickable>()
             : null;
 
         if (clickable != null)
