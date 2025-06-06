@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1855828300927781049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1623814815959710618}
+  - component: {fileID: 6217853017948157200}
+  m_Layer: 0
+  m_Name: BlockFactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1623814815959710618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855828300927781049}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6217853017948157200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855828300927781049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af6b236181cdba48ac081411408c053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ControlEngine: {fileID: 1981171898387876582, guid: 42f36807c6d6b274093ef00233d80ae4, type: 3}
+  ScaleEngine: {fileID: 8106411788326667691, guid: 9889f7408a4a6904d899d1a226f449a0, type: 3}
+  RotateEngine: {fileID: -769844888133094886, guid: 8740426a9cf18cd4f8df0ffc2345b488, type: 3}
+  LightEngine: {fileID: 4290677753319059677, guid: 527dbc8b59053ee40a47db100fad3d6a, type: 3}
+  ControlInventory: {fileID: 1619540684606256324, guid: 9726f5b8b43da2d4b8055e39565ae265, type: 3}
+  ScaleInventory: {fileID: 8384274142072023119, guid: a54cddb5f859d8c40a25587200a77bde, type: 3}
+  RotateInventory: {fileID: 1054038691662363915, guid: 2b63a005f2d704a4598b8cef8b7b0690, type: 3}
+  LightInventory: {fileID: 4917547180742544072, guid: 4ce470dd532129a46acdf200098aba73, type: 3}

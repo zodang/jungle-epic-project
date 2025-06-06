@@ -4,7 +4,7 @@ public class InventorySlot : Slot
     {
         if (draggableBlock is FeatureBlock featureBlock)
         {
-            var clickable = FindAnyObjectByType<PopInspectorUI>().CurrentTarget;
+            var clickable = FindAnyObjectByType<EngineUI>().CurrentTarget;
             if (clickable == null) return;
 
             // clickable의 리스트에서 제거 및 비활성화
