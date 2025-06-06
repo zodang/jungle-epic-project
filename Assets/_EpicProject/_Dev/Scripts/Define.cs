@@ -1,4 +1,4 @@
-namespace Define
+﻿namespace Define
 {
     public enum SlotType
     {
@@ -14,5 +14,17 @@ namespace Define
         Light,
         Sound,
         Mess,
+    }
+
+    public static class Tags
+    {
+
+    }
+
+    public static class Layers
+    {
+        public const int Clickable = 6;
+        public const int Interactable = 7;
+        public const int BridgeWall = 8;
     }
 }
