@@ -1,7 +1,6 @@
 using Define;
-using UnityEngine;
 
-public class BlockUI : DraggableBlock
+public class InventoryBlock : DraggableBlock
 {
     public BlockType Type { get; private set; }
 

@@ -38,7 +38,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void RemoveBlock(BlockUI blockUI)
+    public void RemoveBlock(InventoryBlock blockUI)
     {
         Destroy(blockUI.gameObject);
     }

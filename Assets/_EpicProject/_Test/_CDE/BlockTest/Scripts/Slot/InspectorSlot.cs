@@ -2,7 +2,7 @@ public class InspectorSlot : Slot
 {
     public override void OnBlockDrop(DraggableBlock draggableBlock)
     {
-        if (draggableBlock is BlockUI blockUI)
+        if (draggableBlock is InventoryBlock blockUI)
         {
             var clickable = FindAnyObjectByType<PopInspectorUI>().CurrentTarget;
             if (clickable == null) return;
