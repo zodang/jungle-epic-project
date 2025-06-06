@@ -5,16 +5,12 @@ public abstract class SliderControlBase<TFeature> : FeatureBlock where TFeature 
     protected TFeature _feature;
     private Slider _slider;
     
-    public override void Awake()
-    {
-        base.Awake();
-        _slider = GetComponentInChildren<Slider>();
-    }
-    
     public override void Activate(object feature)
     {
         _feature = feature as TFeature;
         if (_feature == null) return;
+        
+        _slider = GetComponentInChildren<Slider>();
 
         // 슬라이더의 최대, 최소, 현재 값 설정
         _slider.minValue = GetMinValue();
