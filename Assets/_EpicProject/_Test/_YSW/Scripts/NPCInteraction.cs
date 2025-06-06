@@ -3,20 +3,20 @@ using UnityEngine;
 
 public class NPCInteraction : MonoBehaviour
 {
-    [Tooltip("ÀÌ NPC¿Í Ã³À½ ´ëÈ­ÇÒ ¶§ ½ÃÀÛµÉ ´ëÈ­ÀÇ ID (JSON ÆÄÀÏ¿¡ Á¤ÀÇµÈ ID)")]
+    [Tooltip("ì´ NPCì™€ ì²˜ìŒ ëŒ€í™”í•  ë•Œ ì‹œì‘ë  ëŒ€í™”ì˜ ID (JSON íŒŒì¼ì— ì •ì˜ëœ ID)")]
     public string initialDialogueId;
 
-    [Tooltip("¸»Ç³¼±ÀÌ Ç¥½ÃµÉ NPCÀÇ ±âÁØÁ¡ Transform (º¸Åë NPC ¸Ó¸® À§ ºó ¿ÀºêÁ§Æ®)")]
-    public Transform speechBubbleAnchor; // NPC ¸»Ç³¼± ¾ŞÄ¿
+    [Tooltip("ë§í’ì„ ì´ í‘œì‹œë  NPCì˜ ê¸°ì¤€ì  Transform (ë³´í†µ NPC ë¨¸ë¦¬ ìœ„ ë¹ˆ ì˜¤ë¸Œì íŠ¸)")]
+    public Transform speechBubbleAnchor; // NPC ë§í’ì„  ì•µì»¤
 
-    private bool playerInRange = false; // ÇÃ·¹ÀÌ¾î°¡ »óÈ£ÀÛ¿ë ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö ¿©ºÎ
+    private bool playerInRange = false; // í”Œë ˆì´ì–´ê°€ ìƒí˜¸ì‘ìš© ë²”ìœ„ ë‚´ì— ìˆëŠ”ì§€ ì—¬ë¶€
 
     void Awake()
     {
-        // speechBubbleAnchor°¡ ÇÒ´çµÇÁö ¾Ê¾Ò°Å³ª, ÇÒ´çµÇ¾úÁö¸¸ ºñÈ°¼ºÈ­µÈ °æ¿ì µî Ã³¸®
+        // speechBubbleAnchorê°€ í• ë‹¹ë˜ì§€ ì•Šì•˜ê±°ë‚˜, í• ë‹¹ë˜ì—ˆì§€ë§Œ ë¹„í™œì„±í™”ëœ ê²½ìš° ë“± ì²˜ë¦¬
         if (speechBubbleAnchor == null)
         {
-            // ÀÚ½Ä Áß¿¡ "SpeechBubbleAnchor" (¶Ç´Â À¯»çÇÑ ÀÌ¸§)¸¦ Ã£¾Æº»´Ù.
+            // ìì‹ ì¤‘ì— "SpeechBubbleAnchor" (ë˜ëŠ” ìœ ì‚¬í•œ ì´ë¦„)ë¥¼ ì°¾ì•„ë³¸ë‹¤.
             Transform anchorInChildren = transform.Find("SpeechBubbleAnchor");
             if (anchorInChildren != null)
             {
@@ -24,20 +24,20 @@ public class NPCInteraction : MonoBehaviour
             }
             else
             {
-                // ±×·¡µµ ¾øÀ¸¸é NPC ÀÚ½ÅÀÇ TransformÀ» »ç¿ëÇÏ°í °æ°í¸¦ ³²±ä´Ù.
+                // ê·¸ë˜ë„ ì—†ìœ¼ë©´ NPC ìì‹ ì˜ Transformì„ ì‚¬ìš©í•˜ê³  ê²½ê³ ë¥¼ ë‚¨ê¸´ë‹¤.
                 speechBubbleAnchor = transform;
                 Debug.LogWarning($"NPCInteraction on '{gameObject.name}': SpeechBubbleAnchor not set and 'SpeechBubbleAnchor' child not found. Using NPC's root transform. This might not be visually ideal.");
             }
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ »óÈ£ÀÛ¿ëÀ» ½ÃµµÇÒ ¶§ È£ÃâµÉ ¼ö ÀÖ´Â ÇÔ¼ö (¿¹: ÇÃ·¹ÀÌ¾î ½ºÅ©¸³Æ®¿¡¼­ È£Ãâ)
-    // ¶Ç´Â ¾Æ·¡ OnTrigger/Update ·ÎÁ÷À» ÅëÇØ ÀÚÃ¼ÀûÀ¸·Î È£Ãâ
+    // í”Œë ˆì´ì–´ê°€ ìƒí˜¸ì‘ìš©ì„ ì‹œë„í•  ë•Œ í˜¸ì¶œë  ìˆ˜ ìˆëŠ” í•¨ìˆ˜ (ì˜ˆ: í”Œë ˆì´ì–´ ìŠ¤í¬ë¦½íŠ¸ì—ì„œ í˜¸ì¶œ)
+    // ë˜ëŠ” ì•„ë˜ OnTrigger/Update ë¡œì§ì„ í†µí•´ ìì²´ì ìœ¼ë¡œ í˜¸ì¶œ
     public void InteractWithNPC()
     {
         if (DialogueManager.Instance != null && !string.IsNullOrEmpty(initialDialogueId) && speechBubbleAnchor != null)
         {
-            // DialogueManager¿¡°Ô ´ëÈ­ ½ÃÀÛ ¿äÃ»
+            // DialogueManagerì—ê²Œ ëŒ€í™” ì‹œì‘ ìš”ì²­
             DialogueManager.Instance.StartDialogue(initialDialogueId, speechBubbleAnchor);
         }
         else
@@ -51,44 +51,44 @@ public class NPCInteraction : MonoBehaviour
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ NPCÀÇ »óÈ£ÀÛ¿ë ¹üÀ§(Collider2D Trigger)¿¡ µé¾î¿ÔÀ» ¶§
+    // í”Œë ˆì´ì–´ê°€ NPCì˜ ìƒí˜¸ì‘ìš© ë²”ìœ„(Collider2D Trigger)ì— ë“¤ì–´ì™”ì„ ë•Œ
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // Ãæµ¹ÇÑ ¿ÀºêÁ§Æ®ÀÇ ÅÂ±×°¡ "Player"ÀÎÁö È®ÀÎ
+        if (other.CompareTag("Player")) // ì¶©ëŒí•œ ì˜¤ë¸Œì íŠ¸ì˜ íƒœê·¸ê°€ "Player"ì¸ì§€ í™•ì¸
         {
             playerInRange = true;
-            // ¿©±â¿¡ "EÅ°¸¦ ´­·¯ ´ëÈ­" °°Àº UI ÈùÆ®¸¦ Ç¥½ÃÇÏ´Â ·ÎÁ÷ Ãß°¡ °¡´É
-            // ¿¹: UIManager.Instance.ShowInteractionPrompt(true);
+            // ì—¬ê¸°ì— "Eí‚¤ë¥¼ ëˆŒëŸ¬ ëŒ€í™”" ê°™ì€ UI íŒíŠ¸ë¥¼ í‘œì‹œí•˜ëŠ” ë¡œì§ ì¶”ê°€ ê°€ëŠ¥
+            // ì˜ˆ: UIManager.Instance.ShowInteractionPrompt(true);
             Debug.Log($"Player entered interaction range of {gameObject.name}.");
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ NPCÀÇ »óÈ£ÀÛ¿ë ¹üÀ§¿¡¼­ ¹ş¾î³µÀ» ¶§
+    // í”Œë ˆì´ì–´ê°€ NPCì˜ ìƒí˜¸ì‘ìš© ë²”ìœ„ì—ì„œ ë²—ì–´ë‚¬ì„ ë•Œ
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            // UI ÈùÆ® ¼û±â±â
-            // ¿¹: UIManager.Instance.ShowInteractionPrompt(false);
+            // UI íŒíŠ¸ ìˆ¨ê¸°ê¸°
+            // ì˜ˆ: UIManager.Instance.ShowInteractionPrompt(false);
             Debug.Log($"Player exited interaction range of {gameObject.name}.");
 
-            // ¸¸¾à ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§¸¦ ¹ş¾î³¯ ¶§ ÁøÇà ÁßÀÎ ´ëÈ­°¡ ÀÖ´Ù¸é °­Á¦ Á¾·áÇÒ ¼öµµ ÀÖÀ½ (¼±ÅÃ »çÇ×)
-            // if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActiveWith(this.speechBubbleAnchor)) // ÀÌ·± È®ÀÎ ÇÔ¼ö ÇÊ¿ä
+            // ë§Œì•½ í”Œë ˆì´ì–´ê°€ ë²”ìœ„ë¥¼ ë²—ì–´ë‚  ë•Œ ì§„í–‰ ì¤‘ì¸ ëŒ€í™”ê°€ ìˆë‹¤ë©´ ê°•ì œ ì¢…ë£Œí•  ìˆ˜ë„ ìˆìŒ (ì„ íƒ ì‚¬í•­)
+            // if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActiveWith(this.speechBubbleAnchor)) // ì´ëŸ° í™•ì¸ í•¨ìˆ˜ í•„ìš”
             // {
             //     DialogueManager.Instance.EndDialogue();
             // }
         }
     }
 
-    // ¸Å ÇÁ·¹ÀÓ È£Ãâ (ÇÃ·¹ÀÌ¾î ÀÔ·Â °¨Áö¿ë)
+    // ë§¤ í”„ë ˆì„ í˜¸ì¶œ (í”Œë ˆì´ì–´ ì…ë ¥ ê°ì§€ìš©)
     void Update()
     {
-        if (playerInRange) // ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§ ³»¿¡ ÀÖÀ» ¶§¸¸ ·Î±×¸¦ ³²±âµµ·Ï ¼öÁ¤
+        if (playerInRange) // í”Œë ˆì´ì–´ê°€ ë²”ìœ„ ë‚´ì— ìˆì„ ë•Œë§Œ ë¡œê·¸ë¥¼ ë‚¨ê¸°ë„ë¡ ìˆ˜ì •
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("<NPCInteraction> Space key pressed while playerInRange."); // ½ºÆäÀÌ½º¹Ù ÀÔ·Â °¨Áö ·Î±×
+                Debug.Log("<NPCInteraction> Space key pressed while playerInRange."); // ìŠ¤í˜ì´ìŠ¤ë°” ì…ë ¥ ê°ì§€ ë¡œê·¸ï¼
 
                 if (DialogueManager.Instance != null)
                 {

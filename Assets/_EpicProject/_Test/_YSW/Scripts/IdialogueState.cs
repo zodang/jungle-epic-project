@@ -1,17 +1,17 @@
 public interface IDialogueState
 {
     /// <summary>
-    /// ÀÌ »óÅÂ¿¡ ÁøÀÔÇßÀ» ¶§ È£ÃâµË´Ï´Ù.
+    /// ì´ ìƒíƒœì— ì§„ì…í–ˆì„ ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     void EnterState(DialogueManager dialogueManager);
 
     /// <summary>
-    /// ÀÌ »óÅÂ°¡ È°¼ºÈ­µÇ¾î ÀÖ´Â µ¿¾È ¸Å ÇÁ·¹ÀÓ È£ÃâµË´Ï´Ù.
+    /// ì´ ìƒíƒœê°€ í™œì„±í™”ë˜ì–´ ìˆëŠ” ë™ì•ˆ ë§¤ í”„ë ˆì„ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     void UpdateState(DialogueManager dialogueManager);
 
     /// <summary>
-    /// ÀÌ »óÅÂ¿¡¼­ ºüÁ®³ª°¥ ¶§ È£ÃâµË´Ï´Ù.
+    /// ì´ ìƒíƒœì—ì„œ ë¹ ì ¸ë‚˜ê°ˆ ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     void ExitState(DialogueManager dialogueManager);
 }

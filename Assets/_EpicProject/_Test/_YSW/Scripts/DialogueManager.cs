@@ -8,8 +8,8 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance { get; private set; }
 
     [Header("Core Setup")]
-    [SerializeField] private GameObject dialogueBubblePrefab; // ÀÏ¹İ ´ëÈ­¿ë ¸»Ç³¼± ÇÁ¸®ÆÕ
-    [SerializeField] private GameObject choiceBubblePrefab;   // ¼±ÅÃÁö¿ë ¸»Ç³¼± ÇÁ¸®ÆÕ
+    [SerializeField] private GameObject dialogueBubblePrefab; // ì¼ë°˜ ëŒ€í™”ìš© ë§í’ì„  í”„ë¦¬íŒ¹
+    [SerializeField] private GameObject choiceBubblePrefab;   // ì„ íƒì§€ìš© ë§í’ì„  í”„ë¦¬íŒ¹
     [SerializeField] private Transform canvasTransform;
 
     [Header("Dialogue Settings")]
@@ -18,9 +18,9 @@ public class DialogueManager : MonoBehaviour
 
     public const string PLAYER_TAG = "Player";
     private const string PLAYER_SPEECH_ANCHOR_NAME = "PlayerSpeechAnchor";
-    public const string PLAYER_SPEAKER_ID_CONST = "´ç½Å"; // »óÅÂ Å¬·¡½º¿¡¼­ ÂüÁ¶ÇÒ »ó¼ö
+    public const string PLAYER_SPEAKER_ID_CONST = "ë‹¹ì‹ "; // ìƒíƒœ í´ë˜ìŠ¤ì—ì„œ ì°¸ì¡°í•  ìƒìˆ˜
 
-    // --- »óÅÂ ÀÎ½ºÅÏ½º ---
+    // --- ìƒíƒœ ì¸ìŠ¤í„´ìŠ¤ ---
     private IDialogueState currentState;
     public readonly DialogueIdleState IdleState = new DialogueIdleState();
     public readonly DialogueStartingState StartingState = new DialogueStartingState();
@@ -34,11 +34,11 @@ public class DialogueManager : MonoBehaviour
     public List<DialogueChoice> CurrentChoices { get; private set; }
     public DialogueLine CurrentLineToShow { get; private set; }
     public DialogueUI CurrentDialogueBubbleUI { get; private set; }
-    public DialogueUI CurrentChoiceBubbleUI { get; private set; } // DialogueUI Àç»ç¿ë °¡Á¤
+    public DialogueUI CurrentChoiceBubbleUI { get; private set; } // DialogueUI ì¬ì‚¬ìš© ê°€ì •
     private Transform currentNpcSpeakerAnchor;
     public Transform PlayerSpeechAnchor { get; private set; }
     public Transform CurrentDialogueBubbleTargetAnchor { get; set; }
-    public Transform CurrentChoiceBubbleTargetAnchor { get; set; } // ¼±ÅÃÁö ¸»Ç³¼±¿ë Å¸°Ù ¾ŞÄ¿
+    public Transform CurrentChoiceBubbleTargetAnchor { get; set; } // ì„ íƒì§€ ë§í’ì„ ìš© íƒ€ê²Ÿ ì•µì»¤
     private bool justStartedDialogueInputLock = false;
     private bool dialogueJustEndedInputLock = false;
     public int CurrentSelectedChoiceIndex { get; set; } = 0;
@@ -66,7 +66,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         FindPlayerAnchorByName();
-        // UI ÀÎ½ºÅÏ½º´Â ÇÊ¿äÇÒ ¶§ »ı¼º/ÃÊ±âÈ­ (StartDialogue, DisplayChoicesOnChoiceBubble)
+        // UI ì¸ìŠ¤í„´ìŠ¤ëŠ” í•„ìš”í•  ë•Œ ìƒì„±/ì´ˆê¸°í™” (StartDialogue, DisplayChoicesOnChoiceBubble)
 
         TransitionToState(IdleState);
     }
@@ -85,14 +85,14 @@ public class DialogueManager : MonoBehaviour
 
     bool InitializeDialogueBubbleUI()
     {
-        if (CurrentDialogueBubbleUI != null) return true; // ÀÌ¹Ì ÀÎ½ºÅÏ½º°¡ ÀÖ´Ù¸é (¿¹: Ç®¸µ)
+        if (CurrentDialogueBubbleUI != null) return true; // ì´ë¯¸ ì¸ìŠ¤í„´ìŠ¤ê°€ ìˆë‹¤ë©´ (ì˜ˆ: í’€ë§)
         if (dialogueBubblePrefab == null || canvasTransform == null) { Debug.LogError("DM: dialogueBubblePrefab or CanvasTransform not set."); return false; }
 
         GameObject instance = Instantiate(dialogueBubblePrefab, canvasTransform);
         CurrentDialogueBubbleUI = instance.GetComponent<DialogueUI>();
         if (CurrentDialogueBubbleUI == null) { Debug.LogError("DM: DialogueUI component not found on dialogueBubblePrefab."); Destroy(instance); return false; }
         if (!CurrentDialogueBubbleUI.enabled) { Debug.LogError("DM: Instantiated DialogueBubbleUI is not enabled (check its Awake)."); return false; }
-        CurrentDialogueBubbleUI.Show(false); // ÃÊ±â¿¡´Â ¼û±è
+        CurrentDialogueBubbleUI.Show(false); // ì´ˆê¸°ì—ëŠ” ìˆ¨ê¹€
         return true;
     }
 
@@ -102,10 +102,10 @@ public class DialogueManager : MonoBehaviour
         if (choiceBubblePrefab == null || canvasTransform == null) { Debug.LogError("DM: choiceBubblePrefab or CanvasTransform not set."); return false; }
 
         GameObject instance = Instantiate(choiceBubblePrefab, canvasTransform);
-        CurrentChoiceBubbleUI = instance.GetComponent<DialogueUI>(); // DialogueUI Àç»ç¿ë °¡Á¤
+        CurrentChoiceBubbleUI = instance.GetComponent<DialogueUI>(); // DialogueUI ì¬ì‚¬ìš© ê°€ì •
         if (CurrentChoiceBubbleUI == null) { Debug.LogError("DM: DialogueUI component not found on choiceBubblePrefab."); Destroy(instance); return false; }
         if (!CurrentChoiceBubbleUI.enabled) { Debug.LogError("DM: Instantiated ChoiceBubbleUI is not enabled (check its Awake)."); return false; }
-        CurrentChoiceBubbleUI.Show(false); // ÃÊ±â¿¡´Â ¼û±è
+        CurrentChoiceBubbleUI.Show(false); // ì´ˆê¸°ì—ëŠ” ìˆ¨ê¹€
         return true;
     }
 
@@ -124,10 +124,10 @@ public class DialogueManager : MonoBehaviour
         if (entry == null) { Debug.LogWarning($"DM: Dialogue ID '{dialogueId}' not found."); TransitionToState(EndingState); return; }
 
         if (!InitializeDialogueBubbleUI()) { Debug.LogError("DM: InitializeDialogueBubbleUI failed."); TransitionToState(EndingState); return; }
-        // ¼±ÅÃÁö UI´Â ShowingChoicesState ÁøÀÔ ½Ã ÃÊ±âÈ­/Ç¥½Ã
+        // ì„ íƒì§€ UIëŠ” ShowingChoicesState ì§„ì… ì‹œ ì´ˆê¸°í™”/í‘œì‹œ
 
         this.currentNpcSpeakerAnchor = npcSpeechAnchor;
-        CurrentDialogueBubbleTargetAnchor = npcSpeechAnchor; // ÃÊ±â ´ëÈ­´Â NPC ±âÁØ
+        CurrentDialogueBubbleTargetAnchor = npcSpeechAnchor; // ì´ˆê¸° ëŒ€í™”ëŠ” NPC ê¸°ì¤€ï¼
         justStartedDialogueInputLock = true;
         if (pauseGameDuringDialogue) Time.timeScale = 0f;
 
@@ -176,10 +176,10 @@ public class DialogueManager : MonoBehaviour
             TransitionToState(EndingState); return;
         }
 
-        CurrentChoiceBubbleUI.SetSpeakerName(PLAYER_SPEAKER_ID_CONST); // ¼±ÅÃÁö´Â ÇÃ·¹ÀÌ¾î ÁÖÃ¼
+        CurrentChoiceBubbleUI.SetSpeakerName(PLAYER_SPEAKER_ID_CONST); // ì„ íƒì§€ëŠ” í”Œë ˆì´ì–´ ì£¼ì²´
         CurrentChoiceBubbleUI.UpdateChoicesVisual(CurrentChoices, CurrentSelectedChoiceIndex);
 
-        CurrentChoiceBubbleTargetAnchor = PlayerSpeechAnchor; // ¼±ÅÃÁö ¸»Ç³¼±Àº ÇÃ·¹ÀÌ¾î ±âÁØ
+        CurrentChoiceBubbleTargetAnchor = PlayerSpeechAnchor; // ì„ íƒì§€ ë§í’ì„ ì€ í”Œë ˆì´ì–´ ê¸°ì¤€
 
         CurrentChoiceBubbleUI.Show(true);
     }
@@ -211,7 +211,7 @@ public class DialogueManager : MonoBehaviour
 
     public void SelectCurrentChoice()
     {
-        if (CurrentChoiceBubbleUI != null) CurrentChoiceBubbleUI.Show(false); // ¼±ÅÃÁö ¸»Ç³¼± ¼û±è
+        if (CurrentChoiceBubbleUI != null) CurrentChoiceBubbleUI.Show(false); // ì„ íƒì§€ ë§í’ì„  ìˆ¨ê¹€
 
         if (CurrentChoices == null || CurrentSelectedChoiceIndex < 0 || CurrentSelectedChoiceIndex >= CurrentChoices.Count)
         {
@@ -230,12 +230,12 @@ public class DialogueManager : MonoBehaviour
             DialogueEntry nextEntry = dialogueLoader.GetDialogueEntryById(dialogueCollection, nextDialogueId);
             if (nextEntry != null)
             {
-                // ´ÙÀ½ ´ëÈ­ ¼¼±×¸ÕÆ® ÁØºñ (ÇöÀç NPC ¾ŞÄ¿ À¯Áö)
+                // ë‹¤ìŒ ëŒ€í™” ì„¸ê·¸ë¨¼íŠ¸ ì¤€ë¹„ (í˜„ì¬ NPC ì•µì»¤ ìœ ì§€)
                 currentDialogueLines.Clear();
                 foreach (var line in nextEntry.lines) { currentDialogueLines.Enqueue(line); }
                 CurrentChoices = nextEntry.choices;
-                // justStartedDialogueInputLock = true; // »õ ¼¼±×¸ÕÆ® ½ÃÀÛ ½Ã ÀÔ·Â Àá±İ (StartDialogue¿¡¼­ Ã³¸®)
-                TransitionToState(StartingState); // »õ ´ëÈ­ ½ÃÀÛ »óÅÂ·Î
+                // justStartedDialogueInputLock = true; // ìƒˆ ì„¸ê·¸ë¨¼íŠ¸ ì‹œì‘ ì‹œ ì…ë ¥ ì ê¸ˆ (StartDialogueì—ì„œ ì²˜ë¦¬)
+                TransitionToState(StartingState); // ìƒˆ ëŒ€í™” ì‹œì‘ ìƒíƒœë¡œ
             }
             else
             {
@@ -252,7 +252,7 @@ public class DialogueManager : MonoBehaviour
         dialogueJustEndedInputLock = true;
         if (pauseGameDuringDialogue) Time.timeScale = 1f;
 
-        currentNpcSpeakerAnchor = null; // ÇöÀç ´ëÈ­ NPC ¾ŞÄ¿ ÃÊ±âÈ­
+        currentNpcSpeakerAnchor = null; // í˜„ì¬ ëŒ€í™” NPC ì•µì»¤ ì´ˆê¸°í™”
         CurrentDialogueBubbleTargetAnchor = null;
         CurrentChoiceBubbleTargetAnchor = null;
         currentDialogueLines?.Clear();
@@ -267,16 +267,16 @@ public class DialogueManager : MonoBehaviour
         if (dialogueJustEndedInputLock) { dialogueJustEndedInputLock = false; }
 
         if (justStartedDialogueInputLock && currentState != null && currentState != IdleState)
-        { // ¼öÁ¤: Idle ¾Æ´Ò¶§¸¸
+        { // ìˆ˜ì •: Idle ì•„ë‹ë•Œë§Œ
             justStartedDialogueInputLock = false;
-            return; // ´ëÈ­ ½ÃÀÛ ÇÁ·¹ÀÓ¿¡´Â »óÅÂ ¾÷µ¥ÀÌÆ®¸¦ ÅëÇÑ ÀÔ·Â Ã³¸® °Ç³Ê¶Ü
+            return; // ëŒ€í™” ì‹œì‘ í”„ë ˆì„ì—ëŠ” ìƒíƒœ ì—…ë°ì´íŠ¸ë¥¼ í†µí•œ ì…ë ¥ ì²˜ë¦¬ ê±´ë„ˆëœ€
         }
 
-        if (currentState == null || currentState == IdleState) return; // Idle »óÅÂÀÌ°Å³ª ÃÊ±âÈ­ ÀüÀÌ¸é Update ·ÎÁ÷ X
+        if (currentState == null || currentState == IdleState) return; // Idle ìƒíƒœì´ê±°ë‚˜ ì´ˆê¸°í™” ì „ì´ë©´ Update ë¡œì§ X
 
-        currentState.UpdateState(this); // ÇöÀç »óÅÂÀÇ ¾÷µ¥ÀÌÆ® ·ÎÁ÷ ½ÇÇà
+        currentState.UpdateState(this); // í˜„ì¬ ìƒíƒœì˜ ì—…ë°ì´íŠ¸ ë¡œì§ ì‹¤í–‰
 
-        // °¢ UI À§Ä¡ ¾÷µ¥ÀÌÆ® (ÇØ´ç UI°¡ È°¼ºÈ­ µÇ¾î ÀÖÀ» ¶§¸¸)
+        // ê° UI ìœ„ì¹˜ ì—…ë°ì´íŠ¸ (í•´ë‹¹ UIê°€ í™œì„±í™” ë˜ì–´ ìˆì„ ë•Œë§Œ)
         PositionDialogueBubble();
         PositionChoiceBubble();
     }

@@ -6,12 +6,12 @@ public class DialogueShowingLineState : IDialogueState
     public void EnterState(DialogueManager dialogueManager)
     {
         // Debug.Log("DM State: ShowingLine");
-        dialogueManager.DisplayCurrentLineOnDialogueBubble(); // ÀÏ¹İ ´ëÈ­ ¸»Ç³¼±¿¡ Ç¥½Ã
+        dialogueManager.DisplayCurrentLineOnDialogueBubble(); // ì¼ë°˜ ëŒ€í™” ë§í’ì„ ì— í‘œì‹œ
     }
 
     public void UpdateState(DialogueManager dialogueManager)
     {
-        if (Input.GetKeyDown(KeyCode.Space)) // ÀÔ·ÂÀº ¿©±â¼­ Á÷Á¢ Ã³¸® (InputHandler ºĞ¸® Àü)
+        if (Input.GetKeyDown(KeyCode.Space)) // ì…ë ¥ì€ ì—¬ê¸°ì„œ ì§ì ‘ ì²˜ë¦¬ (InputHandler ë¶„ë¦¬ ì „)ï¼
         {
             dialogueManager.AdvanceDialogue();
         }

@@ -1,6 +1,6 @@
 // DialogueLoader.cs
 using UnityEngine;
-using System.Linq; // FirstOrDefault »ç¿ë ½Ã (¼±ÅÃÀû ÇïÆÛ ÇÔ¼ö¿ë)
+using System.Linq; // FirstOrDefault ì‚¬ìš© ì‹œ (ì„ íƒì  í—¬í¼ í•¨ìˆ˜ìš©)
 
 public class DialogueLoader : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class DialogueLoader : MonoBehaviour
             try
             {
                 DialogueCollection collection = JsonUtility.FromJson<DialogueCollection>(jsonFile.text);
-                if (collection?.dialogues == null) // JsonUtility´Â ÆÄ½Ì ½ÇÆĞ ½Ã null ¶Ç´Â ºó °´Ã¼¸¦ ¹İÈ¯ÇÒ ¼ö ÀÖÀ½
+                if (collection?.dialogues == null) // JsonUtilityëŠ” íŒŒì‹± ì‹¤íŒ¨ ì‹œ null ë˜ëŠ” ë¹ˆ ê°ì²´ë¥¼ ë°˜í™˜í•  ìˆ˜ ìˆìŒï¼
                 {
                     Debug.LogError($"<DialogueLoader> Failed to parse JSON data from '{fileName}'. The 'dialogues' list might be missing or the JSON structure is incorrect. JSON Content: \n{jsonFile.text}");
                     return null;
@@ -28,7 +28,7 @@ public class DialogueLoader : MonoBehaviour
                 Debug.Log($"<DialogueLoader> Successfully parsed JSON. Dialogues count: {collection.dialogues.Count}");
                 return collection;
             }
-            catch (System.Exception ex) // JsonUtility°¡ ÆÄ½Ì Áß ¿¹¿Ü¸¦ ´øÁú °æ¿ì ´ëºñ
+            catch (System.Exception ex) // JsonUtilityê°€ íŒŒì‹± ì¤‘ ì˜ˆì™¸ë¥¼ ë˜ì§ˆ ê²½ìš° ëŒ€ë¹„
             {
                 Debug.LogError($"<DialogueLoader> Exception during JSON parsing from '{fileName}': {ex.Message}\nJSON Content: \n{jsonFile.text}");
                 return null;
@@ -42,7 +42,7 @@ public class DialogueLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// (¼±ÅÃÀû ÇïÆÛ ÇÔ¼ö) DialogueCollection ³»¿¡¼­ Æ¯Á¤ IDÀÇ DialogueEntry¸¦ Ã£½À´Ï´Ù.
+    /// (ì„ íƒì  í—¬í¼ í•¨ìˆ˜) DialogueCollection ë‚´ì—ì„œ íŠ¹ì • IDì˜ DialogueEntryë¥¼ ì°¾ìŠµë‹ˆë‹¤.
     /// </summary>
     public DialogueEntry GetDialogueEntryById(DialogueCollection collection, string dialogueId)
     {

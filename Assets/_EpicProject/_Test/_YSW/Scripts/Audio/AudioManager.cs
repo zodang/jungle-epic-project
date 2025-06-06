@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
     int channelIndex = 0;
 
 
-    public enum Sfx { } // ¿Àµğ¿À¼Ò½º ÀÌ¸§ ¾²±â
+    public enum Sfx { } // ì˜¤ë””ì˜¤ì†ŒìŠ¤ ì´ë¦„ ì“°ê¸°
 
 
     private void Awake()
@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
 
     void Init()
     {
-        //¹è°æÀ½ ÇÃ·¹ÀÌ¾î ÃÊ±âÈ­
+        //ë°°ê²½ìŒ í”Œë ˆì´ì–´ ì´ˆê¸°í™”
         GameObject bgmObject = new GameObject("BgmPlayer");
         bgmObject.transform.parent = transform;
         bgmPlayer = bgmObject.AddComponent<AudioSource>();
@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour
         bgmPlayer.clip = bgmClip;
         bgmEffect = Camera.main.GetComponent<AudioHighPassFilter>();
 
-        //È¿°úÀ½ ÇÃ·¹ÀÌ¾î ÃÊ±âÈ­
+        //íš¨ê³¼ìŒ í”Œë ˆì´ì–´ ì´ˆê¸°í™”
         GameObject sfxObject = new GameObject("SfxPlayer");
         sfxObject.transform.parent = transform;
         sfxPlayers = new AudioSource[channels];
@@ -48,7 +48,7 @@ public class AudioManager : MonoBehaviour
         {
             sfxPlayers[index] = sfxObject.AddComponent<AudioSource>();
             sfxPlayers[index].playOnAwake = false;
-            sfxPlayers[index].bypassListenerEffects = true; // ¸®½º³Ê ÀÌÆåÆ® ¹«½Ã
+            sfxPlayers[index].bypassListenerEffects = true; // ë¦¬ìŠ¤ë„ˆ ì´í™íŠ¸ ë¬´ì‹œï¼
             sfxPlayers[index].volume = sfxVolume;
         }
     }
@@ -81,7 +81,7 @@ public class AudioManager : MonoBehaviour
                 continue;
             }
 
-            // È¿°úÀ½ 2°³ ÀÌ»óÀÖ´Â °Íµé ·£´ı Àç»ı ¿©±â¿¡ ±¸Çö
+            // íš¨ê³¼ìŒ 2ê°œ ì´ìƒìˆëŠ” ê²ƒë“¤ ëœë¤ ì¬ìƒ ì—¬ê¸°ì— êµ¬í˜„
 
 
 

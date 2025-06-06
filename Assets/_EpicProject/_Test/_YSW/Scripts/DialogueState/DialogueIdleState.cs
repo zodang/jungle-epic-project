@@ -10,18 +10,18 @@ public class DialogueIdleState : IDialogueState
         {
             dialogueManager.CurrentDialogueBubbleUI.Show(false);
         }
-        // DialogueManagerÀÇ IsDialogueActive()°¡ ÀÌ »óÅÂ¸¦ ¹İ¿µÇÏµµ·Ï ÇÔ
+        // DialogueManagerì˜ IsDialogueActive()ê°€ ì´ ìƒíƒœë¥¼ ë°˜ì˜í•˜ë„ë¡ í•¨
     }
 
     public void UpdateState(DialogueManager dialogueManager)
     {
-        // NPCInteractionÀÌ DialogueManager.StartDialogue()¸¦ È£ÃâÇÏ¸é
-        // DialogueManager ³»ºÎ¿¡¼­ »óÅÂ°¡ º¯°æµÊ.
-        // ÀÌ »óÅÂ¿¡¼­´Â º°µµÀÇ Update ·ÎÁ÷ÀÌ ÇÊ¿ä ¾øÀ½.
+        // NPCInteractionì´ DialogueManager.StartDialogue()ë¥¼ í˜¸ì¶œí•˜ë©´ï¼
+        // DialogueManager ë‚´ë¶€ì—ì„œ ìƒíƒœê°€ ë³€ê²½ë¨.
+        // ì´ ìƒíƒœì—ì„œëŠ” ë³„ë„ì˜ Update ë¡œì§ì´ í•„ìš” ì—†ìŒ.
     }
 
     public void ExitState(DialogueManager dialogueManager)
     {
-        // ¿¹¸¦ µé¾î, Idle »óÅÂ¿¡¼­ ¹ş¾î³¯ ¶§ Æ¯Á¤ UI¸¦ È°¼ºÈ­ÇØ¾ß ÇÑ´Ù¸é ¿©±â¼­ Ã³¸®
+        // ì˜ˆë¥¼ ë“¤ì–´, Idle ìƒíƒœì—ì„œ ë²—ì–´ë‚  ë•Œ íŠ¹ì • UIë¥¼ í™œì„±í™”í•´ì•¼ í•œë‹¤ë©´ ì—¬ê¸°ì„œ ì²˜ë¦¬
     }
 }

@@ -6,10 +6,10 @@ public class DialogueShowingChoicesState : IDialogueState
     public void EnterState(DialogueManager dialogueManager)
     {
         // Debug.Log("DM State: ShowingChoices");
-        dialogueManager.CurrentSelectedChoiceIndex = 0; // ¼±ÅÃÁö ÀÎµ¦½º ÃÊ±âÈ­
+        dialogueManager.CurrentSelectedChoiceIndex = 0; // ì„ íƒì§€ ì¸ë±ìŠ¤ ì´ˆê¸°í™”
 
-        // ÀÏ¹İ ´ëÈ­ ¸»Ç³¼±Àº ÀÌÀü ³»¿ëÀ» À¯Áö (¼û±â°Å³ª º¯°æÇÏÁö ¾ÊÀ½)
-        // ¼±ÅÃÁö Àü¿ë ¸»Ç³¼±¿¡ ¼±ÅÃÁö Ç¥½Ã
+        // ì¼ë°˜ ëŒ€í™” ë§í’ì„ ì€ ì´ì „ ë‚´ìš©ì„ ìœ ì§€ (ìˆ¨ê¸°ê±°ë‚˜ ë³€ê²½í•˜ì§€ ì•ŠìŒ)
+        // ì„ íƒì§€ ì „ìš© ë§í’ì„ ì— ì„ íƒì§€ í‘œì‹œ
         dialogueManager.DisplayChoicesOnChoiceBubble();
     }
 
@@ -24,7 +24,7 @@ public class DialogueShowingChoicesState : IDialogueState
                 selectionChanged = true;
             }
             else if (dialogueManager.CurrentChoices != null && dialogueManager.CurrentChoices.Count > 1)
-            { // ¼øÈ¯
+            { // ìˆœí™˜
                 dialogueManager.CurrentSelectedChoiceIndex = dialogueManager.CurrentChoices.Count - 1;
                 selectionChanged = true;
             }
@@ -37,34 +37,34 @@ public class DialogueShowingChoicesState : IDialogueState
                 selectionChanged = true;
             }
             else if (dialogueManager.CurrentChoices != null && dialogueManager.CurrentChoices.Count > 1)
-            { // ¼øÈ¯
+            { // ìˆœí™˜
                 dialogueManager.CurrentSelectedChoiceIndex = 0;
                 selectionChanged = true;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            dialogueManager.SelectCurrentChoice(); // ¼±ÅÃ È®Á¤
+            dialogueManager.SelectCurrentChoice(); // ì„ íƒ í™•ì •
             return;
         }
 
         if (selectionChanged)
         {
-            dialogueManager.UpdateChoiceSelectionVisualOnChoiceBubble(); // ¼±ÅÃÁö ¸»Ç³¼± UI ¾÷µ¥ÀÌÆ®
+            dialogueManager.UpdateChoiceSelectionVisualOnChoiceBubble(); // ì„ íƒì§€ ë§í’ì„  UI ì—…ë°ì´íŠ¸ï¼
         }
     }
 
     public void ExitState(DialogueManager dialogueManager)
     {
         // Debug.Log("Exiting ShowingChoices State");
-        // ¼±ÅÃÁö ¸»Ç³¼± ¼û±â±â´Â SelectCurrentChoice ¶Ç´Â FinalizeDialogue¿¡¼­ Ã³¸®µÊ
-        // (SelectCurrentChoice¿¡¼­ ´ÙÀ½ »óÅÂ·Î ³Ñ¾î°¡±â Àü¿¡ ¼û±â°Å³ª,
-        //  FinalizeDialogue¿¡¼­ ¸ğµç UI¸¦ ¼û±æ ¶§ ÇÔ²² Ã³¸®)
-        // Á» ´õ ¸íÈ®ÇÏ°Ô ÇÏ·Á¸é ¿©±â¼­µµ ¼û±â´Â È£ÃâÀ» ÇÒ ¼ö ÀÖÁö¸¸, Áßº¹ È£ÃâµÉ ¼ö ÀÖÀ½.
-        // ÇöÀç´Â SelectCurrentChoice¿Í FinalizeDialogue¿¡¼­ Ã³¸®ÇÏ´Â °ÍÀ¸·Î °¡Á¤.
+        // ì„ íƒì§€ ë§í’ì„  ìˆ¨ê¸°ê¸°ëŠ” SelectCurrentChoice ë˜ëŠ” FinalizeDialogueì—ì„œ ì²˜ë¦¬ë¨
+        // (SelectCurrentChoiceì—ì„œ ë‹¤ìŒ ìƒíƒœë¡œ ë„˜ì–´ê°€ê¸° ì „ì— ìˆ¨ê¸°ê±°ë‚˜,
+        //  FinalizeDialogueì—ì„œ ëª¨ë“  UIë¥¼ ìˆ¨ê¸¸ ë•Œ í•¨ê»˜ ì²˜ë¦¬)
+        // ì¢€ ë” ëª…í™•í•˜ê²Œ í•˜ë ¤ë©´ ì—¬ê¸°ì„œë„ ìˆ¨ê¸°ëŠ” í˜¸ì¶œì„ í•  ìˆ˜ ìˆì§€ë§Œ, ì¤‘ë³µ í˜¸ì¶œë  ìˆ˜ ìˆìŒ.
+        // í˜„ì¬ëŠ” SelectCurrentChoiceì™€ FinalizeDialogueì—ì„œ ì²˜ë¦¬í•˜ëŠ” ê²ƒìœ¼ë¡œ ê°€ì •.
         if (dialogueManager.CurrentChoiceBubbleUI != null && dialogueManager.CurrentChoiceBubbleUI.gameObject.activeInHierarchy)
         {
-            // dialogueManager.CurrentChoiceBubbleUI.Show(false); // ¿©±â¼­ ¹Ù·Î ¼û±æ ¼öµµ ÀÖÀ½
+            // dialogueManager.CurrentChoiceBubbleUI.Show(false); // ì—¬ê¸°ì„œ ë°”ë¡œ ìˆ¨ê¸¸ ìˆ˜ë„ ìˆìŒ
         }
     }
 }
