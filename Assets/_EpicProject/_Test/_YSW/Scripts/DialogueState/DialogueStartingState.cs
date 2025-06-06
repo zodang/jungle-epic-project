@@ -6,8 +6,8 @@ public class DialogueStartingState : IDialogueState
     public void EnterState(DialogueManager dialogueManager)
     {
         // Debug.Log("DM State: Starting");
-        // ´ëÈ­ ½ÃÀÛ ½Ã ÇÊ¿äÇÑ ÃÊ±âÈ­ (UI Ç¥½Ã µîÀº StartDialogue¿¡¼­ ÀÌ¹Ì Ã³¸®µÊ)
-        // ´ÙÀ½ º¸¿©ÁÙ Ã¹ ´ë»ç¸¦ ÁØºñ
+        // ëŒ€í™” ì‹œì‘ ì‹œ í•„ìš”í•œ ì´ˆê¸°í™” (UI í‘œì‹œ ë“±ì€ StartDialogueì—ì„œ ì´ë¯¸ ì²˜ë¦¬ë¨)
+        // ë‹¤ìŒ ë³´ì—¬ì¤„ ì²« ëŒ€ì‚¬ë¥¼ ì¤€ë¹„
         dialogueManager.PrepareNextLine();
 
         if (dialogueManager.CurrentLineToShow != null)
@@ -20,14 +20,14 @@ public class DialogueStartingState : IDialogueState
         }
         else
         {
-            // º¸¿©ÁÙ ´ë»çµµ, ¼±ÅÃÁöµµ ¾øÀ¸¸é ¹Ù·Î Á¾·á »óÅÂ·Î
+            // ë³´ì—¬ì¤„ ëŒ€ì‚¬ë„, ì„ íƒì§€ë„ ì—†ìœ¼ë©´ ë°”ë¡œ ì¢…ë£Œ ìƒíƒœë¡œ
             dialogueManager.TransitionToState(dialogueManager.EndingState);
         }
     }
 
     public void UpdateState(DialogueManager dialogueManager)
     {
-        // ÀÌ »óÅÂ´Â º¸Åë Áï½Ã ´Ù¸¥ »óÅÂ·Î ÀüÀÌµÇ¹Ç·Î Update ·ÎÁ÷ÀÌ ÇÊ¿ä ¾øÀ» ¼ö ÀÖÀ½.
+        // ì´ ìƒíƒœëŠ” ë³´í†µ ì¦‰ì‹œ ë‹¤ë¥¸ ìƒíƒœë¡œ ì „ì´ë˜ë¯€ë¡œ Update ë¡œì§ì´ í•„ìš” ì—†ì„ ìˆ˜ ìˆìŒ.ï¼
     }
 
     public void ExitState(DialogueManager dialogueManager) { }

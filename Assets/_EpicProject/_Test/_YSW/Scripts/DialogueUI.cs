@@ -6,7 +6,7 @@ using System.Text;
 
 public class DialogueUI : MonoBehaviour
 {
-    // UI ¿ÀºêÁ§Æ® ÀÌ¸§ »ó¼ö (ÇÁ¸®ÆÕ ³»ºÎ ÀÚ½Ä GameObject ÀÌ¸§°ú ÀÏÄ¡ÇØ¾ß ÇÔ)
+    // UI ì˜¤ë¸Œì íŠ¸ ì´ë¦„ ìƒìˆ˜ (í”„ë¦¬íŒ¹ ë‚´ë¶€ ìì‹ GameObject ì´ë¦„ê³¼ ì¼ì¹˜í•´ì•¼ í•¨)
     private const string DIALOGUE_TEXT_UI_NAME = "DialogueText";
     private const string SPEAKER_NAME_TEXT_UI_NAME = "SpeakerNameText";
 
@@ -15,10 +15,10 @@ public class DialogueUI : MonoBehaviour
 
     private StringBuilder choiceStringBuilder = new StringBuilder();
 
-    // ÀÌ ½ºÅ©¸³Æ®°¡ È°¼ºÈ­µÉ ¶§ ÀÚµ¿À¸·Î È£ÃâµÊ
+    // ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ í™œì„±í™”ë  ë•Œ ìë™ìœ¼ë¡œ í˜¸ì¶œë¨
     void Awake()
     {
-        // ÀÚ½Ä GameObject¿¡¼­ ÀÌ¸§À¸·Î TextMeshProUGUI ÄÄÆ÷³ÍÆ® Ã£±â
+        // ìì‹ GameObjectì—ì„œ ì´ë¦„ìœ¼ë¡œ TextMeshProUGUI ì»´í¬ë„ŒíŠ¸ ì°¾ê¸°
         Transform dialogueTextObj = transform.Find(DIALOGUE_TEXT_UI_NAME);
         if (dialogueTextObj != null)
         {
@@ -31,11 +31,11 @@ public class DialogueUI : MonoBehaviour
             speakerNameTextUI = speakerNameTextObj.GetComponent<TextMeshProUGUI>();
         }
 
-        // ÇÊ¼ö UI ¿ä¼Ò È®ÀÎ
+        // í•„ìˆ˜ UI ìš”ì†Œ í™•ì¸
         if (dialogueTextUI == null)
         {
             Debug.LogError($"DialogueUI on '{gameObject.name}': Child GameObject named '{DIALOGUE_TEXT_UI_NAME}' with TextMeshProUGUI component not found. This UI will not function correctly.");
-            enabled = false; // ½ºÅ©¸³Æ® ºñÈ°¼ºÈ­
+            enabled = false; // ìŠ¤í¬ë¦½íŠ¸ ë¹„í™œì„±í™”
             return;
         }
 
@@ -51,13 +51,13 @@ public class DialogueUI : MonoBehaviour
         {
             dialogueTextUI.text = text;
         }
-        // Awake¿¡¼­ dialogueTextUI°¡ nullÀÌ¸é ½ºÅ©¸³Æ®°¡ ºñÈ°¼ºÈ­µÇ¹Ç·Î,
-        // ¿©±â¼­ Ãß°¡ÀûÀÎ null Ã¼Å©´Â ÇÊ¼ö´Â ¾Æ´Ò ¼ö ÀÖÁö¸¸, ¾ÈÀüÀ» À§ÇØ µÑ ¼ö ÀÖÀ½.
+        // Awakeì—ì„œ dialogueTextUIê°€ nullì´ë©´ ìŠ¤í¬ë¦½íŠ¸ê°€ ë¹„í™œì„±í™”ë˜ë¯€ë¡œ,
+        // ì—¬ê¸°ì„œ ì¶”ê°€ì ì¸ null ì²´í¬ëŠ” í•„ìˆ˜ëŠ” ì•„ë‹ ìˆ˜ ìˆì§€ë§Œ, ì•ˆì „ì„ ìœ„í•´ ë‘˜ ìˆ˜ ìˆìŒ.
     }
 
     public void SetSpeakerName(string name)
     {
-        if (speakerNameTextUI != null) // speakerNameTextUI´Â ¼±ÅÃ »çÇ×ÀÏ ¼ö ÀÖÀ½
+        if (speakerNameTextUI != null) // speakerNameTextUIëŠ” ì„ íƒ ì‚¬í•­ì¼ ìˆ˜ ìˆìŒ
         {
             if (!string.IsNullOrEmpty(name))
             {
@@ -75,7 +75,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (dialogueTextUI == null || choices == null || choices.Count == 0)
         {
-            if (dialogueTextUI != null) dialogueTextUI.text = ""; // ¼±ÅÃÁö Ç¥½Ã ºÒ°¡ ½Ã ÅØ½ºÆ® ºñ¿ò
+            if (dialogueTextUI != null) dialogueTextUI.text = ""; // ì„ íƒì§€ í‘œì‹œ ë¶ˆê°€ ì‹œ í…ìŠ¤íŠ¸ ë¹„ì›€
             return;
         }
 
@@ -85,7 +85,7 @@ public class DialogueUI : MonoBehaviour
             choiceStringBuilder.Append(i == selectedIndex ? "> " : "  ");
             choiceStringBuilder.AppendLine(choices[i].text);
         }
-        // ¸¶Áö¸· ÁÙ¹Ù²Ş Á¦°Å (AppendLineÀº Ç×»ó ÁÙ¹Ù²ŞÀ» Ãß°¡ÇÏ¹Ç·Î)
+        // ë§ˆì§€ë§‰ ì¤„ë°”ê¿ˆ ì œê±° (AppendLineì€ í•­ìƒ ì¤„ë°”ê¿ˆì„ ì¶”ê°€í•˜ë¯€ë¡œ)
         if (choiceStringBuilder.Length > 0 && choiceStringBuilder[choiceStringBuilder.Length - 1] == '\n')
         {
             choiceStringBuilder.Length--;
@@ -95,7 +95,7 @@ public class DialogueUI : MonoBehaviour
 
     public void SetBubblePosition(Vector3 screenPosition)
     {
-        RectTransform rectTransform = GetComponent<RectTransform>(); // ÀÌ UIÀÇ RectTransform
+        RectTransform rectTransform = GetComponent<RectTransform>(); // ì´ UIì˜ RectTransformï¼
         if (rectTransform != null)
         {
             rectTransform.position = screenPosition;
@@ -104,10 +104,10 @@ public class DialogueUI : MonoBehaviour
 
     public void Show(bool show)
     {
-        gameObject.SetActive(show); // ÀÌ UI GameObject ÀÚÃ¼¸¦ È°¼ºÈ­/ºñÈ°¼ºÈ­
+        gameObject.SetActive(show); // ì´ UI GameObject ìì²´ë¥¼ í™œì„±í™”/ë¹„í™œì„±í™”
     }
 
-    // ¸¸¾à ¼±ÅÃÁö UI°¡ °³º° ¹öÆ° µîÀ¸·Î º¹ÀâÇÏ°Ô ±¸¼ºµÈ´Ù¸é,
-    // ¼±ÅÃÁö UI¸¦ ÃÊ±âÈ­/Á¤¸®ÇÏ´Â ÇÔ¼öµµ ÇÊ¿äÇÒ ¼ö ÀÖÀ½
+    // ë§Œì•½ ì„ íƒì§€ UIê°€ ê°œë³„ ë²„íŠ¼ ë“±ìœ¼ë¡œ ë³µì¡í•˜ê²Œ êµ¬ì„±ëœë‹¤ë©´,
+    // ì„ íƒì§€ UIë¥¼ ì´ˆê¸°í™”/ì •ë¦¬í•˜ëŠ” í•¨ìˆ˜ë„ í•„ìš”í•  ìˆ˜ ìˆìŒ
     // public void ClearChoiceDisplayElements() { /* ... */ }
 }
