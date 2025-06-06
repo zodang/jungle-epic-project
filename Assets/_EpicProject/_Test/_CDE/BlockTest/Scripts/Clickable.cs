@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Clickable : MonoBehaviour, IClickable
 {
-    public List<BlockType> BlockTypeList { get; private set; } = new List<BlockType>();
+    public List<BlockType> BlockTypeList  = new List<BlockType>();
+    [SerializeField] private List<BlockType> defaultBlockTypes = new List<BlockType>();
 
     private PopInspectorUI _popInspectorUI;
 
@@ -12,26 +13,36 @@ public class Clickable : MonoBehaviour, IClickable
     {
         _popInspectorUI = FindAnyObjectByType<PopInspectorUI>();
     }
-    
-    public void OnClicked()
+
+    private void Start()
     {
-        _popInspectorUI.OpenInspector(this);
+        // Default Block 추가
+        foreach (var type in defaultBlockTypes)
+        {
+            if (!BlockTypeList.Contains(type))
+            {
+                BlockTypeList.Add(type);
+            }
+        }
+        BlockManager.ApplyBlockToTarget(this, FindAnyObjectByType<BlockFactory>());
     }
 
-    /// <summary>
-    /// Inventory에서 Inspector에서 드롭 시
-    /// </summary>
+    public void OnClicked()
+    {
+        // 클릭 시 InspectorUI 활성화
+        _popInspectorUI.OpenInspector(this);
+    }
+    
     public void AddBlock(BlockType type)
     {
+        // Inventory에서 Inspector에서 드롭 시
         BlockTypeList.Add(type);
         _popInspectorUI.RefreshSlot(this);
     }
-
-    /// <summary>
-    /// Inspector에서 Inventory로 드롭 시
-    /// </summary>
+    
     public void RemoveBlock(BlockType type)
     {
+        // Inspector에서 Inventory로 드롭 시
         BlockTypeList.Remove(type);
         _popInspectorUI.RefreshSlot(this);
     }

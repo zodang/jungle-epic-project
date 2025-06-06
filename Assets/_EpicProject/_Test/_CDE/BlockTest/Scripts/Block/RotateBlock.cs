@@ -4,23 +4,18 @@ using Define;
 
 public class RotateBlock : FeatureBlock
 {
-    private Slider _slider;
     private IRotatable _rotatable;
-    public override BlockType Type => BlockType.Rotate;
+    private Slider _slider;
 
-    public override void Awake()
-    {
-        base.Awake();
-        
-        _slider = GetComponentInChildren<Slider>();
-    }
-    
+    public override BlockType Type => BlockType.Rotate;
     public override Type RequiredFeatureType => typeof(IRotatable);
     
     public override void Activate(object feature)
     {
         _rotatable = feature as IRotatable;
         if (_rotatable == null) return;
+
+        _slider = GetComponentInChildren<Slider>();
 
         // 슬라이더의 최대, 최소, 현재 값 설정
         _slider.minValue = _rotatable.GetMinValue();
@@ -29,14 +24,14 @@ public class RotateBlock : FeatureBlock
         
         // 슬라이더 값 변경 시마다 value 전달
         _slider.onValueChanged.AddListener(OnSliderValueChanged);
-        _slider.gameObject.SetActive(true);
     }
 
     public override void Deactivate(object feature)
     {
-        _slider.onValueChanged.RemoveListener(OnSliderValueChanged);
-        _slider.gameObject.SetActive(false);
+        _rotatable = feature as IRotatable;
+        if (_rotatable == null) return;
         
+        _slider.onValueChanged.RemoveListener(OnSliderValueChanged);
         _rotatable = null;
     }
 

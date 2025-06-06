@@ -397,7 +397,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3289301944806916426, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_Name
-      value: LightBlock
+      value: RotationBlock
       objectReference: {fileID: 0}
     - target: {fileID: 5155685390873288326, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_Pivot.x
@@ -481,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5827827111583576740, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_text
-      value: Scale Block
+      value: Rotate Block
       objectReference: {fileID: 0}
     - target: {fileID: 8744754465119319539, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_AnchorMax.y
@@ -491,7 +491,8 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4131955310394387434, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5155685390873288326, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
@@ -500,7 +501,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3289301944806916426, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4290677753319059677}
+      addedObject: {fileID: -769844888133094886}
   m_SourcePrefab: {fileID: 100100000, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
 --- !u!224 &3724467604538067668 stripped
 RectTransform:
@@ -512,7 +513,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3289301944806916426, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
   m_PrefabInstance: {fileID: 8368632595279074386}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4290677753319059677
+--- !u!114 &-769844888133094886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -521,6 +522,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6451030095311836440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5d38bbf1f0ea334c88358ab4f97e583, type: 3}
+  m_Script: {fileID: 11500000, guid: 58335422ca8e17649bf232b2eea8dc67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

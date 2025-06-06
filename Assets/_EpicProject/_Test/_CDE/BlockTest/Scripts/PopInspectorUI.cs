@@ -6,10 +6,13 @@ public class PopInspectorUI : MonoBehaviour
 {
     public Clickable CurrentTarget { get; private set; }
 
-    [SerializeField] private List<InspectorSlot> slotList;
     [SerializeField] private Button closeBtn;
-    
+
     private BlockFactory _blockFactory;
+
+    private InspectorSlotGroup _inspectorSlotGroup;
+    private List<InspectorSlot> _slotList;
+    private Transform[] _slotTransforms;
     
     private RectTransform _rectTransform;
     private Canvas _canvas;
@@ -20,6 +23,15 @@ public class PopInspectorUI : MonoBehaviour
         _canvas = GetComponentInParent<Canvas>();
         _rectTransform = GetComponent<RectTransform>();
         _blockFactory = FindAnyObjectByType<BlockFactory>();
+        
+        _inspectorSlotGroup = FindAnyObjectByType<InspectorSlotGroup>();
+        _slotList = new List<InspectorSlot>(_inspectorSlotGroup.GetComponentsInChildren<InspectorSlot>());
+        
+        _slotTransforms = new Transform[_slotList.Count];
+        for (int i = 0; i < _slotList.Count; i++)
+        {
+            _slotTransforms[i] = _slotList[i].transform;
+        }
 
         closeBtn.onClick.AddListener(CloseInspector);
     }
@@ -33,8 +45,8 @@ public class PopInspectorUI : MonoBehaviour
     {
         CurrentTarget = target;
         
-        // 슬롯의 기존 블록 제거
-        foreach (var slot in slotList)
+        // Inspector Slot의 기존 블록 제거
+        foreach (var slot in _slotList)
         {
             var existing = slot.GetChildBlock();
             if (existing != null)
@@ -44,20 +56,10 @@ public class PopInspectorUI : MonoBehaviour
             }
         }
         
-        // 현재 clickable의 block type대로 feature block 생성
-        for (int i = 0; i < target.BlockTypeList.Count && i < slotList.Count; i++)
-        {
-            var type = target.BlockTypeList[i];
-            var slot = slotList[i];
-
-            var featureBlock = _blockFactory.CreateFeatureBlock(type, slot.transform);
-            slot.OnBlockDrop(featureBlock);
-
-            var feature = target.GetComponent(featureBlock.RequiredFeatureType);
-            featureBlock.Activate(feature);
-        }
+        // Inspector Slot에 새 Block 추가
+        BlockManager.ApplyBlockToTarget(target, _blockFactory, _slotTransforms);
         
-        SetPosition(target);
+        SetUIPosition(target);
         gameObject.SetActive(true);
     }
 
@@ -71,50 +73,28 @@ public class PopInspectorUI : MonoBehaviour
     {
         CurrentTarget = target;
         
-        foreach (var slot in slotList)
-        {
-            var existing = slot.GetChildBlock();
-            if (existing is FeatureBlock featureBlock)
-            {
-                var feature = target.GetComponent(featureBlock.RequiredFeatureType);
-                featureBlock.Deactivate(feature);
-                Destroy(featureBlock.gameObject);
-            }
-
-            slot.OnBlockRemoved();
-        }
-
-        for (int i = 0; i < target.BlockTypeList.Count && i < slotList.Count; i++)
-        {
-            var blockType = target.BlockTypeList[i];
-            var slot = slotList[i];
-
-            var featureBlock = _blockFactory.CreateFeatureBlock(blockType, slot.transform);
-            slot.OnBlockDrop(featureBlock);
-
-            var feature = target.GetComponent(featureBlock.RequiredFeatureType);
-            featureBlock.Activate(feature);
-        }
+        BlockManager.RemoveBlockFromTarget(target, _slotTransforms);
+        BlockManager.ApplyBlockToTarget(target, _blockFactory, _slotTransforms);
     }
     
-    private void SetPosition(Clickable clickable)
+    private void SetUIPosition(Clickable clickable)
     {
-        // 1. 월드 → 스크린 좌표로 변환
+        // 스크린 좌표로 변환
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
 
-        // 2. 우측에 UI 위치
+        // 우측에 UI 위치
         Vector2 targetPos = screenPos + _offset;
 
-        // 3. 팝업 UI 크기/캔버스 크기 가져오기
+        // 팝업 UI 크기/캔버스 크기 가져오기
         Vector2 uiSize = _rectTransform.sizeDelta * _canvas.scaleFactor;
         float halfWidth = uiSize.x * 0.5f;
         float halfHeight = uiSize.y * 0.5f;
 
-        // 4. 화면 끝 계산 (스크린 좌표)
+        // 화면 끝 계산 (스크린 좌표)
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;
 
-        // 5. 짤림 검사
+        // 짤림 검사
         // (1) 오른쪽 끝 넘침 → 왼쪽에 붙임
         if (targetPos.x + halfWidth > screenWidth)
             targetPos.x = screenPos.x - _offset.x - uiSize.x;
@@ -131,7 +111,7 @@ public class PopInspectorUI : MonoBehaviour
         if (targetPos.y - halfHeight < 0)
             targetPos.y = halfHeight + 10;
 
-        // 6. UI 실제 위치 반영
+        // UI 위치 변경
         _rectTransform.position = targetPos;
     }
 }

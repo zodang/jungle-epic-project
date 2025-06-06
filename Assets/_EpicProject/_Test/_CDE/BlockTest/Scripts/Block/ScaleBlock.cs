@@ -10,18 +10,11 @@ public class ScaleBlock : FeatureBlock
     public override BlockType Type => BlockType.Scale;
     public override Type RequiredFeatureType => typeof(IScalable);
     
-    public override void Awake()
-    {
-        base.Awake();
-        
-        _slider = GetComponentInChildren<Slider>();
-    }
-
     public override void Activate(object feature)
     {
         _scalable = feature as IScalable;
         if (_scalable == null) return;
-
+            
         // 슬라이더의 최대, 최소, 현재 값 설정
         _slider = GetComponentInChildren<Slider>();
         
@@ -35,6 +28,9 @@ public class ScaleBlock : FeatureBlock
 
     public override void Deactivate(object feature)
     {
+        _scalable = feature as IScalable;
+        if (_scalable == null) return;
+        
         _slider.onValueChanged.RemoveListener(OnSliderValueChanged);
         _scalable = null;
     }
