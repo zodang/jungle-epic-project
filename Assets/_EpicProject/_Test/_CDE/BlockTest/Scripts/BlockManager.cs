@@ -13,17 +13,17 @@ public class BlockManager
             // Block 생성
             bool hasSlot = slotList != null && i < slotList.Length;
             Transform slot = hasSlot ? slotList[i] : null;
-            FeatureBlock featureBlock = factory.CreateFeatureBlock(blockType, slot);
+            EngineBlock engineBlock = factory.CreateFeatureBlock(blockType, slot);
 
             // Slot이 있다면 해당 Slot에 배치
             if (slot != null && slot.TryGetComponent<InspectorSlot>(out InspectorSlot inspectorSlot))
             {
-                inspectorSlot.OnBlockDrop(featureBlock);
+                inspectorSlot.OnBlockDrop(engineBlock);
             }
             
             // 기능 활성화
-            Component feature = target.GetComponent(featureBlock.RequiredFeatureType);
-            featureBlock.Activate(feature);
+            Component feature = target.GetComponent(engineBlock.RequiredFeatureType);
+            engineBlock.Activate(feature);
         }
     }
 
@@ -31,10 +31,10 @@ public class BlockManager
     {
         foreach (var slot in slotList)
         {
-            FeatureBlock featureBlock = slot.GetComponentInChildren<FeatureBlock>();
+            EngineBlock engineBlock = slot.GetComponentInChildren<EngineBlock>();
             
             // slot의 자식 오브젝트에 Block이 없다면 넘어간다.
-            if (featureBlock == null) continue;
+            if (engineBlock == null) continue;
             
             // Slot이 있다면 해당 Slot에서 제거
             if (slot.TryGetComponent<InspectorSlot>(out var inspectorSlot))
@@ -43,11 +43,11 @@ public class BlockManager
             }
             
             // 기능 비활성화
-            Component feature = target.GetComponent(featureBlock.RequiredFeatureType);
-            featureBlock.Deactivate(feature);
+            Component feature = target.GetComponent(engineBlock.RequiredFeatureType);
+            engineBlock.Deactivate(feature);
             
             // Block 삭제
-            GameObject.Destroy(featureBlock.gameObject);
+            GameObject.Destroy(engineBlock.gameObject);
         }
     }
 }

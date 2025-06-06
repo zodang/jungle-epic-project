@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 
-public abstract class SliderControlBase<TFeature> : FeatureBlock where TFeature : class
+public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature : class
 {
     protected TFeature _feature;
     private Slider _slider;

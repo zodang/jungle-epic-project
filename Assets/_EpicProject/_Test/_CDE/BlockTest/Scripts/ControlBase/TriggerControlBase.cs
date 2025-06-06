@@ -1,4 +1,4 @@
-public abstract class TriggerControlBase<TFeature> : FeatureBlock where TFeature : class
+public abstract class TriggerControlBase<TFeature> : EngineBlock where TFeature : class
 {
     private TFeature _feature;
 

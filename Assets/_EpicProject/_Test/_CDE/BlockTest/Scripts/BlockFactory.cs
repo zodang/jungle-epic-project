@@ -11,13 +11,13 @@ public class BlockFactory : MonoBehaviour
     [Header("Inventory Block")] 
     [SerializeField] private List<InventoryBlockEntry> inventoryBlockEntries;
 
-    private Dictionary<BlockType, FeatureBlock> _engineBlockDic;
+    private Dictionary<BlockType, EngineBlock> _engineBlockDic;
     private Dictionary<BlockType, InventoryBlock> _inventoryBlockDic;
     
     private void Awake()
     {
         // Engine Block Dictionary 설정
-        _engineBlockDic = new Dictionary<BlockType, FeatureBlock>();
+        _engineBlockDic = new Dictionary<BlockType, EngineBlock>();
         foreach (var entry in engineBlockEntries)
         {
             if (!_engineBlockDic.ContainsKey(entry.Type))
@@ -37,13 +37,13 @@ public class BlockFactory : MonoBehaviour
         }
     }
 
-    public FeatureBlock CreateFeatureBlock(BlockType type, Transform parent = null)
+    public EngineBlock CreateFeatureBlock(BlockType type, Transform parent = null)
     {
         // Engine Block 생성
-        if (_engineBlockDic.TryGetValue(type, out FeatureBlock prefab))
+        if (_engineBlockDic.TryGetValue(type, out EngineBlock prefab))
         {
-            FeatureBlock featureBlock = Instantiate(prefab, parent);
-            return featureBlock;
+            EngineBlock engineBlock = Instantiate(prefab, parent);
+            return engineBlock;
         }
 
         Debug.LogWarning($"{type}의 Engine Block 없음!");
@@ -70,7 +70,7 @@ public class BlockFactory : MonoBehaviour
 public class EngineBlockEntry
 {
     public BlockType Type;
-    public FeatureBlock Prefab;
+    public EngineBlock Prefab;
 }
 
 [Serializable]

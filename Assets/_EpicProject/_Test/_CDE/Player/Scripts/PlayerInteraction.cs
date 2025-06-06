@@ -18,8 +18,9 @@ public class PlayerInteraction : MonoBehaviour
     private void TryCollectBlock()
     {
         Collider2D hit = Physics2D.OverlapCircle(transform.position, _collectRange, _interactableLayer);
-        var interactable = hit.GetComponent<IInteractable>();
+        if (hit == null) return;
         
+        var interactable = hit.GetComponent<IInteractable>();
         if (interactable == null) return;
         
         // 상호작용 작동
