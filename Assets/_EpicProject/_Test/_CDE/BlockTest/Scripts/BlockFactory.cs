@@ -1,19 +1,20 @@
 using Define;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BlockFactory : MonoBehaviour
 {
-    [Header("Feature Block")]
-    public ControlBlock ControlBlockPrefab;
-    public ScaleBlock ScaleBlockPrefab;
-    public RotateBlock RotateBlockPrefab;
-    public LightAdustFeatureBlock LightBLockPrefab;
+    [Header("Engine Block")]
+    public ControlBlock ControlEngine;
+    public ScaleBlock ScaleEngine;
+    public RotateBlock RotateEngine;
+    public LightAdustFeatureBlock LightEngine;
     
-    [Header("Block UI")]
-    public BlockUI ControlUI;
-    public BlockUI ScaleUI;
-    public BlockUI RotateUI;
-    public BlockUI LightUI;
+    [Header("Inventory Block")]
+    public InventoryBlock ControlInventory;
+    public InventoryBlock ScaleInventory;
+    public InventoryBlock RotateInventory;
+    public InventoryBlock LightInventory;
 
     public FeatureBlock CreateFeatureBlock(BlockType type, Transform parent = null)
     {
@@ -22,38 +23,38 @@ public class BlockFactory : MonoBehaviour
         switch (type)
         {
             case BlockType.PlayerControl:
-                featureBlock = Instantiate(ControlBlockPrefab, parent);
+                featureBlock = Instantiate(ControlEngine, parent);
                 break;
             case BlockType.Scale:
-                featureBlock = Instantiate(ScaleBlockPrefab, parent);
+                featureBlock = Instantiate(ScaleEngine, parent);
                 break;
             case BlockType.Rotate:
-                featureBlock = Instantiate(RotateBlockPrefab, parent);
+                featureBlock = Instantiate(RotateEngine, parent);
                 break;
             case BlockType.Light:
-                featureBlock = Instantiate(LightBLockPrefab, parent);
+                featureBlock = Instantiate(LightEngine, parent);
                 break;
         }
 
         return featureBlock;
     }
     
-    public BlockUI CreateBlockUI(BlockType type, Transform parent = null)
+    public InventoryBlock CreateBlockUI(BlockType type, Transform parent = null)
     {
-        BlockUI blockUI = null;
+        InventoryBlock blockUI = null;
         switch (type)
         {
             case BlockType.PlayerControl:
-                blockUI = Instantiate(ControlUI, parent);
+                blockUI = Instantiate(ControlInventory, parent);
                 break;
             case BlockType.Scale:
-                blockUI = Instantiate(ScaleUI, parent);
+                blockUI = Instantiate(ScaleInventory, parent);
                 break;
             case BlockType.Rotate:
-                blockUI = Instantiate(RotateUI, parent);
+                blockUI = Instantiate(RotateInventory, parent);
                 break;
             case BlockType.Light:
-                blockUI = Instantiate(LightUI, parent);
+                blockUI = Instantiate(LightInventory, parent);
                 break;
         }
 

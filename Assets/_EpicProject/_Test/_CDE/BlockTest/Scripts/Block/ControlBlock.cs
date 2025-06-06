@@ -10,6 +10,7 @@ public class ControlBlock : FeatureBlock
 
     public override void Activate(object feature)
     {
+        // 조작 오브젝트 설정 및 기능 활성화
         _controllable = feature as IControllable;
         _controllable?.EnableControl();
     }
