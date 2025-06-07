@@ -12,7 +12,7 @@ public class EngineUI : MonoBehaviour
     private List<InspectorSlot> _slotList;
     private Transform[] _slotTransforms;
     
-    public EngineUICloseBtn _closeBtn;
+    private EngineUICloseBtn _closeBtn;
     private EngineUIOpacitySlider _opacitySlider;
     
     private Canvas _canvas;
