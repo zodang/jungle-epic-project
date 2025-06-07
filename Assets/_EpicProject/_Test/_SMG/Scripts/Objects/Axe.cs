@@ -1,8 +1,8 @@
-﻿using SMG;
+using SMG;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable
+public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAdjustable
 {
     // IControllable
     private bool _enableMove;
@@ -16,6 +16,11 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable
     private float _minRotate = 0f;
     private float _maxRotate = 359f;
     private float _currentRotate;
+
+    // ILightAdjustable
+    private float _minBright = 0.5f;
+    private float _maxBright = 3f;
+    private float _currentBright;
 
     private Transform _model;
     private GameObject _bridge;
@@ -38,6 +43,7 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable
 
         ((IScalable)this).SetValue(1f);
         ((IRotatable)this).SetValue(0f);
+        ((ILightAdjustable)this).SetValue(1f);
     }
 
     private void Start()
@@ -64,7 +70,28 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable
         _model.localEulerAngles = new Vector3(0f, 0, -angle);
     }
 
-    #region 
+    void Twinkle(float bright)
+    {
+        if(bright <= 0.5f)
+        {
+            // Dark
+        }
+        else if(bright >= 1.5f)
+        {
+            // Twinkle 1
+        }
+        else if (bright >= 2.5f)
+        {
+            // Twinkle 2
+        }
+        else
+        {
+            // Normal
+        }
+    }
+
+
+    #region IControllable
     public void EnableControl()
     {
         _enableMove = true;
@@ -107,6 +134,19 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable
     {
         _currentRotate = value;
         Rotate(_currentRotate);
+    }
+    #endregion
+
+    #region ILightAdjustable
+    float ILightAdjustable.GetMinValue() => _minBright;
+
+    float ILightAdjustable.GetMaxValue () => _maxBright;
+    float ILightAdjustable.GetCurrentValue() => _currentBright;
+
+    void ILightAdjustable.SetValue(float value)
+    {
+        _currentBright = value;
+
     }
     #endregion
 }

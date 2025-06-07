@@ -1,8 +1,8 @@
-﻿using Unity.Collections.LowLevel.Unsafe;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Sun : MonoBehaviour, ILightAdjustable, IRotatable
+public class Sun : MonoBehaviour, ILightAdjustable, IRotatable, IScalable, IControllable
 {
     // ILightAdjustable: 빛 밝기 관련
     private float _minBright = 0.1f;
@@ -14,6 +14,16 @@ public class Sun : MonoBehaviour, ILightAdjustable, IRotatable
     private float _maxAngle = 359f;
     private float _currentAngle;
 
+    // IScalable
+    private float _minScale = 0.8f;
+    private float _maxScale = 1.2f;
+    private float _currentScale;
+
+    // IControllable
+    private bool _enableMove;
+    private float _speed = 5f;
+
+
     private Transform _lightDir;
 
 
@@ -24,6 +34,17 @@ public class Sun : MonoBehaviour, ILightAdjustable, IRotatable
 
         ((ILightAdjustable)this).SetValue(1f);
         ((IRotatable)this).SetValue(60f);
+        ((IScalable)this).SetValue(1f);
+        DisableControl();
+    }
+
+    private void Update()
+    {
+        if(_enableMove)
+        {
+            Vector2 moveInput = new Vector2 (InputManager.Instance.MoveInput.x, 0);
+            transform.Translate(moveInput * _speed * Time.deltaTime);
+        }
     }
 
     void AdjustLight(float brightness)
@@ -35,25 +56,32 @@ public class Sun : MonoBehaviour, ILightAdjustable, IRotatable
         _lightDir.GetComponentInChildren<SpriteRenderer>().color = color;
 
         // Brightness Trigger
-        if (brightness >= 2.0f && (_currentAngle >= 130 && _currentAngle <= 180))
-        {
-            Debug.Log("녹음, 증발 호출");
-            EvaporationHandler[] evaporations = FindObjectsByType<EvaporationHandler>(FindObjectsSortMode.None);
-            for(int i = 0; i < evaporations.Length; i++)
-            {
-                evaporations[i].Evaporate();
-            }
-        }
-        else if (brightness <= 0.2f)
-        {
-            Debug.Log("밤");
-        }
+        CheckTrigger();
     }
 
     // 0 ~ 359
     void SetRotate(float angle)
     {
         _lightDir.localEulerAngles = new Vector3(0, 0, -angle);
+        // Brightness Trigger
+        CheckTrigger();
+    }
+
+    void CheckTrigger()
+    {
+        if (_currentBright >= 2.0f && (_currentAngle >= 130 && _currentAngle <= 180))
+        {
+            Debug.Log("녹음, 증발 호출");
+            EvaporationHandler[] evaporations = FindObjectsByType<EvaporationHandler>(FindObjectsSortMode.None);
+            for (int i = 0; i < evaporations.Length; i++)
+            {
+                evaporations[i].Evaporate();
+            }
+        }
+        else if (_currentBright <= 0.2f)
+        {
+            Debug.Log("밤");
+        }
     }
 
     #region ILightAdjustable
@@ -81,6 +109,30 @@ public class Sun : MonoBehaviour, ILightAdjustable, IRotatable
     {
         _currentAngle = value;
         SetRotate(_currentAngle);
+    }
+    #endregion
+
+    #region IScalable
+    float IScalable.GetMinValue() => _minScale;
+
+    float IScalable.GetMaxValue() => _maxScale;
+    float IScalable.GetCurrentValue() => _currentScale;
+    void IScalable.SetValue(float value)
+    {
+        _currentScale = value;
+        transform.localScale = new Vector3(_currentScale, _currentScale, _currentScale);
+    }
+    #endregion
+
+    #region IControllable
+    public void EnableControl()
+    {
+        _enableMove = true;
+    }
+
+    public void DisableControl()
+    {
+        _enableMove = false;
     }
     #endregion
 }
