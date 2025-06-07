@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
     int channelIndex = 0;
 
 
-    public enum Sfx { } // 오디오소스 이름 쓰기
+    public enum Sfx {Click, Close, Deny, Dial, Get, Open } // 오디오소스 이름 쓰기
 
 
     private void Awake()
