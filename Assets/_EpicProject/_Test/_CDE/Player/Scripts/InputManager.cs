@@ -1,6 +1,7 @@
 ﻿using System;
 using Define;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
@@ -56,6 +57,9 @@ public class InputManager : Singleton<InputManager>
     
     private void OnCLickPerformed(InputAction.CallbackContext context)
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+        
         Vector2 screenPos = Mouse.current.position.ReadValue();
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
             

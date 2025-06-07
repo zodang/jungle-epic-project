@@ -12,7 +12,7 @@ public class EngineUI : MonoBehaviour
     private List<InspectorSlot> _slotList;
     private Transform[] _slotTransforms;
     
-    public EngineUICloseBtn _closeBtn;
+    private EngineUICloseBtn _closeBtn;
     private EngineUIOpacitySlider _opacitySlider;
     
     private Canvas _canvas;
@@ -20,6 +20,7 @@ public class EngineUI : MonoBehaviour
     private RectTransform _rectTransform;
     
     private Vector2 _offset = new Vector2(150, 0);
+    private float _minOpacity = 0.4f;
 
     private void Awake()
     {
@@ -44,10 +45,12 @@ public class EngineUI : MonoBehaviour
         // opacity slider 기능 연결
         _opacitySlider = transform.GetComponentInChildren<EngineUIOpacitySlider>();
         _opacitySlider.GetComponent<Slider>().onValueChanged.AddListener(OnSliderValueChanged);
+        _opacitySlider.GetComponent<Slider>().minValue = _minOpacity;
     }
 
     private void Start()
     {
+        gameObject.AddComponent<DraggableUI>();
         CloseInspector();
     }
 
