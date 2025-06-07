@@ -16,8 +16,6 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private int _snapDivision = 12; // 360를 12개 구간으로 나눔
     private int _lastSnapIndex = -1;
 
-    public SFXEventChannelSO _sfxEventChannel;
-
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
@@ -49,7 +47,7 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         {
             // Snap 및 사운드 재생
             _lastSnapIndex = snapIndex;
-            _sfxEventChannel.RaiseEvent(Sfx.DialTick);
+            AudioManager.instance.playSfx(Sfx.Dial);
         }
         
         // Snap 값 대로 Dial 회전

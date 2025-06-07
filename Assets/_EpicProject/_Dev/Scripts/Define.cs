@@ -18,12 +18,11 @@
 
     public enum Sfx
     {
-        DialTick,
+        Click, Close, Deny, Dial, Get, Open
     }
 
     public static class Tags
     {
-
     }
 
     public static class Layers
