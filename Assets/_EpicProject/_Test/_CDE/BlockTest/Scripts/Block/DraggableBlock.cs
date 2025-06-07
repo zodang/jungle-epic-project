@@ -1,3 +1,4 @@
+using Define;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,6 +26,8 @@ public abstract class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHa
         PrevSlot = _originalParent.GetComponent<Slot>();
         
         _rectTransform.SetParent(_canvas.transform);
+        
+        AudioManager.instance.playSfx(SfxType.Click);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -65,5 +68,7 @@ public abstract class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHa
             _rectTransform.SetParent(_originalParent, false);
             _rectTransform.anchoredPosition = _originalAnchorPos;
         }
+
+        AudioManager.instance.playSfx(SfxType.Close);
     }
 }

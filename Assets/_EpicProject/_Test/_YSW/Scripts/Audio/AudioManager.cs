@@ -67,7 +67,7 @@ public class AudioManager : MonoBehaviour
         bgmEffect.enabled = isPlay;
     }
 
-    public void playSfx(Sfx sfx)
+    public void playSfx(SfxType sfx)
     {
         for (int index = 0; index < sfxPlayers.Length; index++)
         {

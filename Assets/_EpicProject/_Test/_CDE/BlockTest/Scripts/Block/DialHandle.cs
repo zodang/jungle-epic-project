@@ -21,6 +21,11 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         _rectTransform = GetComponent<RectTransform>();
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        AudioManager.instance.playSfx(SfxType.Click);
+    }
+    
     public void OnEndDrag(PointerEventData eventData)
     {
         EventSystem.current.SetSelectedGameObject(null);
@@ -47,7 +52,7 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         {
             // Snap 및 사운드 재생
             _lastSnapIndex = snapIndex;
-            AudioManager.instance.playSfx(Sfx.Dial);
+            AudioManager.instance.playSfx(SfxType.Dial);
         }
         
         // Snap 값 대로 Dial 회전
@@ -62,10 +67,8 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         if (_rectTransform == null)
             _rectTransform = GetComponent<RectTransform>();
-        
+
         float angle = Mathf.Lerp(0, 360, normalized);
         _rectTransform.localEulerAngles = new Vector3(0, 0, angle);
     }
-    
-    public void OnBeginDrag(PointerEventData eventData) { }
 }

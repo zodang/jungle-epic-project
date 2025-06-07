@@ -16,7 +16,7 @@
         Mess,
     }
 
-    public enum Sfx
+    public enum SfxType
     {
         Click, Close, Deny, Dial, Get, Open
     }

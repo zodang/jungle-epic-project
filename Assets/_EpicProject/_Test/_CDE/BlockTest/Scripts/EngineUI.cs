@@ -1,3 +1,4 @@
+using Define;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,7 +52,7 @@ public class EngineUI : MonoBehaviour
     private void Start()
     {
         gameObject.AddComponent<DraggableUI>();
-        CloseInspector();
+        gameObject.SetActive(false);
     }
 
     public void OpenInspector(Clickable target)
@@ -73,12 +74,16 @@ public class EngineUI : MonoBehaviour
         BlockManager.ApplyBlockToTarget(target, _blockFactory, _slotTransforms);
         
         SetUIPosition(target);
+        
+        AudioManager.instance.playSfx(SfxType.Open);
         gameObject.SetActive(true);
     }
 
     private void CloseInspector()
     {
         CurrentTarget = null;
+        
+        AudioManager.instance.playSfx(SfxType.Close);
         gameObject.SetActive(false);
     }
 

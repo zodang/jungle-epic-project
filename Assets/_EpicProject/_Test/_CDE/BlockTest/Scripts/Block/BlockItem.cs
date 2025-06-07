@@ -15,6 +15,8 @@ public class BlockItem : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
+        AudioManager.instance.playSfx(SfxType.Get);
+        
         // Inventory에 추가
         _inventory.Collect(blockType);
         Destroy(gameObject);
