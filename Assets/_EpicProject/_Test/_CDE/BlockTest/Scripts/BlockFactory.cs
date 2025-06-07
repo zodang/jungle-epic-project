@@ -1,68 +1,81 @@
 using Define;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BlockFactory : MonoBehaviour
 {
-    [Header("Engine Block")]
-    public ControlBlock ControlEngine;
-    public ScaleBlock ScaleEngine;
-    public RotateBlock RotateEngine;
-    public LightAdustFeatureBlock LightEngine;
+    [Header("Engine Block")] 
+    [SerializeField] private List<EngineBlockEntry> engineBlockEntries;
     
-    [Header("Inventory Block")]
-    public InventoryBlock ControlInventory;
-    public InventoryBlock ScaleInventory;
-    public InventoryBlock RotateInventory;
-    public InventoryBlock LightInventory;
+    [Header("Inventory Block")] 
+    [SerializeField] private List<InventoryBlockEntry> inventoryBlockEntries;
 
-    public FeatureBlock CreateFeatureBlock(BlockType type, Transform parent = null)
+    private Dictionary<BlockType, EngineBlock> _engineBlockDic;
+    private Dictionary<BlockType, InventoryBlock> _inventoryBlockDic;
+    
+    private void Awake()
     {
-        FeatureBlock featureBlock = null;
-
-        switch (type)
+        // Engine Block Dictionary 설정
+        _engineBlockDic = new Dictionary<BlockType, EngineBlock>();
+        foreach (var entry in engineBlockEntries)
         {
-            case BlockType.PlayerControl:
-                featureBlock = Instantiate(ControlEngine, parent);
-                break;
-            case BlockType.Scale:
-                featureBlock = Instantiate(ScaleEngine, parent);
-                break;
-            case BlockType.Rotate:
-                featureBlock = Instantiate(RotateEngine, parent);
-                break;
-            case BlockType.Light:
-                featureBlock = Instantiate(LightEngine, parent);
-                break;
+            if (!_engineBlockDic.ContainsKey(entry.Type))
+            {
+                _engineBlockDic.Add(entry.Type, entry.Prefab);
+            }
         }
 
-        return featureBlock;
+        // Inventory Block Dictionary 설정
+        _inventoryBlockDic = new Dictionary<BlockType, InventoryBlock>();
+        foreach (var entry in inventoryBlockEntries)
+        {
+            if (!_inventoryBlockDic.ContainsKey(entry.Type))
+            {
+                _inventoryBlockDic.Add(entry.Type, entry.Prefab);
+            }
+        }
+    }
+
+    public EngineBlock CreateFeatureBlock(BlockType type, Transform parent = null)
+    {
+        // Engine Block 생성
+        if (_engineBlockDic.TryGetValue(type, out EngineBlock prefab))
+        {
+            EngineBlock engineBlock = Instantiate(prefab, parent);
+            return engineBlock;
+        }
+
+        Debug.LogWarning($"{type}의 Engine Block 없음!");
+        return null;
     }
     
     public InventoryBlock CreateBlockUI(BlockType type, Transform parent = null)
     {
-        InventoryBlock blockUI = null;
-        switch (type)
+        // Inventory Block 생성
+        if (_inventoryBlockDic.TryGetValue(type, out InventoryBlock prefab))
         {
-            case BlockType.PlayerControl:
-                blockUI = Instantiate(ControlInventory, parent);
-                break;
-            case BlockType.Scale:
-                blockUI = Instantiate(ScaleInventory, parent);
-                break;
-            case BlockType.Rotate:
-                blockUI = Instantiate(RotateInventory, parent);
-                break;
-            case BlockType.Light:
-                blockUI = Instantiate(LightInventory, parent);
-                break;
-        }
+            InventoryBlock inventoryBlock = Instantiate(prefab, parent);
+            inventoryBlock.Init(type);
 
-        if (blockUI != null)
-        {
-            blockUI.Init(type);
+            return inventoryBlock;
         }
-
-        return blockUI;
+        
+        Debug.LogWarning($"{type}의 Inventory Block 없음!");
+        return null;
     }
+}
+
+[Serializable]
+public class EngineBlockEntry
+{
+    public BlockType Type;
+    public EngineBlock Prefab;
+}
+
+[Serializable]
+public class InventoryBlockEntry
+{
+    public BlockType Type;
+    public InventoryBlock Prefab;
 }

@@ -1,8 +1,7 @@
 using System;
 using Define;
-using UnityEngine;
 
-public abstract class FeatureBlock : DraggableBlock
+public abstract class EngineBlock : DraggableBlock
 {
     // 블록 타입 정보
     public abstract BlockType Type { get; } 
