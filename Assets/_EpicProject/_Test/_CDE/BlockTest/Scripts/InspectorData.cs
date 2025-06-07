@@ -8,5 +8,5 @@ public class InspectorData
 {
     public string Name;
     public Sprite Icon;
-    public List<FeatureBlock> BlockList = new List<FeatureBlock>();
+    public List<EngineBlock> BlockList = new List<EngineBlock>();
 }

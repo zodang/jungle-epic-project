@@ -2,7 +2,7 @@ public class InventorySlot : Slot
 {
     public override void OnBlockDrop(DraggableBlock draggableBlock)
     {
-        if (draggableBlock is FeatureBlock featureBlock)
+        if (draggableBlock is EngineBlock featureBlock)
         {
             var clickable = FindAnyObjectByType<EngineUI>().CurrentTarget;
             if (clickable == null) return;

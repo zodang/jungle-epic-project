@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Clickable : MonoBehaviour, IClickable
 {
-    public List<BlockType> BlockTypeList  = new List<BlockType>();
+    public List<BlockType> BlockTypeList { get; private set; } = new List<BlockType>();
     [SerializeField] private List<BlockType> defaultBlockTypes = new List<BlockType>();
 
     private EngineUI _engineUI;
