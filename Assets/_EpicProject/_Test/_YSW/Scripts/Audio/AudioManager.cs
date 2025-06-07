@@ -1,4 +1,5 @@
 using UnityEngine;
+using Define;
 
 public class AudioManager : MonoBehaviour
 {
@@ -16,10 +17,6 @@ public class AudioManager : MonoBehaviour
     public int channels;
     AudioSource[] sfxPlayers;
     int channelIndex = 0;
-
-
-    public enum Sfx { } // 오디오소스 이름 쓰기
-
 
     private void Awake()
     {

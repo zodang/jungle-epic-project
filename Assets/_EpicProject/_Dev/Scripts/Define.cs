@@ -16,6 +16,11 @@
         Mess,
     }
 
+    public enum Sfx
+    {
+        DialTick,
+    }
+
     public static class Tags
     {
 
