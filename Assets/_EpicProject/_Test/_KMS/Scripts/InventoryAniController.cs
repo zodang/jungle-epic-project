@@ -1,16 +1,20 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryAniController : MonoBehaviour
 {
-    [SerializeField] private Animator _inventoryAni;  
+    private Button _button;
+    private Animator _inventoryAni;  
     private bool _isOpen = false;
 
     private void Awake()
     {
-        if (_inventoryAni == null);
+        _inventoryAni = GetComponent<Animator>();
+        _button = GetComponentInChildren<Button>();
+        _button.onClick.AddListener(ToggleInventory);
     }
 
-    // SloGroup => Button¾È¿¡ OnCLick ¿¬°á ¸Þ¼­µå
+    // SloGroup => Buttonï¿½È¿ï¿½ OnCLick ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public void ToggleInventory()
     {
         if (_inventoryAni == null) return;

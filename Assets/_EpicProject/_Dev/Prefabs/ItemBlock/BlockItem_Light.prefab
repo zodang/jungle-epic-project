@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1385871774436147161}
   - component: {fileID: 2948264134658240107}
   m_Layer: 7
-  m_Name: BlockItem_Control
+  m_Name: BlockItem_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d877b72758aa693449b5bc20f80c5799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockType: 1
+  blockType: 4
 --- !u!61 &2948264134658240107
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 8747943907827402864}
   - component: {fileID: 952654386441157001}
   m_Layer: 0
-  m_Name: Control
+  m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 6357979360206930959}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.762, z: 0}
+  m_LocalPosition: {x: -0.072, y: -0.762, z: 0}
   m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -170,7 +170,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 9041474853321290800, guid: 47f506332f5743b40bc6119f00096cc0, type: 3}
+  m_Sprite: {fileID: -3363622680113973025, guid: 0940324b213acd4428ac1959f4c59a54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
