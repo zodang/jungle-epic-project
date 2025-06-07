@@ -26,7 +26,7 @@ public class BridgeCore : MonoBehaviour
     {
         for (int i = 0; i < list.Count; i++)
         {
-            Physics2D.IgnoreCollision(collider, list[i], ignore);
+            Physics2D.IgnoreCollision(list[i], collider, ignore);
         }
     }
 
