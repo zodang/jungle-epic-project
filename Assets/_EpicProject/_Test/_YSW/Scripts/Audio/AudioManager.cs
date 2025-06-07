@@ -1,4 +1,5 @@
 using UnityEngine;
+using Define;
 
 public class AudioManager : MonoBehaviour
 {
@@ -16,10 +17,6 @@ public class AudioManager : MonoBehaviour
     public int channels;
     AudioSource[] sfxPlayers;
     int channelIndex = 0;
-
-
-    public enum Sfx {Click, Close, Deny, Dial, Get, Open } // 오디오소스 이름 쓰기
-
 
     private void Awake()
     {
@@ -70,7 +67,7 @@ public class AudioManager : MonoBehaviour
         bgmEffect.enabled = isPlay;
     }
 
-    public void playSfx(Sfx sfx)
+    public void playSfx(SfxType sfx)
     {
         for (int index = 0; index < sfxPlayers.Length; index++)
         {

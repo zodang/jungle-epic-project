@@ -16,9 +16,13 @@
         Mess,
     }
 
+    public enum SfxType
+    {
+        Click, Close, Deny, Dial, Get, Open
+    }
+
     public static class Tags
     {
-
     }
 
     public static class Layers

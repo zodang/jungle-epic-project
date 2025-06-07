@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine.UI;
 
 public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature : class
@@ -11,6 +12,10 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
         if (_feature == null) return;
         
         _slider = GetComponentInChildren<Slider>();
+        if (_slider.GetComponent<SliderInteractionDetector>() == null)
+        {
+            _slider.AddComponent<SliderInteractionDetector>();
+        }
 
         // 슬라이더의 최대, 최소, 현재 값 설정
         _slider.minValue = GetMinValue();

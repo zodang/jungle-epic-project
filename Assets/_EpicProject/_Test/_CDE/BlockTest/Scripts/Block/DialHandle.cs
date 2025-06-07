@@ -1,3 +1,4 @@
+using Define;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,12 +12,20 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     private float _previousAngle;
     private float _totalRotation;
+    
+    private int _snapDivision = 12; // 360를 12개 구간으로 나눔
+    private int _lastSnapIndex = -1;
 
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        AudioManager.instance.playSfx(SfxType.Click);
+    }
+    
     public void OnEndDrag(PointerEventData eventData)
     {
         EventSystem.current.SetSelectedGameObject(null);
@@ -34,10 +43,23 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         // Dial Handle 회전
         float visualAngle = (_totalRotation % 360f + 360f) % 360f;
-        _rectTransform.localEulerAngles = new Vector3(0, 0, visualAngle);
+        
+        float snapStep = 360f / _snapDivision;
+        int snapIndex = Mathf.RoundToInt(visualAngle / snapStep);
+        float snappedAngle = snapIndex * snapStep;
+        
+        if (snapIndex != _lastSnapIndex)
+        {
+            // Snap 및 사운드 재생
+            _lastSnapIndex = snapIndex;
+            AudioManager.instance.playSfx(SfxType.Dial);
+        }
+        
+        // Snap 값 대로 Dial 회전
+        _rectTransform.localEulerAngles = new Vector3(0, 0, snappedAngle);
 
-        // 회전 값 전달 
-        float normalized = ((-_totalRotation % 360f) + 360f) % 360f / 360f;
+        // 실제 회전 값 전달 
+        float normalized = ((-visualAngle % 360f) + 360f) % 360f / 360f;
         OnValueChanged?.Invoke(normalized);
     }
 
@@ -45,10 +67,8 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         if (_rectTransform == null)
             _rectTransform = GetComponent<RectTransform>();
-        
+
         float angle = Mathf.Lerp(0, 360, normalized);
         _rectTransform.localEulerAngles = new Vector3(0, 0, angle);
     }
-    
-    public void OnBeginDrag(PointerEventData eventData) { }
 }
