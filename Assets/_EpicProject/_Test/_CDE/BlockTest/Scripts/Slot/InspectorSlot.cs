@@ -4,7 +4,7 @@ public class InspectorSlot : Slot
     {
         if (draggableBlock is InventoryBlock blockUI)
         {
-            var clickable = FindAnyObjectByType<EngineUI>().CurrentTarget;
+            var clickable = FindAnyObjectByType<EngineController>().CurrentTarget;
             if (clickable == null) return;
 
             clickable.AddBlock(blockUI.Type);
