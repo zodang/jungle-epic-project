@@ -22,7 +22,7 @@ public class EngineBlockController : MonoBehaviour
         }
     }
 
-    public void RemoveBlock()
+    private void RemoveBlock()
     {
         // Inspector Slot의 기존 블록 제거
         foreach (var slot in _slotList)
