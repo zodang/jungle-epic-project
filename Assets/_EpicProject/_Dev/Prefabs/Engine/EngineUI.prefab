@@ -3387,7 +3387,7 @@ GameObject:
   - component: {fileID: 5155206778162578544}
   - component: {fileID: 2842718827581661126}
   - component: {fileID: 2859696471933221585}
-  - component: {fileID: 1355128327189122365}
+  - component: {fileID: 8900119829274109791}
   m_Layer: 5
   m_Name: EngineUI
   m_TagString: Untagged
@@ -3486,6 +3486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cb1edf60eee02489aa83b4bd17f50b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _durationTime: 0.25
 --- !u!114 &2842718827581661126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3515,7 +3516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0f759251af1f8d49a0217cdd57dc943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1355128327189122365
+--- !u!95 &8900119829274109791
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -3525,7 +3526,7 @@ Animator:
   m_GameObject: {fileID: 8514470001021115401}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 770c223281a069b4d912629ec823c55a, type: 2}
+  m_Controller: {fileID: 9100000, guid: ba414414b97506c41b4f723ace7f4079, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
