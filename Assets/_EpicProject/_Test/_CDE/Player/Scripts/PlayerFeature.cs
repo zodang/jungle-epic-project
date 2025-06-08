@@ -1,15 +1,70 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerFeature : MonoBehaviour, IControllable, IScalable
+public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdjustable, IRotatable
 {
     public bool _enableMove;
     private float _speed = 5f;
     public float scaleMin = 0.5f, scaleMax = 2.0f;
-    
+
+    // ILightAdjustable
+    private float _minBright = 1f;
+    private float _maxBright = 3f;
+    private float _currentBright;
+
+    // IRotatable
+    private float _minRotate = 0f;
+    private float _maxRotate = 359f;
+    private float _currentRotate;
+
+    private Transform _model;
+    private GameObject _TwinkleLv1;
+    private GameObject _TwinkleLv2;
+
+    private void Awake()
+    {
+        _model = transform.GetChild(1);
+        _TwinkleLv1 = _model.GetChild(0).gameObject;
+        _TwinkleLv2 = _model.GetChild(1).gameObject;
+    }
+
     private void Update()
     {
         if (!_enableMove) return;
         Move();
+    }
+
+    void Rotate(float angle)
+    {
+
+        //_model.localEulerAnles = new Vector3(0, 0, angle);
+    }
+
+    void Twinkle(float bright)
+    {
+        if(!_TwinkleLv1.IsUnityNull())
+        {
+            if (bright >= 1.5f)
+            {
+                _TwinkleLv1.SetActive(true);
+            }
+            else
+            {
+                _TwinkleLv1.SetActive(false);
+            }
+        }
+        
+        if(!_TwinkleLv2.IsUnityNull())
+        {
+            if (bright >= 2.5f)
+            {
+                _TwinkleLv2.SetActive(true);
+            }
+            else
+            {
+                _TwinkleLv2.SetActive(false);
+            }
+        }
     }
 
     #region Control
@@ -38,6 +93,35 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable
         transform.localScale = new Vector3(v, v, 1f);
     }
     #endregion
+
+    #region ILightAdjustable
+    float ILightAdjustable.GetMinValue() => _minBright;
+
+    float ILightAdjustable.GetMaxValue() => _maxBright;
+
+    float ILightAdjustable.GetCurrentValue() => _currentBright;
     
+    void ILightAdjustable.SetValue(float value)
+    {
+        _currentBright = value;
+        Twinkle(_currentBright);
+    }
+    #endregion
+
+    #region IRotatable
+    float IRotatable.GetMinValue() => _minRotate;
+
+    float IRotatable.GetMaxValue() => _maxRotate;
+
+    float IRotatable.GetCurrentValue() => _currentRotate;
+    
+    void IRotatable.SetValue(float value)
+    {
+        _currentRotate = value;
+
+    }
+    #endregion
+
+
 
 }

@@ -23,8 +23,10 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAd
     private float _currentBright;
 
     private Transform _model;
-    private GameObject _bridge;
+    private GameObject _bridgeSide;
     private GameObject _footCollider;
+    private GameObject _TwinkleLv1;
+    private GameObject _TwinkleLv2;
 
     Movement movement;
 
@@ -36,8 +38,10 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAd
     private void Awake()
     {
         _model = transform.GetChild(0);
-        _bridge = _model.GetChild(2).gameObject;
-        _footCollider = _model.GetChild(3).gameObject;
+        _bridgeSide = _model.GetChild(3).gameObject;
+        _footCollider = _model.GetChild(1).gameObject;
+        _TwinkleLv1 = _model.GetChild(4).gameObject;
+        _TwinkleLv2 = _model.GetChild(5).gameObject;
 
         movement = GetComponent<Movement>();
 
@@ -72,22 +76,24 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAd
 
     void Twinkle(float bright)
     {
-        if(bright <= 0.5f)
+        if(bright >= 1.5f)
         {
-            // Dark
-        }
-        else if(bright >= 1.5f)
-        {
-            // Twinkle 1
-        }
-        else if (bright >= 2.5f)
-        {
-            // Twinkle 2
+            _TwinkleLv1.SetActive(true);
         }
         else
         {
-            // Normal
+            _TwinkleLv1.SetActive(false);
         }
+
+        if(bright >= 2.5f)
+        {
+            _TwinkleLv2.SetActive(true);
+        }
+        else
+        {
+            _TwinkleLv2.SetActive(false);
+        }
+            
     }
 
 
@@ -95,7 +101,7 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAd
     public void EnableControl()
     {
         _enableMove = true;
-        _bridge.SetActive(!_enableMove);
+        _bridgeSide.SetActive(!_enableMove);
         _footCollider.SetActive(_enableMove);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
     }
@@ -103,7 +109,7 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAd
     public void DisableControl()
     {
         _enableMove = false;
-        _bridge.SetActive(!_enableMove);
+        _bridgeSide.SetActive(!_enableMove);
         _footCollider.SetActive(_enableMove);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
     }
@@ -141,12 +147,13 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAd
     float ILightAdjustable.GetMinValue() => _minBright;
 
     float ILightAdjustable.GetMaxValue () => _maxBright;
+
     float ILightAdjustable.GetCurrentValue() => _currentBright;
 
     void ILightAdjustable.SetValue(float value)
     {
         _currentBright = value;
-
+        Twinkle(_currentBright);
     }
     #endregion
 }
