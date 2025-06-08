@@ -1,17 +1,15 @@
-using Define;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EngineUI : MonoBehaviour
+public class EngineUIController : MonoBehaviour
 {
-    public Clickable CurrentTarget { get; private set; }
-
-    private BlockFactory _blockFactory;
-
-    private EngineSlotGroup _engineSlotGroup;
-    private List<InspectorSlot> _slotList;
-    private Transform[] _slotTransforms;
+    [Header("Profile")]
+    [SerializeField] private TMP_Text name;
+    [SerializeField] private TMP_Text serialNum;
+    [SerializeField] private TMP_Text status;
+    [SerializeField] private TMP_InputField noteInput;
+    [SerializeField] private Image targetImg;
     
     private EngineUICloseBtn _closeBtn;
     private EngineUIOpacitySlider _opacitySlider;
@@ -23,84 +21,50 @@ public class EngineUI : MonoBehaviour
     private Vector2 _offset = new Vector2(150, 0);
     private float _minOpacity = 0.4f;
 
+    private Clickable _target;
+
     private void Awake()
     {
-        _blockFactory = FindAnyObjectByType<BlockFactory>();
-        _engineSlotGroup = FindAnyObjectByType<EngineSlotGroup>();
-
         _canvas = GetComponentInParent<Canvas>();
         _canvasGroup = GetComponent<CanvasGroup>();
         _rectTransform = GetComponent<RectTransform>();
         
-        _slotList = new List<InspectorSlot>(_engineSlotGroup.GetComponentsInChildren<InspectorSlot>());
-        _slotTransforms = new Transform[_slotList.Count];
-        for (int i = 0; i < _slotList.Count; i++)
-        {
-            _slotTransforms[i] = _slotList[i].transform;
-        }
-
         // close button 기능 연결
+        EngineController engineController = GetComponent<EngineController>();
         _closeBtn = transform.GetComponentInChildren<EngineUICloseBtn>();
-        _closeBtn.GetComponent<Button>().onClick.AddListener(CloseInspector);
+        _closeBtn.GetComponent<Button>().onClick.AddListener(engineController.CloseInspector);
 
         // opacity slider 기능 연결
         _opacitySlider = transform.GetComponentInChildren<EngineUIOpacitySlider>();
         _opacitySlider.GetComponent<Slider>().onValueChanged.AddListener(OnSliderValueChanged);
         _opacitySlider.GetComponent<Slider>().minValue = _minOpacity;
     }
-
-    private void Start()
-    {
-        gameObject.AddComponent<DraggableUI>();
-        gameObject.SetActive(false);
-    }
-
-    public void OpenInspector(Clickable target)
-    {
-        CurrentTarget = target;
-        
-        // Inspector Slot의 기존 블록 제거
-        foreach (var slot in _slotList)
-        {
-            var existing = slot.GetChildBlock();
-            if (existing != null)
-            {
-                Destroy(existing.gameObject);
-                slot.OnBlockRemoved();
-            }
-        }
-        
-        // Inspector Slot에 새 Block 추가
-        BlockManager.ApplyBlockToTarget(target, _blockFactory, _slotTransforms);
-        
-        SetUIPosition(target);
-        
-        AudioManager.instance.playSfx(SfxType.Open);
-        gameObject.SetActive(true);
-    }
-
-    private void CloseInspector()
-    {
-        CurrentTarget = null;
-        
-        AudioManager.instance.playSfx(SfxType.Close);
-        gameObject.SetActive(false);
-    }
-
-    public void RefreshSlot(Clickable target)
-    {
-        CurrentTarget = target;
-        
-        BlockManager.RemoveBlockFromTarget(target, _slotTransforms);
-        BlockManager.ApplyBlockToTarget(target, _blockFactory, _slotTransforms);
-    }
-
+    
     private void OnSliderValueChanged(float value)
     {
         _canvasGroup.alpha = value;
     }
+
+    public void SetProfile(ClickableProfile profile, Clickable target)
+    {
+        _target = target;
+        name.text = profile.name;
+        serialNum.text = profile.serialNumber;
+        status.text = profile.status;
+        
+        noteInput.onValueChanged.RemoveAllListeners();
+        noteInput.text = profile.note;
+        noteInput.onValueChanged.AddListener(newNote => { target.UpdateNote(newNote);});
+
+        targetImg.sprite = profile.sprite;
+    }
+
+    public void ClearProfile()
+    {
+        _target = null;
+    }
     
-    private void SetUIPosition(Clickable clickable)
+    public void SetUIPosition(Clickable clickable)
     {
         // 스크린 좌표로 변환
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);

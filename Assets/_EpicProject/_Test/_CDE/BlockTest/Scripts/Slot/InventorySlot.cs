@@ -4,7 +4,7 @@ public class InventorySlot : Slot
     {
         if (draggableBlock is EngineBlock featureBlock)
         {
-            var clickable = FindAnyObjectByType<EngineUI>().CurrentTarget;
+            var clickable = FindAnyObjectByType<EngineController>().CurrentTarget;
             if (clickable == null) return;
 
             // clickable의 리스트에서 제거 및 비활성화
