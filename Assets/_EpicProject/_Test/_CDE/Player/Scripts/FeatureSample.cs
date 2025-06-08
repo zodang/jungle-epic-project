@@ -1,12 +1,16 @@
 using UnityEngine;
 
-public class FeatureSample : MonoBehaviour, IControllable, ILightAdjustable, IScalable, IRotatable
+public class FeatureSample : MonoBehaviour, IControllable, ILightAdjustable, IScalable, IRotatable, IFeatureResetable
 {
     private bool _canMove = false;
     
     public float scaleMin = 0.5f, scaleMax = 2.0f;
     public float rotationMin = 0f, rotationMax = 360f;
     public float intensityMin = 0f, intensityMax = 10f;
+    
+    private float _defaultScale = 1.0f;
+    private float _defaultRotation = 0f;
+    private float _defaultIntensity = 0f;
     
     private void Update()
     {
@@ -66,4 +70,13 @@ public class FeatureSample : MonoBehaviour, IControllable, ILightAdjustable, ISc
     }
     void ILightAdjustable.SetValue(float value) { }
     #endregion
+
+    public void ResetFeature()
+    {
+        // 기본값으로 변경
+        ((IScalable)this).SetValue(_defaultScale);
+        ((IRotatable)this).SetValue(_defaultRotation);
+        ((ILightAdjustable)this).SetValue(_defaultIntensity);
+        ((IControllable)this).DisableControl();
+    }
 }

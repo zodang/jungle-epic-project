@@ -14,4 +14,7 @@ public abstract class EngineBlock : DraggableBlock
     
     // 기능 종료 및 정리
     public abstract void Deactivate(object feature);
+
+    // UI 초기화 (optional)
+    public virtual void ResetUI() { }
 }

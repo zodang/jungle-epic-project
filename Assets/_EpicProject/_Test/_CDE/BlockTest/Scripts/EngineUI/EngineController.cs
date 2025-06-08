@@ -22,6 +22,10 @@ public class EngineController : MonoBehaviour
 
     private void Start()
     {
+        // Button 기능 연결
+        _engineUIController.OnClickCloseBtn += CloseInspector;
+        _engineUIController.OnResetBtnClicked += ResetFeature;
+        
         gameObject.AddComponent<DraggableUI>();
         gameObject.SetActive(false);
     }
@@ -39,20 +43,45 @@ public class EngineController : MonoBehaviour
         _engineUIController.SetUIPosition(target);
         
         gameObject.SetActive(true);
-        _engineAnimator.Play("On Ani");        // UI "On Ani" 실행~
+        
+        // On 애니메이션 실행 
+        _engineAnimator.Play("On Ani");
     }
 
-    public void CloseInspector()
+    private void CloseInspector()
     {
         AudioManager.instance.playSfx(SfxType.Close);
 
         CurrentTarget = null;
         _engineUIController.ClearProfile();
 
-        _engineAnimator.Play("Off Ani");       // UI "Off Ani" 실행~
-        StartCoroutine(CloseAfterAnimation()); // 0.25초 후 비활성화 실행 ㅋ
+        // Off 애니메이션 실행 
+        _engineAnimator.Play("Off Ani");
+        StartCoroutine(CloseAfterAnimation());
+    }
+    
+    public void RefreshSlot(Clickable target)
+    {
+        CurrentTarget = target;
+        _engineBlockInspector.AddBlock(target);
     }
 
+    private void ResetFeature()
+    {
+        if (CurrentTarget == null) return;
+
+        // Clickable의 기능 초기화
+        IFeatureResetable resettable = CurrentTarget.GetComponent<IFeatureResetable>();
+        resettable?.ResetFeature();
+        
+        // Block의 UI 초기화
+        EngineBlock[] blocks = GetComponentsInChildren<EngineBlock>(includeInactive: true);
+        foreach (EngineBlock block in blocks)
+        {
+            block.ResetUI();
+        }
+    }
+    
     private IEnumerator CloseAfterAnimation()
     {
         yield return new WaitForSeconds(_durationTime);
@@ -61,10 +90,5 @@ public class EngineController : MonoBehaviour
         _engineUIController.ClearProfile();
 
         gameObject.SetActive(false);
-    }
-    public void RefreshSlot(Clickable target)
-    {
-        CurrentTarget = target;
-        _engineBlockInspector.AddBlock(target);
     }
 }

@@ -27,6 +27,15 @@ public abstract class DialControlBase<TFeature>: EngineBlock where TFeature : cl
         _feature = null;
     }
 
+    public override void ResetUI()
+    {
+        if (_dialHandle == null) return;
+        
+        float current = Mathf.Clamp(GetCurrentValue(), GetMinValue(), GetMaxValue());
+        float normalized = Mathf.InverseLerp(GetMinValue(), GetMaxValue(), current);
+        _dialHandle.SetRotationByValue(normalized); // UI 초기화
+    }
+
     private void HandleDialChanged(float normalized)
     {
         float actual = Mathf.Lerp(GetMinValue(), GetMaxValue(), normalized);
