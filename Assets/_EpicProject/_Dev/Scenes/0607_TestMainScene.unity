@@ -442,48 +442,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d57ea52ee6283b4582c097379588c80, type: 3}
---- !u!1 &245321547 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4316620389178057458, guid: 8eaaf468140627149994db49216f5843, type: 3}
-  m_PrefabInstance: {fileID: 1723781821}
-  m_PrefabAsset: {fileID: 0}
---- !u!70 &245321550
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245321547}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
-  m_Direction: 0
 --- !u!1 &293145003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1866,17 +1824,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4316620389178057458, guid: 8eaaf468140627149994db49216f5843, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4316620389178057458, guid: 8eaaf468140627149994db49216f5843, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 245321550}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8eaaf468140627149994db49216f5843, type: 3}
 --- !u!4 &1723781822 stripped
 Transform:
