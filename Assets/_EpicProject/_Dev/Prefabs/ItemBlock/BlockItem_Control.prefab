@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4434569350765724083}
   - component: {fileID: 1385871774436147161}
   - component: {fileID: 2948264134658240107}
+  - component: {fileID: 2049885775255244429}
   m_Layer: 7
   m_Name: BlockItem_Control
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542579331841983723}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -94,6 +95,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.1102179, y: 0.9315895}
   m_EdgeRadius: 0
+--- !u!210 &2049885775255244429
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542579331841983723}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1000
+  m_SortAtRoot: 0
 --- !u!1 &6357979360206930959
 GameObject:
   m_ObjectHideFlags: 0
