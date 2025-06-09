@@ -23,6 +23,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     private float _currentBright;
 
     private Transform _model;
+    //private GameObject _spriteOnly;
     private GameObject _bridgeSide;
     private GameObject _footCollider;
     private GameObject _TwinkleLv1;
@@ -38,6 +39,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     private void Awake()
     {
         _model = transform.GetChild(0);
+        //_spriteOnly = transform.GetChild(1).gameObject;
         _bridgeSide = _model.GetChild(3).gameObject;
         _footCollider = _model.GetChild(1).gameObject;
         _TwinkleLv1 = _model.GetChild(4).gameObject;
@@ -61,6 +63,17 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         }
     }
 
+    //public void EnableActive()
+    //{
+    //    _model.gameObject.SetActive(true);
+    //    _spriteOnly.SetActive(false);
+    //}
+
+    //public void DisableActive()
+    //{
+    //    _model.gameObject.SetActive(false);
+    //    _spriteOnly.SetActive(true);
+    //}
 
     void Resize(float scale)
     {
