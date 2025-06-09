@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 6269286514047901420}
   - component: {fileID: 7790873538158876816}
   - component: {fileID: 616559496215201280}
+  - component: {fileID: 9024503861143648496}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -291,7 +292,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 39429fab258bbbc4bac5790ab4e1547c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -358,7 +359,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.55}
-  m_Size: {x: 0.65, y: 1.2}
+  m_Size: {x: 1, y: 1.5}
   m_Direction: 0
 --- !u!95 &7790873538158876816
 Animator:
@@ -392,6 +393,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c4caab1694acf4a9090343a4136122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9024503861143648496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4316620389178057458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b61e85bd359024b9fac1efbe665c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6163378733549261494
