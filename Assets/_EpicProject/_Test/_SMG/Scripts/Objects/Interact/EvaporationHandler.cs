@@ -1,11 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class EvaporationHandler : MonoBehaviour
 {
+    bool _isEvaporated = false;
+
+    public UnityEvent OnEvaporate;
+
     public void Evaporate()
     {
+        if (_isEvaporated) return;
+
+        _isEvaporated = true;
         Tilemap tilemap;
         if(TryGetComponent<Tilemap>(out tilemap))
         {
@@ -14,7 +22,9 @@ public class EvaporationHandler : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+            OnEvaporate?.Invoke();
         }
+        
     }
 
     IEnumerator EvaporateCoroutine(Tilemap tilemap)
@@ -35,5 +45,8 @@ public class EvaporationHandler : MonoBehaviour
         yield return new WaitForSeconds(1f);
         color.a = 0.0f;
         tilemap.color = color;
+
+        gameObject.SetActive(false);
+        OnEvaporate?.Invoke();
     }
 }
