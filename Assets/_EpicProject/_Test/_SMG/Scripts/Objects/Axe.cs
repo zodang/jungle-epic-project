@@ -113,7 +113,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         ((IScalable)this).SetValue(1f);
         ((IRotatable)this).SetValue(0f);
         ((ILightAdjustable)this).SetValue(1f);
-        DisableControl();
+        // DisableControl();
     }
 
     #region IControllable
