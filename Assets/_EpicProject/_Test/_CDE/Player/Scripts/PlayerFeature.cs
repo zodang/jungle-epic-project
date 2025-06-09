@@ -1,3 +1,4 @@
+using SMG;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -82,11 +83,13 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     public void EnableControl()
     {
         _enableMove = true;
+        _moveInput = Vector2.zero;
     }
 
     public void DisableControl()
     {
         _enableMove = false;
+        _moveInput = Vector2.zero;
     }
     private void Move()
     {
