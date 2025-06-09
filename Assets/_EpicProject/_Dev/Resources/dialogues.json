@@ -4,26 +4,18 @@
       "id": "npc1_greeting",
       "lines": [
         {
-          "speaker": "경비원",
-          "text": "안녕하신가! 이 마을은 처음인가?"
-        },
-        {
-          "speaker": "당신",
-          "text": "네, 처음입니다."
-        },
-        {
-          "speaker": "경비원",
-          "text": "도움이 필요하면 언제든 말하게."
+          "speaker": "나무꾼",
+          "text": "내 얘기 좀 들어주겠나?"
         }
+        
       ],
       "choices": [
         {
-          "text": "마을에 대해 알려주세요.",
-          "nextDialogueId": "npc1_info_town"
+          "text": "아니요 지금은 좀 바빠서.."
         },
         {
-          "text": "괜찮습니다.",
-          "nextDialogueId": "npc1_farewell"
+          "text": "네 무슨일 있으신가요?",
+          "nextDialogueId": "npc1_info_town"
         }
       ]
     },
@@ -31,12 +23,16 @@
       "id": "npc1_info_town",
       "lines": [
         {
-          "speaker": "경비원",
-          "text": "우리 마을은 평화롭고 아름다운 곳이지."
+          "speaker": "나무꾼",
+          "text": "나무를 베다가 실수로 연못에 도끼를 빠뜨려버렸어.."
         },
         {
-          "speaker": "당신",
-          "text": "그렇군요!"
+          "speaker": "나무꾼",
+          "text": "나무를 너무 많이 베서 신께서 나를 나무라시는건가..."
+        },
+        {
+          "speaker": "나무꾼",
+          "text": "하하하 나무꾼 개그였네! 이 개그를 위해서 도끼도 빠뜨렸다네!"
         }
       ]
     },
@@ -54,7 +50,7 @@
       "lines": [
         {
           "speaker": "나무꾼",
-          "text": "도끼를 연못에 빠뜨려버렸어.."
+          "text": "나무를 베다가 실수로 도끼를 연못에 빠뜨려버렸어.."
         },
         {
           "speaker": "나무꾼",
