@@ -1,5 +1,6 @@
 ﻿using System;
 using Define;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -16,6 +17,8 @@ public class InputManager : Singleton<InputManager>
     private InputAction _interactionAction;
     private InputAction _talkAction;
     private InputAction _clickAction;
+    
+    private bool _isClicked;
 
     public override void Awake()
     {
@@ -41,6 +44,8 @@ public class InputManager : Singleton<InputManager>
 
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
+        if (IsInputFieldFocused())  return;
+        
         var input = context.ReadValue<Vector2>();
         MoveInput = input;
     }
@@ -52,27 +57,23 @@ public class InputManager : Singleton<InputManager>
 
     private void OnInteractionPerformed(InputAction.CallbackContext context)
     {
+        if (IsInputFieldFocused()) return;
+        
         OnInteract?.Invoke();
     }
     
     private void OnCLickPerformed(InputAction.CallbackContext context)
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
-        
-        Vector2 screenPos = Mouse.current.position.ReadValue();
-        Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-            
-        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-        var clickable = hit.collider != null
-            ? hit.collider.GetComponentInParent<IClickable>()
-            : null;
+        _isClicked = true;
+    }
 
-        if (clickable != null)
-        {
-            // Clickable 오브젝트 클릭 시 작동
-            clickable.OnClicked();
-        }
+    private bool IsInputFieldFocused()
+    {
+        // InputField 입력 중 여부 반환
+        GameObject selectedObj = EventSystem.current.currentSelectedGameObject;
+        if (selectedObj == null) return false;
+        
+        return selectedObj.GetComponent<TMP_InputField>() != null;
     }
     
     public void OnDestroy()
@@ -85,12 +86,36 @@ public class InputManager : Singleton<InputManager>
         _interactionAction.performed -= OnInteractionPerformed;
         _clickAction.performed -= OnCLickPerformed;
 
+        OnInteract = null;
         _inputActionAsset = null;
         _actionMap = null;
     }
 
     private void Update()
     {
+        if (_isClicked)
+        {
+            _isClicked = false;
+            
+            // UI 감지 시 return
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+            
+            Vector2 screenPos = Mouse.current.position.ReadValue();
+            Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+            
+            RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+            var clickable = hit.collider != null
+                ? hit.collider.GetComponentInParent<IClickable>()
+                : null;
+
+            if (clickable != null)
+            {
+                // Clickable 오브젝트 클릭 시 작동
+                clickable.OnClicked();
+            }
+        }
+        
+        
         // 테스트용 코드
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

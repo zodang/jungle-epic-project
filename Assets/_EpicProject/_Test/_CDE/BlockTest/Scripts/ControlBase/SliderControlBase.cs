@@ -33,6 +33,13 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
         _slider.onValueChanged.RemoveListener(OnSliderChanged);
         _feature = null;
     }
+
+    public override void ResetUI()
+    {
+        if (_slider == null) return;
+
+        _slider.value = GetCurrentValue();
+    }
     
     protected abstract float GetMinValue();
     protected abstract float GetMaxValue();

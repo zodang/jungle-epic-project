@@ -1,15 +1,23 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class EngineUIController : MonoBehaviour
 {
+    public Action OnResetBtnClicked;
+    public Action OnClickCloseBtn;
+    
     [Header("Profile")]
     [SerializeField] private TMP_Text name;
     [SerializeField] private TMP_Text serialNum;
     [SerializeField] private TMP_Text status;
     [SerializeField] private TMP_InputField noteInput;
     [SerializeField] private Image targetImg;
+    
+    [Header("Button")]
+    [SerializeField] private Button closeBtn;
+    [SerializeField] private Button resetBtn;
     
     private EngineUICloseBtn _closeBtn;
     private EngineUIOpacitySlider _opacitySlider;
@@ -28,33 +36,49 @@ public class EngineUIController : MonoBehaviour
         _canvas = GetComponentInParent<Canvas>();
         _canvasGroup = GetComponent<CanvasGroup>();
         _rectTransform = GetComponent<RectTransform>();
-        
-        // close button 기능 연결
-        EngineController engineController = GetComponent<EngineController>();
-        _closeBtn = transform.GetComponentInChildren<EngineUICloseBtn>();
-        _closeBtn.GetComponent<Button>().onClick.AddListener(engineController.CloseInspector);
 
         // opacity slider 기능 연결
         _opacitySlider = transform.GetComponentInChildren<EngineUIOpacitySlider>();
         _opacitySlider.GetComponent<Slider>().onValueChanged.AddListener(OnSliderValueChanged);
         _opacitySlider.GetComponent<Slider>().minValue = _minOpacity;
+        
+        // Button 기능 연결
+        closeBtn.onClick.AddListener(WhenCloseBtnClicked);
+        resetBtn.onClick.AddListener(WhenResetBtnClicked);
+    }
+
+    private void WhenCloseBtnClicked()
+    {
+        // Close Btn 클릭
+        OnClickCloseBtn?.Invoke();
+    }
+    
+    private void WhenResetBtnClicked()
+    {
+        // Reset Btn 클릭
+        OnResetBtnClicked?.Invoke();
     }
     
     private void OnSliderValueChanged(float value)
     {
+        // Canvas 투명도 조절
         _canvasGroup.alpha = value;
     }
 
     public void SetProfile(ClickableProfile profile, Clickable target)
     {
+        if (profile == null) return;
+
+        // 프로필 설정
         _target = target;
+        
         name.text = profile.name;
         serialNum.text = profile.serialNumber;
         status.text = profile.status;
         
         noteInput.onValueChanged.RemoveAllListeners();
         noteInput.text = profile.note;
-        noteInput.onValueChanged.AddListener(newNote => { target.UpdateNote(newNote);});
+        noteInput.onValueChanged.AddListener(newNote => { _target.UpdateNote(newNote);});
 
         targetImg.sprite = profile.sprite;
     }
@@ -100,5 +124,11 @@ public class EngineUIController : MonoBehaviour
 
         // UI 위치 변경
         _rectTransform.position = targetPos;
+    }
+
+    private void OnDestroy()
+    {
+        OnResetBtnClicked = null;
+        OnClickCloseBtn = null;
     }
 }

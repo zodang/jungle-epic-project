@@ -2,11 +2,11 @@ using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Sun : MonoBehaviour, ILightAdjustable, IRotatable, IScalable, IControllable
+public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatable, IScalable, IControllable
 {
     // ILightAdjustable: 빛 밝기 관련
-    private float _minBright = 0.1f;
-    private float _maxBright = 3f;
+    private float _minBright = 1f;  //0.1f; 
+    private float _maxBright = 2f;  //3f
     private float _currentBright;
 
     // IRotatable: 회전 관련
@@ -31,11 +31,11 @@ public class Sun : MonoBehaviour, ILightAdjustable, IRotatable, IScalable, ICont
     void Awake()
     {
         _lightDir = transform.GetChild(1);
+    }
 
-        ((ILightAdjustable)this).SetValue(1f);
-        ((IRotatable)this).SetValue(60f);
-        ((IScalable)this).SetValue(1f);
-        DisableControl();
+    private void Start()
+    {
+        ResetFeature();
     }
 
     private void Update()
@@ -49,11 +49,17 @@ public class Sun : MonoBehaviour, ILightAdjustable, IRotatable, IScalable, ICont
 
     void AdjustLight(float brightness)
     {
-        // Color Alpha
-        float alpha = brightness / 2.0f;
-        Color color = _lightDir.GetComponentInChildren<SpriteRenderer>().color;
-        color.a = alpha;
-        _lightDir.GetComponentInChildren<SpriteRenderer>().color = color;
+        //// Color Alpha
+        //float alpha = brightness / 2.0f;
+        //Color color = _lightDir.GetComponentInChildren<SpriteRenderer>().color;
+        //color.a = alpha;
+        //_lightDir.GetComponentInChildren<SpriteRenderer>().color = color;
+
+        // Sun Dir
+        if (_currentBright < 1f)
+            _currentBright = 1f;
+        _lightDir.localScale = (_currentBright - 1f) * Vector3.one;
+
 
         // Brightness Trigger
         CheckTrigger();
@@ -69,9 +75,9 @@ public class Sun : MonoBehaviour, ILightAdjustable, IRotatable, IScalable, ICont
 
     void CheckTrigger()
     {
-        if (_currentBright >= 2.0f && (_currentAngle >= 130 && _currentAngle <= 180))
+        if (_currentBright >= 1.8f && (_currentAngle >= 105 && _currentAngle <= 145)) //if (_currentBright >= 2.0f && (_currentAngle >= 130 && _currentAngle <= 180))
         {
-            Debug.Log("녹음, 증발 호출");
+            //Debug.Log("녹음, 증발 호출");
             EvaporationHandler[] evaporations = FindObjectsByType<EvaporationHandler>(FindObjectsSortMode.None);
             for (int i = 0; i < evaporations.Length; i++)
             {
@@ -80,8 +86,17 @@ public class Sun : MonoBehaviour, ILightAdjustable, IRotatable, IScalable, ICont
         }
         else if (_currentBright <= 0.2f)
         {
-            Debug.Log("밤");
+            //Debug.Log("밤");
         }
+    }
+
+    // IFeatureResetable
+    public void ResetFeature()
+    {
+        ((ILightAdjustable)this).SetValue(1f);
+        ((IRotatable)this).SetValue(60f);
+        ((IScalable)this).SetValue(1f);
+        DisableControl();
     }
 
     #region ILightAdjustable
@@ -135,4 +150,5 @@ public class Sun : MonoBehaviour, ILightAdjustable, IRotatable, IScalable, ICont
         _enableMove = false;
     }
     #endregion
+    
 }
