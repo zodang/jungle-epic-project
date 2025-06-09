@@ -1,11 +1,13 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(Clickable))]
 public class ClickableOutline : MonoBehaviour
 {
     private static readonly int _outlineProperty = Shader.PropertyToID("_OnOutline");
     private SpriteRenderer _visualRenderer;
     private MaterialPropertyBlock _mpb;
+
+    private bool _isHovered = false;
 
     private void Awake()
     {
@@ -13,23 +15,26 @@ public class ClickableOutline : MonoBehaviour
         _visualRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void OnMouseEnter()
+    private void Update()
     {
-        if (_visualRenderer == null) return; 
+        if (EventSystem.current.IsPointerOverGameObject()) return;
 
-        // Outline 활성화
-        _visualRenderer.GetPropertyBlock(_mpb);
-        _mpb.SetFloat(_outlineProperty, 1);
-        _visualRenderer.SetPropertyBlock(_mpb);
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Collider2D hit = Physics2D.OverlapPoint(worldPos, LayerMask.GetMask("Clickable"));
+
+        bool nowHovered = hit != null && hit.transform == transform;
+
+        if (nowHovered != _isHovered)
+        {
+            _isHovered = nowHovered;
+            SetOutline(_isHovered);
+        }
     }
 
-    private void OnMouseExit()
+    private void SetOutline(bool active)
     {
-        if (_visualRenderer == null) return; 
-
-        // Outline 비활성화
         _visualRenderer.GetPropertyBlock(_mpb);
-        _mpb.SetFloat(_outlineProperty, 0);
+        _mpb.SetFloat(_outlineProperty, active ? 1 : 0);
         _visualRenderer.SetPropertyBlock(_mpb);
     }
 }
