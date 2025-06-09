@@ -5,7 +5,7 @@ public class MenuManager : MonoBehaviour
 {
     public void OnStartGame()
     {
-        // TODO: 게임 시작 최종 씬 넣어주세요.
+        SceneManager.LoadScene("0609_TestMainScene");
         Debug.Log("게임시작");
     }
 
