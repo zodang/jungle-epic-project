@@ -33,6 +33,11 @@ public class TestStageManager : MonoBehaviour
         LoadStage();
     }
 
+    private void Start()
+    {
+        AudioManager.instance.PlayBgm(true);
+    }
+
     public void LoadStage()
     {
         TextAsset json = Resources.Load<TextAsset>(StageFileName);

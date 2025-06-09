@@ -26,7 +26,7 @@ public class EngineUIController : MonoBehaviour
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
     
-    private Vector2 _offset = new Vector2(150, 0);
+    private Vector2 _offset = new Vector2(-600, 0);
     private float _minOpacity = 0.4f;
 
     private Clickable _target;
