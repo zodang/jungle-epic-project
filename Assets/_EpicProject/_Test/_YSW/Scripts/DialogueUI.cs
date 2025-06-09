@@ -4,6 +4,8 @@ using TMPro;
 using System.Collections.Generic;
 using System.Text;
 
+
+
 public class DialogueUI : MonoBehaviour
 {
     // UI 오브젝트 이름 상수 (프리팹 내부 자식 GameObject 이름과 일치해야 함)
