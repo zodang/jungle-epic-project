@@ -12,7 +12,7 @@ public class DialogueShowingChoicesState : IDialogueState
     public void UpdateState(DialogueManager dialogueManager)
     {
         bool selectionChanged = false;
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             if (dialogueManager.CurrentSelectedChoiceIndex > 0)
             {
@@ -25,7 +25,7 @@ public class DialogueShowingChoicesState : IDialogueState
                 selectionChanged = true;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             if (dialogueManager.CurrentChoices != null && dialogueManager.CurrentSelectedChoiceIndex < dialogueManager.CurrentChoices.Count - 1)
             {
