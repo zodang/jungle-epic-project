@@ -16,15 +16,19 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
 
     // IScalable
     private float _minScale = 0.8f;
-    private float _maxScale = 1.2f;
+    private float _maxScale = 1.5f;
     private float _currentScale;
 
     // IControllable
     private bool _enableMove;
     private float _speed = 5f;
 
-
     private Transform _lightDir;
+
+    [Header("Move Position")]
+    public float MinPosX;
+    public float MaxPosX;
+    private float _currentPosX;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,14 +40,27 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     private void Start()
     {
         ResetFeature();
+        _currentPosX = transform.position.x;
     }
 
     private void Update()
     {
-        if(_enableMove)
+        _currentPosX = transform.position.x;
+        if (_enableMove)
         {
             Vector2 moveInput = new Vector2 (InputManager.Instance.MoveInput.x, 0);
             transform.Translate(moveInput * _speed * Time.deltaTime);
+
+            Vector3 pos = transform.localPosition;
+            if(pos.x < MinPosX)
+            {
+                pos.x = MinPosX;
+            }
+            if(pos.x > MaxPosX)
+            {
+                pos.x = MaxPosX;
+            }
+            transform.localPosition = pos;
         }
     }
 
@@ -75,18 +92,17 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
 
     void CheckTrigger()
     {
-        if (_currentBright >= 1.8f && (_currentAngle >= 105 && _currentAngle <= 145)) //if (_currentBright >= 2.0f && (_currentAngle >= 130 && _currentAngle <= 180))
+        // 2f
+        if(_currentPosX > -2f && _currentPosX < 6f)
         {
-            //Debug.Log("녹음, 증발 호출");
-            EvaporationHandler[] evaporations = FindObjectsByType<EvaporationHandler>(FindObjectsSortMode.None);
-            for (int i = 0; i < evaporations.Length; i++)
+            if(_currentAngle > 160 && _currentAngle <= 200 && _currentBright >1.6f)
             {
-                evaporations[i].Evaporate();
+                EvaporationHandler[] evaporations = FindObjectsByType<EvaporationHandler>(FindObjectsSortMode.None);
+                for (int i = 0; i < evaporations.Length; i++)
+                {
+                    evaporations[i].Evaporate();
+                }
             }
-        }
-        else if (_currentBright <= 0.2f)
-        {
-            //Debug.Log("밤");
         }
     }
 
