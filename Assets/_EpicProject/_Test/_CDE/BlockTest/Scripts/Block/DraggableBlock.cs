@@ -69,6 +69,6 @@ public abstract class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHa
             _rectTransform.anchoredPosition = _originalAnchorPos;
         }
 
-        AudioManager.instance.playSfx(SfxType.Close);
+        AudioManager.instance.playSfx(SfxType.Put);
     }
 }

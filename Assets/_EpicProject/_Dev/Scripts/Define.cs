@@ -18,7 +18,7 @@ namespace Define
 
     public enum SfxType
     {
-        Click, Close, Deny, Dial, Get, Open, Text
+        Click, Close, Deny, Dial, Get, Open, Text, Put
     }
 
     public static class Tags
