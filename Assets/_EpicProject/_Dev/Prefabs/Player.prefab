@@ -241,6 +241,8 @@ GameObject:
   - component: {fileID: 2541686291048502360}
   - component: {fileID: 1924732235760605523}
   - component: {fileID: 6269286514047901420}
+  - component: {fileID: 7790873538158876816}
+  - component: {fileID: 616559496215201280}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -358,6 +360,40 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.55}
   m_Size: {x: 0.65, y: 1.2}
   m_Direction: 0
+--- !u!95 &7790873538158876816
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4316620389178057458}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1a458802329815541b579dd2dbb4f918, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &616559496215201280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4316620389178057458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c4caab1694acf4a9090343a4136122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6163378733549261494
 GameObject:
   m_ObjectHideFlags: 0
