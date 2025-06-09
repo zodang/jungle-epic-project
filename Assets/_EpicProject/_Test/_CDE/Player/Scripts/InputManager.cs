@@ -1,5 +1,6 @@
 ﻿using System;
 using Define;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -43,6 +44,8 @@ public class InputManager : Singleton<InputManager>
 
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
+        if (IsInputFieldFocused())  return;
+        
         var input = context.ReadValue<Vector2>();
         MoveInput = input;
     }
@@ -54,12 +57,23 @@ public class InputManager : Singleton<InputManager>
 
     private void OnInteractionPerformed(InputAction.CallbackContext context)
     {
+        if (IsInputFieldFocused()) return;
+        
         OnInteract?.Invoke();
     }
     
     private void OnCLickPerformed(InputAction.CallbackContext context)
     {
         _isClicked = true;
+    }
+
+    private bool IsInputFieldFocused()
+    {
+        // InputField 입력 중 여부 반환
+        GameObject selectedObj = EventSystem.current.currentSelectedGameObject;
+        if (selectedObj == null) return false;
+        
+        return selectedObj.GetComponent<TMP_InputField>() != null;
     }
     
     public void OnDestroy()
