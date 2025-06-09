@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1772891282650855423}
   - component: {fileID: 2077136285474621447}
   - component: {fileID: 6303936812542667223}
+  - component: {fileID: 4191474197038121110}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -84,7 +85,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7496073, y: 0.757277}
+  m_Size: {x: 1, y: 0.8}
   m_EdgeRadius: 0
 --- !u!61 &2077136285474621447
 BoxCollider2D:
@@ -130,7 +131,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.22461367, y: 1.2528435}
+  m_Size: {x: 0.5, y: 1.5}
   m_EdgeRadius: 0
 --- !u!212 &6303936812542667223
 SpriteRenderer:
@@ -155,7 +156,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 39429fab258bbbc4bac5790ab4e1547c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -187,6 +188,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4191474197038121110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483978071570007638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b61e85bd359024b9fac1efbe665c7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3544342689066244797
 GameObject:
   m_ObjectHideFlags: 0
