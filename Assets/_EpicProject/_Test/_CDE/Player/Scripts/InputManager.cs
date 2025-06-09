@@ -72,6 +72,7 @@ public class InputManager : Singleton<InputManager>
         _interactionAction.performed -= OnInteractionPerformed;
         _clickAction.performed -= OnCLickPerformed;
 
+        OnInteract = null;
         _inputActionAsset = null;
         _actionMap = null;
     }
