@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // ← 추가
 using System.Collections;
 
 public class StartManager : MonoBehaviour
@@ -49,8 +50,9 @@ public class StartManager : MonoBehaviour
                 if (dropHit.collider != null)
                 {
                     _dragging.position = dropHit.collider.transform.position;
-                    // 1초 딜레이 후 페이드 시작
+                    // 애니메이션 재생
                     _startAni.Play("Start UP Scale");
+                    // 1초 딜레이 후 페이드 시작
                     StartCoroutine(DelayedFade(fadeDelay));
                 }
                 _dragging = null;
@@ -63,6 +65,7 @@ public class StartManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         yield return StartCoroutine(FadeToBlack());
     }
+
     private IEnumerator FadeToBlack()
     {
         Color c = fadeImage.color;
@@ -75,5 +78,10 @@ public class StartManager : MonoBehaviour
             fadeImage.color = c;
             yield return null;
         }
+
+        // 페이드 완료 후 1초 대기
+        yield return new WaitForSeconds(1f);
+        // MenuScene 로드 (씬 이름을 프로젝트에 맞게 바꿔주세요)
+        SceneManager.LoadScene("MenuScene");
     }
 }

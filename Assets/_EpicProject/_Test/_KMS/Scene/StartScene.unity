@@ -254,57 +254,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 12.91, y: 7.18}
   m_EdgeRadius: 0
---- !u!1 &151823061
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 151823063}
-  - component: {fileID: 151823062}
-  m_Layer: 0
-  m_Name: ArrowManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &151823062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151823061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc62c10143e99074d86bd2ed84b4da21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arrows:
-  - {fileID: 1166227360}
-  - {fileID: 1798904864}
-  - {fileID: 1439496424}
-  fadeDuration: 0.5
-  interval: 0.5
-  loop: 1
---- !u!4 &151823063
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151823061}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07719116, y: 0.6231668, z: -0.028785134}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &196700611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,6 +949,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1850018488}
   - component: {fileID: 1850018487}
+  - component: {fileID: 1850018489}
   m_Layer: 0
   m_Name: StartSceneManager
   m_TagString: Untagged
@@ -1044,6 +994,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1850018489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850018486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc62c10143e99074d86bd2ed84b4da21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrows: []
+  baseAlpha: 0.5
+  highlightAlpha: 1
+  interval: 0.5
+  fadeDuration: 0.5
+  loop: 1
 --- !u!1 &1859717900
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,4 +1270,3 @@ SceneRoots:
   - {fileID: 1850018488}
   - {fileID: 935670897}
   - {fileID: 196700614}
-  - {fileID: 151823063}
