@@ -96,7 +96,7 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
         ((ILightAdjustable)this).SetValue(1f);
         ((IRotatable)this).SetValue(60f);
         ((IScalable)this).SetValue(1f);
-        DisableControl();
+        // DisableControl();
     }
 
     #region ILightAdjustable

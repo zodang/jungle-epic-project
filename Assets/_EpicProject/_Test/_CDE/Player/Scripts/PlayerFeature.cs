@@ -28,6 +28,11 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         _TwinkleLv2 = _model.GetChild(1).gameObject;
     }
 
+    private void Start()
+    {
+        AudioManager.instance.PlayBgm(true);
+    }
+
     private void Update()
     {
         if (!_enableMove) return;
