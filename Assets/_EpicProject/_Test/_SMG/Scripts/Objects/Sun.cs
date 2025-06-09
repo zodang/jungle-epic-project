@@ -62,6 +62,7 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
             }
             transform.localPosition = pos;
         }
+        CheckTrigger();
     }
 
     void AdjustLight(float brightness)
@@ -79,7 +80,7 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
 
 
         // Brightness Trigger
-        CheckTrigger();
+        //CheckTrigger();
     }
 
     // 0 ~ 359
@@ -87,15 +88,15 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     {
         _lightDir.localEulerAngles = new Vector3(0, 0, -angle);
         // Brightness Trigger
-        CheckTrigger();
+        //CheckTrigger();
     }
 
     void CheckTrigger()
     {
         // 2f
-        if(_currentPosX > -2f && _currentPosX < 6f)
+        if(_currentPosX > -3f && _currentPosX < 6f)
         {
-            if(_currentAngle > 160 && _currentAngle <= 200 && _currentBright >1.6f)
+            if(_currentAngle > 120 && _currentAngle <= 210 && _currentBright >1.6f)
             {
                 EvaporationHandler[] evaporations = FindObjectsByType<EvaporationHandler>(FindObjectsSortMode.None);
                 for (int i = 0; i < evaporations.Length; i++)
