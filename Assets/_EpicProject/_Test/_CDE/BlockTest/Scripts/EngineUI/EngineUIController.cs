@@ -67,8 +67,11 @@ public class EngineUIController : MonoBehaviour
 
     public void SetProfile(ClickableProfile profile, Clickable target)
     {
+        if (profile == null) return;
+
         // 프로필 설정
         _target = target;
+        
         name.text = profile.name;
         serialNum.text = profile.serialNumber;
         status.text = profile.status;

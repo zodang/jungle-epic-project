@@ -32,6 +32,9 @@ public class EngineController : MonoBehaviour
 
     public void OpenInspector(Clickable target)
     {
+        // 다른 오브젝트일 때만 작동
+        if (CurrentTarget == target) return;
+        
         AudioManager.instance.playSfx(SfxType.Open);
         
         // Block 세팅
