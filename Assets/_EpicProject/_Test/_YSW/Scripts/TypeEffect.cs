@@ -2,12 +2,14 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using Define;
 
 public class TypeEffect : MonoBehaviour
 {
     public string targetMsg;
     public float charPerSeconds = 15f;
     TextMeshProUGUI msgText;
+    private AudioManager audioManager; // AudioManager 참조
     public bool IsPlaying { get; private set; }
 
     private Coroutine typingCoroutine;
@@ -16,6 +18,7 @@ public class TypeEffect : MonoBehaviour
     {
         msgText = GetComponent<TextMeshProUGUI>();
         if (msgText == null) { enabled = false; Debug.LogError($"TypeEffect CRITICAL ERROR: TextMeshProUGUI not found on '{gameObject.name}'.", gameObject); }
+        audioManager = AudioManager.instance;
     }
 
     public void SetMsg(string msg)
@@ -41,23 +44,29 @@ public class TypeEffect : MonoBehaviour
 
     IEnumerator EffectRoutine()
     {
-        // Debug.Log("<TypeEffect> Coroutine Started. Target: " + targetMsg);
-        // IsPlaying = true; // EffectStart에서 이미 설정됨
         int currentIndex = 0;
         while (currentIndex < targetMsg.Length)
         {
             msgText.text += targetMsg[currentIndex];
+
+            // ========== 효과음 재생 ==========
+            if (audioManager != null && targetMsg[currentIndex] != ' ')
+            {
+                audioManager.playSfx(SfxType.Text); // <--- SfxType.DialogueType 정의 필요
+            }
+            // ==============================
+
             currentIndex++;
-            if (charPerSeconds > 0) // 0으로 나누기 방지
+            if (charPerSeconds > 0)
             {
                 yield return new WaitForSecondsRealtime(1.0f / charPerSeconds);
             }
-            else // 속도가 0 이하면 한 프레임에 한 글자씩 (매우 빠름) 또는 즉시 완료 로직 필요
+            else
             {
-                yield return null; // 다음 프레임까지 대기 (또는 즉시 완료하도록 로직 수정)
+                yield return null;
             }
         }
-        EffectEnd();
+        EffectEnd(); // 코루틴에서는 EffectEnd 대신 CompleteEffect (IsPlaying 등 처리)
     }
 
     void EffectEnd()
