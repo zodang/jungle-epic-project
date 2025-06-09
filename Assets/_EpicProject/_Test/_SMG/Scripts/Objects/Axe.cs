@@ -2,14 +2,14 @@ using SMG;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAdjustable
+public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, IControllable, ILightAdjustable
 {
     // IControllable
     private bool _enableMove;
 
     // IScalable
     private float _minScale = 0.1f;
-    private float _maxScale = 10f;
+    private float _maxScale = 6f;
     private float _currentScale;
 
     // IRotatable
@@ -44,15 +44,13 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAd
         _TwinkleLv2 = _model.GetChild(5).gameObject;
 
         movement = GetComponent<Movement>();
-
-        ((IScalable)this).SetValue(1f);
-        ((IRotatable)this).SetValue(0f);
-        ((ILightAdjustable)this).SetValue(1f);
     }
 
     private void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
+
+        ResetFeature();
     }
 
     private void Update()
@@ -96,6 +94,14 @@ public class Axe : MonoBehaviour, IScalable, IRotatable, IControllable, ILightAd
             
     }
 
+    // IFeatureResetable
+    public void ResetFeature()
+    {
+        ((IScalable)this).SetValue(1f);
+        ((IRotatable)this).SetValue(0f);
+        ((ILightAdjustable)this).SetValue(1f);
+        DisableControl();
+    }
 
     #region IControllable
     public void EnableControl()
