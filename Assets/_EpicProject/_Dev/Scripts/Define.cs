@@ -1,4 +1,4 @@
-﻿namespace Define
+namespace Define
 {
     public enum SlotType
     {
@@ -18,7 +18,7 @@
 
     public enum SfxType
     {
-        Click, Close, Deny, Dial, Get, Open
+        Click, Close, Deny, Dial, Get, Open, Text, Put
     }
 
     public static class Tags

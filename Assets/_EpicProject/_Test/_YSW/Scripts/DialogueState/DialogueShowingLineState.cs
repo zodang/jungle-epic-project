@@ -5,17 +5,31 @@ public class DialogueShowingLineState : IDialogueState
 {
     public void EnterState(DialogueManager dialogueManager)
     {
-        // Debug.Log("DM State: ShowingLine");
-        dialogueManager.DisplayCurrentLineOnDialogueBubble(); // 일반 대화 말풍선에 표시
+        dialogueManager.DisplayCurrentLineOnDialogueBubble();
     }
 
     public void UpdateState(DialogueManager dialogueManager)
     {
-        if (Input.GetKeyDown(KeyCode.Space)) // 입력은 여기서 직접 처리 (InputHandler 분리 전)．
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            dialogueManager.AdvanceDialogue();
+            bool isTyping = false;
+            if (dialogueManager.CurrentDialogueBubbleUI != null)
+            {
+                isTyping = dialogueManager.CurrentDialogueBubbleUI.IsTyping();
+            }
+            Debug.Log($"<ShowingLineState> Space pressed. IsTyping: {isTyping}"); // <--- 이 로그 확인!
+
+            if (isTyping)
+            {
+                Debug.Log("<ShowingLineState> Finishing typing effect.");
+                dialogueManager.CurrentDialogueBubbleUI.CompleteTyping();
+            }
+            else
+            {
+                Debug.Log("<ShowingLineState> Advancing dialogue.");
+                dialogueManager.AdvanceDialogue();
+            }
         }
     }
-
     public void ExitState(DialogueManager dialogueManager) { }
 }
