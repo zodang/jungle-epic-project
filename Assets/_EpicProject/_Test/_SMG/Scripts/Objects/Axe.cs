@@ -30,6 +30,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     private GameObject _TwinkleLv2;
 
     Movement movement;
+    Movement2D movement2D;
 
     // Input
     InputAction moveAction;
@@ -46,6 +47,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         _TwinkleLv2 = _model.GetChild(5).gameObject;
 
         movement = GetComponent<Movement>();
+        movement2D = GetComponent<Movement2D>();
     }
 
     private void Start()
@@ -59,7 +61,8 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     {
         if(_enableMove)
         {
-            movement.Move(moveAction.ReadValue<Vector2>());
+            //movement.Move(moveAction.ReadValue<Vector2>());
+            movement2D.MoveDir = InputManager.Instance.MoveInput; 
         }
     }
 
@@ -123,6 +126,8 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         _bridgeSide.SetActive(!_enableMove);
         _footCollider.SetActive(_enableMove);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+
+        movement2D.MoveDir = Vector2.zero;
     }
 
     public void DisableControl()
@@ -131,6 +136,8 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         _bridgeSide.SetActive(!_enableMove);
         _footCollider.SetActive(_enableMove);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+
+        movement2D.MoveDir = Vector2.zero;
     }
     #endregion
 

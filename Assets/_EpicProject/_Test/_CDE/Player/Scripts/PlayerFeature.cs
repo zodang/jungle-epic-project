@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdjustable, IRotatable
 {
+    private Rigidbody2D _rigidbody2D;
+    private Vector2 _moveInput;
+
     public bool _enableMove;
     private float _speed = 5f;
     public float scaleMin = 0.5f, scaleMax = 2.0f;
@@ -17,12 +20,15 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     private float _maxRotate = 359f;
     private float _currentRotate;
 
+
     private Transform _model;
     private GameObject _TwinkleLv1;
     private GameObject _TwinkleLv2;
 
     private void Awake()
     {
+        TryGetComponent<Rigidbody2D>(out _rigidbody2D);
+
         _model = transform.GetChild(1);
         _TwinkleLv1 = _model.GetChild(0).gameObject;
         _TwinkleLv2 = _model.GetChild(1).gameObject;
@@ -32,6 +38,11 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     {
         if (!_enableMove) return;
         Move();
+    }
+
+    private void FixedUpdate()
+    {
+        _rigidbody2D.linearVelocity = _moveInput * _speed;
     }
 
     void Rotate(float angle)
@@ -79,8 +90,9 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     }
     private void Move()
     {
-        Vector2 moveInput = InputManager.Instance.MoveInput;
-        transform.Translate(moveInput * (_speed * Time.deltaTime));
+        _moveInput = InputManager.Instance.MoveInput;
+
+        //transform.Translate(moveInput * (_speed * Time.deltaTime));
     }
     #endregion
 
