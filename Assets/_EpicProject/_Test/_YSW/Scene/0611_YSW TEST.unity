@@ -2136,6 +2136,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDialogueId: npc1_greeting
   conditionalDialogues:
+  - dialogueId: npc_has_item_A_dialogue
+    requiredFlagName: npc_has_item_A
+    requiredFlagValue: 1
+    priority: 1
   - dialogueId: npc_has_item_B_dialogue
     requiredFlagName: npc_has_item_B
     requiredFlagValue: 1
@@ -11074,7 +11078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d34febff5982e8f4d88c503ca281e6ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag1Name: puzzle_A_solved
+  flag1Name: npc_has_item_A
   flag2Name: npc_has_item_B
 --- !u!4 &1663865887
 Transform:
