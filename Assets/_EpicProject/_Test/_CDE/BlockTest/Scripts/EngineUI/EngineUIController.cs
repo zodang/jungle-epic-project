@@ -76,9 +76,9 @@ public class EngineUIController : MonoBehaviour
         serialNum.text = profile.serialNumber;
         status.text = profile.status;
         
-        noteInput.onValueChanged.RemoveAllListeners();
+        /*noteInput.onValueChanged.RemoveAllListeners();
         noteInput.text = profile.note;
-        noteInput.onValueChanged.AddListener(newNote => { _target.UpdateNote(newNote);});
+        noteInput.onValueChanged.AddListener(newNote => { _target.UpdateNote(newNote);});*/
 
         targetImg.sprite = profile.sprite;
     }
