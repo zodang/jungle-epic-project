@@ -1,4 +1,4 @@
-public class InspectorSlot : Slot
+public class EngineSlot : Slot
 {
     public override void OnBlockDrop(DraggableBlock draggableBlock)
     {

@@ -6,7 +6,7 @@ public class EngineBlockController : MonoBehaviour
     private BlockFactory _blockFactory;
 
     private EngineSlotGroup _engineSlotGroup;
-    private List<InspectorSlot> _slotList;
+    private List<EngineSlot> _slotList;
     private Transform[] _slotTransforms;
 
     private void Awake()
@@ -14,7 +14,7 @@ public class EngineBlockController : MonoBehaviour
         _blockFactory = FindAnyObjectByType<BlockFactory>();
         _engineSlotGroup = FindAnyObjectByType<EngineSlotGroup>();
         
-        _slotList = new List<InspectorSlot>(_engineSlotGroup.GetComponentsInChildren<InspectorSlot>());
+        _slotList = new List<EngineSlot>(_engineSlotGroup.GetComponentsInChildren<EngineSlot>());
         _slotTransforms = new Transform[_slotList.Count];
         for (int i = 0; i < _slotList.Count; i++)
         {
