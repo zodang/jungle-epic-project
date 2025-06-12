@@ -9,7 +9,7 @@ public class EngineUIController : MonoBehaviour
     public Action OnClickCloseBtn;
     
     [Header("Profile")]
-    [SerializeField] private TMP_Text name;
+    [SerializeField] private TMP_Text gameName;
     [SerializeField] private TMP_Text serialNum;
     [SerializeField] private TMP_Text status;
     [SerializeField] private Image targetImg;
@@ -68,7 +68,7 @@ public class EngineUIController : MonoBehaviour
         if (profile == null) return;
 
         // 프로필 설정
-        name.text = profile.name;
+        gameName.text = profile.name;
         serialNum.text = profile.serialNumber;
         status.text = profile.status;
 
