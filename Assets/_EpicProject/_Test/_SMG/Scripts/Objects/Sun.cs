@@ -26,6 +26,7 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     private bool _enableMove;
     private float _speed = 5f;
 
+    private Transform _model;
     private Transform _lightDir;
 
     [Header("Move Position")]
@@ -37,6 +38,7 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        _model = transform.GetChild(0);
         _lightDir = transform.GetChild(1);
     }
 
@@ -79,6 +81,7 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     // 0 ~ 359
     void SetRotate(float angle)
     {
+        _model.localEulerAngles = new Vector3(0, 0, -angle);
         _lightDir.localEulerAngles = new Vector3(0, 0, -angle);
     }
 
