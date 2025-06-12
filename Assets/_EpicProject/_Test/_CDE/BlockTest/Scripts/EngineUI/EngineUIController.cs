@@ -12,7 +12,6 @@ public class EngineUIController : MonoBehaviour
     [SerializeField] private TMP_Text name;
     [SerializeField] private TMP_Text serialNum;
     [SerializeField] private TMP_Text status;
-    [SerializeField] private TMP_InputField noteInput;
     [SerializeField] private Image targetImg;
     
     [Header("Button")]
@@ -26,10 +25,9 @@ public class EngineUIController : MonoBehaviour
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
     
-    private Vector2 _offset = new Vector2(-600, 0);
+    private Vector2 _offset = new Vector2(-300, 0);
     private float _minOpacity = 0.4f;
 
-    private Clickable _target;
 
     private void Awake()
     {
@@ -70,22 +68,11 @@ public class EngineUIController : MonoBehaviour
         if (profile == null) return;
 
         // 프로필 설정
-        _target = target;
-        
         name.text = profile.name;
         serialNum.text = profile.serialNumber;
         status.text = profile.status;
-        
-        /*noteInput.onValueChanged.RemoveAllListeners();
-        noteInput.text = profile.note;
-        noteInput.onValueChanged.AddListener(newNote => { _target.UpdateNote(newNote);});*/
 
         targetImg.sprite = profile.sprite;
-    }
-
-    public void ClearProfile()
-    {
-        _target = null;
     }
     
     public void SetUIPosition(Clickable clickable)

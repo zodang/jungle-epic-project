@@ -49,7 +49,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
             _instance = this as T;
 
             // Use DontDestroyOnLoad to make persistent but clean up/dispose manually
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else if (_instance != this)
         {

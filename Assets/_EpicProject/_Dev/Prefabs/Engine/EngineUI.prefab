@@ -2599,7 +2599,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 211, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 422, y: 772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8316383035046217022
@@ -2664,6 +2664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cb1edf60eee02489aa83b4bd17f50b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentTarget: {fileID: 0}
   _durationTime: 0.25
 --- !u!114 &2842718827581661126
 MonoBehaviour:
@@ -2680,7 +2681,6 @@ MonoBehaviour:
   name: {fileID: 5966841144793629612}
   serialNum: {fileID: 4467833799178294162}
   status: {fileID: 4756626051890711366}
-  noteInput: {fileID: 0}
   targetImg: {fileID: 3337062547206469028}
   closeBtn: {fileID: 6833456418378469478}
   resetBtn: {fileID: 1050084019029358897}
