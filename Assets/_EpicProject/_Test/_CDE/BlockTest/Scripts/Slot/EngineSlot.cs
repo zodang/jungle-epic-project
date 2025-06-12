@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class EngineSlot : Slot
 {
     private EngineController _engineController;
@@ -29,8 +27,6 @@ public class EngineSlot : Slot
     private void DropInventoryToEngine(InventoryBlock inventoryBlock)
     {
         // 인벤토리 → 엔진
-        Debug.Log("@@DE ---> 인벤토리 \u2192 엔진");
-        
         var clickable = _engineController.CurrentTarget;
         if (clickable == null) return;
 
@@ -43,7 +39,6 @@ public class EngineSlot : Slot
     {
         if (engineBlock.PrevSlot == null)
         {
-            Debug.Log("@@@@ 기본 블록");
             // 기본 블록
             base.OnBlockDrop(engineBlock, endSlot);
             return;
@@ -56,12 +51,12 @@ public class EngineSlot : Slot
         
         if (prevClickable == thisClickable)
         {
-            Debug.Log("@@DE ---> 엔진 \u2192 같은 엔진");
+            // 엔진 → 같은 엔진
             base.OnBlockDrop(engineBlock, endSlot);
             return;
         }
             
-        Debug.Log("@@DE ---> 엔진 \u2192 다른 엔진");
+        // 엔진 → 다른 엔진
         prevClickable.RemoveBlockFromClickable(engineBlock.Type);
         engineBlock.Deactivate(engineBlock);
                 

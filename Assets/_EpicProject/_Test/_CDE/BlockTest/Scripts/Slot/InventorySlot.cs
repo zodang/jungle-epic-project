@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class InventorySlot : Slot
 {
     public override void OnBlockDrop(DraggableBlock draggableBlock, Slot endSlot)
@@ -16,8 +14,7 @@ public class InventorySlot : Slot
 
     private void DropEngineToInventory(EngineBlock engineBlock)
     {
-        Debug.Log("@@DE --> 엔진 \u2192 인벤토리");
-
+        // 엔진 → 인벤토리
         if (engineBlock.PrevSlot is EngineSlot engineSlot)
         {
             EngineController engineController = engineSlot.GetComponentInParent<EngineController>();
