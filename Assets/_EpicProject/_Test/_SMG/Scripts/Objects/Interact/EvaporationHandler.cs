@@ -18,7 +18,7 @@ public class EvaporationHandler : MonoBehaviour
         if(TryGetComponent<Tilemap>(out tilemap))
         {
             StartCoroutine(EvaporateCoroutine(tilemap));
-            FlagManager.Instance.SetFlag("npc_has_item_A", true);
+            FlagManager.Instance.SetFlag("npc_after_puzzle_A", true);
             Debug.Log("플래그 셋");
         }
         else
