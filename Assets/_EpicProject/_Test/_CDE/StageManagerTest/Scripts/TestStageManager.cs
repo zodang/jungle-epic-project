@@ -30,7 +30,7 @@ public class TestStageManager : MonoBehaviour
 
     private void Awake()
     {
-        LoadStage();
+        LoadClickableProfile();
     }
 
     private void Start()
@@ -38,7 +38,7 @@ public class TestStageManager : MonoBehaviour
         AudioManager.instance.PlayBgm(true);
     }
 
-    public void LoadStage()
+    public void LoadClickableProfile()
     {
         TextAsset json = Resources.Load<TextAsset>(StageFileName);
         if (json == null)
