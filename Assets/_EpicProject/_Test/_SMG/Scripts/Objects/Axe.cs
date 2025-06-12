@@ -23,37 +23,24 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     private float _currentBright;
 
     private Transform _model;
-    //private GameObject _spriteOnly;
     private GameObject _bridgeSide;
-    private GameObject _footCollider;
     private GameObject _TwinkleLv1;
     private GameObject _TwinkleLv2;
 
-    Movement movement;
-    Movement2D movement2D;
-
-    // Input
-    InputAction moveAction;
-
-
+    private Movement2D _movement2D;
 
     private void Awake()
     {
         _model = transform.GetChild(0);
-        //_spriteOnly = transform.GetChild(1).gameObject;
-        _bridgeSide = _model.GetChild(3).gameObject;
-        _footCollider = _model.GetChild(1).gameObject;
-        _TwinkleLv1 = _model.GetChild(4).gameObject;
-        _TwinkleLv2 = _model.GetChild(5).gameObject;
+        _bridgeSide = _model.GetChild(1).gameObject;
+        _TwinkleLv1 = _model.GetChild(2).gameObject;
+        _TwinkleLv2 = _model.GetChild(3).gameObject;
 
-        movement = GetComponent<Movement>();
-        movement2D = GetComponent<Movement2D>();
+        _movement2D = GetComponent<Movement2D>();
     }
 
     private void Start()
     {
-        moveAction = InputSystem.actions.FindAction("Move");
-
         ResetFeature();
     }
 
@@ -61,22 +48,9 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     {
         if(_enableMove)
         {
-            //movement.Move(moveAction.ReadValue<Vector2>());
-            movement2D.MoveDir = InputManager.Instance.MoveInput; 
+            _movement2D.MoveDir = InputManager.Instance.MoveInput; 
         }
     }
-
-    //public void EnableActive()
-    //{
-    //    _model.gameObject.SetActive(true);
-    //    _spriteOnly.SetActive(false);
-    //}
-
-    //public void DisableActive()
-    //{
-    //    _model.gameObject.SetActive(false);
-    //    _spriteOnly.SetActive(true);
-    //}
 
     void Resize(float scale)
     {
@@ -124,20 +98,18 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     {
         _enableMove = true;
         _bridgeSide.SetActive(!_enableMove);
-        _footCollider.SetActive(_enableMove);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
-        movement2D.MoveDir = Vector2.zero;
+        _movement2D.MoveDir = Vector2.zero;
     }
 
     public void DisableControl()
     {
         _enableMove = false;
         _bridgeSide.SetActive(!_enableMove);
-        _footCollider.SetActive(_enableMove);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
-        movement2D.MoveDir = Vector2.zero;
+        _movement2D.MoveDir = Vector2.zero;
     }
     #endregion
 
