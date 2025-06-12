@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Define;
 using TMPro;
 using UnityEngine;
@@ -113,8 +114,11 @@ public class InputManager : Singleton<InputManager>
             
             Vector2 screenPos = Mouse.current.position.ReadValue();
             Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-            
-            RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, float.PositiveInfinity, LayerMask.GetMask("Clickable"));
+
+            // RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, float.PositiveInfinity, LayerMask.GetMask("Clickable"));
+            RaycastHit2D[] hits = Physics2D.RaycastAll(worldPos, Vector2.zero, float.PositiveInfinity, LayerMask.GetMask("Clickable"));
+            RaycastHit2D hit = hits.OrderBy(h => h.transform.position.z).FirstOrDefault();
+
             var clickable = hit.collider != null
                 ? hit.collider.GetComponentInParent<IClickable>()
                 : null;
