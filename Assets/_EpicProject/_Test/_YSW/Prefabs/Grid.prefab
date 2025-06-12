@@ -2303,7 +2303,6 @@ GameObject:
   - component: {fileID: 5757002944603206253}
   - component: {fileID: 3221108485060275727}
   - component: {fileID: 3698052677678445452}
-  - component: {fileID: 3657673061518866360}
   - component: {fileID: 5494807515301086572}
   m_Layer: 6
   m_Name: Water
@@ -2321,7 +2320,7 @@ Transform:
   m_GameObject: {fileID: 1300417104735566655}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3247,20 +3246,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!114 &3657673061518866360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300417104735566655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd9f5c7c513f0f8458a79aca1aca8364, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ID: 3
-  defaultBlockTypes: 
 --- !u!114 &5494807515301086572
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,16 +8,19 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     private float _minBright = 1f;  //0.1f; 
     private float _maxBright = 2f;  //3f
     private float _currentBright;
+    private const float _defaultBright = 1.1f;
 
     // IRotatable: 회전 관련
     private float _minAngle = 0f;
     private float _maxAngle = 359f;
     private float _currentAngle;
+    private const float _defaultAngle = 60f;
 
     // IScalable
     private float _minScale = 0.8f;
     private float _maxScale = 1.5f;
     private float _currentScale;
+    private const float _defaultScale = 1f;
 
     // IControllable
     private bool _enableMove;
@@ -67,28 +70,16 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
 
     void AdjustLight(float brightness)
     {
-        //// Color Alpha
-        //float alpha = brightness / 2.0f;
-        //Color color = _lightDir.GetComponentInChildren<SpriteRenderer>().color;
-        //color.a = alpha;
-        //_lightDir.GetComponentInChildren<SpriteRenderer>().color = color;
-
         // Sun Dir
         if (_currentBright < 1f)
             _currentBright = 1f;
         _lightDir.localScale = (_currentBright - 1f) * Vector3.one;
-
-
-        // Brightness Trigger
-        //CheckTrigger();
     }
 
     // 0 ~ 359
     void SetRotate(float angle)
     {
         _lightDir.localEulerAngles = new Vector3(0, 0, -angle);
-        // Brightness Trigger
-        //CheckTrigger();
     }
 
     void CheckTrigger()
@@ -110,9 +101,9 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     // IFeatureResetable
     public void ResetFeature()
     {
-        ((ILightAdjustable)this).SetValue(1f);
-        ((IRotatable)this).SetValue(60f);
-        ((IScalable)this).SetValue(1f);
+        ((ILightAdjustable)this).SetValue(_defaultBright);
+        ((IRotatable)this).SetValue(_defaultAngle);
+        ((IScalable)this).SetValue(_defaultScale);
         // DisableControl();
     }
 
