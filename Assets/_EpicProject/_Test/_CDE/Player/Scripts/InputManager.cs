@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class InputManager : Singleton<InputManager>
 {
     public event Action OnInteract;
+    public event Action OnOffEngine;
     public Vector2 MoveInput { get; private set; }
 
     private InputActionAsset _inputActionAsset;
@@ -17,6 +18,7 @@ public class InputManager : Singleton<InputManager>
     private InputAction _interactionAction;
     private InputAction _talkAction;
     private InputAction _clickAction;
+    private InputAction _OffEngineAction;
     
     private bool _isClicked;
 
@@ -33,11 +35,13 @@ public class InputManager : Singleton<InputManager>
         _interactionAction = _actionMap.FindAction("Interact");
         _talkAction = _actionMap.FindAction("Talk");
         _clickAction = _actionMap.FindAction("Click");
+        _OffEngineAction = _actionMap.FindAction("OffEngine");
 
         _moveAction.performed += OnMovePerformed;
         _moveAction.canceled += OnMoveCanceled;
         _interactionAction.performed += OnInteractionPerformed;
         _clickAction.performed += OnCLickPerformed;
+        _OffEngineAction.performed += OnOffEnginePerformed;
 
         _actionMap.Enable();
     }
@@ -66,6 +70,11 @@ public class InputManager : Singleton<InputManager>
     {
         _isClicked = true;
     }
+    
+    private void OnOffEnginePerformed(InputAction.CallbackContext context)
+    {
+        OnOffEngine?.Invoke();
+    }
 
     private bool IsInputFieldFocused()
     {
@@ -87,6 +96,8 @@ public class InputManager : Singleton<InputManager>
         _clickAction.performed -= OnCLickPerformed;
 
         OnInteract = null;
+        OnOffEngine = null;
+        
         _inputActionAsset = null;
         _actionMap = null;
     }

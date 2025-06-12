@@ -1,3 +1,4 @@
+using Define;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ public class EngineManager : Singleton<EngineManager>
 
     private void Start()
     {
+        // ESC 키로 모든 EngineUI 비활성화
+        InputManager.Instance.OnOffEngine += DeactivateAllEngine;
+        
         // Clickable마다 UI 추가
         Clickable[] clickables = FindObjectsByType<Clickable>(FindObjectsSortMode.None);
 
@@ -38,6 +42,26 @@ public class EngineManager : Singleton<EngineManager>
         if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
         {
             engineController.RefreshSlot(clickable);
+        }
+    }
+
+    private void DeactivateAllEngine()
+    {
+        bool anyDeactivated = false;
+        
+        foreach (var engineController in _engineDictionary.Values)
+        {
+            if (engineController.gameObject.activeSelf)
+            {
+                engineController.DeactivateSilently();
+                anyDeactivated = true;
+            }
+        }
+
+        if (anyDeactivated)
+        {
+            // 하나라도 꺼진다면 효과음 재생
+            AudioManager.instance.playSfx(SfxType.Close);
         }
     }
 }
