@@ -8,7 +8,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     private bool _enableMove;
 
     // IScalable
-    private float _minScale = 0.1f;
+    private float _minScale = 0.3f;
     private float _maxScale = 6f;
     private float _currentScale;
 
