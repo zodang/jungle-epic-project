@@ -21,18 +21,18 @@ public class Inventory : MonoBehaviour
     public void Collect(BlockType type)
     {
         BlockTypeList.Add(type);
-        AddBlock(type);
+        AddBlockToInventory(type);
     }
 
-    public void AddBlock(BlockType type)
+    public void AddBlockToInventory(BlockType type)
     {
         // 빈 슬롯 찾기
-        foreach (var slot in _slotList)
+        foreach (InventorySlot slot in _slotList)
         {
             if (slot.GetChildBlock() == null)
             {
                 var blockUI = _blockFactory.CreateBlockUI(type, slot.transform);
-                slot.OnBlockDrop(blockUI);
+                slot.OnBlockDrop(blockUI, slot);
                 break;
             }
         }

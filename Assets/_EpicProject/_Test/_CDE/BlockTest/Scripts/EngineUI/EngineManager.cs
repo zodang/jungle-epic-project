@@ -1,0 +1,67 @@
+using Define;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EngineManager : Singleton<EngineManager>
+{
+    [SerializeField] private EngineController engineUIPrefab;
+    private Dictionary<Clickable, EngineController> _engineDictionary = new();
+
+    private void Start()
+    {
+        // ESC 키로 모든 EngineUI 비활성화
+        InputManager.Instance.OnOffEngine += DeactivateAllEngine;
+        
+        // Clickable마다 UI 추가
+        Clickable[] clickables = FindObjectsByType<Clickable>(FindObjectsSortMode.None);
+
+        foreach (var clickable in clickables)
+        {
+            EngineController engineUI = Instantiate(engineUIPrefab, transform);
+            _engineDictionary.Add(clickable, engineUI);
+
+            // Clickable의 기본 블록 세팅
+            clickable.InitDefaultBlock();
+            
+            // Clickable대로 EngineUI 세팅 
+            engineUI.InitEngineController(clickable);
+        }
+    }
+    
+    public void ActivateEngineUI(Clickable clickable)
+    {
+        if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
+        {
+            engineController.gameObject.SetActive(true);
+            engineController.Activate();
+        }
+    }
+
+    public void NotifyBlockChanged(Clickable clickable)
+    {
+        if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
+        {
+            engineController.RefreshSlot(clickable);
+        }
+    }
+
+    private void DeactivateAllEngine()
+    {
+        bool anyDeactivated = false;
+        
+        foreach (var engineController in _engineDictionary.Values)
+        {
+            if (engineController.gameObject.activeSelf)
+            {
+                engineController.DeactivateSilently();
+                anyDeactivated = true;
+            }
+        }
+
+        if (anyDeactivated)
+        {
+            // 하나라도 꺼진다면 효과음 재생
+            AudioManager.instance.playSfx(SfxType.Close);
+        }
+    }
+}
