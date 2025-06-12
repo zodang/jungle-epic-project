@@ -26,7 +26,6 @@ public class EngineController : MonoBehaviour
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
         
-        gameObject.AddComponent<DraggableUI>();
         gameObject.SetActive(false);
     }
 
