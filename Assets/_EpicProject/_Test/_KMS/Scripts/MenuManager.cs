@@ -5,7 +5,7 @@ public class MenuManager : MonoBehaviour
 {
     public void OnStartGame()
     {
-        SceneManager.LoadScene("0609_TestMainScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         Debug.Log("게임시작");
     }
 
