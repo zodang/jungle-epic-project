@@ -23,52 +23,55 @@ public class EngineController : MonoBehaviour
     private void Start()
     {
         // Button 기능 연결
-        _engineUIController.OnClickCloseBtn += CloseInspector;
+        _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
         
-        gameObject.AddComponent<DraggableUI>();
         gameObject.SetActive(false);
     }
 
-    public void OpenInspector(Clickable target)
+    public void InitEngineController(Clickable target)
     {
-        // 다른 오브젝트일 때만 작동
-        if (CurrentTarget == target) return;
-        
-        AudioManager.instance.playSfx(SfxType.Open);
+        CurrentTarget = target;
         
         // Block 세팅
-        CurrentTarget = target;
-        _engineBlockInspector.AddBlock(target);
-        
+        RefreshSlot(target);
+
         // UI 세팅
         _engineUIController.SetProfile(target.GetProfile(), target);
         _engineUIController.SetUIPosition(target);
-        
-        gameObject.SetActive(true);
-        
-        // On 애니메이션 실행 
-        _engineAnimator.Play("On Ani");
     }
 
-    private void CloseInspector()
+    public void RefreshSlot(Clickable target)
     {
-        AudioManager.instance.playSfx(SfxType.Close);
-
-        CurrentTarget = null;
-        _engineUIController.ClearProfile();
-
+        _engineBlockInspector.AddBlock(target);
+    }
+    
+    public void Activate()
+    {
+        // On 애니메이션 실행 
+        _engineAnimator.Play("On Ani");
+        AudioManager.instance.playSfx(SfxType.Open);
+    }
+    
+    private void Deactivate()
+    {
+        if (!gameObject.activeSelf) return;
+        
         // Off 애니메이션 실행 
+        _engineAnimator.Play("Off Ani");
+        StartCoroutine(CloseAfterAnimation());
+        
+        AudioManager.instance.playSfx(SfxType.Close);
+    }
+
+    public void DeactivateSilently()
+    {
+        if (!gameObject.activeSelf) return;
+
         _engineAnimator.Play("Off Ani");
         StartCoroutine(CloseAfterAnimation());
     }
     
-    public void RefreshSlot(Clickable target)
-    {
-        CurrentTarget = target;
-        _engineBlockInspector.AddBlock(target);
-    }
-
     private void ResetFeature()
     {
         if (CurrentTarget == null) return;
@@ -88,10 +91,6 @@ public class EngineController : MonoBehaviour
     private IEnumerator CloseAfterAnimation()
     {
         yield return new WaitForSeconds(_durationTime);
-
-        CurrentTarget = null;
-        _engineUIController.ClearProfile();
-
         gameObject.SetActive(false);
     }
 }

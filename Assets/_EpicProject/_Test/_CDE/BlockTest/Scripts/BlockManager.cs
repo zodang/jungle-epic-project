@@ -16,9 +16,9 @@ public class BlockManager
             EngineBlock engineBlock = factory.CreateFeatureBlock(blockType, slot);
 
             // Slot이 있다면 해당 Slot에 배치
-            if (slot != null && slot.TryGetComponent<InspectorSlot>(out InspectorSlot inspectorSlot))
+            if (slot != null && slot.TryGetComponent<EngineSlot>(out EngineSlot engineSlot))
             {
-                inspectorSlot.OnBlockDrop(engineBlock);
+                engineSlot.OnBlockDrop(engineBlock, engineSlot);
             }
             
             // 기능 활성화
@@ -37,7 +37,7 @@ public class BlockManager
             if (engineBlock == null) continue;
             
             // Slot이 있다면 해당 Slot에서 제거
-            if (slot.TryGetComponent<InspectorSlot>(out var inspectorSlot))
+            if (slot.TryGetComponent<EngineSlot>(out var inspectorSlot))
             {
                 inspectorSlot.OnBlockRemoved();
             }

@@ -30,7 +30,7 @@ public class TestStageManager : MonoBehaviour
 
     private void Awake()
     {
-        LoadStage();
+        LoadClickableProfile();
     }
 
     private void Start()
@@ -38,7 +38,7 @@ public class TestStageManager : MonoBehaviour
         AudioManager.instance.PlayBgm(true);
     }
 
-    public void LoadStage()
+    public void LoadClickableProfile()
     {
         TextAsset json = Resources.Load<TextAsset>(StageFileName);
         if (json == null)
@@ -56,11 +56,11 @@ public class TestStageManager : MonoBehaviour
             _profileDic[profile.id] = profile;
         }
         
-        foreach (var clickable in FindObjectsOfType<Clickable>())
+        foreach (var clickable in FindObjectsByType<Clickable>(FindObjectsSortMode.None))
         {
             if (_profileDic.TryGetValue(clickable.ID, out var profile))
             {
-                clickable.Init(profile);
+                clickable.InitProfile(profile);
             }
         }
     }

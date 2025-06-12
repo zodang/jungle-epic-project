@@ -5,13 +5,15 @@ public abstract class TriggerControlBase<TFeature> : EngineBlock where TFeature 
     public override void Activate(object feature)
     {
         _feature = feature as TFeature;
+        if (_feature == null) return;
         
         // 기능 활성화
-        if (_feature != null) EnableFeature(_feature);
+        EnableFeature(_feature);
     }
 
     public override void Deactivate(object feature)
     {
+        if (_feature == null) return;
         // 기능 비활성화
         DisableFeature(_feature);
         _feature = null;

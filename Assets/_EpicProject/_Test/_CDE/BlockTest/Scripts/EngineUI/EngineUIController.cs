@@ -9,10 +9,9 @@ public class EngineUIController : MonoBehaviour
     public Action OnClickCloseBtn;
     
     [Header("Profile")]
-    [SerializeField] private TMP_Text name;
+    [SerializeField] private TMP_Text gameName;
     [SerializeField] private TMP_Text serialNum;
     [SerializeField] private TMP_Text status;
-    [SerializeField] private TMP_InputField noteInput;
     [SerializeField] private Image targetImg;
     
     [Header("Button")]
@@ -26,10 +25,9 @@ public class EngineUIController : MonoBehaviour
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
     
-    private Vector2 _offset = new Vector2(-600, 0);
+    private Vector2 _offset = new Vector2(-300, 0);
     private float _minOpacity = 0.4f;
 
-    private Clickable _target;
 
     private void Awake()
     {
@@ -70,59 +68,43 @@ public class EngineUIController : MonoBehaviour
         if (profile == null) return;
 
         // 프로필 설정
-        _target = target;
-        
-        name.text = profile.name;
+        gameName.text = profile.name;
         serialNum.text = profile.serialNumber;
         status.text = profile.status;
-        
-        /*noteInput.onValueChanged.RemoveAllListeners();
-        noteInput.text = profile.note;
-        noteInput.onValueChanged.AddListener(newNote => { _target.UpdateNote(newNote);});*/
 
         targetImg.sprite = profile.sprite;
-    }
-
-    public void ClearProfile()
-    {
-        _target = null;
     }
     
     public void SetUIPosition(Clickable clickable)
     {
-        // 스크린 좌표로 변환
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
 
-        // 우측에 UI 위치
+        // 기본 위치는 왼쪽 (Offset 적용)
         Vector2 targetPos = screenPos + _offset;
 
-        // 팝업 UI 크기/캔버스 크기 가져오기
         Vector2 uiSize = _rectTransform.sizeDelta * _canvas.scaleFactor;
         float halfWidth = uiSize.x * 0.5f;
         float halfHeight = uiSize.y * 0.5f;
 
-        // 화면 끝 계산 (스크린 좌표)
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;
 
-        // 짤림 검사
-        // (1) 오른쪽 끝 넘침 → 왼쪽에 붙임
+        // (1) 오른쪽 화면을 벗어나면 → 왼쪽으로 붙임
         if (targetPos.x + halfWidth > screenWidth)
-            targetPos.x = screenPos.x - _offset.x - uiSize.x;
+            targetPos.x = screenPos.x - Mathf.Abs(_offset.x) - uiSize.x;
 
-        // (2) 왼쪽 끝 넘침 → 오른쪽에 붙임
+        // (2) 왼쪽 화면을 벗어나면 → 오른쪽으로 붙임
         if (targetPos.x - halfWidth < 0)
-            targetPos.x = screenPos.x + _offset.x;
+            targetPos.x = screenPos.x + Mathf.Abs(_offset.x);
 
-        // (3) 위쪽 끝 넘침 → 아래로 내림
+        // (3) 위쪽 화면을 벗어나면 → 아래로 내림
         if (targetPos.y + halfHeight > screenHeight)
             targetPos.y = screenHeight - halfHeight - 10;
 
-        // (4) 아래쪽 끝 넘침 → 위로 올림
+        // (4) 아래쪽 화면을 벗어나면 → 위로 올림
         if (targetPos.y - halfHeight < 0)
             targetPos.y = halfHeight + 10;
 
-        // UI 위치 변경
         _rectTransform.position = targetPos;
     }
 
