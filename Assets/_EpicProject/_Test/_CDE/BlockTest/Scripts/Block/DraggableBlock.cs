@@ -58,7 +58,8 @@ public abstract class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHa
         // 새 slot으로 이동
         if (nextSlot != null && nextSlot.CanDrop())
         {
-            nextSlot.OnBlockDrop(this);
+            PrevSlot?.OnBlockDrop(this, nextSlot);
+            nextSlot.OnBlockDrop(this, nextSlot);
             PrevSlot?.OnBlockRemoved();
         }
         

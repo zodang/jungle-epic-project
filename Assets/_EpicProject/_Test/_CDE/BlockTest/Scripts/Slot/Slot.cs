@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Slot : MonoBehaviour
@@ -10,7 +9,7 @@ public class Slot : MonoBehaviour
         return _currentDraggableBlock == null;
     }
     
-    public virtual void OnBlockDrop(DraggableBlock draggableBlock)
+    public virtual void OnBlockDrop(DraggableBlock draggableBlock, Slot endSlot)
     {
         _currentDraggableBlock = draggableBlock;
         

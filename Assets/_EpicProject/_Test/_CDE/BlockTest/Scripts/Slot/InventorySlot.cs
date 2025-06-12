@@ -1,26 +1,36 @@
 public class InventorySlot : Slot
 {
-    public override void OnBlockDrop(DraggableBlock draggableBlock)
+    public override void OnBlockDrop(DraggableBlock draggableBlock, Slot endSlot)
     {
-        if (draggableBlock is EngineBlock featureBlock)
+        // 엔진 → 인벤토리  
+        if (draggableBlock is EngineBlock engineBlock)
         {
-            var clickable = FindAnyObjectByType<EngineController>().CurrentTarget;
+            DropEngineToInventory(engineBlock);
+            return;
+        }
+        
+        base.OnBlockDrop(draggableBlock, endSlot);
+    }
+
+    private void DropEngineToInventory(EngineBlock engineBlock)
+    {
+        // 엔진 → 인벤토리
+        if (engineBlock.PrevSlot is EngineSlot engineSlot)
+        {
+            EngineController engineController = engineSlot.GetComponentInParent<EngineController>();
+            Clickable clickable = engineController?.CurrentTarget;
             if (clickable == null) return;
 
-            // clickable의 리스트에서 제거 및 비활성화
-            clickable.RemoveBlock(featureBlock.Type);
-            featureBlock.Deactivate(featureBlock);
-
-            // Feature Block 제거 및 Block UI 생성
-            Destroy(featureBlock.gameObject);
-            FindAnyObjectByType<Inventory>().AddBlock(featureBlock.Type);
-
-            // 슬롯 상태 갱신
-            base.OnBlockRemoved();
+            // Clickable에서 Block 제거 후 기능 비활성화
+            clickable.RemoveBlockFromClickable(engineBlock.Type);
+            engineBlock.Deactivate(engineBlock);
         }
-        else
-        {
-            base.OnBlockDrop(draggableBlock);
-        }
+
+        // Inventory에 Block 추가 후 UI 삭제
+        FindAnyObjectByType<Inventory>().AddBlockToInventory(engineBlock.Type);
+        Destroy(engineBlock.gameObject);
+
+        // 슬롯 상태 갱신
+        base.OnBlockRemoved();
     }
 }

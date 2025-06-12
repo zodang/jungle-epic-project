@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Define;
 using UnityEngine;
 
-
 public class Clickable : MonoBehaviour, IClickable
 {
     // 저장할 Profile 데이터
@@ -12,19 +11,12 @@ public class Clickable : MonoBehaviour, IClickable
     public List<BlockType> BlockTypeList { get; private set; } = new List<BlockType>();
     [SerializeField] private List<BlockType> defaultBlockTypes = new List<BlockType>();
 
-    private EngineController _engineController;
-
-    private void Awake()
-    {
-        _engineController = FindAnyObjectByType<EngineController>();
-    }
-
-    public void Init(ClickableProfile profile)
+    public void InitProfile(ClickableProfile profile)
     {
         _profile = profile;
     }
 
-    private void Start()
+    public void InitDefaultBlock()
     {
         // Default Block 추가
         foreach (var type in defaultBlockTypes)
@@ -34,36 +26,30 @@ public class Clickable : MonoBehaviour, IClickable
                 BlockTypeList.Add(type);
             }
         }
-        BlockManager.ApplyBlockToTarget(this, FindAnyObjectByType<BlockFactory>());
     }
 
     public void OnClicked()
     {
         // 클릭 시 InspectorUI 활성화
-        _engineController.OpenInspector(this);
+        EngineManager.Instance.ActivateEngineUI(this);
     }
     
-    public void AddBlock(BlockType type)
+    public void AddBlockToClickable(BlockType type)
     {
-        // Inventory에서 Inspector에서 드롭 시
+        // Inventory에서 Engine으로 드롭 시
         BlockTypeList.Add(type);
-        _engineController.RefreshSlot(this);
+        EngineManager.Instance.NotifyBlockChanged(this);
     }
     
-    public void RemoveBlock(BlockType type)
+    public void RemoveBlockFromClickable(BlockType type)
     {
-        // Inspector에서 Inventory로 드롭 시
+        // Engine에서 Inventory로 드롭 시
         BlockTypeList.Remove(type);
-        _engineController.RefreshSlot(this);
+        EngineManager.Instance.NotifyBlockChanged(this);
     }
 
     public ClickableProfile GetProfile()
     {
         return _profile;
-    }
-
-    public void UpdateNote(string newNote)
-    {
-        _profile.note = newNote;
     }
 }
