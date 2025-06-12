@@ -2,7 +2,7 @@ using SMG;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdjustable, IRotatable
+public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdjustable, IRotatable, IFeatureResetable
 {
     private Rigidbody2D _rigidbody2D;
     private Vector2 _moveInput;
@@ -35,6 +35,11 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         _TwinkleLv2 = _model.GetChild(1).gameObject;
     }
 
+    private void Start()
+    {
+        ResetFeature();
+    }
+
     private void Update()
     {
         if (!_enableMove) return;
@@ -48,8 +53,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
 
     void Rotate(float angle)
     {
-
-        //_model.localEulerAnles = new Vector3(0, 0, angle);
+        _model.localEulerAngles = new Vector3(0, 0, -angle);
     }
 
     void Twinkle(float bright)
@@ -77,6 +81,13 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
                 _TwinkleLv2.SetActive(false);
             }
         }
+    }
+
+    public void ResetFeature()
+    {
+        ((IScalable)this).SetValue(1f);
+        ((IRotatable)this).SetValue(0f);
+        ((ILightAdjustable)this).SetValue(1f);
     }
 
     #region Control
@@ -133,7 +144,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     void IRotatable.SetValue(float value)
     {
         _currentRotate = value;
-
+        Rotate(_currentRotate);
     }
     #endregion
 
