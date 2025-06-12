@@ -311,7 +311,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6616162118734565932}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.91, y: -3.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -334,8 +334,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDialogueId: npc1_greeting
   conditionalDialogues:
-  - dialogueId: npc_has_item_A_dialogue
-    requiredFlagName: npc_has_item_A
+  - dialogueId: npc_after_puzzle_A_solved
+    requiredFlagName: npc_after_puzzle_A
     requiredFlagValue: 1
     priority: 0
   speechBubbleAnchor: {fileID: 2746151081743463131}
