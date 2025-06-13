@@ -1,4 +1,4 @@
-using SMG;
+using Define;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     private Transform _model;
     private GameObject _TwinkleLv1;
     private GameObject _TwinkleLv2;
-
+    private PlayerAnimation _playerAnimation;
     private void Awake()
     {
         TryGetComponent<Rigidbody2D>(out _rigidbody2D);
@@ -33,6 +33,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         _model = transform.GetChild(1);
         _TwinkleLv1 = _model.GetChild(0).gameObject;
         _TwinkleLv2 = _model.GetChild(1).gameObject;
+        _playerAnimation = transform.GetComponentInChildren<PlayerAnimation>();
     }
 
     private void Start()
@@ -75,10 +76,12 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
             if (bright >= 2.5f)
             {
                 _TwinkleLv2.SetActive(true);
+                _playerAnimation.ChangeSkin(PlayerSkinType.BaldHead);
             }
             else
             {
                 _TwinkleLv2.SetActive(false);
+                _playerAnimation.ChangeSkin(PlayerSkinType.Default);
             }
         }
     }

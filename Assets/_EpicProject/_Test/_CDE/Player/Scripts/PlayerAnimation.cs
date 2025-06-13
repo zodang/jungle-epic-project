@@ -1,14 +1,50 @@
+using Define;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private Animator _anim;
+    private Animator _animator;
     private SpriteRenderer _spriteRenderer;
-
+    
+    [SerializeField] private PlayerSkinData[] playerSkinData;
+    private Dictionary<PlayerSkinType, PlayerSkinData> _skinDictionary = new();
+    private RuntimeAnimatorController _defaultController;
+    
     private void Awake()
     {
-        _anim = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _defaultController = _animator.runtimeAnimatorController;
+
+        // SkinDictionary 초기화
+        foreach (var skin in playerSkinData)
+        {
+            if (!_skinDictionary.ContainsKey(skin.type))
+            {
+                _skinDictionary[skin.type] = skin;
+            }
+        }
+    }
+    
+    public void ChangeSkin(PlayerSkinType type)
+    {
+        // 기본 Controller로 변경
+        if (type == PlayerSkinType.Default)
+        {
+            _animator.runtimeAnimatorController = _defaultController;
+            return;
+        }
+        
+        // OverrideController로 변경
+        if (_skinDictionary.TryGetValue(type, out PlayerSkinData skinData) && skinData.overrideController != null)
+        {
+            _animator.runtimeAnimatorController = skinData.overrideController;
+            return;
+        }
+        
+        Debug.LogWarning($"{type}의 스킨 없음!");
+        
     }
 
     private void Update()
@@ -27,10 +63,10 @@ public class PlayerAnimation : MonoBehaviour
             move.x = 0;
         }
 
-        _anim.SetBool("IsMoving", isMoving);
-        _anim.SetFloat("AbsMoveX", Mathf.Abs(move.x));
-        _anim.SetFloat("MoveX", move.x);
-        _anim.SetFloat("MoveY", move.y);
+        _animator.SetBool("IsMoving", isMoving);
+        _animator.SetFloat("AbsMoveX", Mathf.Abs(move.x));
+        _animator.SetFloat("MoveX", move.x);
+        _animator.SetFloat("MoveY", move.y);
 
         // 좌우 반전
         if (Mathf.Abs(move.x) > 0.01f)
