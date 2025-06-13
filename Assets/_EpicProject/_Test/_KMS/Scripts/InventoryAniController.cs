@@ -25,14 +25,14 @@ public class InventoryAniController : MonoBehaviour
             _inventoryAni.Play("OpenAniClip");
             _isOpen = true;
             
-            AudioManager.instance.playSfx(SfxType.Open);
+            AudioManager.Instance.PlaySfx(SfxType.Open);
         }
         else
         {
             _inventoryAni.Play("CloseAniClip");
             _isOpen = false;
             
-            AudioManager.instance.playSfx(SfxType.Close);
+            AudioManager.Instance.PlaySfx(SfxType.Close);
         }
     }
 }

@@ -27,7 +27,7 @@ public abstract class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHa
         
         _rectTransform.SetParent(_canvas.transform);
         
-        AudioManager.instance.playSfx(SfxType.Click);
+        AudioManager.Instance.PlaySfx(SfxType.Click);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -70,6 +70,6 @@ public abstract class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHa
             _rectTransform.anchoredPosition = _originalAnchorPos;
         }
 
-        AudioManager.instance.playSfx(SfxType.Put);
+        AudioManager.Instance.PlaySfx(SfxType.Put);
     }
 }

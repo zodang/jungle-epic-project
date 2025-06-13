@@ -15,7 +15,7 @@ public class BlockItem : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
-        AudioManager.instance.playSfx(SfxType.Get);
+        AudioManager.Instance.PlaySfx(SfxType.Get);
         
         // Inventory에 추가
         _inventory.Collect(blockType);

@@ -61,7 +61,7 @@ public class EngineManager : Singleton<EngineManager>
         if (anyDeactivated)
         {
             // 하나라도 꺼진다면 효과음 재생
-            AudioManager.instance.playSfx(SfxType.Close);
+            AudioManager.Instance.PlaySfx(SfxType.Close);
         }
     }
 }

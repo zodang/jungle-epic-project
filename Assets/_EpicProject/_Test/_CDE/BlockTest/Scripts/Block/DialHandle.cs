@@ -23,7 +23,7 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        AudioManager.instance.playSfx(SfxType.Click);
+        AudioManager.Instance.PlaySfx(SfxType.Click);
     }
     
     public void OnEndDrag(PointerEventData eventData)
@@ -52,7 +52,7 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         {
             // Snap 및 사운드 재생
             _lastSnapIndex = snapIndex;
-            AudioManager.instance.playSfx(SfxType.Dial);
+            AudioManager.Instance.PlaySfx(SfxType.Dial);
         }
         
         // Snap 값 대로 Dial 회전

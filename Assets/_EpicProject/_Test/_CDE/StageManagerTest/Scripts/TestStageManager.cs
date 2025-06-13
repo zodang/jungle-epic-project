@@ -35,7 +35,7 @@ public class TestStageManager : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.instance.PlayBgm(true);
+        AudioManager.Instance.PlayBgm(true);
     }
 
     public void LoadClickableProfile()

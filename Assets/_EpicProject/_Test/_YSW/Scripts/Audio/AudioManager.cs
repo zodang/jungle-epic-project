@@ -3,7 +3,7 @@ using Define;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    public static AudioManager Instance;
 
     [Header("#BGM")]
     public AudioClip bgmClip;
@@ -20,7 +20,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
         Init();
     }
 
@@ -67,7 +67,7 @@ public class AudioManager : MonoBehaviour
         bgmEffect.enabled = isPlay;
     }
 
-    public void playSfx(SfxType sfx)
+    public void PlaySfx(SfxType sfx)
     {
         for (int index = 0; index < sfxPlayers.Length; index++)
         {

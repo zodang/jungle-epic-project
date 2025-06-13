@@ -1,3 +1,4 @@
+using Define;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,6 +20,7 @@ public class EvaporationHandler : MonoBehaviour
         {
             StartCoroutine(EvaporateCoroutine(tilemap));
             FlagManager.Instance.SetFlag("npc_after_puzzle_A", true);
+            
             Debug.Log("플래그 셋");
         }
         else
@@ -48,6 +50,7 @@ public class EvaporationHandler : MonoBehaviour
         color.a = 0.0f;
         tilemap.color = color;
 
+        AudioManager.Instance.PlaySfx(SfxType.Clear);// 젤다 효과음 재생
         gameObject.SetActive(false);
         OnEvaporate?.Invoke();
     }

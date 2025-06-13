@@ -50,7 +50,7 @@ public class EngineController : MonoBehaviour
     {
         // On 애니메이션 실행 
         _engineAnimator.Play("On Ani");
-        AudioManager.instance.playSfx(SfxType.Open);
+        AudioManager.Instance.PlaySfx(SfxType.Open);
     }
     
     private void Deactivate()
@@ -61,7 +61,7 @@ public class EngineController : MonoBehaviour
         _engineAnimator.Play("Off Ani");
         StartCoroutine(CloseAfterAnimation());
         
-        AudioManager.instance.playSfx(SfxType.Close);
+        AudioManager.Instance.PlaySfx(SfxType.Close);
     }
 
     public void DeactivateSilently()

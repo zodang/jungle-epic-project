@@ -18,7 +18,7 @@ public class TypeEffect : MonoBehaviour
     {
         msgText = GetComponent<TextMeshProUGUI>();
         if (msgText == null) { enabled = false; Debug.LogError($"TypeEffect CRITICAL ERROR: TextMeshProUGUI not found on '{gameObject.name}'.", gameObject); }
-        audioManager = AudioManager.instance;
+        audioManager = AudioManager.Instance;
     }
 
     public void SetMsg(string msg)
@@ -52,7 +52,7 @@ public class TypeEffect : MonoBehaviour
             // ========== 효과음 재생 ==========
             if (audioManager != null && targetMsg[currentIndex] != ' ')
             {
-                audioManager.playSfx(SfxType.Text); // <--- SfxType.DialogueType 정의 필요
+                audioManager.PlaySfx(SfxType.Text); // <--- SfxType.DialogueType 정의 필요
             }
             // ==============================
 
