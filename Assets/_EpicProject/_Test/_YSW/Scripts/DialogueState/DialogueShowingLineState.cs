@@ -10,18 +10,18 @@ public class DialogueShowingLineState : IDialogueState
 
     public void UpdateState(DialogueManager dialogueManager)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            DialogueUI currentBubble = dialogueManager.GetCurrentActiveDialogueBubble(); // 헬퍼 함수 사용
-            if (currentBubble != null && currentBubble.IsTyping())
-            {
-                currentBubble.CompleteTyping();
-            }
-            else
-            {
-                dialogueManager.AdvanceDialogue();
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    DialogueUI currentBubble = dialogueManager.GetCurrentActiveDialogueBubble(); // 헬퍼 함수 사용
+        //    if (currentBubble != null && currentBubble.IsTyping())
+        //    {
+        //        currentBubble.CompleteTyping();
+        //    }
+        //    else
+        //    {
+        //        dialogueManager.AdvanceDialogue();
+        //    }
+        //}
     }
     public void ExitState(DialogueManager dialogueManager) { }
 }

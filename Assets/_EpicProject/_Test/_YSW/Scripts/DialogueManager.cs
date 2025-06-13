@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -93,18 +94,45 @@ public class DialogueManager : MonoBehaviour
     }
 
     // 특정 DialogueUI 인스턴스를 초기화하는 헬퍼 함수
-    private DialogueUI InitializeSpecificDialogueUI(DialogueUI existingInstance, GameObject prefab, string uiName)
+    private DialogueUI InitializeSpecificDialogueUI(DialogueUI existingInstance, GameObject prefab, string uiNameForLog) // 로그용 이름 추가
     {
-        if (existingInstance != null) return existingInstance; // 이미 있으면 반환 (풀링 시 유용)
+        DialogueUI uiComponent = existingInstance; // 기존 인스턴스를 먼저 사용 시도
 
-        if (prefab == null || canvasTransform == null) { Debug.LogError($"DM: {uiName} Prefab or CanvasTransform not set."); return null; }
+        if (uiComponent == null) // 인스턴스가 아직 없으면 새로 생성
+        {
+            if (prefab == null || canvasTransform == null)
+            {
+                Debug.LogError($"DM: {uiNameForLog} Prefab or CanvasTransform not set.");
+                return null;
+            }
 
-        GameObject instanceGO = Instantiate(prefab, canvasTransform);
-        DialogueUI uiComponent = instanceGO.GetComponent<DialogueUI>();
-        if (uiComponent == null) { Debug.LogError($"DM: DialogueUI component not found on {uiName} Prefab."); Destroy(instanceGO); return null; }
-        if (!uiComponent.enabled) { Debug.LogError($"DM: Instantiated {uiName} (DialogueUI) is not enabled (check its Awake)."); return null; }
+            GameObject instanceGO = Instantiate(prefab, canvasTransform);
+            uiComponent = instanceGO.GetComponent<DialogueUI>();
 
-        uiComponent.Show(false); // 초기에는 숨김
+            if (uiComponent == null)
+            {
+                Debug.LogError($"DM: DialogueUI component not found on {uiNameForLog} Prefab.");
+                Destroy(instanceGO); // 컴포넌트 없으면 파괴
+                return null;
+            }
+
+            // ***** 이벤트 리스너 등록 (새로 생성된 인스턴스에 대해서만) *****
+            if (uiComponent.onNextActionRequested == null) // 안전장치: UnityEvent가 null이면 생성
+            {
+                uiComponent.onNextActionRequested = new UnityEvent();
+            }
+            uiComponent.onNextActionRequested.AddListener(ProcessNextActionInput);
+            Debug.Log($"<DM> Added onNextActionRequested listener to NEW {uiNameForLog} ({uiComponent.gameObject.name})");
+            // ***********************************************************
+        }
+        // enabled 체크는 uiComponent에 대해 수행
+        if (!uiComponent.enabled)
+        {
+            Debug.LogError($"DM: Instantiated/Existing {uiNameForLog} (DialogueUI) is not enabled (check its Awake).");
+            return null; // DialogueUI의 Awake에서 문제가 있었다면 사용 불가
+        }
+
+        uiComponent.Show(false); // 초기에는 숨김 (또는 Show는 실제 사용 시점에만)
         return uiComponent;
     }
 
@@ -269,7 +297,14 @@ public class DialogueManager : MonoBehaviour
         }
         if (currentState == null || currentState == IdleState) return;
 
-        currentState.UpdateState(this);
+        // 공통 입력 처리 (스페이스바 또는 Next 버튼 클릭)
+        if (Input.GetKeyDown(KeyCode.Space)) // 또는 다른 키
+        {
+            ProcessNextActionInput();
+        }
+
+        // 상태별 특수 입력 처리 또는 일반 업데이트는 상태의 UpdateState에 위임
+        currentState.UpdateState(this); // 예: 방향키, 시간 기반 로직 등
 
         PositionActiveDialogueBubble();
         PositionChoiceBubble();
@@ -288,5 +323,33 @@ public class DialogueManager : MonoBehaviour
         {
             CurrentChoiceBubbleUI.SetBubblePosition(Camera.main.WorldToScreenPoint(CurrentChoiceBubbleTargetAnchor.position));
         }
+    }
+
+    public void ProcessNextActionInput() // 버튼 클릭 또는 스페이스바 입력 시 호출
+    {
+        if (!IsDialogueActive() || justStartedDialogueInputLock || dialogueJustEndedInputLock) return; // 안전장치
+
+        // 현재 상태에 따라 다른 행동
+        if (currentState == ShowingLineState)
+        {
+            DialogueUI currentBubble = GetCurrentActiveDialogueBubble();
+            if (currentBubble != null && currentBubble.IsTyping())
+            {
+                currentBubble.CompleteTyping();
+            }
+            else
+            {
+                AdvanceDialogue();
+            }
+        }
+        else if (currentState == ShowingChoicesState)
+        {
+            // 선택지 상태에서 스페이스바/Next버튼은 "선택 확정" 역할
+            if (CurrentChoices != null && CurrentSelectedChoiceIndex >= 0 && CurrentSelectedChoiceIndex < CurrentChoices.Count)
+            {
+                SelectCurrentChoice();
+            }
+        }
+        // 다른 상태에 대한 Next 액션이 있다면 추가
     }
 }

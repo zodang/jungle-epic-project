@@ -38,17 +38,17 @@ public class DialogueShowingChoicesState : IDialogueState
                 selectionChanged = true;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // 선택지 UI에는 타이핑 효과가 없으므로, 스킵 로직 불필요
-            if (dialogueManager.CurrentChoices != null &&
-                dialogueManager.CurrentSelectedChoiceIndex >= 0 &&
-                dialogueManager.CurrentSelectedChoiceIndex < dialogueManager.CurrentChoices.Count)
-            {
-                dialogueManager.SelectCurrentChoice();
-            }
-            return;
-        }
+        //else if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    // 선택지 UI에는 타이핑 효과가 없으므로, 스킵 로직 불필요
+        //    if (dialogueManager.CurrentChoices != null &&
+        //        dialogueManager.CurrentSelectedChoiceIndex >= 0 &&
+        //        dialogueManager.CurrentSelectedChoiceIndex < dialogueManager.CurrentChoices.Count)
+        //    {
+        //        dialogueManager.SelectCurrentChoice();
+        //    }
+        //    return;
+        //}
 
         if (selectionChanged)
         {
