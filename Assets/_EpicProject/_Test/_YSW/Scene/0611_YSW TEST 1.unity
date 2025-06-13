@@ -12746,7 +12746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d34febff5982e8f4d88c503ca281e6ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag1Name: npc_has_item_A
+  flag1Name: npc1_Event_A
   flag2Name: npc_has_item_B
 --- !u!4 &1663865887
 Transform:
@@ -25335,6 +25335,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].priority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[1].dialogueId
+      value: npc1_Event_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[1].requiredFlagName
+      value: npc1_Event_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[1].requiredFlagValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.91
