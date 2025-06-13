@@ -1,27 +1,22 @@
-// DialogueIdleState.cs
+// DialogueIdleState.cs (더 간결한 버전)
 using UnityEngine;
 
 public class DialogueIdleState : IDialogueState
 {
     public void EnterState(DialogueManager dialogueManager)
     {
-        // Debug.Log("DM State: Idle");
-        if (dialogueManager.CurrentDialogueBubbleUI != null)
-        {
-            dialogueManager.CurrentDialogueBubbleUI.Show(false);
-        }
-        // DialogueManager의 IsDialogueActive()가 이 상태를 반영하도록 함
+        // Debug.Log("DM State: Idle. All UIs should have been hidden by FinalizeDialogue.");
+        // FinalizeDialogue에서 모든 UI 숨김 처리를 하므로, 여기서는 특별히 할 일이 없을 수 있음.
+        // 만약 여기서도 확실하게 숨기고 싶다면 이전 코드처럼 UI 참조를 가져와 Show(false) 호출.
     }
 
     public void UpdateState(DialogueManager dialogueManager)
     {
-        // NPCInteraction이 DialogueManager.StartDialogue()를 호출하면．
-        // DialogueManager 내부에서 상태가 변경됨.
-        // 이 상태에서는 별도의 Update 로직이 필요 없음.
+        // Idle 상태에서는 Update 로직 없음.
     }
 
     public void ExitState(DialogueManager dialogueManager)
     {
-        // 예를 들어, Idle 상태에서 벗어날 때 특정 UI를 활성화해야 한다면 여기서 처리
+        // Debug.Log("Exiting Idle State");
     }
 }
