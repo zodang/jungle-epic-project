@@ -31,7 +31,7 @@ public class TwinkleManager : MonoBehaviour
             int index = Random.Range(0, starPrefabs.Count);
             GameObject prefabToSpawn = starPrefabs[index];
 
-            GameObject star = Instantiate(prefabToSpawn, spawnPos, Quaternion.identity);
+            GameObject star = Instantiate(prefabToSpawn, spawnPos, Quaternion.identity, transform);
             star.AddComponent<TwinkleMover>().Initialize(moveSpeed, spawnPoint.position.y + 5f);
 
             yield return new WaitForSeconds(spawnInterval);
