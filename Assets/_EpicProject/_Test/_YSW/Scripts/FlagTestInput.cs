@@ -5,7 +5,7 @@ public class FlagTestInput : MonoBehaviour
 {
     [Header("Test Flags (Match names used in NPCInteraction)")]
     [Tooltip("키 1을 누르면 설정/해제될 플래그 이름")]
-    public string flag1Name = "npc_has_item_A"; // 예시 플래그 이름
+    public string flag1Name = "npc1_Event_A"; // 예시 플래그 이름
     [Tooltip("키 2를 누르면 설정/해제될 플래그 이름")]
     public string flag2Name = "npcTest_F"; // 예시 플래그 이름
     // 필요하다면 더 많은 플래그 테스트 변수 추가 가능
