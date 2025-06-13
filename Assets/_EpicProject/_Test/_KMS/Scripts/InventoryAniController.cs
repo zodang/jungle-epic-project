@@ -4,19 +4,26 @@ using UnityEngine.UI;
 
 public class InventoryAniController : MonoBehaviour
 {
-    private Button _button;
+    private InventoryBtn _button;
     private Animator _inventoryAni;  
     private bool _isOpen = false;
 
     private void Awake()
     {
         _inventoryAni = GetComponent<Animator>();
-        _button = GetComponentInChildren<Button>();
-        _button.onClick.AddListener(ToggleInventory);
+        _button = FindAnyObjectByType<InventoryBtn>();
+            
+        if (_button != null)
+        {
+            // 버튼 클릭 시 inventory 활성화
+            _button.GetComponent<Button>().onClick.AddListener(ToggleInventory);
+        }
+        
+        // Tab 누를 시 inventory 활성화
+        InputManager.Instance.OnInventoryToggled += ToggleInventory;
     }
 
-    // SloGroup => Button�ȿ� OnCLick ���� �޼���
-    public void ToggleInventory()
+    private void ToggleInventory()
     {
         if (_inventoryAni == null) return;
 
