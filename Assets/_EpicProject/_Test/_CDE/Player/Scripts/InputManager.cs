@@ -10,6 +10,7 @@ public class InputManager : Singleton<InputManager>
 {
     public event Action OnInteract;
     public event Action OnOffEngine;
+    public event Action OnInventoryToggled;
     public Vector2 MoveInput { get; private set; }
 
     private InputActionAsset _inputActionAsset;
@@ -20,6 +21,7 @@ public class InputManager : Singleton<InputManager>
     private InputAction _talkAction;
     private InputAction _clickAction;
     private InputAction _OffEngineAction;
+    private InputAction _toggleInventoryAction;
     
     private bool _isClicked;
 
@@ -37,12 +39,14 @@ public class InputManager : Singleton<InputManager>
         _talkAction = _actionMap.FindAction("Talk");
         _clickAction = _actionMap.FindAction("Click");
         _OffEngineAction = _actionMap.FindAction("OffEngine");
+        _toggleInventoryAction = _actionMap.FindAction("ToggleInventory");
 
         _moveAction.performed += OnMovePerformed;
         _moveAction.canceled += OnMoveCanceled;
         _interactionAction.performed += OnInteractionPerformed;
         _clickAction.performed += OnCLickPerformed;
         _OffEngineAction.performed += OnOffEnginePerformed;
+        _toggleInventoryAction.performed += OnToggleInventoryPerformed;
 
         _actionMap.Enable();
     }
@@ -77,6 +81,11 @@ public class InputManager : Singleton<InputManager>
         OnOffEngine?.Invoke();
     }
 
+    private void OnToggleInventoryPerformed(InputAction.CallbackContext context)
+    {
+        OnInventoryToggled?.Invoke();
+    }
+
     private bool IsInputFieldFocused()
     {
         // InputField 입력 중 여부 반환
@@ -98,6 +107,7 @@ public class InputManager : Singleton<InputManager>
 
         OnInteract = null;
         OnOffEngine = null;
+        OnInventoryToggled = null;
         
         _inputActionAsset = null;
         _actionMap = null;
