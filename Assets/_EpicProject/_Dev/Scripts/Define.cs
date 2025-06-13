@@ -21,6 +21,12 @@ namespace Define
         Click, Close, Deny, Dial, Get, Open, Text, Put
     }
 
+    public enum PlayerSkinType
+    {
+        Default,
+        BaldHead,
+    }
+
     public static class Tags
     {
     }
