@@ -2,35 +2,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[Serializable]
-public class ClickableProfileList
-{
-    public List<ClickableProfile> items;
-}
-
-[Serializable]
-public class ClickableProfile
-{
-    public string id;
-    public string name;
-    public string serialNumber;
-    public string status;
-    public string imagePath;
-
-    public Sprite sprite;
-}
-
 public abstract class StageBaseManager : MonoBehaviour
 {
+    public static StageBaseManager Instance { get; private set; }
+    public EngineManager EngineManager { get; private set; }
+    public DialogueManager DialogueManager { get; private set; }
+
     [SerializeField] protected string stageFilePath = "Stages/0_Stage/0_StageData";
     protected Dictionary<string, ClickableProfile> _profileDic = new();
 
     protected virtual void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        Instance = this;
+        
+        // 에디터 테스트용 코드
+        gameObject.AddComponent<BootstrapManager>();
+        
+        // Manager 클래스 참조
+        EngineManager = FindAnyObjectByType<EngineManager>();
+        DialogueManager = GetComponentInChildren<DialogueManager>();
+        
         // Clickable의 프로필 데이터 로드
         LoadClickableProfile();
     }
-
+    
     private void LoadClickableProfile()
     {
         // stage json 파일 경로 체크
@@ -64,4 +65,23 @@ public abstract class StageBaseManager : MonoBehaviour
             }
         }
     }
+}
+
+
+[Serializable]
+public class ClickableProfileList
+{
+    public List<ClickableProfile> items;
+}
+
+[Serializable]
+public class ClickableProfile
+{
+    public string id;
+    public string name;
+    public string serialNumber;
+    public string status;
+    public string imagePath;
+
+    public Sprite sprite;
 }

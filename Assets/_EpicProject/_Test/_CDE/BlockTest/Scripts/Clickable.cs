@@ -31,21 +31,22 @@ public class Clickable : MonoBehaviour, IClickable
     public void OnClicked()
     {
         // 클릭 시 InspectorUI 활성화
-        EngineManager.Instance.ActivateEngineUI(this);
+        Debug.Log($"{StageBaseManager.Instance} / {StageBaseManager.Instance.EngineManager}");
+        StageBaseManager.Instance.EngineManager.ActivateEngineUI(this);
     }
     
     public void AddBlockToClickable(BlockType type)
     {
         // Inventory에서 Engine으로 드롭 시
         BlockTypeList.Add(type);
-        EngineManager.Instance.NotifyBlockChanged(this);
+        StageBaseManager.Instance.EngineManager.NotifyBlockChanged(this);
     }
     
     public void RemoveBlockFromClickable(BlockType type)
     {
         // Engine에서 Inventory로 드롭 시
         BlockTypeList.Remove(type);
-        EngineManager.Instance.NotifyBlockChanged(this);
+        StageBaseManager.Instance.EngineManager.NotifyBlockChanged(this);
     }
 
     public ClickableProfile GetProfile()
