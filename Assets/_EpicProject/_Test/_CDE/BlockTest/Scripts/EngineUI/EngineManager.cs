@@ -10,7 +10,7 @@ public class EngineManager : Singleton<EngineManager>
     private void Start()
     {
         // ESC 키로 모든 EngineUI 비활성화
-        InputManager.Instance.OnOffEngine += DeactivateAllEngine;
+        StageManager.Instance.InputManager.OnOffEngine += DeactivateAllEngine;
         
         // Clickable마다 UI 추가
         Clickable[] clickables = FindObjectsByType<Clickable>(FindObjectsSortMode.None);

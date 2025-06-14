@@ -109,7 +109,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     }
     private void Move()
     {
-        _moveInput = InputManager.Instance.MoveInput;
+        _moveInput = StageManager.Instance.InputManager.MoveInput;
 
         //transform.Translate(moveInput * (_speed * Time.deltaTime));
     }

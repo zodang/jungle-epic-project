@@ -18,7 +18,7 @@ public class InventoryAniController : MonoBehaviour
         _toggleBtn.onClick.AddListener(ToggleInventory);
         
         // Tab 누를 시 inventory 활성화
-        InputManager.Instance.OnInventoryToggled += ToggleInventory;
+        StageManager.Instance.InputManager.OnInventoryToggled += ToggleInventory;
         
         // Inventory 버튼 초기화
         _inventoryBtn = FindAnyObjectByType<InventoryBtn>();

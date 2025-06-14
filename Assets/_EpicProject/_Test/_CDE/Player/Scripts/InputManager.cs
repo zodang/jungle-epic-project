@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class InputManager : Singleton<InputManager>
+public class InputManager : MonoBehaviour
 {
     public event Action OnInteract;
     public event Action OnOffEngine;
@@ -25,10 +25,8 @@ public class InputManager : Singleton<InputManager>
     
     private bool _isClicked;
 
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
-        
         var originalInputActionAsset = Resources.Load<InputActionAsset>("InputAction");
         _inputActionAsset = Instantiate(originalInputActionAsset);
         
