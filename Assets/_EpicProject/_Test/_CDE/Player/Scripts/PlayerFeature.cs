@@ -77,13 +77,13 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
             {
                 _TwinkleLv2.SetActive(true);
                 _playerAnimation.ChangeSkin(PlayerSkinType.BaldHead);
-                FlagManager.Instance.SetFlag("baldHead", true); // 예시로 baldHead 플래그 설정
+                StageManager.Instance.FlagManager.SetFlag("baldHead", true); // 예시로 baldHead 플래그 설정
             }
             else
             {
                 _TwinkleLv2.SetActive(false);
                 _playerAnimation.ChangeSkin(PlayerSkinType.Default);
-                FlagManager.Instance.SetFlag("baldHead", false); // 예시로 baldHead 플래그 해제
+                StageManager.Instance.FlagManager.SetFlag("baldHead", false); // 예시로 baldHead 플래그 해제
             }
         }
     }

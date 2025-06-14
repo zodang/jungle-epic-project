@@ -4,10 +4,7 @@ public class BootstrapManager : MonoBehaviour
 {
     private void Awake()
     {
-#if UNITY_EDITOR
-        // 테스트씬 실행 시 작동
         SpawnMissingManager();
-#endif
     }
 
     private void SpawnMissingManager()

@@ -4,24 +4,9 @@ using UnityEngine;
 
 public class FlagManager : MonoBehaviour
 {
-    public static FlagManager Instance { get; private set; }
-
     private Dictionary<string, bool> flags = new Dictionary<string, bool>();
     // 만약 정수 값 플래그도 필요하다면:
     // private Dictionary<string, int> intFlags = new Dictionary<string, int>();
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // 씬 전환 시에도 유지되도록 설정
-        }
-        else
-        {
-            Destroy(gameObject); // 이미 인스턴스가 있다면 이 인스턴스는 파괴
-        }
-    }
 
     /// <summary>
     /// 특정 이름의 플래그를 설정합니다.

@@ -21,7 +21,7 @@ public abstract class StageBaseManager : MonoBehaviour
         
         Instance = this;
         
-        // 에디터 테스트용 코드
+        // 테스트용 코드 추가
         gameObject.AddComponent<BootstrapManager>();
         
         // Manager 클래스 참조
@@ -64,6 +64,12 @@ public abstract class StageBaseManager : MonoBehaviour
                 clickable.InitProfile(profile);
             }
         }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 }
 
