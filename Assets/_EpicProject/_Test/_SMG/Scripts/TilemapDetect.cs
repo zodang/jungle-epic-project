@@ -28,7 +28,6 @@ public class TilemapDetect : MonoBehaviour
         if (groundTilemap.IsUnityNull()) return;
 
         Radius = 6.25f * transform.parent.lossyScale.x;
-        Debug.Log(transform.parent.lossyScale.x);
 
         GetTilesInSector(groundTilemap, transform.position, transform.up, Radius, Angle, ref testTilesPos);
         for(int i = 0; i < testTilesPos.Count; i++)
