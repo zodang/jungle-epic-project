@@ -3,8 +3,6 @@ using Define;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;
-
     [Header("#BGM")]
     public AudioClip bgmClip;
     public float bgmVolume;
@@ -20,7 +18,6 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
         Init();
     }
 

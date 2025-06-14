@@ -17,15 +17,18 @@ public class InventoryAniController : MonoBehaviour
         // Toggle 버튼 클릭 시 inventory 활성화
         _toggleBtn.onClick.AddListener(ToggleInventory);
         
-        // Tab 누를 시 inventory 활성화
-        InputManager.Instance.OnInventoryToggled += ToggleInventory;
-        
         // Inventory 버튼 초기화
         _inventoryBtn = FindAnyObjectByType<InventoryBtn>();
         if (_inventoryBtn != null)
         {
             _inventoryBtn.Init(this);
         }
+    }
+
+    private void Start()
+    {
+        // Tab 누를 시 inventory 활성화
+        StageManager.Instance.InputManager.OnInventoryToggled += ToggleInventory;
     }
 
     public void ToggleInventory()
@@ -38,7 +41,7 @@ public class InventoryAniController : MonoBehaviour
             _isOpen = true;
             
             _inventoryBtn?.ActivateBtn(false);
-            AudioManager.Instance.PlaySfx(SfxType.Open);
+            GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
         }
         else
         {
@@ -46,7 +49,7 @@ public class InventoryAniController : MonoBehaviour
             _isOpen = false;
             
             _inventoryBtn?.ActivateBtn(true);
-            AudioManager.Instance.PlaySfx(SfxType.Close);
+            GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         }
     }
 }

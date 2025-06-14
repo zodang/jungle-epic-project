@@ -51,7 +51,7 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
         _currentPosX = transform.position.x;
         if (_enableMove)
         {
-            Vector2 moveInput = new Vector2 (InputManager.Instance.MoveInput.x, 0);
+            Vector2 moveInput = new Vector2 (StageManager.Instance.InputManager.MoveInput.x, 0);
             transform.Translate(moveInput * _speed * Time.deltaTime);
 
             Vector3 pos = transform.localPosition;

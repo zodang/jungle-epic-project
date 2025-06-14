@@ -12,7 +12,7 @@ public class PlayerInteraction : MonoBehaviour
         _interactableLayer = 1 << layer;
         
         // E키로 상호작용
-        InputManager.Instance.OnInteract += TryCollectBlock;
+        StageManager.Instance.InputManager.OnInteract += TryCollectBlock;
     }
 
     private void TryCollectBlock()

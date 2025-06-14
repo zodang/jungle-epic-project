@@ -48,7 +48,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     {
         if(_enableMove)
         {
-            _movement2D.MoveDir = InputManager.Instance.MoveInput; 
+            _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput; 
         }
     }
 

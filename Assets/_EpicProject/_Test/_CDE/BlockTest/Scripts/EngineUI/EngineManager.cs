@@ -2,7 +2,7 @@ using Define;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EngineManager : Singleton<EngineManager>
+public class EngineManager : MonoBehaviour
 {
     [SerializeField] private EngineController engineUIPrefab;
     private Dictionary<Clickable, EngineController> _engineDictionary = new();
@@ -10,7 +10,7 @@ public class EngineManager : Singleton<EngineManager>
     private void Start()
     {
         // ESC 키로 모든 EngineUI 비활성화
-        InputManager.Instance.OnOffEngine += DeactivateAllEngine;
+        StageManager.Instance.InputManager.OnOffEngine += DeactivateAllEngine;
         
         // Clickable마다 UI 추가
         Clickable[] clickables = FindObjectsByType<Clickable>(FindObjectsSortMode.None);
@@ -61,7 +61,7 @@ public class EngineManager : Singleton<EngineManager>
         if (anyDeactivated)
         {
             // 하나라도 꺼진다면 효과음 재생
-            AudioManager.Instance.PlaySfx(SfxType.Close);
+            GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         }
     }
 }

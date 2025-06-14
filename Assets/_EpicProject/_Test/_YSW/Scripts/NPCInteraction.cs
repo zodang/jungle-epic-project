@@ -62,9 +62,9 @@ public class NPCInteraction : MonoBehaviour
 
     private string GetDialogueIdBasedOnConditions()
     {
-        if (FlagManager.Instance == null)
+        if (StageManager.Instance.FlagManager == null)
         {
-            Debug.LogWarning($"<NPCInteraction> FlagManager.Instance is null on '{gameObject.name}'. Cannot check conditions. Returning default dialogue: {defaultDialogueId}");
+            Debug.LogWarning($"<NPCInteraction> StageManager.Instance.FlagManager is null on '{gameObject.name}'. Cannot check conditions. Returning default dialogue: {defaultDialogueId}");
             return defaultDialogueId;
         }
 
@@ -79,7 +79,7 @@ public class NPCInteraction : MonoBehaviour
             }
 
             // FlagManager를 통해 플래그 상태 확인
-            bool flagState = FlagManager.Instance.IsFlagSet(conditionEntry.requiredFlagName);
+            bool flagState = StageManager.Instance.FlagManager.IsFlagSet(conditionEntry.requiredFlagName);
 
             // 플래그 상태가 요구되는 값과 일치하는지 확인
             if (flagState == conditionEntry.requiredFlagValue)

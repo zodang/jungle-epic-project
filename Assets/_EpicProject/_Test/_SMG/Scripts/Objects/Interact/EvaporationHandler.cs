@@ -19,7 +19,7 @@ public class EvaporationHandler : MonoBehaviour
         if(TryGetComponent<Tilemap>(out tilemap))
         {
             StartCoroutine(EvaporateCoroutine(tilemap));
-            FlagManager.Instance.SetFlag("npc_after_puzzle_A", true);
+            StageManager.Instance.FlagManager.SetFlag("npc_after_puzzle_A", true);
             
             Debug.Log("플래그 셋");
         }
@@ -50,7 +50,7 @@ public class EvaporationHandler : MonoBehaviour
         color.a = 0.0f;
         tilemap.color = color;
 
-        AudioManager.Instance.PlaySfx(SfxType.Clear);// 젤다 효과음 재생
+        GameManager.Instance.AudioManager.PlaySfx(SfxType.Clear);// 젤다 효과음 재생
         gameObject.SetActive(false);
         OnEvaporate?.Invoke();
     }

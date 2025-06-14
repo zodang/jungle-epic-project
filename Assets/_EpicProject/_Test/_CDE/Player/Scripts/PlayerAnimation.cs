@@ -49,7 +49,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-        Vector2 move = InputManager.Instance.MoveInput;
+        Vector2 move = StageManager.Instance.InputManager.MoveInput;
         bool isMoving = move.sqrMagnitude > 0.01f;
         
         if (Mathf.Abs(move.x) > Mathf.Abs(move.y))

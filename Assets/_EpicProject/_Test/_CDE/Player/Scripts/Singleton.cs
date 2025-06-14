@@ -32,14 +32,14 @@ public class Singleton<T> : MonoBehaviour where T : Component
         // lazy instantiation
         _instance = (T)FindFirstObjectByType(typeof(T));
 
-        /*if (_instance == null)
+        if (_instance == null)
         {
             GameObject gameObj = new GameObject();
             gameObj.name = typeof(T).Name;
 
             _instance = gameObj.AddComponent<T>();
             DontDestroyOnLoad(gameObj);
-        }*/
+        }
     }
 
     private void RemoveDuplicates()
@@ -49,7 +49,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
             _instance = this as T;
 
             // Use DontDestroyOnLoad to make persistent but clean up/dispose manually
-            // DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else if (_instance != this)
         {
