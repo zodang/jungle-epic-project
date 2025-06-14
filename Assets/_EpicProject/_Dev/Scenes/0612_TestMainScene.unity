@@ -1276,6 +1276,10 @@ PrefabInstance:
       propertyPath: 'defaultBlockTypes.Array.data[0]'
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8692602266406301531, guid: 6ca8a8feef24f994aace74dcb5d7daaa, type: 3}
+      propertyPath: groundTilemap
+      value: 
+      objectReference: {fileID: 1890921042}
     - target: {fileID: 8922597482439387798, guid: 6ca8a8feef24f994aace74dcb5d7daaa, type: 3}
       propertyPath: m_Name
       value: Sun
@@ -10133,7 +10137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca041f50b67246b42a99b235ea089a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueBubblePrefab: {fileID: 5682641207033410957, guid: 528f786f2364c1d419ccb1de1c01e536, type: 3}
+  npcDialogueBubblePrefab: {fileID: 0}
+  playerDialogueBubblePrefab: {fileID: 0}
   choiceBubblePrefab: {fileID: 5682641207033410957, guid: 9ff00a8de409aaa4c94588c68e553306, type: 3}
   canvasTransform: {fileID: 293145007}
   dialogueFileName: dialogues
@@ -12259,6 +12264,11 @@ PrefabInstance:
 --- !u!4 &1890921041 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8537556198783080168, guid: 60fd2d50bacb92c45b716fd8b39bc1c0, type: 3}
+  m_PrefabInstance: {fileID: 1890921040}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &1890921042 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 6951521780859505760, guid: 60fd2d50bacb92c45b716fd8b39bc1c0, type: 3}
   m_PrefabInstance: {fileID: 1890921040}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2028883632
