@@ -50,7 +50,7 @@ public class EvaporationHandler : MonoBehaviour
         color.a = 0.0f;
         tilemap.color = color;
 
-        AudioManager.Instance.PlaySfx(SfxType.Clear);// 젤다 효과음 재생
+        GameManager.Instance.AudioManager.PlaySfx(SfxType.Clear);// 젤다 효과음 재생
         gameObject.SetActive(false);
         OnEvaporate?.Invoke();
     }

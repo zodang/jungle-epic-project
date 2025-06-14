@@ -2,7 +2,7 @@ using Define;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EngineManager : Singleton<EngineManager>
+public class EngineManager : MonoBehaviour
 {
     [SerializeField] private EngineController engineUIPrefab;
     private Dictionary<Clickable, EngineController> _engineDictionary = new();
@@ -61,7 +61,7 @@ public class EngineManager : Singleton<EngineManager>
         if (anyDeactivated)
         {
             // 하나라도 꺼진다면 효과음 재생
-            AudioManager.Instance.PlaySfx(SfxType.Close);
+            GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         }
     }
 }

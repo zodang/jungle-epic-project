@@ -41,7 +41,7 @@ public class InventoryAniController : MonoBehaviour
             _isOpen = true;
             
             _inventoryBtn?.ActivateBtn(false);
-            AudioManager.Instance.PlaySfx(SfxType.Open);
+            GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
         }
         else
         {
@@ -49,7 +49,7 @@ public class InventoryAniController : MonoBehaviour
             _isOpen = false;
             
             _inventoryBtn?.ActivateBtn(true);
-            AudioManager.Instance.PlaySfx(SfxType.Close);
+            GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         }
     }
 }

@@ -18,7 +18,12 @@ public class TypeEffect : MonoBehaviour
     {
         msgText = GetComponent<TextMeshProUGUI>();
         if (msgText == null) { enabled = false; Debug.LogError($"TypeEffect CRITICAL ERROR: TextMeshProUGUI not found on '{gameObject.name}'.", gameObject); }
-        audioManager = AudioManager.Instance;
+        
+    }
+
+    private void Start()
+    {
+        audioManager = GameManager.Instance.AudioManager;
     }
 
     public void SetMsg(string msg)

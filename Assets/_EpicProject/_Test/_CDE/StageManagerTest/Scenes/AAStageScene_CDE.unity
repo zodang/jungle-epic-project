@@ -1743,7 +1743,7 @@ GameObject:
   - component: {fileID: 293145005}
   - component: {fileID: 293145004}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: StageCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2316,6 +2316,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4402215339607085089, guid: bb7bf06a2f4acef4c95eda82f7543147, type: 3}
   m_PrefabInstance: {fileID: 2114410119}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &440552052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440552053}
+  m_Layer: 0
+  m_Name: --------------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &440552053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440552052}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &440588826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2330,7 +2361,7 @@ GameObject:
   - component: {fileID: 440588829}
   - component: {fileID: 440588828}
   m_Layer: 5
-  m_Name: StageCanvas
+  m_Name: VSStageCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9024,7 +9055,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2495899368044169504, guid: ea14f45c0abeddb43af3c0172e354f78, type: 3}
       propertyPath: m_Name
-      value: EngineUIManager
+      value: EngineManager
       objectReference: {fileID: 0}
     - target: {fileID: 4206970254781503485, guid: ea14f45c0abeddb43af3c0172e354f78, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10091,69 +10122,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 3
   defaultBlockTypes: 
---- !u!1 &890686369
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 890686372}
-  - component: {fileID: 890686371}
-  - component: {fileID: 890686370}
-  m_Layer: 0
-  m_Name: DialogueManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &890686370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890686369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 730d6ea8212fab542a0e9dbef5de5b9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &890686371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890686369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca041f50b67246b42a99b235ea089a13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcDialogueBubblePrefab: {fileID: 5682641207033410957, guid: 528f786f2364c1d419ccb1de1c01e536, type: 3}
-  playerDialogueBubblePrefab: {fileID: 5682641207033410957, guid: a792b3c6eb826154da1b78b811ae47bb, type: 3}
-  choiceBubblePrefab: {fileID: 5682641207033410957, guid: 9ff00a8de409aaa4c94588c68e553306, type: 3}
-  canvasTransform: {fileID: 293145007}
-  dialogueFileName: dialogues
-  pauseGameDuringDialogue: 1
---- !u!4 &890686372
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890686369}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 565.5015, y: 453.34814, z: -3.459653}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &916794605
 GameObject:
   m_ObjectHideFlags: 0
@@ -12192,17 +12160,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: VSStageManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2180610492906426582, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
+      propertyPath: canvasTransform
+      value: 
+      objectReference: {fileID: 440588827}
     - target: {fileID: 6477506353786255235, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 11.134491
       objectReference: {fileID: 0}
     - target: {fileID: 6477506353786255235, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 35.225925
       objectReference: {fileID: 0}
     - target: {fileID: 6477506353786255235, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -197.89868
       objectReference: {fileID: 0}
     - target: {fileID: 6477506353786255235, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12210,15 +12182,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6477506353786255235, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6477506353786255235, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6477506353786255235, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6477506353786255235, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -12244,12 +12216,12 @@ SceneRoots:
   - {fileID: 35853011}
   - {fileID: 638017723}
   - {fileID: 1365295980}
-  - {fileID: 440588827}
-  - {fileID: 293145007}
   - {fileID: 2114426942}
-  - {fileID: 890686372}
-  - {fileID: 541003000}
+  - {fileID: 293145007}
   - {fileID: 1723781821}
+  - {fileID: 440552053}
+  - {fileID: 5234960656094804245}
+  - {fileID: 440588827}
+  - {fileID: 541003000}
   - {fileID: 1075701030}
   - {fileID: 838010791}
-  - {fileID: 5234960656094804245}

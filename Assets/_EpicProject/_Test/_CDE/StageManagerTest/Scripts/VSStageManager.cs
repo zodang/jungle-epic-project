@@ -7,6 +7,6 @@ public class VSStageManager : StageBaseManager
 
     private void Start()
     {
-        AudioManager.Instance.PlayBgm(true);
+        GameManager.Instance.AudioManager.PlayBgm(true);
     }
 }

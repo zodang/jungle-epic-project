@@ -6,11 +6,11 @@ public class SliderInteractionDetector : MonoBehaviour, IPointerDownHandler, IPo
 {
     public void OnPointerDown(PointerEventData eventData)
     {
-        AudioManager.Instance.PlaySfx(SfxType.Click);
+        GameManager.Instance.AudioManager.PlaySfx(SfxType.Click);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        AudioManager.Instance.PlaySfx(SfxType.Close);
+        GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
     }
 }
