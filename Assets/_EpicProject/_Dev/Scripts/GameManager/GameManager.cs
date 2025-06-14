@@ -1,24 +1,24 @@
-public class GameManager : Singleton<GameManager>
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
     public AudioManager AudioManager { get; private set; }
     public SettingManager SettingManager { get; private set; }
     public SaveManager SaveManager { get; private set; }
 
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); return;
+        }
 
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        
         AudioManager = GetComponentInChildren<AudioManager>();
         SettingManager = GetComponentInChildren<SettingManager>();
         SaveManager = GetComponentInChildren<SaveManager>();
-
-        Init();
     }
-
-    private void Init()
-    {
-        // 게임 초기 설정
-        // TODO: 배경음 재생
-    }
-    
 }
