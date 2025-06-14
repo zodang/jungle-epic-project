@@ -1,6 +1,4 @@
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatable, IScalable, IControllable
 {
