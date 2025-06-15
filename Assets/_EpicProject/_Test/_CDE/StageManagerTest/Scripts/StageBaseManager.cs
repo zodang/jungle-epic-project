@@ -28,7 +28,7 @@ public abstract class StageBaseManager : MonoBehaviour
         // Manager 클래스 참조
         EngineManager = FindAnyObjectByType<EngineManager>();
         PlayerManager = FindAnyObjectByType<PlayerManager>();
-        DialogueManager = GetComponentInChildren<DialogueManager>();
+        DialogueManager = FindAnyObjectByType<DialogueManager>();
         
         // Clickable의 프로필 데이터 로드
         LoadClickableProfile();

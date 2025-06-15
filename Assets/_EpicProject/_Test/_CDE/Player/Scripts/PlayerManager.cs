@@ -13,10 +13,7 @@ public class PlayerManager : MonoBehaviour
         Interaction = GetComponent<PlayerInteraction>();
         Feature = GetComponent<PlayerFeature>();
         Animation = GetComponentInChildren<PlayerAnimation>();
-    }
-
-    private void Start()
-    {
+        
         Feature.OnControlEnabled += Animation.ActivateAnimation;
         Feature.OnPlayerTwinkled += Animation.ChangeSkin;
     }
