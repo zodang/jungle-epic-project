@@ -98,15 +98,15 @@ public class NPCInteraction : MonoBehaviour
     {
         string dialogueIdToStart = GetDialogueIdBasedOnConditions();
 
-        if (DialogueManager.Instance != null && !string.IsNullOrEmpty(dialogueIdToStart) && speechBubbleAnchor != null)
+        if (StageBaseManager.Instance.DialogueManager != null && !string.IsNullOrEmpty(dialogueIdToStart) && speechBubbleAnchor != null)
         {
-            DialogueManager.Instance.StartDialogue(dialogueIdToStart, speechBubbleAnchor);
+            StageBaseManager.Instance.DialogueManager.StartDialogue(dialogueIdToStart, speechBubbleAnchor);
         }
         else
         {
             if (string.IsNullOrEmpty(dialogueIdToStart))
                 Debug.LogWarning($"NPCInteraction on '{gameObject.name}': No suitable dialogue ID determined by conditions for InteractWithNPC.");
-            if (DialogueManager.Instance == null) Debug.LogError($"NPCInteraction on '{gameObject.name}': DialogueManager.Instance is null.");
+            if (StageBaseManager.Instance.DialogueManager == null) Debug.LogError($"NPCInteraction on '{gameObject.name}': StageBaseManager.Instance.DialogueManager is null.");
             if (speechBubbleAnchor == null) Debug.LogWarning($"NPCInteraction on '{gameObject.name}': SpeechBubbleAnchor is null.");
         }
     }
@@ -115,10 +115,10 @@ public class NPCInteraction : MonoBehaviour
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.Space)) // 또는 다른 상호작용 키
         {
-            if (DialogueManager.Instance != null)
+            if (StageBaseManager.Instance.DialogueManager != null)
             {
-                if (!DialogueManager.Instance.IsDialogueActive() &&
-                    !DialogueManager.Instance.WasDialogueJustEndedThisFrame())
+                if (!StageBaseManager.Instance.DialogueManager.IsDialogueActive() &&
+                    !StageBaseManager.Instance.DialogueManager.WasDialogueJustEndedThisFrame())
                 {
                     InteractWithNPC();
                 }

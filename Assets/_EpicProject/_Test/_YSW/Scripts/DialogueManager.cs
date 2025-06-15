@@ -6,13 +6,11 @@ using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
 {
-    public static DialogueManager Instance { get; private set; }
-
     [Header("Core Setup")]
     [SerializeField] private GameObject npcDialogueBubblePrefab;    // NPC용 말풍선 프리팹
     [SerializeField] private GameObject playerDialogueBubblePrefab; // 플레이어용 말풍선 프리팹
     [SerializeField] private GameObject choiceBubblePrefab;
-    [SerializeField] private Transform canvasTransform;
+    private Transform _canvasTransform;
 
     [Header("Dialogue Settings")]
     [SerializeField] private string dialogueFileName = "dialogues";
@@ -59,10 +57,7 @@ public class DialogueManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
-        else { Destroy(gameObject); return; }
-
-        dialogueLoader = FindObjectOfType<DialogueLoader>();
+        dialogueLoader = GetComponent<DialogueLoader>();
         if (dialogueLoader == null)
         {
             GameObject loaderObject = new GameObject("DialogueLoader_AutoCreated");
@@ -78,6 +73,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         FindPlayerAnchorByName();
+        FindCanvas();
         TransitionToState(IdleState);
     }
 
@@ -93,6 +89,12 @@ public class DialogueManager : MonoBehaviour
         else Debug.LogError($"DM: Player object with tag '{PLAYER_TAG}' not found.");
     }
 
+    private void FindCanvas()
+    {
+        // 대화 UI 보이기 위한 Canvas 위치 참조
+        _canvasTransform = FindAnyObjectByType<Canvas>().transform;
+    }
+
     // 특정 DialogueUI 인스턴스를 초기화하는 헬퍼 함수
     private DialogueUI InitializeSpecificDialogueUI(DialogueUI existingInstance, GameObject prefab, string uiNameForLog) // 로그용 이름 추가
     {
@@ -100,13 +102,13 @@ public class DialogueManager : MonoBehaviour
 
         if (uiComponent == null) // 인스턴스가 아직 없으면 새로 생성
         {
-            if (prefab == null || canvasTransform == null)
+            if (prefab == null || _canvasTransform == null)
             {
                 Debug.LogError($"DM: {uiNameForLog} Prefab or CanvasTransform not set.");
                 return null;
             }
 
-            GameObject instanceGO = Instantiate(prefab, canvasTransform);
+            GameObject instanceGO = Instantiate(prefab, _canvasTransform);
             uiComponent = instanceGO.GetComponent<DialogueUI>();
 
             if (uiComponent == null)

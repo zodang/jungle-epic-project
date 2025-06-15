@@ -83,7 +83,7 @@ public class DialogueUI : MonoBehaviour
         // DialogueManager에게 다음 액션 요청 (이벤트 방식)
         onNextActionRequested.Invoke();
         // 또는 직접 DialogueManager의 함수 호출 (결합도가 높아짐)
-        // if (DialogueManager.Instance != null) DialogueManager.Instance.ProcessNextActionInput();
+        // if (StageBaseManager.Instance.DialogueManager != null) StageBaseManager.Instance.DialogueManager.ProcessNextActionInput();
     }
 
     /// <summary>
