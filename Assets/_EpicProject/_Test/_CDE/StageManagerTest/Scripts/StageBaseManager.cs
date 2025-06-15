@@ -6,6 +6,7 @@ public abstract class StageBaseManager : MonoBehaviour
 {
     public static StageBaseManager Instance { get; private set; }
     public EngineManager EngineManager { get; private set; }
+    public PlayerManager PlayerManager { get; private set; }
     public DialogueManager DialogueManager { get; private set; }
 
     [SerializeField] protected string stageFilePath = "Stages/0_Stage/0_StageData";
@@ -26,6 +27,7 @@ public abstract class StageBaseManager : MonoBehaviour
         
         // Manager 클래스 참조
         EngineManager = FindAnyObjectByType<EngineManager>();
+        PlayerManager = FindAnyObjectByType<PlayerManager>();
         DialogueManager = GetComponentInChildren<DialogueManager>();
         
         // Clickable의 프로필 데이터 로드
