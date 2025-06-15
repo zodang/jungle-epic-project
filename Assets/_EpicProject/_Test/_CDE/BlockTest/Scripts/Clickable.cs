@@ -31,7 +31,6 @@ public class Clickable : MonoBehaviour, IClickable
     public void OnClicked()
     {
         // 클릭 시 InspectorUI 활성화
-        Debug.Log($"{StageBaseManager.Instance} / {StageBaseManager.Instance.EngineManager}");
         StageBaseManager.Instance.EngineManager.ActivateEngineUI(this);
     }
     

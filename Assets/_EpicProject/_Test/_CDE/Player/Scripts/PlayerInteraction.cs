@@ -26,4 +26,9 @@ public class PlayerInteraction : MonoBehaviour
         // 상호작용 작동
         interactable?.Interact();
     }
+
+    private void OnDestroy()
+    {
+        StageManager.Instance.InputManager.OnInteract -= TryCollectBlock;
+    }
 }
