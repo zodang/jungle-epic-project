@@ -1,9 +1,14 @@
 using Define;
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdjustable, IRotatable, IFeatureResetable
 {
+    // Action
+    public event Action<bool> OnControlEnabled;
+    public event Action<PlayerSkinType> OnPlayerTwinkled;
+
     private Rigidbody2D _rigidbody2D;
     private Vector2 _moveInput;
 
@@ -21,11 +26,10 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     private float _maxRotate = 359f;
     private float _currentRotate;
 
-
     private Transform _model;
     private GameObject _TwinkleLv1;
     private GameObject _TwinkleLv2;
-    private PlayerAnimation _playerAnimation;
+    
     private void Awake()
     {
         TryGetComponent<Rigidbody2D>(out _rigidbody2D);
@@ -33,7 +37,6 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         _model = transform.GetChild(1);
         _TwinkleLv1 = _model.GetChild(0).gameObject;
         _TwinkleLv2 = _model.GetChild(1).gameObject;
-        _playerAnimation = transform.GetComponentInChildren<PlayerAnimation>();
     }
 
     private void Start()
@@ -61,30 +64,15 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     {
         if(!_TwinkleLv1.IsUnityNull())
         {
-            if (bright >= 1.5f)
-            {
-                _TwinkleLv1.SetActive(true);
-            }
-            else
-            {
-                _TwinkleLv1.SetActive(false);
-            }
+            _TwinkleLv1.SetActive(bright >= 1.5f); // _TwinkleLv1 활성화
         }
         
         if(!_TwinkleLv2.IsUnityNull())
         {
-            if (bright >= 2.5f)
-            {
-                _TwinkleLv2.SetActive(true);
-                _playerAnimation.ChangeSkin(PlayerSkinType.BaldHead);
-                StageManager.Instance.FlagManager.SetFlag("baldHead", true); // 예시로 baldHead 플래그 설정
-            }
-            else
-            {
-                _TwinkleLv2.SetActive(false);
-                _playerAnimation.ChangeSkin(PlayerSkinType.Default);
-                StageManager.Instance.FlagManager.SetFlag("baldHead", false); // 예시로 baldHead 플래그 해제
-            }
+            bool isBright = bright >= 2.5f;
+            _TwinkleLv2.SetActive(isBright); // _TwinkleLv2 활성화
+            OnPlayerTwinkled?.Invoke(isBright? PlayerSkinType.BaldHead : PlayerSkinType.Default); // 스킨 변경
+            StageManager.Instance.FlagManager.SetFlag("baldHead", isBright); // 예시로 baldHead 플래그 설정
         }
     }
 
@@ -100,12 +88,16 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     {
         _enableMove = true;
         _moveInput = Vector2.zero;
+        
+        OnControlEnabled?.Invoke(true);
     }
 
     public void DisableControl()
     {
         _enableMove = false;
         _moveInput = Vector2.zero;
+        
+        OnControlEnabled?.Invoke(false);
     }
     private void Move()
     {
@@ -153,6 +145,9 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     }
     #endregion
 
-
-
+    private void OnDestroy()
+    {
+        OnControlEnabled = null;
+        OnPlayerTwinkled = null;
+    }
 }

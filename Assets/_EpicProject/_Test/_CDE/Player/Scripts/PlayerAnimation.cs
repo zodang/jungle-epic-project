@@ -10,13 +10,15 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private PlayerSkinData[] playerSkinData;
     private Dictionary<PlayerSkinType, PlayerSkinData> _skinDictionary = new();
     private RuntimeAnimatorController _defaultController;
+
+    private bool _isAnimationActive;
     
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
         _defaultController = _animator.runtimeAnimatorController;
-
+        
         // SkinDictionary 초기화
         foreach (var skin in playerSkinData)
         {
@@ -44,11 +46,18 @@ public class PlayerAnimation : MonoBehaviour
         }
         
         Debug.LogWarning($"{type}의 스킨 없음!");
-        
+    }
+
+    public void ActivateAnimation(bool isActive)
+    {
+        // 애니메이션 활성화, 비활성화 기능
+        _isAnimationActive = isActive;
     }
 
     private void Update()
     {
+        if (!_isAnimationActive) return;
+     
         Vector2 move = StageManager.Instance.InputManager.MoveInput;
         bool isMoving = move.sqrMagnitude > 0.01f;
         
