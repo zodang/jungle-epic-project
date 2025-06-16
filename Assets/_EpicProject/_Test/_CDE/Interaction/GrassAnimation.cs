@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine;
 
 public class GrassAnimation : MonoBehaviour
@@ -13,5 +14,6 @@ public class GrassAnimation : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         _animator.SetTrigger("StepTrigger");
+        GameManager.Instance.AudioManager.PlaySfx(SfxType.Grass); // 잔디 밟는 소리 재생
     }
 }
