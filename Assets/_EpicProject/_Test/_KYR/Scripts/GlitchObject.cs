@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 public class GlitchObject : MonoBehaviour
 {
     [Header("Materials")]
@@ -10,12 +11,13 @@ public class GlitchObject : MonoBehaviour
     public bool isGlitchVision = false; // GlitchVision 모드 여부
 
     [Header("Glitch Effect Settings")]
-    public float glitchChangeSpeed = 0.1f;
+    public float glitchValueUpdateSpeed = 1f;
+    public float glitchChangeInterval = 0.2f;
 
     private float currentGlitchValue = 0.1f;
     private float targetGlitchValue = 0.1f;
     private SpriteRenderer spriteRenderer;
-
+    private Coroutine glitchApplyCoroutine;
 
 
     private void Start()
@@ -62,6 +64,11 @@ public class GlitchObject : MonoBehaviour
 
         // targetGlitchValue을 새 랜덤값으로 지정
         targetGlitchValue = Random.Range(-1f, -0.5f);
+
+        // 이전 코루틴을 중지하고, ApplyGlitchEffectRoutine 시작
+        if (glitchApplyCoroutine != null)
+            StopCoroutine(glitchApplyCoroutine);
+        glitchApplyCoroutine = StartCoroutine(ApplyGlitchEffectRoutine());
     }
 
     public void HideGlitch()
@@ -71,6 +78,13 @@ public class GlitchObject : MonoBehaviour
 
         // GlitchVision 모드 비활성화
         isGlitchVision = false;
+
+        // 코루틴 정지
+        if (glitchApplyCoroutine != null)
+        {
+            StopCoroutine(glitchApplyCoroutine);
+            glitchApplyCoroutine = null;
+        }
     }
 
     public void UpdateGlitchEffectValue()
@@ -82,10 +96,15 @@ public class GlitchObject : MonoBehaviour
         }
 
         // 서서히 목표값을 향해 이동
-        currentGlitchValue = Mathf.MoveTowards(currentGlitchValue, targetGlitchValue, glitchChangeSpeed * Time.deltaTime);
+        currentGlitchValue = Mathf.MoveTowards(currentGlitchValue, targetGlitchValue, glitchValueUpdateSpeed * Time.deltaTime);
+    }
 
-        // 값 적용
-        if (glitchMat != null)
+    private IEnumerator ApplyGlitchEffectRoutine()
+    {
+        while (isGlitchVision && glitchMat != null)
+        {
             glitchMat.SetFloat("_GlitchEffect", currentGlitchValue);
+            yield return new WaitForSeconds(glitchChangeInterval);
+        }
     }
 }
