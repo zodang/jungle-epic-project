@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class BridgeCore : MonoBehaviour
+public class BridgePath : MonoBehaviour
 {
     List<Collider2D> _overlappingColliders = new List<Collider2D>();
     List<Collider2D> _enteredColliders = new List<Collider2D>();
@@ -32,8 +33,10 @@ public class BridgeCore : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        Movement2D movement = collision.GetComponentInParent<Movement2D>();
+        if (!movement.IsUnityNull())// collision.CompareTag("Player"))
         {
+            movement.CheckGround = true;
             //Debug.Log("Player Enter Bridge");
             if (!_enteredColliders.Contains(collision))
             {
@@ -55,8 +58,10 @@ public class BridgeCore : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        Movement2D movement = collision.GetComponentInParent<Movement2D>();
+        if (!movement.IsUnityNull()) //if (collision.CompareTag("Player"))
         {
+            movement.CheckGround = false;
             //Debug.Log("Player Exit Bridge");
             if (_enteredColliders.Contains(collision))
             {

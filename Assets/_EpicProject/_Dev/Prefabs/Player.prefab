@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 7833763572700565480}
   - component: {fileID: 2278239420035226639}
   - component: {fileID: 4930637680045947570}
+  - component: {fileID: 8270869016251555534}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -210,6 +211,23 @@ MonoBehaviour:
   _enableMove: 0
   scaleMin: 0.5
   scaleMax: 2
+--- !u!114 &8270869016251555534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633253394416912569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d47149cfd914a6429e5eaacd62f7cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CheckGround: 0
+  nextIsBirdge: 0
+  nextIsGround: 0
+  testdist: 0
+  GroundTilemap: {fileID: 0}
 --- !u!1 &3519687253771917961
 GameObject:
   m_ObjectHideFlags: 0
