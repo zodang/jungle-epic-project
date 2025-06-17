@@ -11,6 +11,7 @@ public class EngineUIController : MonoBehaviour
     
     [Header("Profile")]
     [SerializeField] private TMP_Text gameName;
+    [SerializeField] private Image targetImg;
     
     [Header("Button")]
     [SerializeField] private Button closeBtn;
@@ -66,11 +67,12 @@ public class EngineUIController : MonoBehaviour
         _canvasGroup.alpha = value;
     }
 
-    public void SetProfileName(ClickableProfile profile)
+    public void SetProfile(ClickableProfile profile)
     {
         // 프로필 이름 변경
         if (profile == null) return;
         gameName.text = profile.name;
+        // targetImg.sprite = profile.sprite;
     }
 
     public void ActivateEffect()

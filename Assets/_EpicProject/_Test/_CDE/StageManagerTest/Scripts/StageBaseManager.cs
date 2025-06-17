@@ -90,9 +90,6 @@ public class ClickableProfile
 {
     public string id;
     public string name;
-    public string serialNumber;
-    public string status;
     public string imagePath;
-
     public Sprite sprite;
 }
