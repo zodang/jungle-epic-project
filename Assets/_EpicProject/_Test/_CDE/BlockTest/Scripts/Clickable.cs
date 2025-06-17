@@ -7,7 +7,8 @@ public class Clickable : MonoBehaviour, IClickable
     // 저장할 Profile 데이터
     public string ID;
     private ClickableProfile _profile;
-    
+
+    public Dictionary<int, BlockType> SlotBlockMap { get; private set; } = new();
     public List<BlockType> BlockTypeList { get; private set; } = new List<BlockType>();
     [SerializeField] private List<BlockType> defaultBlockTypes = new List<BlockType>();
 
@@ -19,11 +20,12 @@ public class Clickable : MonoBehaviour, IClickable
     public void InitDefaultBlock()
     {
         // Default Block 추가
-        foreach (var type in defaultBlockTypes)
+        for (int i = 0; i < defaultBlockTypes.Count; i++)
         {
-            if (!BlockTypeList.Contains(type))
+            var type = defaultBlockTypes[i];
+            if (!SlotBlockMap.ContainsKey(i))
             {
-                BlockTypeList.Add(type);
+                SlotBlockMap.Add(i, type);
             }
         }
     }
@@ -34,18 +36,32 @@ public class Clickable : MonoBehaviour, IClickable
         StageBaseManager.Instance.EngineManager.ActivateEngineUI(this);
     }
     
-    public void AddBlockToClickable(BlockType type)
+    public void AddBlockToClickable(BlockType type, int slotIndex)
     {
         // Inventory에서 Engine으로 드롭 시
-        BlockTypeList.Add(type);
+        SlotBlockMap[slotIndex] = type;
         StageBaseManager.Instance.EngineManager.NotifyBlockChanged(this);
     }
     
     public void RemoveBlockFromClickable(BlockType type)
     {
         // Engine에서 Inventory로 드롭 시
-        BlockTypeList.Remove(type);
-        StageBaseManager.Instance.EngineManager.NotifyBlockChanged(this);
+        int targetKey = -1;
+
+        foreach (var pair in SlotBlockMap)
+        {
+            if (pair.Value == type)
+            {
+                targetKey = pair.Key;
+                break;
+            }
+        }
+
+        if (targetKey != -1)
+        {
+            SlotBlockMap.Remove(targetKey);
+            StageBaseManager.Instance.EngineManager.NotifyBlockChanged(this);
+        }
     }
 
     public ClickableProfile GetProfile()

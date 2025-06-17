@@ -19,6 +19,11 @@ public abstract class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHa
         _canvas = GetComponentInParent<Canvas>();
     }
 
+    public void SetPrevSlot(Slot slot)
+    {
+        PrevSlot = slot;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         _originalAnchorPos = _rectTransform.anchoredPosition;
@@ -58,9 +63,9 @@ public abstract class DraggableBlock : MonoBehaviour, IBeginDragHandler, IDragHa
         // 새 slot으로 이동
         if (nextSlot != null && nextSlot.CanDrop())
         {
-            PrevSlot?.OnBlockDrop(this, nextSlot);
-            nextSlot.OnBlockDrop(this, nextSlot);
             PrevSlot?.OnBlockRemoved();
+            nextSlot.OnBlockDrop(this, nextSlot);
+            PrevSlot = nextSlot;
         }
         
         // 기존 slot으로 이동

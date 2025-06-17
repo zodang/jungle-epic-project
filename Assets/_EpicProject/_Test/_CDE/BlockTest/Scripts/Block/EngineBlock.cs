@@ -3,6 +3,13 @@ using Define;
 
 public abstract class EngineBlock : DraggableBlock
 {
+    public Clickable OwnerClickable { get; private set; }
+
+    public void SetOwner(Clickable clickable)
+    {
+        OwnerClickable = clickable;
+    }
+    
     // 블록 타입 정보
     public abstract BlockType Type { get; } 
     

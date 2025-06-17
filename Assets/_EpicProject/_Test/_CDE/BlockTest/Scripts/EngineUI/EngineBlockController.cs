@@ -19,6 +19,7 @@ public class EngineBlockController : MonoBehaviour
         for (int i = 0; i < _slotList.Count; i++)
         {
             _slotTransforms[i] = _slotList[i].transform;
+            _slotList[i].SetSlotIndex(i);
         }
     }
 
@@ -38,9 +39,35 @@ public class EngineBlockController : MonoBehaviour
     
     public void AddBlock(Clickable target)
     {
-        // Inspector Slot에 새 Block 추가
-        RemoveBlockFromSlot();
-        BlockManager.ApplyBlockToTarget(target, StageManager.Instance.BlockFactory, _slotTransforms);
+
+        for (int i = 0; i < _slotList.Count; i++)
+        {
+            var slot = _slotList[i];
+
+            bool shouldExist = target.SlotBlockMap.TryGetValue(i, out var expectedType);
+            var currentType = slot.CurrentBlockType;
+
+            if (!shouldExist && currentType != null)
+            {
+                var feature = target.GetComponent(slot.CurrentBlock.RequiredFeatureType);
+                slot.CurrentBlock.Deactivate(feature);
+                slot.ClearBlock();
+            }
+            
+            else if (shouldExist && currentType != expectedType)
+            {
+                if (slot.CurrentBlock != null)
+                {
+                    var feature = target.GetComponent(slot.CurrentBlock.RequiredFeatureType);
+                    slot.CurrentBlock.Deactivate(feature);
+                    slot.ClearBlock();
+                }
+
+                var block = StageManager.Instance.BlockFactory.CreateFeatureBlock(expectedType, slot.transform);
+                var f = target.GetComponent(block.RequiredFeatureType);
+                block.Activate(f);
+                slot.SetBlock(block);
+            }
+        }
     }
-    
 }
