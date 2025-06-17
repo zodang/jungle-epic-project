@@ -29,6 +29,10 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
 
     private Movement2D _movement2D;
 
+    // --- [새로 추가된 부분 1] ObjectPropertyController 변수 선언 ---
+    private ObjectPropertyController _propertyController;
+
+
     private void Awake()
     {
         _model = transform.GetChild(0);
@@ -37,6 +41,9 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         _TwinkleLv2 = _model.GetChild(3).gameObject;
 
         _movement2D = GetComponent<Movement2D>();
+
+        // --- [새로 추가된 부분 2] 자기 자신에게 붙어있는 컴포넌트 찾아오기 ---
+        _propertyController = transform.Find("Model").GetComponent<ObjectPropertyController>();
     }
 
     private void Start()
@@ -101,6 +108,9 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
         _movement2D.MoveDir = Vector2.zero;
+
+        // --- [수정된 부분] 미리 찾아둔 _propertyController 변수 사용 ---
+        _propertyController.AttachController();
     }
 
     public void DisableControl()
@@ -110,6 +120,13 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
         _movement2D.MoveDir = Vector2.zero;
+
+        // --- [수정된 부분] 컨트롤이 비활성화 될 때도 호출해주는 것이 좋습니다 ---
+        // _propertyController가 null이 아닐 때만 호출하도록 안전장치 추가
+        if (_propertyController != null)
+        {
+            _propertyController.DetachController();
+        }
     }
     #endregion
 
