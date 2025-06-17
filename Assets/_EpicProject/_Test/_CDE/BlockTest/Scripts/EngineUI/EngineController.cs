@@ -1,23 +1,17 @@
 using Define;
 using UnityEngine;
-using System.Collections;
 
 public class EngineController : MonoBehaviour
 {
     public Clickable CurrentTarget { get; private set; }
 
     private EngineUIController _engineUIController;
-    private EngineBlockController _engineBlockInspector;
-    private Animator _engineAnimator;
-
-    //0.25초 후에 UI 끄기 위해
-    [SerializeField] private float _durationTime = 0.25f;
+    private EngineBlockController _engineBlockController;
 
     private void Awake()
     {
         _engineUIController = GetComponent<EngineUIController>();
-        _engineBlockInspector = GetComponent<EngineBlockController>();
-        _engineAnimator = GetComponent<Animator>(); 
+        _engineBlockController = GetComponent<EngineBlockController>();
     }
 
     private void Start()
@@ -37,39 +31,32 @@ public class EngineController : MonoBehaviour
         RefreshSlot(target);
 
         // UI 세팅
-        _engineUIController.SetProfile(target.GetProfile(), target);
-        _engineUIController.SetUIPosition(target);
+        _engineUIController.SetProfile(target.GetProfile());
     }
 
     public void RefreshSlot(Clickable target)
     {
-        _engineBlockInspector.AddBlock(target);
+        _engineBlockController.AddBlock(target);
     }
     
     public void Activate()
     {
         // On 애니메이션 실행 
-        _engineAnimator.Play("On Ani");
+        _engineUIController.ActivateEffect();
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
     }
     
     private void Deactivate()
     {
         if (!gameObject.activeSelf) return;
-        
-        // Off 애니메이션 실행 
-        _engineAnimator.Play("Off Ani");
-        StartCoroutine(CloseAfterAnimation());
-        
+        _engineUIController.DeactivateEffect();
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
     }
 
     public void DeactivateSilently()
     {
         if (!gameObject.activeSelf) return;
-
-        _engineAnimator.Play("Off Ani");
-        StartCoroutine(CloseAfterAnimation());
+        _engineUIController.DeactivateEffect();
     }
     
     private void ResetFeature()
@@ -86,11 +73,5 @@ public class EngineController : MonoBehaviour
         {
             block.ResetUI();
         }
-    }
-    
-    private IEnumerator CloseAfterAnimation()
-    {
-        yield return new WaitForSeconds(_durationTime);
-        gameObject.SetActive(false);
     }
 }

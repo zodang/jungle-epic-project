@@ -9,6 +9,8 @@ public abstract class StageBaseManager : MonoBehaviour
     public PlayerManager PlayerManager { get; private set; }
     public DialogueManager DialogueManager { get; private set; }
 
+    public List<Clickable> ClickableList { get; private set; }
+
     [SerializeField] protected string stageFilePath = "Stages/0_Stage/0_StageData";
     protected Dictionary<string, ClickableProfile> _profileDic = new();
 
@@ -31,6 +33,7 @@ public abstract class StageBaseManager : MonoBehaviour
         DialogueManager = FindAnyObjectByType<DialogueManager>();
         
         // Clickable의 프로필 데이터 로드
+        ClickableList = new List<Clickable>(FindObjectsByType<Clickable>(FindObjectsSortMode.None));
         LoadClickableProfile();
     }
     
@@ -59,7 +62,7 @@ public abstract class StageBaseManager : MonoBehaviour
             _profileDic[profile.id] = profile;
         }
 
-        foreach (var clickable in FindObjectsByType<Clickable>(FindObjectsSortMode.None))
+        foreach (var clickable in ClickableList)
         {
             if (_profileDic.TryGetValue(clickable.ID, out var profile))
             {
@@ -87,9 +90,6 @@ public class ClickableProfile
 {
     public string id;
     public string name;
-    public string serialNumber;
-    public string status;
     public string imagePath;
-
     public Sprite sprite;
 }

@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class EngineUIController : MonoBehaviour
 {
@@ -10,8 +11,6 @@ public class EngineUIController : MonoBehaviour
     
     [Header("Profile")]
     [SerializeField] private TMP_Text gameName;
-    [SerializeField] private TMP_Text serialNum;
-    [SerializeField] private TMP_Text status;
     [SerializeField] private Image targetImg;
     
     [Header("Button")]
@@ -21,18 +20,21 @@ public class EngineUIController : MonoBehaviour
     private EngineUICloseBtn _closeBtn;
     private EngineUIOpacitySlider _opacitySlider;
     
-    private Canvas _canvas;
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
-    
-    private Vector2 _offset = new Vector2(300, 0);
-    private float _minOpacity = 0.4f;
 
+    [Header("Dotween")]
+    private float _posX = 700f;
+    private float _minPosY = -900f;
+    private float _maxPosY = -245f;
+    private float _activeDuration = 1f;
+    private float _deactiveDuration = 0.25f;
+    
+    private float _minOpacity = 0.4f;
 
     private void Awake()
     {
-        _canvas = GetComponentInParent<Canvas>();
-        _canvasGroup = GetComponent<CanvasGroup>();
+        _canvasGroup = GetComponentInChildren<CanvasGroup>();
         _rectTransform = GetComponent<RectTransform>();
 
         // opacity slider 기능 연결
@@ -63,55 +65,30 @@ public class EngineUIController : MonoBehaviour
         _canvasGroup.alpha = value;
     }
 
-    public void SetProfile(ClickableProfile profile, Clickable target)
+    public void SetProfile(ClickableProfile profile)
     {
+        // 프로필 이름 변경
         if (profile == null) return;
-
-        // 프로필 설정
         gameName.text = profile.name;
-        serialNum.text = profile.serialNumber;
-        status.text = profile.status;
-
         targetImg.sprite = profile.sprite;
     }
-    
-    public void SetUIPosition(Clickable clickable)
+
+    public void ActivateEffect()
     {
-        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
-
-        // 기본 위치는 오른쪽 (Offset 적용)
-        Vector2 targetPos = screenPos + new Vector2(Mathf.Abs(_offset.x), _offset.y);
-
-        Vector2 uiSize = _rectTransform.sizeDelta * _canvas.scaleFactor;
-        float halfWidth = uiSize.x * 0.5f;
-        float halfHeight = uiSize.y * 0.5f;
-
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
-
-        if (targetPos.x + halfWidth > screenWidth)
-        {
-            targetPos.x = screenPos.x - Mathf.Abs(_offset.x) - uiSize.x;
-        }
-
-        if (targetPos.x - halfWidth < 0)
-        {
-            targetPos.x = halfWidth + 10;
-        }
-
-        if (targetPos.y + halfHeight > screenHeight)
-        {
-            targetPos.y = screenHeight - halfHeight - 10;
-        }
-
-        if (targetPos.y - halfHeight < 0)
-        {
-            targetPos.y = halfHeight + 10;
-        }
-
-        _rectTransform.position = targetPos;
+        transform.SetAsLastSibling();
+        
+        // 초기 설정
+        _rectTransform.localScale = Vector3.one;
+        _rectTransform.anchoredPosition = new Vector2(_posX, _minPosY);
+        
+        _rectTransform.DOAnchorPos(new Vector2(_posX, _maxPosY), _activeDuration).SetEase(Ease.OutBack);
     }
 
+    public void DeactivateEffect()
+    {
+        _rectTransform.DOScale(Vector3.zero, _deactiveDuration);
+    }
+    
     private void OnDestroy()
     {
         OnResetBtnClicked = null;

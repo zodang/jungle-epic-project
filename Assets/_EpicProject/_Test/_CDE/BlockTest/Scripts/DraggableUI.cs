@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointerDownHandler
 {
     private RectTransform _rectTransform;
     private Canvas _canvas;
@@ -31,5 +31,9 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData) {}
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        transform.SetAsLastSibling();
+    }
+    
 }

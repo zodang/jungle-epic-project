@@ -1,10 +1,13 @@
+using TMPro;
 using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature : class
 {
     protected TFeature _feature;
     private Slider _slider;
+    private TMP_Text _percentText;
     
     public override void Activate(object feature)
     {
@@ -12,6 +15,7 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
         if (_feature == null) return;
         
         _slider = GetComponentInChildren<Slider>();
+        _percentText = GetComponentInChildren<TMP_Text>();
         if (_slider.GetComponent<SliderInteractionDetector>() == null)
         {
             _slider.AddComponent<SliderInteractionDetector>();
@@ -24,6 +28,7 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
         
         // 슬라이더 값 변경 시마다 value 전달
         _slider.onValueChanged.AddListener(OnSliderChanged);
+        UpdatePercentText(_slider.value);
     }
 
     public override void Deactivate(object feature)
@@ -39,8 +44,19 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
         if (_slider == null) return;
 
         _slider.value = GetCurrentValue();
+        UpdatePercentText(_slider.value);
     }
-    
+
+    protected void UpdatePercentText(float value)
+    {
+        if (_percentText == null || _slider == null) return;
+
+        float percent = (_slider.maxValue - _slider.minValue <= 0f)
+            ? 0f
+            : (value - _slider.minValue) / (_slider.maxValue - _slider.minValue);
+        _percentText.text = $"{Mathf.RoundToInt(percent * 100)}%";
+    }
+
     protected abstract float GetMinValue();
     protected abstract float GetMaxValue();
     protected abstract float GetCurrentValue();

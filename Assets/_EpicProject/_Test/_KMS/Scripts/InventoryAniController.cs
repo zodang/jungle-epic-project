@@ -1,10 +1,8 @@
 using Define;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventoryAniController : MonoBehaviour
 {
-    private Button _toggleBtn;
     private Animator _inventoryAni;  
     private bool _isOpen = false;
     private InventoryBtn _inventoryBtn;
@@ -12,10 +10,6 @@ public class InventoryAniController : MonoBehaviour
     private void Awake()
     {
         _inventoryAni = GetComponent<Animator>();
-        _toggleBtn = GetComponentInChildren<Button>();
-        
-        // Toggle 버튼 클릭 시 inventory 활성화
-        _toggleBtn.onClick.AddListener(ToggleInventory);
         
         // Inventory 버튼 초기화
         _inventoryBtn = FindAnyObjectByType<InventoryBtn>();

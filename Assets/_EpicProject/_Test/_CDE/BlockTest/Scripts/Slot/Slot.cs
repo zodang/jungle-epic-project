@@ -6,7 +6,7 @@ public class Slot : MonoBehaviour
 
     public bool CanDrop()
     {
-        return _currentDraggableBlock == null;
+        return GetChildBlock() == null;
     }
     
     public virtual void OnBlockDrop(DraggableBlock draggableBlock, Slot endSlot)
@@ -17,6 +17,7 @@ public class Slot : MonoBehaviour
         draggableBlock.transform.SetParent(transform, false);
         draggableBlock.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
+        draggableBlock.SetPrevSlot(this);
     }
 
     public virtual void OnBlockRemoved()
