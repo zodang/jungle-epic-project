@@ -38,7 +38,6 @@ public class EngineController : MonoBehaviour
 
         // UI 세팅
         _engineUIController.SetProfileName(target.GetProfile());
-        _engineUIController.SetUIPosition(target);
     }
 
     public void RefreshSlot(Clickable target)

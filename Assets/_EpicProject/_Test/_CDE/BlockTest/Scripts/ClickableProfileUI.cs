@@ -9,6 +9,7 @@ public class ClickableProfileUI : MonoBehaviour
     {
         _profileImg = GetComponentInChildren<Image>();
     }
+    
 
     public void SetProfileImg(ClickableProfile profile)
     {

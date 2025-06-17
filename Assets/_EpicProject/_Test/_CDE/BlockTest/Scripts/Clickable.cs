@@ -9,7 +9,6 @@ public class Clickable : MonoBehaviour, IClickable
     private ClickableProfile _profile;
 
     public Dictionary<int, BlockType> SlotBlockMap { get; private set; } = new();
-    public List<BlockType> BlockTypeList { get; private set; } = new List<BlockType>();
     [SerializeField] private List<BlockType> defaultBlockTypes = new List<BlockType>();
 
     public void InitProfile(ClickableProfile profile)
@@ -32,8 +31,8 @@ public class Clickable : MonoBehaviour, IClickable
 
     public void OnClicked()
     {
-        // 클릭 시 InspectorUI 활성화
-        StageBaseManager.Instance.EngineManager.ActivateEngineUI(this);
+        // 클릭 시 Engine UI 활성화
+        StageBaseManager.Instance.ActivateEngine(this);
     }
     
     public void AddBlockToClickable(BlockType type, int slotIndex)

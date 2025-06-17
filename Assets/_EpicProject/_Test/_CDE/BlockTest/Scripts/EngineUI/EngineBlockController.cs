@@ -22,24 +22,9 @@ public class EngineBlockController : MonoBehaviour
             _slotList[i].SetSlotIndex(i);
         }
     }
-
-    private void RemoveBlockFromSlot()
-    {
-        // Engine Slot의 기존 블록 제거
-        foreach (var slot in _slotList)
-        {
-            var existing = slot.GetChildBlock();
-            if (existing != null)
-            {
-                Destroy(existing.gameObject);
-                slot.OnBlockRemoved();
-            }
-        }
-    }
     
     public void AddBlock(Clickable target)
     {
-
         for (int i = 0; i < _slotList.Count; i++)
         {
             var slot = _slotList[i];

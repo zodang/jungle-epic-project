@@ -6,7 +6,7 @@ public class Slot : MonoBehaviour
 
     public bool CanDrop()
     {
-        return _currentDraggableBlock == null;
+        return GetChildBlock() == null;
     }
     
     public virtual void OnBlockDrop(DraggableBlock draggableBlock, Slot endSlot)
