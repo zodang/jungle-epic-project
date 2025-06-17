@@ -64,6 +64,20 @@ Shader "Custom/GlitchEffectShader"
                 return frac(sin(dot(co, float2(12.9898, 78.233))) * 43758.5453);
             }
 
+            fixed3 OverlayBlend(fixed3 baseColor, fixed3 blendColor)
+            {
+                return lerp(
+                    2.0 * baseColor * blendColor,
+                    1.0 - 2.0 * (1.0 - baseColor) * (1.0 - blendColor),
+                    step(0.5, baseColor)
+                );
+            }
+            
+            fixed3 ColorDodgeBlend(fixed3 baseColor, fixed3 blendColor)
+            {
+                return baseColor / max(1.0 - blendColor, 0.01);
+            }
+
             fixed4 frag (v2f i) : SV_Target {
                 fixed4 baseTex = tex2D(_MainTex, i.uv);
 
@@ -110,14 +124,26 @@ Shader "Custom/GlitchEffectShader"
                 float chromR = tex2D(_MainTex, glitchUV/1.5f + chromAberrAmount).r;
                 float chromG = tex2D(_MainTex, glitchUV/1.5f).g;
                 float chromB = tex2D(_MainTex, glitchUV/1.5f - chromAberrAmount).b;
+
+
                 
                 fixed4 finalCol = fixed4(chromR, chromG, chromB, glitchTex.a);
+                fixed3 baseColor = finalCol.rgb;
+                fixed3 blendColor = float3(1, 0, 1);
+
+                finalCol.rgb = saturate(ColorDodgeBlend(baseColor, blendColor));
+
+                // finalCol.rgb = OverlayBlend(baseColor, blendColor);
+                // finalCol.rgb += 0.3;
+
                 return finalCol;
             }
             ENDCG
         }
     }
 }
+
+
 
 // Under this comment is the original shader code for reference, it can be removed if not needed anymore
 // 아래는 원본 코드
