@@ -32,7 +32,7 @@ public class Clickable : MonoBehaviour, IClickable
     public void OnClicked()
     {
         // 클릭 시 Engine UI 활성화
-        StageBaseManager.Instance.ActivateEngine(this);
+        StageBaseManager.Instance.EngineManager.ActivateEngineUI(this);
     }
     
     public void AddBlockToClickable(BlockType type, int slotIndex)

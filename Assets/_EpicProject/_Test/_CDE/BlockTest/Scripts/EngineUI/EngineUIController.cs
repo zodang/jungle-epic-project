@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class EngineUIController : MonoBehaviour
 {
@@ -21,8 +22,14 @@ public class EngineUIController : MonoBehaviour
     private Canvas _canvas;
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
+
+    [Header("Dotween")]
+    private float _posX = 700f;
+    private float _minPosY = -900f;
+    private float _maxPosY = -245f;
+    private float _activeDuration = 1f;
+    private float _deactiveDuration = 0.25f;
     
-    private Vector2 _offset = new Vector2(300, 0);
     private float _minOpacity = 0.4f;
 
     private void Awake()
@@ -65,44 +72,19 @@ public class EngineUIController : MonoBehaviour
         if (profile == null) return;
         gameName.text = profile.name;
     }
-    
-    public void SetUIPosition(Clickable clickable)
+
+    public void ActivateEffect()
     {
-        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
-
-        // 기본 위치는 오른쪽 (Offset 적용)
-        Vector2 targetPos = screenPos + new Vector2(Mathf.Abs(_offset.x), _offset.y);
-
-        Vector2 uiSize = _rectTransform.sizeDelta * _canvas.scaleFactor;
-        float halfWidth = uiSize.x * 0.5f;
-        float halfHeight = uiSize.y * 0.5f;
-
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
-
-        if (targetPos.x + halfWidth > screenWidth)
-        {
-            targetPos.x = screenPos.x - Mathf.Abs(_offset.x) - uiSize.x;
-        }
-
-        if (targetPos.x - halfWidth < 0)
-        {
-            targetPos.x = halfWidth + 10;
-        }
-
-        if (targetPos.y + halfHeight > screenHeight)
-        {
-            targetPos.y = screenHeight - halfHeight - 10;
-        }
-
-        if (targetPos.y - halfHeight < 0)
-        {
-            targetPos.y = halfHeight + 10;
-        }
-
-        _rectTransform.position = targetPos;
+        _rectTransform.localScale = Vector3.one;
+        _rectTransform.anchoredPosition = new Vector2(_posX, _minPosY);
+        _rectTransform.DOAnchorPos(new Vector2(_posX, _maxPosY), _activeDuration).SetEase(Ease.OutBack);
     }
 
+    public void DeactivateEffect()
+    {
+        _rectTransform.DOScale(Vector3.zero, _deactiveDuration);
+    }
+    
     private void OnDestroy()
     {
         OnResetBtnClicked = null;
