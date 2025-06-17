@@ -42,10 +42,6 @@ public class GlitchObject : MonoBehaviour
         }
     }
 
-
-
-
-
     public void ShowGlitch()
     {
         // glitchMat으로 변경
@@ -55,7 +51,7 @@ public class GlitchObject : MonoBehaviour
         isGlitchVision = true;
 
         // GlitchVision Value 초기화
-        glitchMat.SetFloat("_ChromAberrAmountX", Random.Range(-0.2f, 0.2f));
+        glitchMat.SetFloat("_ChromAberrAmountX", Random.Range(-0.3f, 0.3f));
         glitchMat.SetFloat("_ChromAberrAmountY", 0);
         glitchMat.SetVector("_DisplacementAmount", new Vector4(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), 0));
         glitchMat.SetFloat("_RightStripesAmount", Random.Range(10f, 30f));

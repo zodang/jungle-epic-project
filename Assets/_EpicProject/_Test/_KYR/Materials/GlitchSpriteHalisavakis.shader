@@ -107,9 +107,9 @@ Shader "Custom/GlitchEffectShader"
                 }
 
                 // Chromatic aberration section
-                float chromR = tex2D(_MainTex, glitchUV + chromAberrAmount).r;
-                float chromG = tex2D(_MainTex, glitchUV).g;
-                float chromB = tex2D(_MainTex, glitchUV - chromAberrAmount).b;
+                float chromR = tex2D(_MainTex, glitchUV/1.5f + chromAberrAmount).r;
+                float chromG = tex2D(_MainTex, glitchUV/1.5f).g;
+                float chromB = tex2D(_MainTex, glitchUV/1.5f - chromAberrAmount).b;
                 
                 fixed4 finalCol = fixed4(chromR, chromG, chromB, glitchTex.a);
                 return finalCol;
