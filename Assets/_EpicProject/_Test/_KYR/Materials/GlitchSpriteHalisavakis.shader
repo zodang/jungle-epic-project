@@ -45,7 +45,10 @@ Shader "Custom/GlitchEffectShader"
                 o.uv = v.uv;
                 return o;
             }
-             
+            
+
+            // Best Value
+
             sampler2D _MainTex;
             float _ChromAberrAmountX;
             float _ChromAberrAmountY;
