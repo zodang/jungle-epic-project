@@ -58,7 +58,7 @@ public class EvaporationHandler : MonoBehaviour
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Clear);// 젤다 효과음 재생
         gameObject.SetActive(false);
         OnEvaporate?.Invoke();
-        ObjectPropertyController foundAxe = FindObjectOfType<ObjectPropertyController>();
+        ObjectPropertyController foundAxe = FindAnyObjectByType<ObjectPropertyController>(); // FindObjectOfType
         if (foundAxe != null)
         {
             foundAxe.Emerge();

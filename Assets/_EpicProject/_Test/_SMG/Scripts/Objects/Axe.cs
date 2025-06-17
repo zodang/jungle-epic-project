@@ -23,7 +23,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     private float _currentBright;
 
     private Transform _model;
-    private GameObject _bridgeSide;
+    //private GameObject _bridgeSide;
     private GameObject _TwinkleLv1;
     private GameObject _TwinkleLv2;
 
@@ -36,7 +36,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     private void Awake()
     {
         _model = transform.GetChild(0);
-        _bridgeSide = _model.GetChild(1).gameObject;
+        //_bridgeSide = _model.GetChild(1).gameObject;
         _TwinkleLv1 = _model.GetChild(2).gameObject;
         _TwinkleLv2 = _model.GetChild(3).gameObject;
 
@@ -104,7 +104,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     public void EnableControl()
     {
         _enableMove = true;
-        _bridgeSide.SetActive(!_enableMove);
+        //_bridgeSide.SetActive(!_enableMove);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
         _movement2D.MoveDir = Vector2.zero;
@@ -116,7 +116,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     public void DisableControl()
     {
         _enableMove = false;
-        _bridgeSide.SetActive(!_enableMove);
+        //_bridgeSide.SetActive(!_enableMove);
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
         _movement2D.MoveDir = Vector2.zero;
