@@ -30,11 +30,11 @@ public class ObjectPropertyController : MonoBehaviour
         if (_ySortOrder != null) _ySortOrder.enabled = false;
 
         // 2. Sorting Layer를 물(Ground)보다 낮은 'Background'로 변경합니다.
-        _spriteRenderer.sortingLayerName = "Background";
+        _spriteRenderer.sortingLayerName = "Ground";
 
         // 3. Background 레이어의 다른 스프라이트(예: 배경 타일)보다 앞에 보이도록 
         //    Order in Layer를 적당히 높은 값으로 줍니다.
-        _spriteRenderer.sortingOrder = 10;
+        _spriteRenderer.sortingOrder = 5;
     }
 
     // --- [새로 추가할 함수 2] ---
@@ -63,7 +63,7 @@ public class ObjectPropertyController : MonoBehaviour
         // 1. 스스로 순서를 정하는 YSort 스크립트를 잠시 끕니다.
         if (_ySortOrder != null)
         {
-            _ySortOrder.enabled = false;
+           // _ySortOrder.enabled = false;
         }
 
         // --- [수정된 부분] ---
@@ -89,7 +89,7 @@ public class ObjectPropertyController : MonoBehaviour
         // 2. 꺼뒀던 YSort 스크립트를 다시 켜서, 자신의 Y위치에 맞게 순서가 정해지도록 합니다.
         if (_ySortOrder != null)
         {
-            _ySortOrder.enabled = true;
+           // _ySortOrder.enabled = true;
         }
 
         // --- [수정된 부분] ---
