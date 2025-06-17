@@ -37,6 +37,7 @@ public class EngineController : MonoBehaviour
     public void RefreshSlot(Clickable target)
     {
         _engineBlockController.AddBlock(target);
+        _engineUIController.SetSlotIcon(target.SlotBlockMap);
     }
     
     public void Activate()
