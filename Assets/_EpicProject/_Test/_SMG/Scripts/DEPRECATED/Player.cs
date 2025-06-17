@@ -1,5 +1,6 @@
-﻿using SMG;
+using SMG;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,18 +12,20 @@ public class Player : MonoBehaviour, IControllable
     InputAction jumpAction;
     InputAction sprintAction;
 
-    float _speed = 5f;
+    //float _speed = 5f;
     GameObject _interactObject;
 
     public LayerMask InteractLayer;
 
     Movement movement;
+    Movement2D movement2D;
     private bool _enableMove;
 
 
     private void Awake()
     {
-        movement = GetComponent<Movement>();
+        TryGetComponent<Movement>(out movement);
+        TryGetComponent<Movement2D>(out movement2D);
     }
 
     void Start()
@@ -40,7 +43,14 @@ public class Player : MonoBehaviour, IControllable
     {
         if(_enableMove)
         {
-            movement.Move(moveAction.ReadValue<Vector2>());
+            if (!movement2D.IsUnityNull())
+            {
+                movement2D.MoveDir = moveAction.ReadValue<Vector2>();
+            }
+            else if (!movement.IsUnityNull())
+            {
+                movement.Move(moveAction.ReadValue<Vector2>());
+            }
         }
 
         // Check Interaction

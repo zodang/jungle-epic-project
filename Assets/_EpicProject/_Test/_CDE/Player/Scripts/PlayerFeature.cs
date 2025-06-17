@@ -10,6 +10,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     public event Action<PlayerSkinType> OnPlayerTwinkled;
 
     private Rigidbody2D _rigidbody2D;
+    private Movement2D _movement2D;
     private Vector2 _moveInput;
 
     public bool _enableMove;
@@ -33,6 +34,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     private void Awake()
     {
         TryGetComponent<Rigidbody2D>(out _rigidbody2D);
+        TryGetComponent<Movement2D>(out _movement2D);
 
         _model = transform.GetChild(1);
         _TwinkleLv1 = _model.GetChild(0).gameObject;
@@ -50,10 +52,10 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         Move();
     }
 
-    private void FixedUpdate()
-    {
-        _rigidbody2D.linearVelocity = _moveInput * _speed;
-    }
+    //private void FixedUpdate()
+    //{
+    //    _rigidbody2D.linearVelocity = _moveInput * _speed;
+    //}
 
     void Rotate(float angle)
     {
@@ -87,7 +89,14 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     public void EnableControl()
     {
         _enableMove = true;
-        _moveInput = Vector2.zero;
+        if (!_movement2D.IsUnityNull())
+        {
+            _movement2D.MoveDir = Vector2.zero;
+        }
+        else
+        {
+            _moveInput = Vector2.zero;
+        }
         
         OnControlEnabled?.Invoke(true);
     }
@@ -95,15 +104,27 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     public void DisableControl()
     {
         _enableMove = false;
-        _moveInput = Vector2.zero;
+        if (!_movement2D.IsUnityNull())
+        {
+            _movement2D.MoveDir = Vector2.zero;
+        }
+        else
+        {
+            _moveInput = Vector2.zero;
+        }
         
         OnControlEnabled?.Invoke(false);
     }
     private void Move()
     {
-        _moveInput = StageManager.Instance.InputManager.MoveInput;
-
-        //transform.Translate(moveInput * (_speed * Time.deltaTime));
+        if (!_movement2D.IsUnityNull())
+        {
+            _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput;
+        }
+        else
+        {
+            _moveInput = StageManager.Instance.InputManager.MoveInput;
+        }
     }
     #endregion
 
