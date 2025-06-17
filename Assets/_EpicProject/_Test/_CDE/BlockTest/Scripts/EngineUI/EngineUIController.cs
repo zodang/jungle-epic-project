@@ -70,7 +70,7 @@ public class EngineUIController : MonoBehaviour
         // 프로필 이름 변경
         if (profile == null) return;
         gameName.text = profile.name;
-        // targetImg.sprite = profile.sprite;
+        targetImg.sprite = profile.sprite;
     }
 
     public void ActivateEffect()
