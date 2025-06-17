@@ -1,8 +1,10 @@
+using Define;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class EngineUIController : MonoBehaviour
 {
@@ -22,6 +24,9 @@ public class EngineUIController : MonoBehaviour
     
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
+    
+    [Header("Slot Icon")]
+    [SerializeField] private List<Image> iconImageList;
 
     [Header("Dotween")]
     private float _posX = 700f;
@@ -71,6 +76,25 @@ public class EngineUIController : MonoBehaviour
         if (profile == null) return;
         gameName.text = profile.name;
         targetImg.sprite = profile.sprite;
+    }
+
+    public void SetSlotIcon(Dictionary<int, BlockType> slotBlockMap)
+    {
+        // Slot Btn 아이콘 변경
+        for (int i = 0; i < iconImageList.Count; i++)
+        {
+            if (slotBlockMap.TryGetValue(i, out var blockType))
+            {
+                var icon = StageManager.Instance.BlockFactory.GetIcon(blockType);
+                iconImageList[i].sprite = icon;
+                iconImageList[i].enabled = icon != null;
+            }
+            else
+            {
+                iconImageList[i].sprite = null;
+                iconImageList[i].enabled = false;
+            }
+        }
     }
 
     public void ActivateEffect()

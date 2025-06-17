@@ -11,8 +11,12 @@ public class BlockFactory : MonoBehaviour
     [Header("Inventory Block")] 
     [SerializeField] private List<InventoryBlockEntry> inventoryBlockEntries;
 
+    [Header("Block Icon")] 
+    [SerializeField] private List<BlockIconEntry> _blockIconEntries;
+
     private Dictionary<BlockType, EngineBlock> _engineBlockDic;
     private Dictionary<BlockType, InventoryBlock> _inventoryBlockDic;
+    private Dictionary<BlockType, Sprite> _blockIconDic;
     
     private void Awake()
     {
@@ -34,6 +38,16 @@ public class BlockFactory : MonoBehaviour
             {
                 _inventoryBlockDic.Add(entry.Type, entry.Prefab);
             }
+        }
+        
+        // Block Icon Dictionary 설정
+        _blockIconDic = new Dictionary<BlockType, Sprite>();
+        foreach (var entry in _blockIconEntries)
+        {
+            if (!_blockIconDic.ContainsKey(entry.Type))
+            {
+                _blockIconDic.Add(entry.Type, entry.Icon);
+            }          
         }
     }
 
@@ -64,6 +78,11 @@ public class BlockFactory : MonoBehaviour
         Debug.LogWarning($"{type}의 Inventory Block 없음!");
         return null;
     }
+
+    public Sprite GetIcon(BlockType type)
+    {
+        return _blockIconDic.GetValueOrDefault(type);
+    }
 }
 
 [Serializable]
@@ -78,4 +97,11 @@ public class InventoryBlockEntry
 {
     public BlockType Type;
     public InventoryBlock Prefab;
+}
+
+[Serializable]
+public class BlockIconEntry
+{
+    public BlockType Type;
+    public Sprite Icon;
 }
