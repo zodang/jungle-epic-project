@@ -20,7 +20,6 @@ public class EngineUIController : MonoBehaviour
     private EngineUICloseBtn _closeBtn;
     private EngineUIOpacitySlider _opacitySlider;
     
-    private Canvas _canvas;
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
 
@@ -35,8 +34,7 @@ public class EngineUIController : MonoBehaviour
 
     private void Awake()
     {
-        _canvas = GetComponentInParent<Canvas>();
-        _canvasGroup = GetComponent<CanvasGroup>();
+        _canvasGroup = GetComponentInChildren<CanvasGroup>();
         _rectTransform = GetComponent<RectTransform>();
 
         // opacity slider 기능 연결
