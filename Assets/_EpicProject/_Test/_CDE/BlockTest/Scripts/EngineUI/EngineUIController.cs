@@ -75,8 +75,12 @@ public class EngineUIController : MonoBehaviour
 
     public void ActivateEffect()
     {
+        transform.SetAsLastSibling();
+        
+        // 초기 설정
         _rectTransform.localScale = Vector3.one;
         _rectTransform.anchoredPosition = new Vector2(_posX, _minPosY);
+        
         _rectTransform.DOAnchorPos(new Vector2(_posX, _maxPosY), _activeDuration).SetEase(Ease.OutBack);
     }
 
