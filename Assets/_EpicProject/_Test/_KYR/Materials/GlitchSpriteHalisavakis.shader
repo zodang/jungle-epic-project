@@ -65,11 +65,7 @@ Shader "Custom/GlitchEffectShader"
             }
 
             fixed4 frag (v2f i) : SV_Target {
-                // 초기 텍스처 샘플링으로 알파 값 확인
                 fixed4 baseTex = tex2D(_MainTex, i.uv);
-                if (baseTex.a < 0.01) { // 알파 값이 거의 0인 경우 픽셀 폐기
-                    discard;
-                }
 
                 fixed2 _ChromAberrAmount = fixed2(_ChromAberrAmountX, _ChromAberrAmountY);
 
@@ -103,14 +99,19 @@ Shader "Custom/GlitchEffectShader"
                 fixed2 displUV = (displAmount.xy * stripesRight) - (displAmount.xy * stripesLeft);
                 displUV += (displAmount.zw * wavyDispl.r) - (displAmount.zw * wavyDispl.g);
 
+                fixed2 glitchUV = i.uv + displUV; // 글리치 효과가 적용된 최종 UV
+                fixed4 glitchTex = tex2D(_MainTex, glitchUV);
+
+                if (glitchTex.a < 0.01) {
+                    discard;
+                }
+
                 // Chromatic aberration section
-                float chromR = tex2D(_MainTex, i.uv + displUV + chromAberrAmount).r;
-                float chromG = tex2D(_MainTex, i.uv + displUV).g;
-                float chromB = tex2D(_MainTex, i.uv + displUV - chromAberrAmount).b;
-
-                // 최종 색상은 원본 텍스처의 알파 값을 사용
-                fixed4 finalCol = fixed4(chromR, chromG, chromB, baseTex.a);
-
+                float chromR = tex2D(_MainTex, glitchUV + chromAberrAmount).r;
+                float chromG = tex2D(_MainTex, glitchUV).g;
+                float chromB = tex2D(_MainTex, glitchUV - chromAberrAmount).b;
+                
+                fixed4 finalCol = fixed4(chromR, chromG, chromB, glitchTex.a);
                 return finalCol;
             }
             ENDCG

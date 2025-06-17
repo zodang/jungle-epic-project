@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class GlitchObject : MonoBehaviour
 {
     [Header("Materials")]
@@ -10,9 +10,7 @@ public class GlitchObject : MonoBehaviour
     public bool isGlitchVision = false; // GlitchVision 모드 여부
 
     [Header("Glitch Effect Settings")]
-    public float glitchChangeSpeed = 0.1f; // 1초에 1.0씩 변화
-
-
+    public float glitchChangeSpeed = 0.1f;
 
     private float currentGlitchValue = 0.1f;
     private float targetGlitchValue = 0.1f;
@@ -26,6 +24,10 @@ public class GlitchObject : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null && defaultMat != null)
             spriteRenderer.material = defaultMat;
+
+        // glitchMat 인스턴스화
+        if (glitchMat != null)
+            glitchMat = new Material(glitchMat);
 
         // Shader _GlitchEffect 변수 초기값 적용
         if (glitchMat != null)
@@ -52,8 +54,27 @@ public class GlitchObject : MonoBehaviour
         // GlitchVision 모드 활성화
         isGlitchVision = true;
 
+        // GlitchVision Value 초기화
+        glitchMat.SetFloat("_ChromAberrAmountX", Random.Range(-0.2f, 0.2f));
+        glitchMat.SetFloat("_ChromAberrAmountY", 0);
+        glitchMat.SetVector("_DisplacementAmount", new Vector4(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), 0));
+        glitchMat.SetFloat("_RightStripesAmount", Random.Range(10f, 30f));
+        glitchMat.SetFloat("_RightStripesFill", Random.Range(0.5f, 0.7f));
+        glitchMat.SetFloat("_LeftStripesAmount", Random.Range(10f, 30f));
+        glitchMat.SetFloat("_LeftStripesFill", Random.Range(0.5f, 0.7f));
+        glitchMat.SetFloat("_WavyDisplFreq", Random.Range(-1f, 1f));
+
         // targetGlitchValue을 새 랜덤값으로 지정
         targetGlitchValue = Random.Range(-1f, -0.5f);
+    }
+
+    public void HideGlitch()
+    {
+        // defaultMat으로 변경
+        spriteRenderer.material = defaultMat;
+
+        // GlitchVision 모드 비활성화
+        isGlitchVision = false;
     }
 
     public void UpdateGlitchEffectValue()
