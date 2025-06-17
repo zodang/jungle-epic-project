@@ -43,13 +43,11 @@ GameObject:
   - component: {fileID: 3102259547665352990}
   - component: {fileID: 440563485034613853}
   - component: {fileID: 771826400185769204}
-  - component: {fileID: 6715496049636566484}
   - component: {fileID: 6280877416049219328}
   - component: {fileID: 7256648872860790428}
   - component: {fileID: 7833763572700565480}
   - component: {fileID: 2278239420035226639}
   - component: {fileID: 4930637680045947570}
-  - component: {fileID: 3789870756031272710}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -147,18 +145,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!210 &6715496049636566484
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633253394416912569}
-  m_Enabled: 1
-  m_SortingLayerID: 1022781941
-  m_SortingLayer: 1
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
 --- !u!114 &6280877416049219328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,18 +210,6 @@ MonoBehaviour:
   _enableMove: 0
   scaleMin: 0.5
   scaleMax: 2
---- !u!114 &3789870756031272710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633253394416912569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc9360a060de13447ade7a8a9292fc68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3519687253771917961
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +257,7 @@ GameObject:
   - component: {fileID: 7790873538158876816}
   - component: {fileID: 616559496215201280}
   - component: {fileID: 9024503861143648496}
+  - component: {fileID: 5751594832344412939}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -349,9 +324,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1000
+  m_SortingLayerID: -1418347685
+  m_SortingLayer: 4
+  m_SortingOrder: 1
   m_Sprite: {fileID: -4338544132538928762, guid: d4778c381ff7ea345869e3113655ca61, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -448,6 +423,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b61e85bd359024b9fac1efbe665c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5751594832344412939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4316620389178057458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4840bd7ecf3311948929bda2fe4a522f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderBias: 2
+  forceToBottom: 0
 --- !u!1 &6163378733549261494
 GameObject:
   m_ObjectHideFlags: 0
