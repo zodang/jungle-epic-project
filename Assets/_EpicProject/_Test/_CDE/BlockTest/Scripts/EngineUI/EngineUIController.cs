@@ -10,9 +10,6 @@ public class EngineUIController : MonoBehaviour
     
     [Header("Profile")]
     [SerializeField] private TMP_Text gameName;
-    [SerializeField] private TMP_Text serialNum;
-    [SerializeField] private TMP_Text status;
-    [SerializeField] private Image targetImg;
     
     [Header("Button")]
     [SerializeField] private Button closeBtn;
@@ -27,7 +24,6 @@ public class EngineUIController : MonoBehaviour
     
     private Vector2 _offset = new Vector2(300, 0);
     private float _minOpacity = 0.4f;
-
 
     private void Awake()
     {
@@ -63,16 +59,11 @@ public class EngineUIController : MonoBehaviour
         _canvasGroup.alpha = value;
     }
 
-    public void SetProfile(ClickableProfile profile, Clickable target)
+    public void SetProfileName(ClickableProfile profile)
     {
+        // 프로필 이름 변경
         if (profile == null) return;
-
-        // 프로필 설정
         gameName.text = profile.name;
-        serialNum.text = profile.serialNumber;
-        status.text = profile.status;
-
-        targetImg.sprite = profile.sprite;
     }
     
     public void SetUIPosition(Clickable clickable)

@@ -7,7 +7,7 @@ public class EngineController : MonoBehaviour
     public Clickable CurrentTarget { get; private set; }
 
     private EngineUIController _engineUIController;
-    private EngineBlockController _engineBlockInspector;
+    private EngineBlockController _engineBlockController;
     private Animator _engineAnimator;
 
     //0.25초 후에 UI 끄기 위해
@@ -16,7 +16,7 @@ public class EngineController : MonoBehaviour
     private void Awake()
     {
         _engineUIController = GetComponent<EngineUIController>();
-        _engineBlockInspector = GetComponent<EngineBlockController>();
+        _engineBlockController = GetComponent<EngineBlockController>();
         _engineAnimator = GetComponent<Animator>(); 
     }
 
@@ -37,13 +37,13 @@ public class EngineController : MonoBehaviour
         RefreshSlot(target);
 
         // UI 세팅
-        _engineUIController.SetProfile(target.GetProfile(), target);
+        _engineUIController.SetProfileName(target.GetProfile());
         _engineUIController.SetUIPosition(target);
     }
 
     public void RefreshSlot(Clickable target)
     {
-        _engineBlockInspector.AddBlock(target);
+        _engineBlockController.AddBlock(target);
     }
     
     public void Activate()

@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class EngineBlockController : MonoBehaviour
 {
-    private BlockFactory _blockFactory;
-
     private EngineSlotGroup _engineSlotGroup;
     private List<EngineSlot> _slotList;
     private Transform[] _slotTransforms;
 
     private void Awake()
     {
-        _blockFactory = FindAnyObjectByType<BlockFactory>();
         _engineSlotGroup = GetComponentInChildren<EngineSlotGroup>();
         
+        // 실제 Slot의 첫번재 Index가 UI상 마지막 Index로 사용
         _slotList = new List<EngineSlot>(_engineSlotGroup.GetComponentsInChildren<EngineSlot>());
+        _slotList.Reverse(); 
+        
         _slotTransforms = new Transform[_slotList.Count];
         for (int i = 0; i < _slotList.Count; i++)
         {
@@ -40,7 +40,7 @@ public class EngineBlockController : MonoBehaviour
     {
         // Inspector Slot에 새 Block 추가
         RemoveBlockFromSlot();
-        BlockManager.ApplyBlockToTarget(target, _blockFactory, _slotTransforms);
+        BlockManager.ApplyBlockToTarget(target, StageManager.Instance.BlockFactory, _slotTransforms);
     }
     
 }
