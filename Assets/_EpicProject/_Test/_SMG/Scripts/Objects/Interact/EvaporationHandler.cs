@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
+
 public class EvaporationHandler : MonoBehaviour
 {
     bool _isEvaporated = false;
 
     public UnityEvent OnEvaporate;
 
+     
     public void Evaporate()
     {
         if (_isEvaporated) return;
@@ -28,7 +30,10 @@ public class EvaporationHandler : MonoBehaviour
             gameObject.SetActive(false);
             OnEvaporate?.Invoke();
         }
+
         
+        
+
     }
 
     IEnumerator EvaporateCoroutine(Tilemap tilemap)
@@ -53,5 +58,11 @@ public class EvaporationHandler : MonoBehaviour
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Clear);// 젤다 효과음 재생
         gameObject.SetActive(false);
         OnEvaporate?.Invoke();
+        ObjectPropertyController foundAxe = FindObjectOfType<ObjectPropertyController>();
+        if (foundAxe != null)
+        {
+            foundAxe.Emerge();
+        }
+
     }
 }

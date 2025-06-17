@@ -8,5 +8,10 @@ public class VSStageManager : StageBaseManager
     private void Start()
     {
         GameManager.Instance.AudioManager.PlayBgm(true);
+        ObjectPropertyController foundAxe = FindObjectOfType<ObjectPropertyController>();
+        if (foundAxe != null)
+        {
+            foundAxe.Submerge();
+        }
     }
 }
