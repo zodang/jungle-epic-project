@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 4930637680045947570}
   - component: {fileID: 8270869016251555534}
   - component: {fileID: 6302454607338894449}
+  - component: {fileID: 2044620638611358964}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -246,6 +247,23 @@ MonoBehaviour:
   endSlowSpeed: 2
   glitchVolume: {fileID: 0}
   glitchObjects: []
+--- !u!114 &2044620638611358964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633253394416912569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b23f19afaa75fc4bb9c6e2e0f33bac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glitchVisionDuration: 3
+  startFastSpeed: 0.05
+  endSlowSpeed: 2
+  glitchVolume: {fileID: 0}
+  glitchObjects: []
 --- !u!1 &3519687253771917961
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +313,7 @@ GameObject:
   - component: {fileID: 9024503861143648496}
   - component: {fileID: 5751594832344412939}
   - component: {fileID: 1531572594189637515}
+  - component: {fileID: 3272940511153577595}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -491,6 +510,23 @@ MonoBehaviour:
   isGlitchVision: 0
   glitchValueUpdateSpeed: 1
   glitchChangeInterval: 0.2
+--- !u!114 &3272940511153577595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4316620389178057458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ab2ad55fffdb8142b02fb4965e62f75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultMat: {fileID: 2100000, guid: 39429fab258bbbc4bac5790ab4e1547c, type: 2}
+  glitchMat: {fileID: 2100000, guid: a02c11baeba97904f8f475fac37fe6ad, type: 2}
+  isGlitchVision: 0
+  glitchValueUpdateSpeed: 1
+  glitchChangeInterval: 0.2
 --- !u!1 &6163378733549261494
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,8 +600,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1418347685
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 4093480436322176185, guid: d814eaff01c8fa145b193403276ade34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

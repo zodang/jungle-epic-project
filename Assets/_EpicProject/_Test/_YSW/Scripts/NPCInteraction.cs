@@ -113,7 +113,7 @@ public class NPCInteraction : MonoBehaviour
 
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.Space)) // 또는 다른 상호작용 키
+        if (playerInRange && Input.GetKeyDown(KeyCode.E)) // 또는 다른 상호작용 키
         {
             if (StageBaseManager.Instance.DialogueManager != null)
             {

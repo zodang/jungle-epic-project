@@ -300,7 +300,7 @@ public class DialogueManager : MonoBehaviour
         if (currentState == null || currentState == IdleState) return;
 
         // 공통 입력 처리 (스페이스바 또는 Next 버튼 클릭)
-        if (Input.GetKeyDown(KeyCode.Space)) // 또는 다른 키
+        if (Input.GetKeyDown(KeyCode.E)) // 또는 다른 키
         {
             ProcessNextActionInput();
         }

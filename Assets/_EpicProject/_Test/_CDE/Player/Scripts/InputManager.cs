@@ -139,7 +139,7 @@ public class InputManager : MonoBehaviour
         }
         
         
-        // 테스트용 코드
+        /*// 테스트용 코드
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.PlayerControl);
@@ -158,6 +158,6 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Light);
-        }
+        }*/
     }
 }
