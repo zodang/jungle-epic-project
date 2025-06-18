@@ -97,7 +97,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         {
             _moveInput = Vector2.zero;
         }
-        
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         OnControlEnabled?.Invoke(true);
     }
 
@@ -112,7 +112,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         {
             _moveInput = Vector2.zero;
         }
-        
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         OnControlEnabled?.Invoke(false);
     }
     private void Move()
