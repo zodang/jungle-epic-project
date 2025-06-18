@@ -51,6 +51,8 @@ GameObject:
   - component: {fileID: 8270869016251555534}
   - component: {fileID: 6302454607338894449}
   - component: {fileID: 2044620638611358964}
+  - component: {fileID: 9198520053703797751}
+  - component: {fileID: 8977727897933712211}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -264,6 +266,30 @@ MonoBehaviour:
   endSlowSpeed: 2
   glitchVolume: {fileID: 0}
   glitchObjects: []
+--- !u!210 &9198520053703797751
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633253394416912569}
+  m_Enabled: 1
+  m_SortingLayerID: -1418347685
+  m_SortingLayer: 4
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+--- !u!114 &8977727897933712211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633253394416912569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9360a060de13447ade7a8a9292fc68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3519687253771917961
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,6 +679,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5779873828349338021}
     m_Modifications:
+    - target: {fileID: 119350531635133471, guid: bfc2ca834a61c964ca9c1ff51b30f10a, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 119350531635133471, guid: bfc2ca834a61c964ca9c1ff51b30f10a, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1418347685
+      objectReference: {fileID: 0}
     - target: {fileID: 3846324818888177799, guid: bfc2ca834a61c964ca9c1ff51b30f10a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.279
@@ -759,6 +793,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8916985522247567365, guid: 6a898639f9ce37840bdb5e15108ba648, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916985522247567365, guid: 6a898639f9ce37840bdb5e15108ba648, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1418347685
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -820,6 +862,14 @@ PrefabInstance:
     - target: {fileID: 3786657468919848621, guid: bdd2c977511630b4da112144059289ea, type: 3}
       propertyPath: m_Name
       value: Twinkle1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164140319179678060, guid: bdd2c977511630b4da112144059289ea, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164140319179678060, guid: bdd2c977511630b4da112144059289ea, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1418347685
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
