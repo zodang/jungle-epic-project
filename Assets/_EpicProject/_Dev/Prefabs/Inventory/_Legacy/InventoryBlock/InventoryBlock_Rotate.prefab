@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3289301944806916426, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_Name
-      value: InventoryBlock_Scale
+      value: InventoryBlock_Rotate
       objectReference: {fileID: 0}
     - target: {fileID: 5155685390873288326, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_Pivot.x
@@ -38,11 +38,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5155685390873288326, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 225.75
+      value: 483
       objectReference: {fileID: 0}
     - target: {fileID: 5155685390873288326, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 125.25
+      value: 173
       objectReference: {fileID: 0}
     - target: {fileID: 5155685390873288326, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_LocalPosition.x
@@ -99,7 +99,7 @@ PrefabInstance:
     - target: {fileID: 7866835706346120744, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 8805624277663254163, guid: a1f55109be7eb9f44991198b2f376545, type: 3}
+      objectReference: {fileID: 2690475061026802642, guid: bd9e93b457fbdfc429609258fc34badf, type: 3}
     - target: {fileID: 8744754465119319539, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -115,14 +115,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3289301944806916426, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8384274142072023119}
+      addedObject: {fileID: 1054038691662363915}
   m_SourcePrefab: {fileID: 100100000, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
 --- !u!1 &6451030095311836440 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3289301944806916426, guid: 7e8ae8336b05f344dad716d2a04e0f72, type: 3}
   m_PrefabInstance: {fileID: 8368632595279074386}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8384274142072023119
+--- !u!114 &1054038691662363915
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
