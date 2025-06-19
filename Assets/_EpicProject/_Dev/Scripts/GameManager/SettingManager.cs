@@ -2,15 +2,25 @@ using UnityEngine;
 
 public class SettingManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public ResolutionSetting ResolutionSetting { get; private set; }
+    private SettingUI _settingUI;
+
+    private void Awake()
     {
-        
+        ResolutionSetting = transform.GetComponentInChildren<ResolutionSetting>();
+        _settingUI = FindAnyObjectByType<SettingUI>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            OpenSetting();
+        }
+    }
+
+    public void OpenSetting()
+    {
+        _settingUI.OpenSettingUI();
     }
 }
