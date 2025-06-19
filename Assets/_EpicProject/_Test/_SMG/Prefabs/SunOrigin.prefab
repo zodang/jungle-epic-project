@@ -182,7 +182,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3854581784464940741}
@@ -231,8 +231,8 @@ SpriteRenderer:
   m_SortingLayerID: 1553600361
   m_SortingLayer: 6
   m_SortingOrder: 1100
-  m_Sprite: {fileID: 21300000, guid: 070390963659661468cab181560a0ceb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 88fd6d63bc910054089b00d00375a788, type: 3}
+  m_Color: {r: 0.99215686, g: 0.99215686, b: 0.77254903, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 2574796457069267389}
   - component: {fileID: 2648564721670709444}
   m_Layer: 0
-  m_Name: Sun
+  m_Name: SunOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -423,16 +423,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3554346790380014299, guid: a5903f86611fea141b1b59deec34d53f, type: 3}
-      propertyPath: Radius
-      value: 6.25
+      propertyPath: Angle
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 3554346790380014299, guid: a5903f86611fea141b1b59deec34d53f, type: 3}
-      propertyPath: groundTilemap
-      value: 
+      propertyPath: Radius
+      value: 6.25
       objectReference: {fileID: 0}
     - target: {fileID: 6566909944567675473, guid: a5903f86611fea141b1b59deec34d53f, type: 3}
       propertyPath: m_Name
       value: TestTilemap
+      objectReference: {fileID: 0}
+    - target: {fileID: 6566909944567675473, guid: a5903f86611fea141b1b59deec34d53f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
