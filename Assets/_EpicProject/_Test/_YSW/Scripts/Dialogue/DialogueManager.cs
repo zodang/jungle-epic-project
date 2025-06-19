@@ -10,7 +10,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject npcDialogueBubblePrefab;    // NPC용 말풍선 프리팹
     [SerializeField] private GameObject playerDialogueBubblePrefab; // 플레이어용 말풍선 프리팹
     [SerializeField] private GameObject choiceBubblePrefab;
-    private Transform _canvasTransform;
+    [SerializeField] private Transform _canvasTransform;
 
     [Header("Dialogue Events")]
     public UnityEvent OnDialogueStart;
@@ -78,7 +78,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         FindPlayerAnchorByName();
-        FindCanvas();
         TransitionToState(IdleState);
     }
 
@@ -94,11 +93,6 @@ public class DialogueManager : MonoBehaviour
         else Debug.LogError($"DM: Player object with tag '{PLAYER_TAG}' not found.");
     }
 
-    private void FindCanvas()
-    {
-        // 대화 UI 보이기 위한 Canvas 위치 참조
-        _canvasTransform = FindAnyObjectByType<Canvas>().transform;
-    }
 
     // 특정 DialogueUI 인스턴스를 초기화하는 헬퍼 함수
     private DialogueUI InitializeSpecificDialogueUI(DialogueUI existingInstance, GameObject prefab, string uiNameForLog) // 로그용 이름 추가

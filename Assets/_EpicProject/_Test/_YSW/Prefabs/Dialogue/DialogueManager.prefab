@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5629530041993128646}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 565.5015, y: 453.34814, z: -3.459653}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -48,7 +48,37 @@ MonoBehaviour:
   npcDialogueBubblePrefab: {fileID: 5682641207033410957, guid: 528f786f2364c1d419ccb1de1c01e536, type: 3}
   playerDialogueBubblePrefab: {fileID: 5682641207033410957, guid: a792b3c6eb826154da1b78b811ae47bb, type: 3}
   choiceBubblePrefab: {fileID: 5682641207033410957, guid: 9ff00a8de409aaa4c94588c68e553306, type: 3}
-  canvasTransform: {fileID: 0}
+  _canvasTransform: {fileID: 0}
+  OnDialogueStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: NpcInteractionUI, Assembly-CSharp
+        m_MethodName: OnDialogueStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDialogueEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: NpcInteractionUI, Assembly-CSharp
+        m_MethodName: OnDialogueEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   dialogueFileName: dialogues
   pauseGameDuringDialogue: 1
 --- !u!114 &2750054784266091676

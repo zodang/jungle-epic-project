@@ -11424,10 +11424,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC_Lumberjack
       objectReference: {fileID: 0}
-    - target: {fileID: 7459632768141825267, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 99.4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13358,16 +13354,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
+      propertyPath: _canvasTransform
+      value: 
+      objectReference: {fileID: 293145007}
+    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueStart.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -13382,10 +13378,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueStart.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -13398,47 +13390,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ShowPromptIfInRange
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: OnDialogueEnded
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueStart.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HidePrompt
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueStart.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: OnDialogueStarted
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: NpcInteractionUI, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: NpcInteractionUI, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: NpcInteractionUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
@@ -13446,15 +13414,7 @@ PrefabInstance:
       value: NpcInteractionUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
-      propertyPath: OnDialogueStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
@@ -13884,6 +13844,10 @@ PrefabInstance:
     - target: {fileID: 6616162118734565932, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: m_Name
       value: NPC_Lumberjack (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616162118734565932, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
