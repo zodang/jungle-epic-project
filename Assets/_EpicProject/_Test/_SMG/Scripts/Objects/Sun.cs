@@ -6,13 +6,13 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     private float _minBright = 1f;  //0.1f; 
     private float _maxBright = 2f;  //3f
     private float _currentBright;
-    private const float _defaultBright = 1.1f;
+    private const float _defaultBright = 2f;
 
     // IRotatable: 회전 관련
     private float _minAngle = 0f;
     private float _maxAngle = 359f;
     private float _currentAngle;
-    private const float _defaultAngle = 60f;
+    private const float _defaultAngle = 150f;
 
     // IScalable
     private float _minScale = 0.8f;
