@@ -5,15 +5,14 @@ using UnityEngine.EventSystems;
 
 public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public event Action<float> OnValueChanged; // 0~1 정규화 값
-    
-    private readonly float _dialSensitivity = 0.5f;
-    private RectTransform _rectTransform;
+    public event Action<float> OnValueChanged;
 
-    private float _previousAngle;
+    private RectTransform _rectTransform;
+    private Vector2 _prevMouseDir;
+    private Vector2 _centerScreenPos;
+
     private float _totalRotation;
-    
-    private int _snapDivision = 12; // 360를 12개 구간으로 나눔
+    private int _snapDivision = 12;
     private int _lastSnapIndex = -1;
 
     private void Awake()
@@ -24,43 +23,43 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnBeginDrag(PointerEventData eventData)
     {
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Click);
-    }
-    
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        EventSystem.current.SetSelectedGameObject(null);
+
+        _centerScreenPos = RectTransformUtility.WorldToScreenPoint(eventData.pressEventCamera, _rectTransform.position);
+        _prevMouseDir = (eventData.position - _centerScreenPos).normalized;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 center = RectTransformUtility.WorldToScreenPoint(eventData.pressEventCamera, _rectTransform.position);
-        Vector2 fromCenter = eventData.position - center;
-        float currentAngle = Mathf.Atan2(fromCenter.y, fromCenter.x) * Mathf.Rad2Deg;
-
-        float delta = Mathf.DeltaAngle(_previousAngle, currentAngle) * _dialSensitivity;
-        _totalRotation += delta;
-        _previousAngle = currentAngle;
-
-        // Dial Handle 회전
-        float visualAngle = (_totalRotation % 360f + 360f) % 360f;
+        Vector2 currentMouseDir = (eventData.position - _centerScreenPos).normalized;
         
+        // 두 벡터 사이의 각도 계산
+        float angle = Vector2.SignedAngle(_prevMouseDir, currentMouseDir); // +면 반시계, -면 시계
+        _totalRotation += angle;
+        _prevMouseDir = currentMouseDir;
+
+        // 회전값을 0~360 범위로 정규화
+        float visualAngle = (_totalRotation % 360f + 360f) % 360f;
+
+        // Snap 처리
         float snapStep = 360f / _snapDivision;
         int snapIndex = Mathf.RoundToInt(visualAngle / snapStep);
         float snappedAngle = snapIndex * snapStep;
-        
+
         if (snapIndex != _lastSnapIndex)
         {
-            // Snap 및 사운드 재생
             _lastSnapIndex = snapIndex;
             GameManager.Instance.AudioManager.PlaySfx(SfxType.Dial);
         }
-        
-        // Snap 값 대로 Dial 회전
+
         _rectTransform.localEulerAngles = new Vector3(0, 0, snappedAngle);
 
-        // 실제 회전 값 전달 
         float normalized = ((-visualAngle % 360f) + 360f) % 360f / 360f;
         OnValueChanged?.Invoke(normalized);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void SetRotationByValue(float normalized)
