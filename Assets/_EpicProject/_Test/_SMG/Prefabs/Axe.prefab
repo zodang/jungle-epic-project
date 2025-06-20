@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 1914431828425918669}
   - component: {fileID: 7200884266947317849}
   - component: {fileID: 1367564963905188330}
-  - component: {fileID: 7588447090304454617}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -230,23 +229,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1367564963905188330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 483978071570007638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ab2ad55fffdb8142b02fb4965e62f75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultMat: {fileID: 2100000, guid: 39429fab258bbbc4bac5790ab4e1547c, type: 2}
-  glitchMat: {fileID: 2100000, guid: a02c11baeba97904f8f475fac37fe6ad, type: 2}
-  isGlitchVision: 0
-  glitchValueUpdateSpeed: 1
-  glitchChangeInterval: 0.2
---- !u!114 &7588447090304454617
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
