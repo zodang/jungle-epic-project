@@ -1,75 +1,101 @@
-// NpcInteraction.cs (두 개의 UI를 모두 제어하도록 수정됨)
+// NpcInteractionUI.cs
 using UnityEngine;
 
 public class NpcInteractionUI : MonoBehaviour
 {
-    // [수정] 두 개의 UI를 모두 연결할 변수
-    public GameObject interactionPromptCanvas; // "E키 눌러 대화" UI
-    public GameObject dialogueIndicator;      // "..." 말풍선 아이콘 UI
+    // ... (interactionPromptCanvas, dialogueIndicator 변수) ...
+    public GameObject interactionPromptCanvas;
+    public GameObject dialogueIndicator;
+
 
     private bool isPlayerInRange = false;
-    private DialogueManager dialogueManager;
+    // private DialogueManager dialogueManager; // 이제 StageBaseManager를 통해 접근
+    private NPCInteraction npcInteraction;
 
     private void Awake()
     {
-        dialogueManager = FindObjectOfType<DialogueManager>();
+        // dialogueManager = DialogueManager.Instance; // <--- 이 줄 변경
+        if (StageBaseManager.Instance == null || StageBaseManager.Instance.DialogueManager == null) // <--- StageBaseManager 통해 접근
+        {
+            Debug.LogError($"NpcInteractionUI on '{gameObject.name}': StageBaseManager.Instance or its DialogueManager not found!");
+            enabled = false;
+            return;
+        }
 
-        // [수정] UI 초기 상태 설정
-        interactionPromptCanvas?.SetActive(false); // 'E키' 프롬프트는 기본적으로 숨김
-        dialogueIndicator?.SetActive(true);      // '대화 가능' 아이콘은 기본적으로 보임
+        npcInteraction = GetComponent<NPCInteraction>();
+        if (npcInteraction == null)
+        {
+            Debug.LogError($"NpcInteractionUI on '{gameObject.name}': NPCInteraction component not found!");
+            enabled = false;
+            return;
+        }
+
+        interactionPromptCanvas?.SetActive(false);
+        dialogueIndicator?.SetActive(true);
+    }
+
+    private void OnEnable()
+    {
+        if (StageBaseManager.Instance != null && StageBaseManager.Instance.DialogueManager != null)
+        {
+            StageBaseManager.Instance.DialogueManager.OnDialogueStart.AddListener(HandleDialogueStarted);
+            StageBaseManager.Instance.DialogueManager.OnDialogueEnd.AddListener(HandleDialogueEnded);
+        }
+    }
+
+    private void OnDisable()
+    {
+        // StageBaseManager나 DialogueManager가 먼저 파괴될 수 있으므로 null 체크 필요
+        if (StageBaseManager.Instance != null && StageBaseManager.Instance.DialogueManager != null)
+        {
+            StageBaseManager.Instance.DialogueManager.OnDialogueStart.RemoveListener(HandleDialogueStarted);
+            StageBaseManager.Instance.DialogueManager.OnDialogueEnd.RemoveListener(HandleDialogueEnded);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(DialogueManager.PLAYER_TAG))
         {
             isPlayerInRange = true;
-            // 대화 중이 아닐 때만 'E키' 프롬프트를 보여줌
-            if (dialogueManager != null && !dialogueManager.IsDialogueActive())
-            {
-                interactionPromptCanvas?.SetActive(true);
-            }
+            UpdateInteractionPrompt();
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(DialogueManager.PLAYER_TAG))
         {
             isPlayerInRange = false;
-            // 범위를 벗어나면 'E키' 프롬프트는 무조건 숨김
             interactionPromptCanvas?.SetActive(false);
         }
     }
 
-    // [이름 변경 및 로직 통합] 대화 시작 시 호출될 함수
-    public void OnDialogueStarted()
+    private void HandleDialogueStarted()
     {
-        // 대화가 시작되면 모든 상호작용 관련 UI를 숨깁니다.
         interactionPromptCanvas?.SetActive(false);
         dialogueIndicator?.SetActive(false);
     }
 
-    // [이름 변경 및 로직 통합] 대화 종료 시 호출될 함수
-    public void OnDialogueEnded()
+    private void HandleDialogueEnded()
     {
-        // 대화가 끝나면 '대화 가능' 아이콘을 다시 보여줍니다.
         dialogueIndicator?.SetActive(true);
+        UpdateInteractionPrompt();
+    }
 
-        // 만약 플레이어가 여전히 범위 안에 있다면 'E키' 프롬프트도 다시 보여줍니다.
-        if (isPlayerInRange)
+    private void UpdateInteractionPrompt()
+    {
+        // DialogueManager는 StageBaseManager를 통해 접근
+        if (isPlayerInRange && StageBaseManager.Instance != null && StageBaseManager.Instance.DialogueManager != null &&
+            !StageBaseManager.Instance.DialogueManager.IsDialogueActive())
         {
             interactionPromptCanvas?.SetActive(true);
         }
-    }
-
-    // Update 함수는 변경 없음
-    private void Update()
-    {
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E) && (dialogueManager != null && !dialogueManager.IsDialogueActive()))
+        else
         {
-            // 실제 대화 시작 로직 호출
-            // 예시: dialogueManager.StartDialogue("npc_id_01", this.transform);
+            interactionPromptCanvas?.SetActive(false);
         }
     }
+
+    
 }
