@@ -120,7 +120,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.4, y: 0.2}
+  m_Size: {x: 0.35, y: 0.2}
   m_EdgeRadius: 0
 --- !u!50 &771826400185769204
 Rigidbody2D:
@@ -247,6 +247,8 @@ MonoBehaviour:
   startFastSpeed: 0.05
   endSlowSpeed: 2
   glitchVolume: {fileID: 0}
+  normalCutoff: 5000
+  glitchCutoff: 400
   glitchObjects: []
 --- !u!210 &9198520053703797751
 SortingGroup:
