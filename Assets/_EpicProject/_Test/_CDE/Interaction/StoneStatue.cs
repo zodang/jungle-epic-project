@@ -19,12 +19,11 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
     
     // IScalable
     private float _minScale = 0.8f;
-    private float _maxScale = 1.5f;
+    private float _maxScale = 2.5f;
     private float _currentScale;
     
     // IControllable
-    private bool _enableMove;
-    private float _speed = 5f;
+    private bool _enableMove;    
     private Rigidbody2D _rigidbody2D;
     private Movement2D _movement2D;
 
