@@ -1,4 +1,3 @@
-using DG.Tweening.Core.Easing;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,7 +14,6 @@ public class TriggerArea : MonoBehaviour
 
     void Start()
     {
-        //target = FindAnyObjectByType<PlayerFeature>().transform;
         _isTriggered = false;
     }
 
