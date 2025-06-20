@@ -4,7 +4,7 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
 {
     // IFeatureResetable
     private float _defaultLight = 0f;
-    private float _defaultRotation = 60f;
+    private float _defaultRotation = 110f;
     private float _defaultScale = 1f;
         
     // ILightAdjustable
