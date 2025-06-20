@@ -930,13 +930,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: defaultDialogueId
+      value: NPC_02_default
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].priority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[1].priority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].dialogueId
+      value: baldHead
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[1].dialogueId
+      value: npc_after_puzzle_A_solved
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].requiredFlagName
+      value: baldHead
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[1].requiredFlagName
+      value: npc_after_puzzle_A
+      objectReference: {fileID: 0}
     - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.16
+      value: 7.58
       objectReference: {fileID: 0}
     - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.61
+      value: -5.19
       objectReference: {fileID: 0}
     - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: m_LocalPosition.z
