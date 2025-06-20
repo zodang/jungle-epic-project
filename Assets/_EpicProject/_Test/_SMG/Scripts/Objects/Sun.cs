@@ -38,11 +38,12 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     {
         _model = transform.GetChild(0);
         _lightDir = transform.GetChild(1);
+        
+        ResetFeature();
     }
 
     private void Start()
     {
-        ResetFeature();
         _currentPosX = transform.position.x;
     }
 

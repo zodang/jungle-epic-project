@@ -44,13 +44,10 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
 
         // --- [새로 추가된 부분 2] 자기 자신에게 붙어있는 컴포넌트 찾아오기 ---
         _propertyController = transform.Find("Model").GetComponent<ObjectPropertyController>();
-    }
-
-    private void Start()
-    {
+        
         ResetFeature();
     }
-
+    
     private void Update()
     {
         if(_enableMove)

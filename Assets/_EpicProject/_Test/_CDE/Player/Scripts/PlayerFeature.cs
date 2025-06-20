@@ -14,7 +14,6 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     private Vector2 _moveInput;
 
     public bool _enableMove;
-    private float _speed = 5f;
     public float scaleMin = 0.5f, scaleMax = 2.0f;
 
     // ILightAdjustable
@@ -39,10 +38,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         _model = transform.GetChild(1);
         _TwinkleLv1 = _model.GetChild(0).gameObject;
         _TwinkleLv2 = _model.GetChild(1).gameObject;
-    }
-
-    private void Start()
-    {
+        
         ResetFeature();
     }
 

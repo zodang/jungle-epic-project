@@ -40,6 +40,8 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody2D.gravityScale = 0f;
         _rigidbody2D.freezeRotation = true;
+        
+        ResetFeature();
     }
 
     private void Start()
@@ -47,8 +49,6 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
         foot.SetActive(false);
         twinkleLv1.SetActive(false);
         twinkleLv2.SetActive(false);
-
-        ResetFeature();
     }
     
     private void Update()
