@@ -36,7 +36,7 @@ public class TitleSceneUIManager : MonoBehaviour
     
     private void OnClickSettingBtn()
     {
-        // TODO: 설정창 기능
+        GameManager.Instance.SettingManager.OpenSetting();
     }
     
     private void OnClickExitGameBtn()

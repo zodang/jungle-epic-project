@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,10 +13,18 @@ public class TilePair
     public TileBase Replace;
 }
 
+[System.Serializable]
+public class AnimCtrlPair
+{
+    public RuntimeAnimatorController Original;
+    public RuntimeAnimatorController Replace;
+}
+
 
 public class TilemapDetect : MonoBehaviour
 {
     public TilePair[] tilePairs;
+    public AnimCtrlPair[] animatorPairs;
 
     public Tilemap groundTilemap;
 
@@ -22,6 +32,7 @@ public class TilemapDetect : MonoBehaviour
     public float Angle;
 
     public List<Vector3> testTilesPos = new List<Vector3>();
+    public List<Collider2D> testColls = new List<Collider2D>();
 
     private void Update()
     {
@@ -29,10 +40,16 @@ public class TilemapDetect : MonoBehaviour
 
         Radius = 6.25f * transform.parent.lossyScale.x;
 
-        GetTilesInSector(groundTilemap, transform.position, transform.up, Radius, Angle, ref testTilesPos);
-        for(int i = 0; i < testTilesPos.Count; i++)
+        //GetTilesInSector(groundTilemap, transform.position, transform.up, Radius, Angle, ref testTilesPos);
+        //for(int i = 0; i < testTilesPos.Count; i++)
+        //{
+        //    ChangeTile(groundTilemap, testTilesPos[i]);
+        //}
+
+        GetCollidersInsector(transform.position, transform.up, Radius, Angle, ref testColls);
+        for(int i = 0; i < testColls.Count; i++)
         {
-            ChangeTile(groundTilemap, testTilesPos[i]);
+            ChangeGrassLeaf(testColls[i].GetComponent<Animator>());
         }
     }
 
@@ -64,12 +81,35 @@ public class TilemapDetect : MonoBehaviour
         return null;
     }
 
+    void ChangeGrassLeaf(Animator animator)
+    {
+        if (animator.IsUnityNull()) return;
+        RuntimeAnimatorController newAnimator = GetReplace(animator.runtimeAnimatorController);
+        if (newAnimator != null)
+        {
+            animator.runtimeAnimatorController = newAnimator;
+        }
+    }
+
+
+    public RuntimeAnimatorController GetReplace(RuntimeAnimatorController original)
+    {
+        for(int i = 0; i < animatorPairs.Length; i++)
+        {
+            AnimCtrlPair animatorPair = animatorPairs[i];
+            if (animatorPair.Original == original)
+                return animatorPair.Replace;
+        }
+        return null;
+    }
+
+
     bool IsPointInSector(Vector2 point, Vector2 center, Vector2 direction, float radius, float angle)
     {
         Vector2 toPoint = point - center;
 
-        if (toPoint.magnitude > radius)
-            return false;
+        //if (toPoint.magnitude > radius)
+        //    return false;
 
         float halfAngle = angle * 0.5f;
         float angleToPoint = Vector2.Angle(direction, toPoint);
@@ -100,6 +140,26 @@ public class TilemapDetect : MonoBehaviour
             }
         }
     }
+
+    public void GetCollidersInsector(Vector2 center, Vector2 direction, float radius, float angle, ref List<Collider2D> colliders)
+    {
+        colliders.Clear();
+
+        Collider2D[] rangedColls = Physics2D.OverlapCircleAll(center, radius);
+        
+        for(int i = 0; i < rangedColls.Length; i++)
+        {
+            Collider2D col = rangedColls[i];
+            if (col.gameObject == gameObject)
+                continue;
+
+            if(IsPointInSector(col.transform.position, center, direction, radius, angle))
+            {
+                colliders.Add(col);
+            }
+        }
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
