@@ -14,7 +14,11 @@ public class NpcInteractionUI : MonoBehaviour
 
     private void Awake()
     {
-        // dialogueManager = DialogueManager.Instance; // <--- 이 줄 변경
+        npcInteraction = GetComponent<NPCInteraction>();
+    }
+
+    private void Start()
+    {
         if (StageBaseManager.Instance == null || StageBaseManager.Instance.DialogueManager == null) // <--- StageBaseManager 통해 접근
         {
             Debug.LogError($"NpcInteractionUI on '{gameObject.name}': StageBaseManager.Instance or its DialogueManager not found!");
@@ -22,7 +26,6 @@ public class NpcInteractionUI : MonoBehaviour
             return;
         }
 
-        npcInteraction = GetComponent<NPCInteraction>();
         if (npcInteraction == null)
         {
             Debug.LogError($"NpcInteractionUI on '{gameObject.name}': NPCInteraction component not found!");
