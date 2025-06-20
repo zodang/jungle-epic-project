@@ -88,6 +88,7 @@ public class TilemapDetect : MonoBehaviour
         if (newAnimator != null)
         {
             animator.runtimeAnimatorController = newAnimator;
+            animator.transform.localScale = Vector3.one;
         }
     }
 
