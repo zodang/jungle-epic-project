@@ -13,8 +13,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Transform _canvasTransform;
 
     [Header("Dialogue Events")]
-    public UnityEvent OnDialogueStart;
-    public UnityEvent OnDialogueEnd;
+    public UnityEvent OnDialogueStart = new UnityEvent(); // 초기화 확실히
+    public UnityEvent OnDialogueEnd = new UnityEvent();   // 초기화 확실히
 
     [Header("Dialogue Settings")]
     [SerializeField] private string dialogueFileName = "dialogues";
