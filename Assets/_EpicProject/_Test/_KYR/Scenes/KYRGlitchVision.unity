@@ -1226,11 +1226,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81ccfaf69af63914a8f7ff5db28bc21d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questionBtn: {fileID: 1011913025}
   startPanel: {fileID: 187358714}
   startBtn: {fileID: 851351670}
   endingPanel: {fileID: 916794605}
   restartBtn: {fileID: 1673378991}
-  questionBtn: {fileID: 1011913025}
 --- !u!114 &440588829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23719,13 +23719,10 @@ MonoBehaviour:
   startFastSpeed: 0.05
   endSlowSpeed: 2
   mainCam: {fileID: 638017722}
-  glitchCam: {fileID: 1507595442}
   isZoomOut: 1
   glitchCamOrtho: 6.5
-  glitchVolume: {fileID: 6966327976487967444}
   normalCutoff: 22000
   glitchCutoff: 800
-  glitchObjects: []
 --- !u!212 &6303936813764667239
 SpriteRenderer:
   m_ObjectHideFlags: 0
