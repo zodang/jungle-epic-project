@@ -12,6 +12,15 @@ public class DialogueUI : MonoBehaviour
     private const string SPEAKER_NAME_TEXT_UI_NAME = "SpeakerNameText";
     private const string NEXT_BUTTON_NAME = "Next Button"; // 버튼 GameObject 이름
 
+    // [새로 추가/변경할 변수들]
+    [Header("Choice Settings")]
+    [SerializeField] private GameObject choiceItemPrefab; // 1단계에서 만든 ChoiceItemPrefab을 연결
+    [SerializeField] private Transform choicesContainer;  // 2단계에서 만든 ChoicesContainer를 연결
+    [SerializeField] private Color selectedChoiceColor = new Color(1, 1, 0.5f, 1); // 선택됐을 때 배경색 (노란색)
+    [SerializeField] private Color defaultChoiceColor = new Color(1, 1, 1, 0.5f);   // 기본 배경색 (반투명 흰색)
+
+    private List<GameObject> instantiatedChoiceItems = new List<GameObject>(); // 생성된 선택지 UI 오브젝트들을 관리할 리스트
+
     private TextMeshProUGUI mainTextTMP;      // 주 텍스트 표시용 (일반 대사 또는 선택지 목록)
     private TypeEffect mainTextTypeEffect; // 주 텍스트에 연결된 TypeEffect (있을 수도, 없을 수도 있음)
     private TextMeshProUGUI speakerNameTextTMP;
@@ -124,52 +133,66 @@ public class DialogueUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 선택지 목록을 주 텍스트 영역에 표시합니다. (TypeEffect 없이 즉시 표시)
+    /// 이전에 생성된 선택지 UI들을 모두 파괴합니다.
+    /// </summary>
+    private void ClearChoices()
+    {
+        foreach (GameObject item in instantiatedChoiceItems)
+        {
+            Destroy(item);
+        }
+        instantiatedChoiceItems.Clear();
+    }
+
+    /// <summary>
+    /// 선택지 목록을 UI에 표시합니다. (완전히 새로 작성된 메서드)
     /// </summary>
     public void DisplayChoicesInMainText(List<DialogueChoice> choices, int selectedIndex)
     {
-        if (mainTextTMP == null) return;
+        // 0. 기존에 있던 선택지 UI들을 깨끗하게 지웁니다.
+        ClearChoices();
 
-        if (choices == null || choices.Count == 0)
+        if (choices == null || choices.Count == 0 || choiceItemPrefab == null || choicesContainer == null)
         {
-            mainTextTMP.text = "";
             return;
         }
 
-        // 선택지 표시 전, 혹시 진행 중인 타이핑 효과가 있다면 완료시킴
-        if (mainTextTypeEffect != null && mainTextTypeEffect.IsPlaying)
-        {
-            mainTextTypeEffect.FinishEffect();
-        }
-
-        choiceStringBuilder.Clear();
+        // 1. 모든 선택지에 대해 루프를 돕니다.
         for (int i = 0; i < choices.Count; i++)
         {
-            if (i == selectedIndex)
-            {
-                // 선택된 항목: > 표시, 볼드체, 노란색 반투명 배경색 적용
-                // 색상 코드 #FFFF0080 은 원하시는 색상으로 변경 가능합니다.
-                choiceStringBuilder.Append("> ");
-                choiceStringBuilder.Append("<b><mark=#FFFF0080>");
-                choiceStringBuilder.Append(choices[i].text);
-                choiceStringBuilder.Append("</mark></b>");
-                choiceStringBuilder.AppendLine();
-            }
-            else
-            {
-                // 선택되지 않은 항목: 앞에 공백 추가
-                choiceStringBuilder.Append("  ");
-                choiceStringBuilder.AppendLine(choices[i].text);
-            }
-        }
+            // 2. 프리팹으로부터 새로운 선택지 아이템 UI를 생성합니다.
+            GameObject choiceInstance = Instantiate(choiceItemPrefab, choicesContainer);
 
-        // 마지막에 추가된 불필요한 줄바꿈 문자 제거
-        if (choiceStringBuilder.Length > 0 && choiceStringBuilder[choiceStringBuilder.Length - 1] == '\n')
-        {
-            choiceStringBuilder.Length--;
-        }
+            // 3. 자식 오브젝트에서 Image와 TextMeshProUGUI 컴포넌트를 찾습니다.
+            Image background = choiceInstance.GetComponent<Image>();
+            TextMeshProUGUI choiceText = choiceInstance.GetComponentInChildren<TextMeshProUGUI>();
 
-        mainTextTMP.text = choiceStringBuilder.ToString();
+            if (choiceText != null)
+            {
+                // 4. 선택지 텍스트를 설정합니다.
+                choiceText.text = choices[i].text;
+            }
+
+            if (background != null)
+            {
+                // 5. 현재 인덱스(i)가 선택된 인덱스(selectedIndex)와 같은지 확인합니다.
+                if (i == selectedIndex)
+                {
+                    // 선택된 항목: 지정된 색상으로 변경하고 텍스트를 볼드체로 만듭니다.
+                    background.color = selectedChoiceColor;
+                    if (choiceText != null) choiceText.fontStyle = FontStyles.Bold;
+                }
+                else
+                {
+                    // 선택되지 않은 항목: 기본 색상과 일반 텍스트 스타일로 설정합니다.
+                    background.color = defaultChoiceColor;
+                    if (choiceText != null) choiceText.fontStyle = FontStyles.Normal;
+                }
+            }
+
+            // 관리 리스트에 추가합니다.
+            instantiatedChoiceItems.Add(choiceInstance);
+        }
     }
 
     public bool IsTyping()
@@ -191,15 +214,20 @@ public class DialogueUI : MonoBehaviour
         if (rectTransform != null) rectTransform.position = screenPosition;
     }
 
+    // Show 메서드도 수정이 필요합니다.
     public void Show(bool show)
     {
         gameObject.SetActive(show);
         if (nextButton != null)
         {
-            nextButton.gameObject.SetActive(show); // 말풍선 보일 때 버튼도 보이게 (선택지 상황에서는 다를 수 있음)
+            nextButton.gameObject.SetActive(show);
         }
+
         if (!show)
         {
+            // UI가 숨겨질 때, 생성했던 선택지 아이템들을 모두 제거합니다.
+            ClearChoices();
+            // 타이핑 효과가 있다면 중단
             CompleteTyping();
         }
     }
