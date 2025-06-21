@@ -24,6 +24,9 @@ public class CameraFraming : MonoBehaviour
                 _originBackgroundScale = _backgroundObject.localScale;
             }
         }
+
+        // 플레이어 추가
+        AddTarget(StageBaseManager.Instance.PlayerManager.transform);
     }
 
     private void FixedUpdate()

@@ -49,7 +49,6 @@ GameObject:
   - component: {fileID: 2278239420035226639}
   - component: {fileID: 4930637680045947570}
   - component: {fileID: 8270869016251555534}
-  - component: {fileID: 6302454607338894449}
   - component: {fileID: 9198520053703797751}
   - component: {fileID: 8977727897933712211}
   m_Layer: 0
@@ -231,25 +230,6 @@ MonoBehaviour:
   nextIsGround: 0
   testdist: 0
   GroundTilemap: {fileID: 0}
---- !u!114 &6302454607338894449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633253394416912569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b23f19afaa75fc4bb9c6e2e0f33bac0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  glitchVisionDuration: 3
-  startFastSpeed: 0.05
-  endSlowSpeed: 2
-  glitchVolume: {fileID: 0}
-  normalCutoff: 5000
-  glitchCutoff: 400
-  glitchObjects: []
 --- !u!210 &9198520053703797751
 SortingGroup:
   m_ObjectHideFlags: 0
