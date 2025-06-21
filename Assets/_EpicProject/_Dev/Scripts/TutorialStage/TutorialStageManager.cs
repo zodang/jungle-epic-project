@@ -17,6 +17,6 @@ public class TutorialStageManager : StageBaseManager
 
     private void OnGoalTriggered()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GameManager.Instance.FadeManager.LoadScene();
     }
 }

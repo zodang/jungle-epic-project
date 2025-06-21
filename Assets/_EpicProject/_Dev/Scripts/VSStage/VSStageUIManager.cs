@@ -36,6 +36,7 @@ public class VSStageUIManager : MonoBehaviour
 
     private void OnClickRestartBtn()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.Instance.AudioManager.PlayBgm(false);
+        GameManager.Instance.FadeManager.LoadScene(1);
     }
 }

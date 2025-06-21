@@ -22,7 +22,7 @@ public class TitleSceneManager : MonoBehaviour
     public void StartNewGame()
     {
         Instantiate(stageManagerPrefab, Vector3.zero, Quaternion.identity);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GameManager.Instance.FadeManager.LoadScene(2);
 
         // 테스트 씬 연결
         //SceneManager.LoadScene("AAStageScene_CDE");
