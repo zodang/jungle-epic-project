@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine.SceneManagement;
 
 public class TutorialStageManager : StageBaseManager
@@ -13,6 +14,7 @@ public class TutorialStageManager : StageBaseManager
     private void Start()
     {
         // BGM 실행
+        FindAnyObjectByType<Inventory>().Collect(BlockType.PlayerControl);
     }
 
     private void OnGoalTriggered()
