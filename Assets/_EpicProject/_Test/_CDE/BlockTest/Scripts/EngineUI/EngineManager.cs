@@ -27,7 +27,7 @@ public class EngineManager : MonoBehaviour
             engineUI.InitEngineController(clickable);
         }
     }
-    
+
     public void ActivateEngineUI(Clickable clickable)
     {
         if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
@@ -63,5 +63,10 @@ public class EngineManager : MonoBehaviour
             // 하나라도 꺼진다면 효과음 재생
             GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        StageManager.Instance.InputManager.OnOffEngine -= DeactivateAllEngine;
     }
 }

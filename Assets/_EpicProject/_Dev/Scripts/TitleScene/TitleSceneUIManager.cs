@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +18,7 @@ public class TitleSceneUIManager : MonoBehaviour
     private void Start()
     {
         newGameBtn.onClick.AddListener(OnClickNewGameBtn);
-        continueGameBtn.onClick.AddListener(OnClickContinueGameBtn);
+        // continueGameBtn.onClick.AddListener(OnClickContinueGameBtn);
         settingBtn.onClick.AddListener(OnClickSettingBtn);
         exitGameBtn.onClick.AddListener(OnClickExitGameBtn);
     }
