@@ -14,7 +14,7 @@ public class GlitchVision : MonoBehaviour
     [Header("Camera Settings")]
     public CinemachineCamera mainCam;
     public CinemachineCamera glitchCam;
-    public bool isZoomOut = false;
+    public bool isZoomOut = true;
     private float mainCamOrtho; // mainCam의 OrthographicSize 저장
     public float glitchCamOrtho = 10f; // GlitchCam의 OrthographicSize
 
@@ -71,8 +71,8 @@ public class GlitchVision : MonoBehaviour
 
             // LowPassRoutine 코루틴이 이미 실행 중이면 중지하고 새로 시작
             if (lowPassFilter != null)
-                StartCoroutine(LowPassRoutine());
-            lowPassRoutine = StartCoroutine(GlitchVolumeRoutine());
+                StopCoroutine(LowPassRoutine());
+            lowPassRoutine = StartCoroutine(LowPassRoutine());
         }
     }
 
