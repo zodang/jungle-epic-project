@@ -145,13 +145,30 @@ public class DialogueUI : MonoBehaviour
         choiceStringBuilder.Clear();
         for (int i = 0; i < choices.Count; i++)
         {
-            choiceStringBuilder.Append(i == selectedIndex ? "> " : "  ");
-            choiceStringBuilder.AppendLine(choices[i].text);
+            if (i == selectedIndex)
+            {
+                // 선택된 항목: > 표시, 볼드체, 노란색 반투명 배경색 적용
+                // 색상 코드 #FFFF0080 은 원하시는 색상으로 변경 가능합니다.
+                choiceStringBuilder.Append("> ");
+                choiceStringBuilder.Append("<b><mark=#FFFF0080>");
+                choiceStringBuilder.Append(choices[i].text);
+                choiceStringBuilder.Append("</mark></b>");
+                choiceStringBuilder.AppendLine();
+            }
+            else
+            {
+                // 선택되지 않은 항목: 앞에 공백 추가
+                choiceStringBuilder.Append("  ");
+                choiceStringBuilder.AppendLine(choices[i].text);
+            }
         }
+
+        // 마지막에 추가된 불필요한 줄바꿈 문자 제거
         if (choiceStringBuilder.Length > 0 && choiceStringBuilder[choiceStringBuilder.Length - 1] == '\n')
         {
             choiceStringBuilder.Length--;
         }
+
         mainTextTMP.text = choiceStringBuilder.ToString();
     }
 
