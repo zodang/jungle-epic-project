@@ -15,6 +15,7 @@ public class TriggerArea : MonoBehaviour
     void Start()
     {
         _isTriggered = false;
+        target = StageBaseManager.Instance.PlayerManager.transform;
     }
 
     void Update()

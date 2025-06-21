@@ -16,15 +16,16 @@ public class TitleSceneManager : MonoBehaviour
     
     public void Start()
     {
-        GameManager.Instance.AudioManager.PlayBgm(true);
+        // GameManager.Instance.AudioManager.PlayBgm(true);
     }
 
     public void StartNewGame()
     {
         Instantiate(stageManagerPrefab, Vector3.zero, Quaternion.identity);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
-        // 임시 테스트 씬 연결
-        SceneManager.LoadScene("AAStageScene_CDE");
+        // 테스트 씬 연결
+        //SceneManager.LoadScene("AAStageScene_CDE");
     }
 
     public void ContinueGame()
@@ -41,6 +42,4 @@ public class TitleSceneManager : MonoBehaviour
         Application.Quit();
 #endif
     }
-
-    
 }

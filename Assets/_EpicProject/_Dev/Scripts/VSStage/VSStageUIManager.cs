@@ -2,27 +2,31 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TestStageUIManager : MonoBehaviour
+public class VSStageUIManager : MonoBehaviour
 {
+    [SerializeField] private Button questionBtn;
+    
     [SerializeField] private GameObject startPanel;
     [SerializeField] private Button startBtn;
     
     [SerializeField] private GameObject endingPanel;
     [SerializeField] private Button restartBtn;
-    
-    [SerializeField] private Button questionBtn;
 
     private void Awake()
     {
+        questionBtn.onClick.AddListener(OnClickQuestionBtn);
         startBtn.onClick.AddListener(OnClickStartBtn);
         restartBtn.onClick.AddListener(OnClickRestartBtn);
-        questionBtn.onClick.AddListener(OnClickQuestionBtn);
     }
 
     private void Start()
     {
-        startPanel.SetActive(true);
         endingPanel.SetActive(false);
+    }
+    
+    private void OnClickQuestionBtn()
+    {
+        startPanel.SetActive(true);
     }
 
     private void OnClickStartBtn()
@@ -34,10 +38,4 @@ public class TestStageUIManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-    private void OnClickQuestionBtn()
-    {
-        startPanel.SetActive(true);
-    }
-    
 }

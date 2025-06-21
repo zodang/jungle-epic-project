@@ -17,7 +17,7 @@ public class CameraFraming : MonoBehaviour
         _mainCamera = Camera.main;
         if(!_mainCamera.IsUnityNull())
         {
-            _backgroundObject = _mainCamera.transform.GetChild(0);
+            _backgroundObject = _mainCamera.transform.Find("BackgroundImg");
             if(!_backgroundObject.IsUnityNull())
             {
                 _originCameraSize = _mainCamera.orthographicSize;
