@@ -11,18 +11,20 @@ public class GlitchVision : MonoBehaviour
     public float startFastSpeed = 0.05f; // GlitchVision 시작 속도(값 클수록 빠름)
     public float endSlowSpeed = 2f; // GlitchVision 종료 속도(값 클수록 느림)
 
-    // [Header("Camera Settings")]
-    // public CinemachineCamera mainCam;
-    // public float glitchCamOrtho = 80f; // GlitchVision OrthographicSize
-    // private float mainCamOrtho;
+    [Header("Camera Settings")]
+    public CinemachineCamera mainCam;
+    public CinemachineCamera glitchCam;
+    public bool isZoomOut = false;
+    private float mainCamOrtho; // mainCam의 OrthographicSize 저장
+    public float glitchCamOrtho = 10f; // GlitchCam의 OrthographicSize
 
     [Header("Glitch Volume")]
     public Volume glitchVolume;
 
     [Header("Audio Filter")]
-    private AudioLowPassFilter lowPassFilter;
     public float normalCutoff = 5000f; // 원래 값 (기본값)
     public float glitchCutoff = 400f;   // 글리치 시 먹먹한 값
+    private AudioLowPassFilter lowPassFilter;
 
     public List<GlitchObject> glitchObjects;
     private Coroutine glitchCoroutine;
@@ -31,9 +33,12 @@ public class GlitchVision : MonoBehaviour
 
     private void Start()
     {
-        // mainCam의 fov 저장
-        // mainCamOrtho = mainCam.Lens.OrthographicSize;
-        // Debug.Log("Main Camera FOV: " + mainCamOrtho);
+        // mainCam의 ortho 저장, glitchCam, glitchCam Group Framing의 ortho 설정
+        mainCamOrtho = mainCam.Lens.OrthographicSize;
+        glitchCam.Lens.OrthographicSize = glitchCamOrtho;
+        glitchCam.GetComponent<CinemachineGroupFraming>().OrthoSizeRange = new Vector2(glitchCamOrtho, 10);
+        Debug.Log("Main Camera OrthographicSize: " + mainCamOrtho);
+        Debug.Log("Glitch Camera OrthographicSize: " + glitchCamOrtho);
 
         // GlitchObject 리스트 초기화 및 추가
         glitchObjects = new List<GlitchObject>(FindObjectsByType<GlitchObject>(FindObjectsSortMode.None));
@@ -74,8 +79,12 @@ public class GlitchVision : MonoBehaviour
 
     public void ActivateGlitchVision()
     {
-        // 카메라 OrthographicSize 확장
-        // mainCam.Lens.FieldOfView = glitchCamOrtho;
+        if (isZoomOut)
+        {
+            // 카메라 전환
+            mainCam.Priority = 0;
+            glitchCam.Priority = 10;
+        }
 
         foreach (var obj in glitchObjects)
         {
@@ -87,8 +96,12 @@ public class GlitchVision : MonoBehaviour
 
     public void DeactivateGlitchVision()
     {
-        // 카메라 OrthographicSize 복귀
-        // mainCam.Lens.FieldOfView = mainCamOrtho;
+        if (isZoomOut)
+        {
+            // 카메라 복귀
+            mainCam.Priority = 10;
+            glitchCam.Priority = 0;
+        }
 
         foreach (var obj in glitchObjects)
         {
