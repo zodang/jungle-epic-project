@@ -448,7 +448,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1.51, z: -10}
+  m_LocalPosition: {x: -2.82, y: -4.14, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2207,7 +2207,7 @@ Transform:
   m_GameObject: {fileID: 638017720}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1.51, z: -10}
+  m_LocalPosition: {x: -2.82, y: -4.14, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13217,7 +13217,7 @@ Transform:
   m_GameObject: {fileID: 1365295977}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1.51, z: 0}
+  m_LocalPosition: {x: -2.82, y: -4.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13357,6 +13357,10 @@ PrefabInstance:
       propertyPath: _canvasTransform
       value: 
       objectReference: {fileID: 293145007}
+    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
+      propertyPath: choiceBubblePrefab
+      value: 
+      objectReference: {fileID: 5682641207033410957, guid: be42eff85f6f0aa4c9761f97d4717ece, type: 3}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.size
       value: 0
@@ -13688,11 +13692,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.5
+      value: -2.82
       objectReference: {fileID: 0}
     - target: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.51
+      value: -4.14
       objectReference: {fileID: 0}
     - target: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: m_LocalPosition.z
