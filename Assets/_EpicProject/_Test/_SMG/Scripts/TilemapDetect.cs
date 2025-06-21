@@ -47,7 +47,8 @@ public class TilemapDetect : MonoBehaviour
         GetCollidersInsector(transform.position, transform.up, Radius, Angle, ref testColls);
         for(int i = 0; i < testColls.Count; i++)
         {
-            ChangeGrassLeaf(testColls[i].GetComponent<Animator>());
+            ChageGrassToDry(testColls[i].GetComponentInParent<GrassLeaf>());
+            //ChangeGrassLeaf(testColls[i].GetComponent<Animator>());
         }
     }
 
@@ -79,6 +80,12 @@ public class TilemapDetect : MonoBehaviour
         return null;
     }
 
+    void ChageGrassToDry(GrassLeaf grassLeaf)
+    {
+        if (grassLeaf.IsUnityNull()) return;
+
+        grassLeaf.FadeToDry();
+    }
     void ChangeGrassLeaf(Animator animator)
     {
         if (animator.IsUnityNull()) return;

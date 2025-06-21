@@ -13,7 +13,7 @@ public class GrassAnimation : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Movement2D movement;
+        //Movement2D movement;
         if (!other.CompareTag("Player")) return;
         //movement = other.GetComponentInParent<Movement2D>();
         //if (movement.IsUnityNull()) return;
