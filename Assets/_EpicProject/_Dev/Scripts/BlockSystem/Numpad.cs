@@ -1,71 +1,107 @@
 using Define;
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Numpad : MonoBehaviour, ISlotType, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Numpad : MonoBehaviour, ISlotType, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     public Action<int> OnClickNumpad;
-
     public int Index { get; private set; }
-    private Button _btn;
 
+    private Image _iconImg; 
+    private TMP_Text _numText; 
+
+    private Clickable _targetClickable;  
     private EngineBlock _blockToDrag;
+
+    // 드래그 판별용
+    private Vector2 _pointerDownPos;
+    private bool _isDragging = false;
+    private float _dragThreshold = 10f; // px 이상 움직이면 드래그로 판정
 
     public void Init(int index)
     {
         Index = index;
-        
-        _btn = GetComponent<Button>();
-        _btn.onClick.AddListener(OnBtnClicked);
+
+        _iconImg = GetComponentInChildren<NumpadIcon>().GetComponent<Image>();
+        _numText = GetComponentInChildren<TMP_Text>();
+
+        ChangeVisual();
     }
 
-    private void OnBtnClicked()
+    public void ChangeVisual()
     {
-        OnClickNumpad?.Invoke(Index);
+        if (_targetClickable.BlockDictionary.TryGetValue(Index, out var block) && block != null)
+        {
+            var icon = StageManager.Instance.BlockFactory.GetIcon(block.Type);
+            _iconImg.sprite = icon;
+            _iconImg.enabled = true;
+            _numText.enabled = false;
+        }
+        else
+        {
+            _iconImg.enabled = false;
+            _numText.enabled = true;
+        }
     }
 
+    public SlotType GetSlotType() => SlotType.Numpad;
 
-    private Clickable _targetClickable;  
-    public SlotType GetSlotType()
-    {
-        return SlotType.Numpad;
-    }
-
-    public Clickable GetTargetClickable()
-    {
-        return _targetClickable;
-    }
+    public Clickable GetTargetClickable() => _targetClickable;
 
     public void SetTargetClickable(Clickable clickable)
     {
         _targetClickable = clickable;
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
-        // 현재 타겟에서 해당 인덱스의 블록을 가져옴
+        _pointerDownPos = eventData.position;
+        _isDragging = false;
+
+        // 드래그 준비
         if (_targetClickable == null) return;
-
         _targetClickable.BlockDictionary.TryGetValue(Index, out _blockToDrag);
-        if (_blockToDrag == null) return;
-
-        // 강제로 드래그 시작
-        var visual = _blockToDrag.GetComponent<BlockVisual>();
-        if (visual == null) return;
-
-        visual.ForceBeginDrag(eventData);
+        
+        // 클릭 처리
+        OnClickNumpad?.Invoke(Index);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        _blockToDrag?.GetComponent<BlockVisual>()?.ForceDrag(eventData);
-        
+        if (_blockToDrag == null) return;
+
+        if (!_isDragging && Vector2.Distance(_pointerDownPos, eventData.position) > _dragThreshold)
+        {
+            _isDragging = true;
+
+            var visual = _blockToDrag.GetComponent<BlockVisual>();
+            visual?.ForceBeginDrag(eventData);
+        }
+
+        if (_isDragging)
+        {
+            _blockToDrag.GetComponent<BlockVisual>()?.ForceDrag(eventData);
+        }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData eventData)
     {
-        _blockToDrag?.GetComponent<BlockVisual>()?.ForceEndDrag(eventData);
+        if (_blockToDrag == null) return;
+
+        if (_isDragging)
+        {
+            _blockToDrag.GetComponent<BlockVisual>()?.ForceEndDrag(eventData);
+        }
+        else
+        {
+            // 클릭 처리
+            OnClickNumpad?.Invoke(Index);
+        }
+
+        _isDragging = false;
+        _blockToDrag = null;
     }
 }

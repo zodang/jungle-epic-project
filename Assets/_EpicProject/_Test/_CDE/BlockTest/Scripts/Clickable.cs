@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Define;
+using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Clickable : MonoBehaviour, IClickable
 {
@@ -26,6 +26,7 @@ public class Clickable : MonoBehaviour, IClickable
     #region Block
     
     // 블록 관련 기능
+    public event Action OnBlockChanged;
     public Dictionary<int, EngineBlock> BlockDictionary = new();
     public List<BlockType> DefaultBlockList = new ();
 
@@ -53,6 +54,8 @@ public class Clickable : MonoBehaviour, IClickable
             // UI 표시
             engineController.ShowBlock(i);
         }
+        
+        EngineController.ChangeAllNumpadVisual();
     }
     
     public (bool canAdd, int index) TryAddBlock(EngineBlock block)
@@ -63,6 +66,7 @@ public class Clickable : MonoBehaviour, IClickable
         if (!BlockDictionary.ContainsKey(EngineController.SelectedIndex))
         {
             BlockDictionary[EngineController.SelectedIndex] = block;
+            OnBlockChanged?.Invoke();
             return (true, EngineController.SelectedIndex);
         }
 
@@ -72,6 +76,7 @@ public class Clickable : MonoBehaviour, IClickable
             if (!BlockDictionary.ContainsKey(i))
             {
                 BlockDictionary[i] = block;
+                OnBlockChanged?.Invoke();
                 return (true, i);
             }
         }
@@ -88,6 +93,7 @@ public class Clickable : MonoBehaviour, IClickable
         if (!BlockDictionary.ContainsKey(preferredIndex))
         {
             BlockDictionary[preferredIndex] = block;
+            OnBlockChanged?.Invoke();
             return (true, preferredIndex);
         }
 
@@ -97,6 +103,7 @@ public class Clickable : MonoBehaviour, IClickable
             if (!BlockDictionary.ContainsKey(i))
             {
                 BlockDictionary[i] = block;
+                OnBlockChanged?.Invoke();
                 return (true, i);
             }
         }
@@ -108,6 +115,7 @@ public class Clickable : MonoBehaviour, IClickable
     public void RemoveBlock()
     {
         BlockDictionary.Remove(EngineController.SelectedIndex);
+        OnBlockChanged?.Invoke();
     }
 
     #endregion

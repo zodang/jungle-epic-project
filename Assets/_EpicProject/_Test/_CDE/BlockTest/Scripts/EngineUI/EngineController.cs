@@ -23,8 +23,16 @@ public class EngineController : MonoBehaviour
         // Button 기능 연결
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
+        CurrentTarget.OnBlockChanged += ChangeAllNumpadVisual;
         
         gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        _engineUIController.OnClickCloseBtn -= Deactivate;
+        _engineUIController.OnResetBtnClicked -= ResetFeature;
+        CurrentTarget.OnBlockChanged -= ChangeAllNumpadVisual;
     }
 
     public void InitEngineController(Clickable target)
@@ -104,6 +112,14 @@ public class EngineController : MonoBehaviour
         foreach (EngineBlock block in blocks)
         {
             block.ResetUI();
+        }
+    }
+
+    public void ChangeAllNumpadVisual()
+    {
+        foreach (var numpad in NumpadList)
+        {
+            numpad.ChangeVisual();
         }
     }
 }
