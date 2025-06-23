@@ -34,6 +34,7 @@ public class CheckTutorial : MonoBehaviour
     {
         _tutorialStep = 1;
         _updateTimeDelta = 0f;
+        _moveTimeDelta = 0f;
         Invoke("Init", 0.3f);
     }
 
@@ -49,6 +50,7 @@ public class CheckTutorial : MonoBehaviour
     }
 
     private float _updateTimeDelta;
+    private float _moveTimeDelta;
 
     private bool _isPlayerUIOpen;
     private bool _isRockUIOpen;
@@ -68,78 +70,91 @@ public class CheckTutorial : MonoBehaviour
         _isRockMoveEnable = Rock.GetComponent<Rock>().EnableMove;
         _isGlitchVision = FindAnyObjectByType<GlitchVision>().IsGlitchVisionActive;
 
-        switch (_tutorialStep)
+        if(_tutorialStep < 6)
         {
-            case 2:
-                if(StageManager.Instance.InputManager.MoveInput != Vector2.zero)
+            if(_isPlayerMoveEnable)
+            {
+                if (StageManager.Instance.InputManager.MoveInput != Vector2.zero)
                 {
-                    _updateTimeDelta += Time.deltaTime;
-                    if(_updateTimeDelta >= 1f)
+                    _moveTimeDelta += Time.deltaTime;
+                    if (_moveTimeDelta > 1f)
                     {
+                        _moveTimeDelta = 0f;
                         _updateTimeDelta = 0f;
+                        _tutorialStep = 5;
                         StartTutorial(_tutorialStep);
+                        return;
                     }
                 }
-                break;
-            case 3:
-                if(_isGlitchVision)
+            }
+            else
+            {
+                switch(_tutorialStep)
                 {
-                    _updateTimeDelta += Time.deltaTime;
-                    if(_updateTimeDelta >= 0.5f)
-                    {
-                        _updateTimeDelta = 0f;
-                        StartTutorial(_tutorialStep);
-                    }
+                    case 2:
+                        if (StageManager.Instance.InputManager.MoveInput != Vector2.zero)
+                        {
+                            _updateTimeDelta += Time.deltaTime;
+                            if (_updateTimeDelta > 1f)
+                            {
+                                _updateTimeDelta = 0f;
+                                StartTutorial(_tutorialStep);
+                            }
+                        }
+                        break;
+                    case 3:
+                        if (_isGlitchVision)
+                        {
+                            _updateTimeDelta += Time.deltaTime;
+                            if (_updateTimeDelta > 0.5f)
+                            {
+                                _updateTimeDelta = 0f;
+                                StartTutorial(_tutorialStep);
+                            }
+                        }
+                        break;
+                    case 4:
+                        if (_isPlayerUIOpen)
+                        {
+                            _updateTimeDelta += Time.deltaTime;
+                            if (_updateTimeDelta > 1f)
+                            {
+                                _updateTimeDelta = 0f;
+                                StartTutorial(_tutorialStep);
+                            }
+                        }
+                        break;
                 }
-                break;
-            case 4:
-                if (_isPlayerUIOpen)
-                {
-                    _updateTimeDelta += Time.deltaTime;
-                    if (_updateTimeDelta >= 0.8f)
-                    {
-                        _updateTimeDelta = 0f;
-                        StartTutorial(_tutorialStep);
-                    }
-                }
-                break;
-            case 5:
-                if (_isPlayerMoveEnable)
-                {
-                    if(StageManager.Instance.InputManager.MoveInput != Vector2.zero)
+            }
+        }
+        else
+        {
+            switch (_tutorialStep)
+            {
+                case 7:
+                    if (_isRockUIOpen)
                     {
                         _updateTimeDelta += Time.deltaTime;
-                        if(_updateTimeDelta > 1f)
+                        if (_updateTimeDelta > 1f)
                         {
                             _updateTimeDelta = 0f;
                             StartTutorial(_tutorialStep);
                         }
                     }
-                }
-                break;
-            case 7:
-                if(_isGlitchVision)
-                {
-                    _updateTimeDelta += Time.deltaTime;
-                    if(_updateTimeDelta >= 0.5f)
+                    break;
+                case 8:
+                    if (_isRockMoveEnable)
                     {
-                        _updateTimeDelta = 0f;
                         StartTutorial(_tutorialStep);
                     }
-                }
-                break;
-            case 8:
-                if (_isRockMoveEnable)
-                {
-                    StartTutorial(_tutorialStep);
-                }
-                break;
+                    break;
+            }
         }
     }
     
     void Init()
     {
-        Debug.Log("Call Init");
+        //Debug.Log("Call Init");
         //var activatePlayerUIAction = CreateCheckAction(Player, () => _isOpenPlayerUI = true);
         //_checkActions.Add(activatePlayerUIAction);
         //var activateRockUIAction = CreateCheckAction(Rock, () => _isOpenRockUI = true);
@@ -153,34 +168,16 @@ public class CheckTutorial : MonoBehaviour
         _isInit = true;
     }
 
-    void CheckTutorial1()
-    {
-        
-    }
-
     public void StartTutorial(int ID)
     {
         if (_tutorialStep != ID || flagsName.Length <= ID) return;
 
-        StageManager.Instance.FlagManager.SetFlag(flagsName[_tutorialStep]);
+        if (ID == flagsName.Length - 1) _tutorialStep = ID;
 
+        StageManager.Instance.FlagManager.SetFlag(flagsName[_tutorialStep]);
 
         Player.GetComponentInChildren<NPCInteraction>().InteractWithNPC();
         _tutorialStep++;
-    }
-
-    void StartTutorial1()
-    {
-        Debug.Log("call StartTutorial1");
-    }
-
-    public void StartTutorial2()
-    {
-        Debug.Log("call StartTutorial2");
-    }
-
-    void CheckOpenPanel(Clickable target)
-    {
     }
 
     [Header("Test")]
@@ -215,8 +212,8 @@ public class CheckTutorial : MonoBehaviour
     }
 
     public int TestTurorialID;
-    [ContextMenu("testaa")]
-    void asdads()
+    [ContextMenu("TestTurorialID(TestTurorialID)")]
+    void StartTutorial()
     {
         StartTutorial(TestTurorialID);
     }
