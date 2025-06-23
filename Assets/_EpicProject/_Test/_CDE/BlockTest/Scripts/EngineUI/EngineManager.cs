@@ -6,6 +6,8 @@ public class EngineManager : MonoBehaviour
 {
     [SerializeField] private EngineController engineUIPrefab;
     private Dictionary<Clickable, EngineController> _engineDictionary = new();
+    //public event Action<Clickable> OnActivateEngineUI;
+    
 
     private void Start()
     {
@@ -32,6 +34,7 @@ public class EngineManager : MonoBehaviour
     {
         if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
         {
+            //OnActivateEngineUI?.Invoke(clickable);
             engineController.gameObject.SetActive(true);
             engineController.Activate();
         }
@@ -43,6 +46,16 @@ public class EngineManager : MonoBehaviour
         {
             engineController.RefreshSlot(clickable);
         }
+    }
+
+    // [Mod: SMG 25-06-23] 튜토리얼 상태 체크를 위해 추가
+    public bool GetActivateEngineUI(Clickable clickable)
+    {
+        if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
+        {
+            return engineController.IsActivate;            
+        }
+        return false;
     }
 
     private void DeactivateAllEngine()

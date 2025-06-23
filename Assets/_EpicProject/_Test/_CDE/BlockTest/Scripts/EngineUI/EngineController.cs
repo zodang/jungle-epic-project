@@ -4,6 +4,8 @@ using UnityEngine;
 public class EngineController : MonoBehaviour
 {
     public Clickable CurrentTarget { get; private set; }
+    // [Mod: SMG 25-06-23] 튜토리얼 상태 체크를 위해 추가
+    public bool IsActivate { get; private set; }    // 창 활성화 여부 체크
 
     private EngineUIController _engineUIController;
     private EngineBlockController _engineBlockController;
@@ -42,6 +44,7 @@ public class EngineController : MonoBehaviour
     
     public void Activate()
     {
+        IsActivate = true;
         // On 애니메이션 실행 
         _engineUIController.ActivateEffect();
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
@@ -49,6 +52,7 @@ public class EngineController : MonoBehaviour
     
     private void Deactivate()
     {
+        IsActivate = false;
         if (!gameObject.activeSelf) return;
         _engineUIController.DeactivateEffect();
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
@@ -56,6 +60,7 @@ public class EngineController : MonoBehaviour
 
     public void DeactivateSilently()
     {
+        IsActivate = false;
         if (!gameObject.activeSelf) return;
         _engineUIController.DeactivateEffect();
     }

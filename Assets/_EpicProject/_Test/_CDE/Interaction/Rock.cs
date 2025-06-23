@@ -21,8 +21,10 @@ public class Rock : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatab
     private float _minScale = 0.8f;
     private float _maxScale = 2.5f;
     private float _currentScale;
-    
+
     // IControllable
+    // [Mod: SMG 25-06-23] 튜토리얼 상태 체크를 위해  public get 추가
+    public bool EnableMove => _enableMove;
     private bool _enableMove;    
     private Rigidbody2D _rigidbody2D;
     private Movement2D _movement2D;

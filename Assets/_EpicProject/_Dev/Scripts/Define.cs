@@ -29,7 +29,9 @@ namespace Define
 
     public static class Tags
     {
+        public const string Player = "Player";
         public const string Slash = "Slash";
+        public const string Goal = "Goal";
     }
 
     public static class Layers
