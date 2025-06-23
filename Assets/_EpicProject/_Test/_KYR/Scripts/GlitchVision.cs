@@ -6,6 +6,8 @@ using System.Collections;
 
 public class GlitchVision : MonoBehaviour
 {
+    // [Mod: SMG 25-06-23] 튜토리얼 상태 체크를 위해 추가
+    public bool IsGlitchVisionActive { get; private set; }
     [Header("Glitch Vision Settings")]
     public float glitchVisionDuration = 3f; // GlitchVision 지속 시간
     public float startFastSpeed = 0.05f; // GlitchVision 시작 속도(값 클수록 빠름)
@@ -85,6 +87,7 @@ public class GlitchVision : MonoBehaviour
 
     public void ActivateGlitchVision()
     {
+        IsGlitchVisionActive = true;
         if (isZoomOut)
         {
             // 카메라 전환
@@ -115,6 +118,7 @@ public class GlitchVision : MonoBehaviour
             if (obj != null)
                 obj.HideGlitch();
         }
+        IsGlitchVisionActive = false;
     }
 
     private IEnumerator GlitchVolumeRoutine()
