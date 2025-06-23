@@ -30,7 +30,7 @@ public abstract class DraggableBlock : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // 드래그 시작 신호 발행
+        // 드래그블 시작할때 EngineFliker 함수 호출
         OnAnyBlockBeginDrag?.Invoke();
 
         _originalAnchorPos = _rectTransform.anchoredPosition;
@@ -80,7 +80,7 @@ public abstract class DraggableBlock : MonoBehaviour,
 
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Put);
 
-        // 드래그 종료 신호 발행
+        // 드래그블 끝났을때 EngineFliker 함수 호출
         OnAnyBlockEndDrag?.Invoke();
     }
 }
