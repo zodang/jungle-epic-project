@@ -8648,6 +8648,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8881364094005791703, guid: ea14f45c0abeddb43af3c0172e354f78, type: 3}
+      propertyPath: engineUIPrefab
+      value: 
+      objectReference: {fileID: 5155206778162578544, guid: 2eec640c051a61c4a9b586e87bbbde66, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25405,7 +25409,7 @@ MonoBehaviour:
   LateralAdjustment: 0
   FovRange: {x: 1, y: 100}
   DollyRange: {x: -100, y: 100}
-  OrthoSizeRange: {x: 3, y: 10}
+  OrthoSizeRange: {x: 6.5, y: 10}
 --- !u!114 &1924819229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25450,7 +25454,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 1234
+    OrthographicSize: 6.5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
