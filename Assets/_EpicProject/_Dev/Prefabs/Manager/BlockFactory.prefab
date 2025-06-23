@@ -44,24 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af6b236181cdba48ac081411408c053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engineBlockEntries:
-  - Type: 1
-    Prefab: {fileID: 1981171898387876582, guid: 6a50d09b126b3224ba36c5212ebae797, type: 3}
-  - Type: 2
-    Prefab: {fileID: 8106411788326667691, guid: 8c19423b4c312454b9482db2cbc9bb5b, type: 3}
-  - Type: 3
-    Prefab: {fileID: -769844888133094886, guid: 262f88ea135f3e4438719d8ea91bdc98, type: 3}
-  - Type: 4
-    Prefab: {fileID: 4290677753319059677, guid: e588511a97d8c434c83540bd0e39e9d5, type: 3}
-  inventoryBlockEntries:
-  - Type: 1
-    Prefab: {fileID: 1619540684606256324, guid: 21ab19e0c21e6764eaaaa3191ba002a2, type: 3}
-  - Type: 2
-    Prefab: {fileID: 8384274142072023119, guid: 4c6fd62a871e879438a3a36678bb628c, type: 3}
-  - Type: 3
-    Prefab: {fileID: 1054038691662363915, guid: c66d31891c758a945b69e55c98066f7b, type: 3}
-  - Type: 4
-    Prefab: {fileID: 4917547180742544072, guid: 0708648d12fbba240bf5251aec64c00b, type: 3}
+  BlockPrefabs:
+  - {fileID: 3782840704502228020, guid: 4ab87d2ee738fd34886cba7c45c8c687, type: 3}
+  - {fileID: 785958233471888374, guid: b2e7cf5974ee6c14cad73a5e95c7729c, type: 3}
+  - {fileID: 902697797834209456, guid: 59a6843800ddb01409eacc12acc86fbf, type: 3}
+  - {fileID: 9115474801208288203, guid: 1026fff5e76303044b3064362f3c9654, type: 3}
   _blockIconEntries:
   - Type: 1
     Icon: {fileID: 21300000, guid: f77608c91e36d2444952cb2edd493c31, type: 3}

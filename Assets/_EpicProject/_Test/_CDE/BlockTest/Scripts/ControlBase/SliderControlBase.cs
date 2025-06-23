@@ -6,21 +6,15 @@ using UnityEngine.UI;
 public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature : class
 {
     protected TFeature _feature;
-    private Slider _slider;
-    private TMP_Text _percentText;
     
+    [SerializeField] private Slider _slider;
+    [SerializeField] private TMP_Text _percentText;
+
     public override void Activate(object feature)
     {
         _feature = feature as TFeature;
         if (_feature == null) return;
         
-        _slider = GetComponentInChildren<Slider>();
-        _percentText = GetComponentInChildren<TMP_Text>();
-        if (_slider.GetComponent<SliderInteractionDetector>() == null)
-        {
-            _slider.AddComponent<SliderInteractionDetector>();
-        }
-
         // 슬라이더의 최대, 최소, 현재 값 설정
         _slider.minValue = GetMinValue();
         _slider.maxValue = GetMaxValue();
