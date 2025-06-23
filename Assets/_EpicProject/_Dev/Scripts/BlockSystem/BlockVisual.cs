@@ -7,6 +7,9 @@ public class BlockVisual : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 {
     public Action<ISlotType> OnDragEnd;
     
+    public static event Action OnAnyBlockBeginDrag;
+    public static event Action OnAnyBlockEndDrag;
+    
     private ISlotType _detectedSlot;
     
     public GameObject VisualGroup;
@@ -31,6 +34,8 @@ public class BlockVisual : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        OnAnyBlockBeginDrag?.Invoke();
+        
         transform.SetParent(_canvas.transform);
         transform.SetAsLastSibling();
 
@@ -66,6 +71,7 @@ public class BlockVisual : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnEndDrag(PointerEventData eventData)
     {
         OnDragEnd?.Invoke(_detectedSlot);
+        OnAnyBlockEndDrag?.Invoke();
     }
     
     private bool TryGetSlotUnderMouse(out ISlotType slot)

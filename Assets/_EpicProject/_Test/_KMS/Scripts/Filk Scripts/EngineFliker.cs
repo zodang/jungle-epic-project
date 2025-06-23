@@ -5,25 +5,25 @@ public class EngineFliker : MonoBehaviour
 {
     private List<Flik> _fliks;
 
-    void Awake()
+    private void Awake()
     {
         // 씬에 있는 모든 Flik 컴포넌트를 찾고,
         // 각 Flik 스크립트가 붙은 오브젝트를 비활성화
-        _fliks = new List<Flik>(FindObjectsOfType<Flik>());
+        _fliks = new List<Flik>(FindObjectsByType<Flik>(FindObjectsSortMode.None));
         foreach (var f in _fliks)
             f.gameObject.SetActive(false);
     }
 
-    void OnEnable()
+    private void Start()
     {
-        DraggableBlock.OnAnyBlockBeginDrag += EnableFlikObjects;
-        DraggableBlock.OnAnyBlockEndDrag += DisableFlikObjects;
+        BlockVisual.OnAnyBlockBeginDrag += EnableFlikObjects;
+        BlockVisual.OnAnyBlockEndDrag += DisableFlikObjects;
     }
 
-    void OnDisable()
+    private void OnDestroy()
     {
-        DraggableBlock.OnAnyBlockBeginDrag -= EnableFlikObjects;
-        DraggableBlock.OnAnyBlockEndDrag -= DisableFlikObjects;
+        BlockVisual.OnAnyBlockBeginDrag -= EnableFlikObjects;
+        BlockVisual.OnAnyBlockEndDrag -= DisableFlikObjects;
     }
 
     private void EnableFlikObjects()
