@@ -1,36 +1,35 @@
-public class InventorySlot : Slot
+using Define;
+using UnityEngine;
+
+public class InventorySlot : MonoBehaviour, ISlotType
 {
-    public override void OnBlockDrop(DraggableBlock draggableBlock, Slot endSlot)
+    private Inventory _inventory;
+    
+    public SlotType GetSlotType()
     {
-        // 엔진 → 인벤토리  
-        if (draggableBlock is EngineBlock engineBlock)
-        {
-            DropEngineToInventory(engineBlock);
-            return;
-        }
-        
-        base.OnBlockDrop(draggableBlock, endSlot);
+        return SlotType.InventorySlot;
     }
 
-    private void DropEngineToInventory(EngineBlock engineBlock)
+    public Clickable GetTargetClickable()
     {
-        // 엔진 → 인벤토리
-        if (engineBlock.PrevSlot is EngineSlot engineSlot)
-        {
-            EngineController engineController = engineSlot.GetComponentInParent<EngineController>();
-            Clickable clickable = engineController?.CurrentTarget;
-            if (clickable == null) return;
-
-            // Clickable에서 Block 제거 후 기능 비활성화
-            clickable.RemoveBlockFromClickable(engineBlock.Type);
-            engineBlock.Deactivate(engineBlock);
-        }
-
-        // Inventory에 Block 추가 후 UI 삭제
-        FindAnyObjectByType<Inventory>().AddBlockToInventory(engineBlock.Type);
-        Destroy(engineBlock.gameObject);
-
-        // 슬롯 상태 갱신
-        base.OnBlockRemoved();
+        return null;
     }
+    
+    public Inventory GetInventory()
+    {
+        return _inventory;
+    }
+
+    public void SetInventory(Inventory inventory)
+    {
+        _inventory = inventory;
+    }
+
+    public void SetBlockPositionToInventory(EngineBlock block)
+    {
+        block.transform.SetParent(transform);
+    }
+    
+    public void SetTargetClickable(Clickable clickable) {/* 사용하지 않음*/ }
 }
+

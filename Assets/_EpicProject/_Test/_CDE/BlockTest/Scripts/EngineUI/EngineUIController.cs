@@ -10,6 +10,7 @@ public class EngineUIController : MonoBehaviour
 {
     public Action OnResetBtnClicked;
     public Action OnClickCloseBtn;
+    public Action OnClickUpBtn;
     
     [Header("Profile")]
     [SerializeField] private TMP_Text gameName;
@@ -18,9 +19,23 @@ public class EngineUIController : MonoBehaviour
     [Header("Button")]
     [SerializeField] private Button closeBtn;
     [SerializeField] private Button resetBtn;
+    [SerializeField] private Button upBtn;
+    
+    [Header("Block Container")]
+    [SerializeField] private Transform blockContainer;
+    [SerializeField] private List<Color> containerColors;   
+    [SerializeField] private TMP_Text blockContainerText;
+    [SerializeField] private List<Color> textColors;
+
+    [Header("Up Btn")] 
+    [SerializeField] private Image baseImg;
+    [SerializeField] private GameObject numpadSlot;
+    [SerializeField] private GameObject engineSlot;
+    private bool _isFold = true;
     
     private EngineUICloseBtn _closeBtn;
     private EngineUIOpacitySlider _opacitySlider;
+    private Image _blockContainerImg;
     
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
@@ -39,8 +54,9 @@ public class EngineUIController : MonoBehaviour
 
     private void Awake()
     {
-        _canvasGroup = GetComponentInChildren<CanvasGroup>();
+        _canvasGroup = GetComponent<CanvasGroup>();
         _rectTransform = GetComponent<RectTransform>();
+        _blockContainerImg = blockContainer.GetComponent<Image>();
 
         // opacity slider 기능 연결
         _opacitySlider = transform.GetComponentInChildren<EngineUIOpacitySlider>();
@@ -50,6 +66,9 @@ public class EngineUIController : MonoBehaviour
         // Button 기능 연결
         closeBtn.onClick.AddListener(WhenCloseBtnClicked);
         resetBtn.onClick.AddListener(WhenResetBtnClicked);
+        upBtn.onClick.AddListener(WhenUpBtnClicked);
+
+        ChangeBlockContainer(0);
     }
 
     private void WhenCloseBtnClicked()
@@ -62,6 +81,14 @@ public class EngineUIController : MonoBehaviour
     {
         // Reset Btn 클릭
         OnResetBtnClicked?.Invoke();
+    }
+
+    private void WhenUpBtnClicked()
+    {
+        _isFold = !_isFold;
+        baseImg.enabled = _isFold;
+        numpadSlot.SetActive(_isFold);
+        engineSlot.SetActive(_isFold);
     }
     
     private void OnSliderValueChanged(float value)
@@ -76,6 +103,25 @@ public class EngineUIController : MonoBehaviour
         if (profile == null) return;
         gameName.text = profile.name;
         targetImg.sprite = profile.sprite;
+    }
+    
+    public void SetBlockPositionToEngine(EngineBlock block)
+    {
+        // Block Container 가운데로 배치
+        RectTransform rectTransform = block.GetComponent<RectTransform>();
+        rectTransform.SetParent(blockContainer, false);
+        
+        rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+        rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        rectTransform.anchoredPosition = Vector2.zero;
+    }
+
+    public void ChangeBlockContainer(int index)
+    {
+        _blockContainerImg.color = containerColors[index];
+        blockContainerText.color = textColors[index];
+        blockContainerText.text = $"{index + 1}";
     }
 
     public void SetSlotIcon(Dictionary<int, BlockType> slotBlockMap)

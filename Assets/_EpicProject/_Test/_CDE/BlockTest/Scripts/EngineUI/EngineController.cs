@@ -1,19 +1,21 @@
 using Define;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EngineController : MonoBehaviour
 {
     public Clickable CurrentTarget { get; private set; }
-    // [Mod: SMG 25-06-23] 튜토리얼 상태 체크를 위해 추가
-    public bool IsActivate { get; private set; }    // 창 활성화 여부 체크
+    public bool IsActivate { get; private set; } // 창 활성화 여부 체크
+    
+    public List<Numpad> NumpadList { get; private set; }
+    public int SelectedIndex { get; private set; }
 
     private EngineUIController _engineUIController;
-    private EngineBlockController _engineBlockController;
 
     private void Awake()
     {
         _engineUIController = GetComponent<EngineUIController>();
-        _engineBlockController = GetComponent<EngineBlockController>();
+        NumpadList = new List<Numpad>(transform.GetComponentsInChildren<Numpad>());
     }
 
     private void Start()
@@ -21,25 +23,57 @@ public class EngineController : MonoBehaviour
         // Button 기능 연결
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
+        CurrentTarget.OnBlockChanged += ChangeAllNumpadVisual;
         
         gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        _engineUIController.OnClickCloseBtn -= Deactivate;
+        _engineUIController.OnResetBtnClicked -= ResetFeature;
+        CurrentTarget.OnBlockChanged -= ChangeAllNumpadVisual;
     }
 
     public void InitEngineController(Clickable target)
     {
         CurrentTarget = target;
         
-        // Block 세팅
-        RefreshSlot(target);
+        // Slot의 Target Clickable 설정
+        List<ISlotType> slots = new List<ISlotType>(transform.GetComponentsInChildren<ISlotType>());
+        for (int i = 0; i < slots.Count; i++)
+        {
+            slots[i].SetTargetClickable(CurrentTarget);
+        }
+        
+        // Numpad 기능 세팅
+        for (int i = 0; i < NumpadList.Count; i++)
+        {
+            NumpadList[i].Init(i);
+            NumpadList[i].OnClickNumpad += ShowBlock;
+        }
 
         // UI 세팅
         _engineUIController.SetProfile(target.GetProfile());
     }
-
-    public void RefreshSlot(Clickable target)
+    
+    public void ShowBlock(int index)
     {
-        _engineBlockController.AddBlock(target);
-        _engineUIController.SetSlotIcon(target.SlotBlockMap);
+        SelectedIndex = index;
+        _engineUIController.ChangeBlockContainer(index);
+        
+        foreach (var blockPair in CurrentTarget.BlockDictionary)
+        {
+            int slotIndex = blockPair.Key;
+            EngineBlock block = blockPair.Value;
+
+            if (block == null) continue;
+
+            bool isActive = (slotIndex == index);
+
+            block.ShowBlockVisual(isActive);
+            _engineUIController.SetBlockPositionToEngine(block);
+        }
     }
     
     public void Activate()
@@ -78,6 +112,14 @@ public class EngineController : MonoBehaviour
         foreach (EngineBlock block in blocks)
         {
             block.ResetUI();
+        }
+    }
+
+    public void ChangeAllNumpadVisual()
+    {
+        foreach (var numpad in NumpadList)
+        {
+            numpad.ChangeVisual();
         }
     }
 }

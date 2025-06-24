@@ -2,8 +2,11 @@ namespace Define
 {
     public enum SlotType
     {
-        Inventory,
-        Inspector,
+        None,
+        InventorySlot,
+        EngineSlot,
+        NumpadSlot,
+        Numpad
     }
 
     public enum BlockType
