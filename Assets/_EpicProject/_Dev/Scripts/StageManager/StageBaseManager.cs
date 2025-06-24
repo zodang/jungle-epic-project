@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public abstract class StageBaseManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public abstract class StageBaseManager : MonoBehaviour
     public EngineManager EngineManager { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
     public DialogueManager DialogueManager { get; private set; }
+    public FlagManager FlagManager { get; private set; }
 
     public List<Clickable> ClickableList { get; private set; }
 
@@ -31,7 +33,12 @@ public abstract class StageBaseManager : MonoBehaviour
         EngineManager = FindAnyObjectByType<EngineManager>();
         PlayerManager = FindAnyObjectByType<PlayerManager>();
         DialogueManager = FindAnyObjectByType<DialogueManager>();
-        
+        FlagManager = FindAnyObjectByType<FlagManager>();
+        if(FlagManager.IsUnityNull())
+        {
+            FlagManager = transform.AddComponent<FlagManager>();
+        }
+
         // Clickable의 프로필 데이터 로드
         ClickableList = new List<Clickable>(FindObjectsByType<Clickable>(FindObjectsSortMode.None));
         LoadClickableProfile();
