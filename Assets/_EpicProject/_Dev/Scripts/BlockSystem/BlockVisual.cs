@@ -51,14 +51,14 @@ public class BlockVisual : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     
     public void OnDrag(PointerEventData eventData)
     {
-        // Block 드래그
+        // UI 중앙을 마우스 위치로 이동
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
                 _rectTransform,
                 eventData.position,
                 eventData.pressEventCamera,
                 out Vector3 globalMousePos))
         {
-            _rectTransform.position = globalMousePos + (Vector3)_dragOffset;
+            _rectTransform.position = globalMousePos;
         }
 
         // Slot 감지

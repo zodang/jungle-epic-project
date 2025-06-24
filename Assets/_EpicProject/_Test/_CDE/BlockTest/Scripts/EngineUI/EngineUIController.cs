@@ -10,6 +10,7 @@ public class EngineUIController : MonoBehaviour
 {
     public Action OnResetBtnClicked;
     public Action OnClickCloseBtn;
+    public Action OnClickUpBtn;
     
     [Header("Profile")]
     [SerializeField] private TMP_Text gameName;
@@ -18,12 +19,19 @@ public class EngineUIController : MonoBehaviour
     [Header("Button")]
     [SerializeField] private Button closeBtn;
     [SerializeField] private Button resetBtn;
+    [SerializeField] private Button upBtn;
     
     [Header("Block Container")]
     [SerializeField] private Transform blockContainer;
     [SerializeField] private List<Color> containerColors;   
     [SerializeField] private TMP_Text blockContainerText;
-    [SerializeField] private List<Color> textColors;   
+    [SerializeField] private List<Color> textColors;
+
+    [Header("Up Btn")] 
+    [SerializeField] private Image baseImg;
+    [SerializeField] private GameObject numpadSlot;
+    [SerializeField] private GameObject engineSlot;
+    private bool _isFold = true;
     
     private EngineUICloseBtn _closeBtn;
     private EngineUIOpacitySlider _opacitySlider;
@@ -58,6 +66,7 @@ public class EngineUIController : MonoBehaviour
         // Button 기능 연결
         closeBtn.onClick.AddListener(WhenCloseBtnClicked);
         resetBtn.onClick.AddListener(WhenResetBtnClicked);
+        upBtn.onClick.AddListener(WhenUpBtnClicked);
 
         ChangeBlockContainer(0);
     }
@@ -72,6 +81,14 @@ public class EngineUIController : MonoBehaviour
     {
         // Reset Btn 클릭
         OnResetBtnClicked?.Invoke();
+    }
+
+    private void WhenUpBtnClicked()
+    {
+        _isFold = !_isFold;
+        baseImg.enabled = _isFold;
+        numpadSlot.SetActive(_isFold);
+        engineSlot.SetActive(_isFold);
     }
     
     private void OnSliderValueChanged(float value)
