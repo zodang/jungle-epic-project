@@ -71,9 +71,9 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
             _TwinkleLv2.SetActive(isBright); // _TwinkleLv2 활성화
             OnPlayerTwinkled?.Invoke(isBright? PlayerSkinType.BaldHead : PlayerSkinType.Default); // 스킨 변경
             
-            if(!StageManager.Instance.IsUnityNull())
+            if(!StageBaseManager.Instance.IsUnityNull())
             {
-                StageManager.Instance.FlagManager.SetFlag("baldHead", isBright); // 예시로 baldHead 플래그 설정
+                StageBaseManager.Instance.FlagManager.SetFlag("baldHead", isBright); // 예시로 baldHead 플래그 설정
             }
         }
     }

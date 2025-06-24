@@ -174,7 +174,7 @@ public class CheckTutorial : MonoBehaviour
 
         if (ID == flagsName.Length - 1) _tutorialStep = ID;
 
-        StageManager.Instance.FlagManager.SetFlag(flagsName[_tutorialStep]);
+        StageBaseManager.Instance.FlagManager.SetFlag(flagsName[_tutorialStep]);
 
         Player.GetComponentInChildren<NPCInteraction>().InteractWithNPC();
         _tutorialStep++;
