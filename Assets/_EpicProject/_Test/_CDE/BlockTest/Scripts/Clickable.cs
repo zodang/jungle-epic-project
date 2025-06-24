@@ -1,70 +1,128 @@
 using System.Collections.Generic;
 using Define;
+using System;
 using UnityEngine;
 
 public class Clickable : MonoBehaviour, IClickable
 {
-    // 저장할 Profile 데이터
+    #region Profile
+
+    // 프로필 관련 기능
     public string ID;
     private ClickableProfile _profile;
-
-    public Dictionary<int, BlockType> SlotBlockMap { get; private set; } = new();
-    [SerializeField] private List<BlockType> defaultBlockTypes = new List<BlockType>();
-
+    
     public void InitProfile(ClickableProfile profile)
     {
         _profile = profile;
     }
-
-    public void InitDefaultBlock()
+    
+    public ClickableProfile GetProfile()
     {
-        // Default Block 추가
-        for (int i = 0; i < defaultBlockTypes.Count; i++)
-        {
-            var type = defaultBlockTypes[i];
-            if (!SlotBlockMap.ContainsKey(i))
-            {
-                SlotBlockMap.Add(i, type);
-            }
-        }
+        return _profile;
     }
 
+    #endregion
+
+    #region Block
+    
+    // 블록 관련 기능
+    public event Action OnBlockChanged;
+    public Dictionary<int, EngineBlock> BlockDictionary = new();
+    public List<BlockType> DefaultBlockList = new ();
+
+    public EngineController EngineController { get; private set; }
+
+    public void InitClickable(EngineController engineController)
+    {
+        EngineController = engineController;
+        
+        for (int i = 0; i < DefaultBlockList.Count; i++)
+        {
+            BlockType type = DefaultBlockList[i];
+
+            EngineBlock block = StageManager.Instance.BlockFactory.CreateBlock(type);
+            if (block == null) continue;
+
+            if (i >= engineController.NumpadList.Count) continue;
+            
+            // 블록 상태 갱신
+            BlockDictionary[i] = block;
+            
+            // 블록 기능 활성화
+            block.InitDefaultBlock(this);
+
+            // UI 표시
+            engineController.ShowBlock(i);
+        }
+        
+        EngineController.ChangeAllNumpadVisual();
+    }
+    
+    public (bool canAdd, int index) TryAddBlock(EngineBlock block)
+    {
+        int slotCount = EngineController.NumpadList.Count;
+
+        // Selected Index가 비어있을 때
+        if (!BlockDictionary.ContainsKey(EngineController.SelectedIndex))
+        {
+            BlockDictionary[EngineController.SelectedIndex] = block;
+            OnBlockChanged?.Invoke();
+            return (true, EngineController.SelectedIndex);
+        }
+
+        // Selected Index가 채워져있을 때
+        for (int i = 0; i < slotCount; i++)
+        {
+            if (!BlockDictionary.ContainsKey(i))
+            {
+                BlockDictionary[i] = block;
+                OnBlockChanged?.Invoke();
+                return (true, i);
+            }
+        }
+
+        // 모든 칸이 채워져있을 때
+        return (false, -1);
+    }
+    
+    public (bool canAdd, int index) TryAddBlock(int preferredIndex, EngineBlock block)
+    {
+        int slotCount = EngineController.NumpadList.Count;
+
+        // Preferred Index가 비어있을 때
+        if (!BlockDictionary.ContainsKey(preferredIndex))
+        {
+            BlockDictionary[preferredIndex] = block;
+            OnBlockChanged?.Invoke();
+            return (true, preferredIndex);
+        }
+
+        // Preferred Index가 채워져있을 때
+        for (int i = 0; i < slotCount; i++)
+        {
+            if (!BlockDictionary.ContainsKey(i))
+            {
+                BlockDictionary[i] = block;
+                OnBlockChanged?.Invoke();
+                return (true, i);
+            }
+        }
+
+        // 모든 칸이 채워져있을 때
+        return (false, -1);
+    }
+
+    public void RemoveBlock()
+    {
+        BlockDictionary.Remove(EngineController.SelectedIndex);
+        OnBlockChanged?.Invoke();
+    }
+
+    #endregion
+    
     public void OnClicked()
     {
         // 클릭 시 Engine UI 활성화
         StageBaseManager.Instance.EngineManager.ActivateEngineUI(this);
-    }
-    
-    public void AddBlockToClickable(BlockType type, int slotIndex)
-    {
-        // Inventory에서 Engine으로 드롭 시
-        SlotBlockMap[slotIndex] = type;
-        StageBaseManager.Instance.EngineManager.NotifyBlockChanged(this);
-    }
-    
-    public void RemoveBlockFromClickable(BlockType type)
-    {
-        // Engine에서 Inventory로 드롭 시
-        int targetKey = -1;
-
-        foreach (var pair in SlotBlockMap)
-        {
-            if (pair.Value == type)
-            {
-                targetKey = pair.Key;
-                break;
-            }
-        }
-
-        if (targetKey != -1)
-        {
-            SlotBlockMap.Remove(targetKey);
-            StageBaseManager.Instance.EngineManager.NotifyBlockChanged(this);
-        }
-    }
-
-    public ClickableProfile GetProfile()
-    {
-        return _profile;
     }
 }

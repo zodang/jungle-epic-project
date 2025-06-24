@@ -5,12 +5,9 @@ using UnityEngine;
 
 public class BlockFactory : MonoBehaviour
 {
-    [Header("Engine Block")] 
-    [SerializeField] private List<EngineBlockEntry> engineBlockEntries;
+    public List<EngineBlock> BlockPrefabs;
+    private Dictionary<BlockType, EngineBlock> _blockPrefabMap;
     
-    [Header("Inventory Block")] 
-    [SerializeField] private List<InventoryBlockEntry> inventoryBlockEntries;
-
     [Header("Block Icon")] 
     [SerializeField] private List<BlockIconEntry> _blockIconEntries;
 
@@ -20,24 +17,18 @@ public class BlockFactory : MonoBehaviour
     
     private void Awake()
     {
-        // Engine Block Dictionary 설정
-        _engineBlockDic = new Dictionary<BlockType, EngineBlock>();
-        foreach (var entry in engineBlockEntries)
-        {
-            if (!_engineBlockDic.ContainsKey(entry.Type))
-            {
-                _engineBlockDic.Add(entry.Type, entry.Prefab);
-            }
-        }
+        // Block 설정
+        _blockPrefabMap = new Dictionary<BlockType, EngineBlock>();
 
-        // Inventory Block Dictionary 설정
-        _inventoryBlockDic = new Dictionary<BlockType, InventoryBlock>();
-        foreach (var entry in inventoryBlockEntries)
+        foreach (var block in BlockPrefabs)
         {
-            if (!_inventoryBlockDic.ContainsKey(entry.Type))
+            if (block == null) continue;
+            if (_blockPrefabMap.ContainsKey(block.Type))
             {
-                _inventoryBlockDic.Add(entry.Type, entry.Prefab);
+                continue;
             }
+
+            _blockPrefabMap.Add(block.Type, block);
         }
         
         // Block Icon Dictionary 설정
@@ -50,18 +41,17 @@ public class BlockFactory : MonoBehaviour
             }          
         }
     }
-
-    public EngineBlock CreateFeatureBlock(BlockType type, Transform parent = null)
+    
+    public EngineBlock CreateBlock(BlockType type, Transform parent = null)
     {
-        // Engine Block 생성
-        if (_engineBlockDic.TryGetValue(type, out EngineBlock prefab))
+        if (!_blockPrefabMap.TryGetValue(type, out var prefab))
         {
-            EngineBlock engineBlock = Instantiate(prefab, parent);
-            return engineBlock;
+            return null;
         }
 
-        Debug.LogWarning($"{type}의 Engine Block 없음!");
-        return null;
+        EngineBlock instance = Instantiate(prefab, parent);
+        instance.name = $"{type}Block";
+        return instance;
     }
     
     public InventoryBlock CreateBlockUI(BlockType type, Transform parent = null)
@@ -83,20 +73,6 @@ public class BlockFactory : MonoBehaviour
     {
         return _blockIconDic.GetValueOrDefault(type);
     }
-}
-
-[Serializable]
-public class EngineBlockEntry
-{
-    public BlockType Type;
-    public EngineBlock Prefab;
-}
-
-[Serializable]
-public class InventoryBlockEntry
-{
-    public BlockType Type;
-    public InventoryBlock Prefab;
 }
 
 [Serializable]

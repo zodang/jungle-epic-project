@@ -6,8 +6,6 @@ public class EngineManager : MonoBehaviour
 {
     [SerializeField] private EngineController engineUIPrefab;
     private Dictionary<Clickable, EngineController> _engineDictionary = new();
-    //public event Action<Clickable> OnActivateEngineUI;
-    
 
     private void Start()
     {
@@ -19,14 +17,14 @@ public class EngineManager : MonoBehaviour
 
         foreach (var clickable in clickables)
         {
-            EngineController engineUI = Instantiate(engineUIPrefab, transform);
-            _engineDictionary.Add(clickable, engineUI);
+            EngineController engineController = Instantiate(engineUIPrefab, transform);
+            _engineDictionary.Add(clickable, engineController);
 
-            // Clickable의 기본 블록 세팅
-            clickable.InitDefaultBlock();
-            
             // Clickable대로 EngineUI 세팅 
-            engineUI.InitEngineController(clickable);
+            engineController.InitEngineController(clickable);
+            
+            // Clickable의 기본 블록 세팅
+            clickable.InitClickable(engineController);
         }
     }
 
@@ -34,23 +32,14 @@ public class EngineManager : MonoBehaviour
     {
         if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
         {
-            //OnActivateEngineUI?.Invoke(clickable);
             engineController.gameObject.SetActive(true);
             engineController.Activate();
         }
     }
 
-    public void NotifyBlockChanged(Clickable clickable)
-    {
-        if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
-        {
-            engineController.RefreshSlot(clickable);
-        }
-    }
-
-    // [Mod: SMG 25-06-23] 튜토리얼 상태 체크를 위해 추가
     public bool GetActivateEngineUI(Clickable clickable)
     {
+        // 튜토리얼 상태 체크를 위해 추가
         if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
         {
             return engineController.IsActivate;            

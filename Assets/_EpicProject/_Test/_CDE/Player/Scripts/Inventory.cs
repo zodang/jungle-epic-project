@@ -4,42 +4,30 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public List<BlockType> BlockTypeList { get; private set; } = new List<BlockType>();
+    public List<EngineBlock> BlockList = new List<EngineBlock>();
+    private InventorySlot _inventorySlot;
 
-    private InventorySlotGroup _inventorySlotGroup;
-    private List<InventorySlot> _slotList;
-    private BlockFactory _blockFactory;
+    private void Awake()
+    {
+        _inventorySlot = FindAnyObjectByType<InventorySlot>();
+    }
 
     private void Start()
     {
-        _inventorySlotGroup = FindAnyObjectByType<InventorySlotGroup>();
-        _slotList = new List<InventorySlot>(_inventorySlotGroup.GetComponentsInChildren<InventorySlot>());
-        
-        _blockFactory = FindAnyObjectByType<BlockFactory>();
+        _inventorySlot.SetInventory(this);
+    }
+
+    public void AddBlock(EngineBlock block)
+    {
+        if (!BlockList.Contains(block))
+        {
+            BlockList.Add(block);
+        }
     }
 
     public void Collect(BlockType type)
     {
-        BlockTypeList.Add(type);
-        AddBlockToInventory(type);
-    }
-
-    public void AddBlockToInventory(BlockType type)
-    {
-        // 빈 슬롯 찾기
-        foreach (InventorySlot slot in _slotList)
-        {
-            if (slot.GetChildBlock() == null)
-            {
-                var blockUI = _blockFactory.CreateBlockUI(type, slot.transform);
-                slot.OnBlockDrop(blockUI, slot);
-                break;
-            }
-        }
-    }
-
-    public void RemoveBlock(InventoryBlock blockUI)
-    {
-        Destroy(blockUI.gameObject);
+        var factory = FindAnyObjectByType<BlockFactory>();
+        AddBlock(factory.CreateBlock(type, _inventorySlot.transform));
     }
 }
