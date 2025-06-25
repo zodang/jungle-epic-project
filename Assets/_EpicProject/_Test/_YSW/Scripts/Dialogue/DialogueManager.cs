@@ -58,8 +58,6 @@ public class DialogueManager : MonoBehaviour
     // 상태 클래스에서 현재 활성화된 일반 대화 UI에 접근하기 위한 헬퍼
     public DialogueUI GetCurrentActiveDialogueBubble() => activeDialogueBubbleUI;
 
-
-
     void Awake()
     {
         dialogueLoader = GetComponent<DialogueLoader>();
@@ -69,16 +67,30 @@ public class DialogueManager : MonoBehaviour
             dialogueLoader = loaderObject.AddComponent<DialogueLoader>();
             Debug.LogWarning("DM: DialogueLoader not found, created automatically.");
         }
+        
+        /*
+        // 씬 메니저에서 LoadDialogue 호출
+        dialogueCollection = dialogueLoader.LoadDialogueDataFromFile(dialogueFileName);
+        if (dialogueCollection == null)
+        {
+            Debug.LogError("DM: Failed to load dialogue collection. System disabled.");
+            enabled = false; return;
+        }*/
+        
+        FindPlayerAnchorByName();
+        TransitionToState(IdleState);
+    }
 
+    public void LoadDialogue(string path)
+    {
+        dialogueFileName = path;
+        
         dialogueCollection = dialogueLoader.LoadDialogueDataFromFile(dialogueFileName);
         if (dialogueCollection == null)
         {
             Debug.LogError("DM: Failed to load dialogue collection. System disabled.");
             enabled = false; return;
         }
-
-        FindPlayerAnchorByName();
-        TransitionToState(IdleState);
     }
 
     void FindPlayerAnchorByName()
