@@ -1,7 +1,7 @@
 // DialogueManager.cs
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
+using UnityEditor.Localization.Editor;
 using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
@@ -193,8 +193,19 @@ public class DialogueManager : MonoBehaviour
             AdvanceDialogue();
             return;
         }
+        
+        // Localization: 현재 언어 설정에 따른 DialogueLine의 speaker와 text 데이터 추출
+        string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
+        string speaker = "";
+        string text = "";
+        
+        // [2] speaker와 text 안전하게 꺼내기 (딕셔너리에 해당 언어 없으면 빈 문자열 fallback)
+        if (CurrentLineToShow.speaker != null && CurrentLineToShow.speaker.TryGetValue(lang, out var spk))
+            speaker = spk;
+        if (CurrentLineToShow.text != null && CurrentLineToShow.text.TryGetValue(lang, out var txt))
+            text = txt;
 
-        bool isPlayerSpeaking = CurrentLineToShow.speaker.Equals(PLAYER_SPEAKER_ID_CONST, System.StringComparison.OrdinalIgnoreCase);
+        bool isPlayerSpeaking = speaker.Equals(PLAYER_SPEAKER_ID_CONST, System.StringComparison.OrdinalIgnoreCase);
         DialogueUI targetUI = null;
 
         // 이전에 활성화된 말풍선이 현재 화자와 다른 타입이면 숨김
@@ -227,8 +238,8 @@ public class DialogueManager : MonoBehaviour
 
         // ****** 순서 변경: Show(true)를 먼저 호출! ******
         activeDialogueBubbleUI.Show(true);
-        activeDialogueBubbleUI.SetSpeakerName(CurrentLineToShow.speaker); // 화자 이름도 Show 이후 또는 동시에
-        activeDialogueBubbleUI.SetMainText(CurrentLineToShow.text, true); // 그 다음에 타이핑 효과 시작
+        activeDialogueBubbleUI.SetSpeakerName(speaker); // 화자 이름도 Show 이후 또는 동시에
+        activeDialogueBubbleUI.SetMainText(text, true); // 그 다음에 타이핑 효과 시작
     }
 
     public void DisplayChoicesOnChoiceBubble()

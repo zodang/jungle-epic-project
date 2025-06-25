@@ -6,8 +6,8 @@ using System.Collections.Generic;
 [Serializable]
 public class DialogueLine
 {
-    public string speaker; // 화자 (예: "Player", "NPC_Guard")
-    public string text;    // 대사 내용
+    public Dictionary<string, string> speaker; // 화자 (예: "Player", "NPC_Guard")
+    public Dictionary<string, string> text;    // 대사 내용
     // 필요하다면 여기에 표정(string portraitKey), 음성 파일명(string voiceClipName) 등 추가 가능
 }
 
@@ -15,7 +15,7 @@ public class DialogueLine
 [Serializable]
 public class DialogueChoice
 {
-    public string text;           // 선택지에 표시될 텍스트
+    public Dictionary<string, string> text;           // 선택지에 표시될 텍스트
     public string nextDialogueId; // 이 선택지를 골랐을 때 이어질 다음 대화의 ID
     // 필요하다면 여기에 특정 조건(string condition), 결과 이벤트(string outcomeEvent) 등 추가 가능
 }
