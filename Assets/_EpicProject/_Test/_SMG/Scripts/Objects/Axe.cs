@@ -1,26 +1,25 @@
-using SMG;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, IControllable, ILightAdjustable
+public class Axe : MonoBehaviour, IFeatureResetable, IControllable
 {
+    [SerializeField] private RotateHandler _rotateHandler;
+    [SerializeField] private ScaleHandler _scaleHandler;
+    [SerializeField] private LightHandler _lightHandler;
+
     // IControllable
     private bool _enableMove;
 
     // IScalable
     private float _minScale = 0.3f;
     private float _maxScale = 6f;
-    private float _currentScale;
 
     // IRotatable
     private float _minRotate = 0f;
     private float _maxRotate = 359f;
-    private float _currentRotate;
 
     // ILightAdjustable
     private float _minBright = 0.5f;
     private float _maxBright = 3f;
-    private float _currentBright;
 
     private Transform _model;
     private GameObject _foot; 
@@ -41,6 +40,22 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         _TwinkleLv2 = _model.GetChild(3).gameObject;
 
         _movement2D = GetComponent<Movement2D>();
+
+        if (ComponentHelper.TryGetComponent<RotateHandler>(ref _rotateHandler, this))
+        {
+            _rotateHandler.Init(_minRotate, _maxRotate, 1f);
+            _rotateHandler.OnSetValue += Rotate;
+        }
+        if (ComponentHelper.TryGetComponent<ScaleHandler>(ref _scaleHandler, this))
+        {
+            _scaleHandler.Init(_minScale, _maxScale, 0f);
+            _scaleHandler.OnSetValue += Resize;
+        }
+        if (ComponentHelper.TryGetComponent<LightHandler>(ref _lightHandler, this))
+        {
+            _lightHandler.Init(_minBright, _maxBright, 1f);
+            _lightHandler.OnSetValue += Twinkle;
+        }
 
         // --- [새로 추가된 부분 2] 자기 자신에게 붙어있는 컴포넌트 찾아오기 ---
         _propertyController = transform.Find("Model").GetComponent<ObjectPropertyController>();
@@ -91,9 +106,10 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
     // IFeatureResetable
     public void ResetFeature()
     {
-        ((IScalable)this).SetValue(1f);
-        ((IRotatable)this).SetValue(0f);
-        ((ILightAdjustable)this).SetValue(1f);
+        _rotateHandler.SetValue(0f);
+        _scaleHandler.SetValue(1f);
+        _lightHandler.SetValue(1f);
+
         // DisableControl();
     }
 
@@ -122,48 +138,6 @@ public class Axe : MonoBehaviour, IFeatureResetable, IScalable, IRotatable, ICon
         {
             _propertyController.DetachController();
         }
-    }
-    #endregion
-
-    #region IScalable
-    float IScalable.GetMinValue() => _minScale;
-    
-    float IScalable.GetMaxValue() => _maxScale;
-
-    float IScalable.GetCurrentValue() => _currentScale;
-
-    void IScalable.SetValue(float value)
-    {
-        _currentScale = value;
-        Resize(_currentScale);
-    }
-    #endregion
-
-    #region IRotatable
-    float IRotatable.GetMinValue() => _minRotate;
-
-    float IRotatable.GetMaxValue() => _maxRotate;
-
-    float IRotatable.GetCurrentValue() => _currentRotate;
-
-    void IRotatable.SetValue(float value)
-    {
-        _currentRotate = value;
-        Rotate(_currentRotate);
-    }
-    #endregion
-
-    #region ILightAdjustable
-    float ILightAdjustable.GetMinValue() => _minBright;
-
-    float ILightAdjustable.GetMaxValue () => _maxBright;
-
-    float ILightAdjustable.GetCurrentValue() => _currentBright;
-
-    void ILightAdjustable.SetValue(float value)
-    {
-        _currentBright = value;
-        Twinkle(_currentBright);
     }
     #endregion
 }
