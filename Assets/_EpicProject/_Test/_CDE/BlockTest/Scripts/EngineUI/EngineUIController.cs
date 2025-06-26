@@ -31,15 +31,9 @@ public class EngineUIController : MonoBehaviour
     [SerializeField] private GameObject numpadSlot;
     [SerializeField] private GameObject engineSlot;
     
-    [Header("DOTween Values")]
-    private float _posX = 700f;
-    private float _minPosY = -900f;
-    private float _maxPosY = -245f;
-    private float _activeDuration = 1f;
-    private float _deactiveDuration = 0.25f;
-    
     [Header("Values")]
     private float _minOpacity = 0.4f;
+    private float _deactiveDuration = 0.25f;
     private Vector2 _offset = new Vector2(100, 0);
     
     private Canvas _canvas;
