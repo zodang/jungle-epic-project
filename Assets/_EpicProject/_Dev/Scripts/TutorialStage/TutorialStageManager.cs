@@ -5,16 +5,21 @@ public class TutorialStageManager : StageBaseManager
     private TriggerArea _goalTrigger;
     protected override void Awake()
     {
+        // 스테이지 정보 불러오기
+        stageFilePath = "StageInfos/TutorialStage";
+        
         base.Awake();
-        // [MOD: SMG 25-06-23] 객체 다중 검색 문제로 태그 검색 방식으로 변경
+        
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
-        //_goalTrigger = FindAnyObjectByType<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
+        
         
     }
 
     private void Start()
     {
+        DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
+        
         GameManager.Instance.AudioManager.PlayBgm(true);
         Invoke(nameof(CollectBlock), .05f);
     }

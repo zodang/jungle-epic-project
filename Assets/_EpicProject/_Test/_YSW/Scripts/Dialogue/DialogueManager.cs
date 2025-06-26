@@ -1,7 +1,6 @@
 // DialogueManager.cs
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
@@ -22,7 +21,13 @@ public class DialogueManager : MonoBehaviour
 
     public const string PLAYER_TAG = "Player";
     private const string PLAYER_SPEECH_ANCHOR_NAME = "PlayerSpeechAnchor";
-    public const string PLAYER_SPEAKER_ID_CONST = "당신"; // 또는 JSON의 "Player" ID
+    private static readonly Dictionary<string, string> PLAYER_DISPLAY_NAMES = new Dictionary<string, string>
+    {
+        // Localization: 화자 이름 비교
+        { "ko", "당신" },
+        { "en", "You" },
+        { "zh-Hans", "你" },
+    };
 
     private IDialogueState currentState;
     public readonly DialogueIdleState IdleState = new DialogueIdleState();
@@ -58,8 +63,6 @@ public class DialogueManager : MonoBehaviour
     // 상태 클래스에서 현재 활성화된 일반 대화 UI에 접근하기 위한 헬퍼
     public DialogueUI GetCurrentActiveDialogueBubble() => activeDialogueBubbleUI;
 
-
-
     void Awake()
     {
         dialogueLoader = GetComponent<DialogueLoader>();
@@ -69,16 +72,30 @@ public class DialogueManager : MonoBehaviour
             dialogueLoader = loaderObject.AddComponent<DialogueLoader>();
             Debug.LogWarning("DM: DialogueLoader not found, created automatically.");
         }
+        
+        /*
+        // 씬 메니저에서 LoadDialogue 호출
+        dialogueCollection = dialogueLoader.LoadDialogueDataFromFile(dialogueFileName);
+        if (dialogueCollection == null)
+        {
+            Debug.LogError("DM: Failed to load dialogue collection. System disabled.");
+            enabled = false; return;
+        }*/
+        
+        FindPlayerAnchorByName();
+        TransitionToState(IdleState);
+    }
 
+    public void LoadDialogue(string path)
+    {
+        dialogueFileName = path;
+        
         dialogueCollection = dialogueLoader.LoadDialogueDataFromFile(dialogueFileName);
         if (dialogueCollection == null)
         {
             Debug.LogError("DM: Failed to load dialogue collection. System disabled.");
             enabled = false; return;
         }
-
-        FindPlayerAnchorByName();
-        TransitionToState(IdleState);
     }
 
     void FindPlayerAnchorByName()
@@ -181,8 +198,19 @@ public class DialogueManager : MonoBehaviour
             AdvanceDialogue();
             return;
         }
-
-        bool isPlayerSpeaking = CurrentLineToShow.speaker.Equals(PLAYER_SPEAKER_ID_CONST, System.StringComparison.OrdinalIgnoreCase);
+        
+        // Localization: 현재 언어 설정에 따른 DialogueLine의 speaker와 text 데이터 추출
+        string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
+        string speaker = "";
+        string text = "";
+        bool isPlayerSpeaking = PLAYER_DISPLAY_NAMES.TryGetValue(lang, out speaker);
+        
+        // [2] speaker와 text 안전하게 꺼내기 (딕셔너리에 해당 언어 없으면 빈 문자열 fallback)
+        if (CurrentLineToShow.speaker != null && CurrentLineToShow.speaker.TryGetValue(lang, out var spk))
+            speaker = spk;
+        if (CurrentLineToShow.text != null && CurrentLineToShow.text.TryGetValue(lang, out var txt))
+            text = txt;
+        
         DialogueUI targetUI = null;
 
         // 이전에 활성화된 말풍선이 현재 화자와 다른 타입이면 숨김
@@ -215,8 +243,8 @@ public class DialogueManager : MonoBehaviour
 
         // ****** 순서 변경: Show(true)를 먼저 호출! ******
         activeDialogueBubbleUI.Show(true);
-        activeDialogueBubbleUI.SetSpeakerName(CurrentLineToShow.speaker); // 화자 이름도 Show 이후 또는 동시에
-        activeDialogueBubbleUI.SetMainText(CurrentLineToShow.text, true); // 그 다음에 타이핑 효과 시작
+        activeDialogueBubbleUI.SetSpeakerName(speaker); // 화자 이름도 Show 이후 또는 동시에
+        activeDialogueBubbleUI.SetMainText(text, true); // 그 다음에 타이핑 효과 시작
     }
 
     public void DisplayChoicesOnChoiceBubble()
@@ -224,8 +252,12 @@ public class DialogueManager : MonoBehaviour
         CurrentChoiceBubbleUI = InitializeSpecificDialogueUI(CurrentChoiceBubbleUI, choiceBubblePrefab, "ChoiceBubble");
         if (CurrentChoiceBubbleUI == null) { Debug.LogError("DM: Failed to initialize ChoiceBubbleUI."); TransitionToState(EndingState); return; }
         if (CurrentChoices == null || CurrentChoices.Count == 0) { Debug.LogWarning("DM: No choices for ChoiceBubble."); TransitionToState(EndingState); return; }
-
-        CurrentChoiceBubbleUI.SetSpeakerName(PLAYER_SPEAKER_ID_CONST);
+        
+        // Localization: 화자 이름 비교
+        string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
+        string playerDisplayName = PLAYER_DISPLAY_NAMES.ContainsKey(lang) ? PLAYER_DISPLAY_NAMES[lang] : "Player";
+        CurrentChoiceBubbleUI.SetSpeakerName(playerDisplayName);
+        
         CurrentChoiceBubbleUI.DisplayChoicesInMainText(CurrentChoices, CurrentSelectedChoiceIndex); // 선택지는 즉시 표시
         CurrentChoiceBubbleTargetAnchor = PlayerSpeechAnchor;
         CurrentChoiceBubbleUI.Show(true);

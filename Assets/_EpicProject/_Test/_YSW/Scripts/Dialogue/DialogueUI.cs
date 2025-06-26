@@ -156,6 +156,9 @@ public class DialogueUI : MonoBehaviour
         {
             return;
         }
+        
+        // Localization: 현재 설정 언어
+        string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
 
         // 1. 모든 선택지에 대해 루프를 돕니다.
         for (int i = 0; i < choices.Count; i++)
@@ -166,11 +169,16 @@ public class DialogueUI : MonoBehaviour
             // 3. 자식 오브젝트에서 Image와 TextMeshProUGUI 컴포넌트를 찾습니다.
             Image background = choiceInstance.GetComponent<Image>();
             TextMeshProUGUI choiceText = choiceInstance.GetComponentInChildren<TextMeshProUGUI>();
-
+            
+            // Localization: 현재 설정 언어에 따른 DialogueChoice의 text 데이터 추출
+            string choiceTextValue = "";
+            if (choices[i].text != null && choices[i].text.TryGetValue(lang, out var val))
+                choiceTextValue = val;
+            
             if (choiceText != null)
             {
                 // 4. 선택지 텍스트를 설정합니다.
-                choiceText.text = choices[i].text;
+                choiceText.text = choiceTextValue;
             }
 
             if (background != null)

@@ -1,6 +1,7 @@
 // DialogueLoader.cs
 using UnityEngine;
 using System.Linq; // FirstOrDefault 사용 시 (선택적 헬퍼 함수용)
+using Newtonsoft.Json;
 
 public class DialogueLoader : MonoBehaviour
 {
@@ -19,7 +20,8 @@ public class DialogueLoader : MonoBehaviour
             Debug.Log($"<DialogueLoader> Successfully loaded JSON file: {fileName}.json from Resources.");
             try
             {
-                DialogueCollection collection = JsonUtility.FromJson<DialogueCollection>(jsonFile.text);
+                // Localization: NewtonSoft Json 활용
+                DialogueCollection collection = JsonConvert.DeserializeObject<DialogueCollection>(jsonFile.text);
                 if (collection?.dialogues == null) // JsonUtility는 파싱 실패 시 null 또는 빈 객체를 반환할 수 있음．
                 {
                     Debug.LogError($"<DialogueLoader> Failed to parse JSON data from '{fileName}'. The 'dialogues' list might be missing or the JSON structure is incorrect. JSON Content: \n{jsonFile.text}");

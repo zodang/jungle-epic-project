@@ -13,7 +13,8 @@ public abstract class StageBaseManager : MonoBehaviour
 
     public List<Clickable> ClickableList { get; private set; }
 
-    [SerializeField] protected string stageFilePath = "Stages/0_Stage/0_StageData";
+    [SerializeField] protected string stageFilePath;
+    private string _profileDataPath;
     protected Dictionary<string, ClickableProfile> _profileDic = new();
 
     protected virtual void Awake()
@@ -52,11 +53,13 @@ public abstract class StageBaseManager : MonoBehaviour
             Debug.LogWarning("Stage 파일 경로가 지정되지 않았습니다.");
             return;
         }
+        
+        _profileDataPath = stageFilePath + "/ProfileData";
 
-        TextAsset json = Resources.Load<TextAsset>(stageFilePath);
+        TextAsset json = Resources.Load<TextAsset>(_profileDataPath);
         if (json == null)
         {
-            Debug.LogError($"Stage JSON 파일을 찾을 수 없습니다: {stageFilePath}");
+            Debug.LogError($"Profile 데이터 파일을 찾을 수 없습니다: {_profileDataPath}");
             return;
         }
 

@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class SettingUI : MonoBehaviour
 {
-    private ResolutionSetting _resolutionSetting;
-    
     private Canvas _canvas;
     [SerializeField] private Button closeBtn;
 

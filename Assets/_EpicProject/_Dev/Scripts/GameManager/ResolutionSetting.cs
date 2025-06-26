@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ResolutionSetting : MonoBehaviour
 {
-    [SerializeField] private TMP_Dropdown resolutionDropDown;
-    [SerializeField] private Toggle fullScreenToggle;
+    private TMP_Dropdown _resolutionDropDown;
+    private Toggle _fullScreenToggle;
     
     private List<Resolution> _resolutions = new List<Resolution>();
     private int _currentResolutionIndex;
@@ -14,7 +14,10 @@ public class ResolutionSetting : MonoBehaviour
     
     private void Awake()
     {
-        InitDropDown();
+        _resolutionDropDown = GetComponentInChildren<TMP_Dropdown>();
+        _fullScreenToggle = GetComponentInChildren<Toggle>();
+        
+        InitDropdown();
     }
 
     private void Start()
@@ -25,10 +28,10 @@ public class ResolutionSetting : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, _isFullScreen);
         
         // 토글 설정
-        fullScreenToggle.SetIsOnWithoutNotify(true);
+        _fullScreenToggle.SetIsOnWithoutNotify(true);
         
-        resolutionDropDown.onValueChanged.AddListener(OnResolutionValueChanged);
-        fullScreenToggle.onValueChanged.AddListener(OnFullScreenValueChanged);
+        _resolutionDropDown.onValueChanged.AddListener(OnResolutionValueChanged);
+        _fullScreenToggle.onValueChanged.AddListener(OnFullScreenValueChanged);
     }
     
     private void OnResolutionValueChanged(int index)
@@ -43,10 +46,10 @@ public class ResolutionSetting : MonoBehaviour
         Screen.fullScreen = isFullScreen;
     }
 
-    private void InitDropDown()
+    private void InitDropdown()
     {
         _resolutions.Clear();
-        resolutionDropDown.options.Clear();
+        _resolutionDropDown.options.Clear();
 
         List<string> optionList = new();
         HashSet<string> addedResolutions = new(); // 중복 방지용
@@ -83,8 +86,8 @@ public class ResolutionSetting : MonoBehaviour
             optionList.Add(label);
         }
 
-        resolutionDropDown.AddOptions(optionList);
-        resolutionDropDown.value = _currentResolutionIndex;
-        resolutionDropDown.RefreshShownValue();
+        _resolutionDropDown.AddOptions(optionList);
+        _resolutionDropDown.value = _currentResolutionIndex;
+        _resolutionDropDown.RefreshShownValue();
     }
 }
