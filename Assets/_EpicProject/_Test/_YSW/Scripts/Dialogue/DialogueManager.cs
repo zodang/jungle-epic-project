@@ -1,7 +1,6 @@
 // DialogueManager.cs
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.Localization.Editor;
 using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
