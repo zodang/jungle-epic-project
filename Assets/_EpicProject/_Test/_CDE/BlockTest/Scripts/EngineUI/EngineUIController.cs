@@ -10,7 +10,6 @@ public class EngineUIController : MonoBehaviour
 {
     public Action OnResetBtnClicked;
     public Action OnClickCloseBtn;
-    public Action OnClickUpBtn;
     
     [Header("Profile")]
     [SerializeField] private TMP_Text gameName;
@@ -27,7 +26,7 @@ public class EngineUIController : MonoBehaviour
     [SerializeField] private TMP_Text blockContainerText;
     [SerializeField] private List<Color> textColors;
 
-    [Header("Up Btn")] 
+    [Header("Fold")] 
     [SerializeField] private Image baseImg;
     [SerializeField] private GameObject numpadSlot;
     [SerializeField] private GameObject engineSlot;
@@ -35,7 +34,8 @@ public class EngineUIController : MonoBehaviour
     
     private EngineUIOpacitySlider _opacitySlider;
     private Image _blockContainerImg;
-    
+
+    private Canvas _canvas;
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
     
@@ -50,9 +50,12 @@ public class EngineUIController : MonoBehaviour
     private float _deactiveDuration = 0.25f;
     
     private float _minOpacity = 0.4f;
+    
+    private Vector2 _offset = new Vector2(100, 0);
 
     private void Awake()
     {
+        _canvas = GetComponentInParent<Canvas>();
         _canvasGroup = GetComponent<CanvasGroup>();
         _rectTransform = GetComponent<RectTransform>();
         _blockContainerImg = blockContainer.GetComponent<Image>();
@@ -142,22 +145,69 @@ public class EngineUIController : MonoBehaviour
         }
     }
 
+    public void SetPosition(Clickable clickable)
+    {
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
+
+        // 기본 위치는 오른쪽 (Offset 적용)
+        Vector2 targetPos = screenPos + new Vector2(Mathf.Abs(_offset.x), _offset.y);
+
+        Vector2 uiSize = _rectTransform.sizeDelta * _canvas.scaleFactor;
+        float halfWidth = uiSize.x * 0.5f;
+        float halfHeight = uiSize.y * 0.5f;
+
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        // (1) 오른쪽 화면을 벗어나면 → 왼쪽으로 붙임
+        if (targetPos.x + halfWidth > screenWidth)
+        {
+            targetPos.x = screenPos.x - Mathf.Abs(_offset.x) - uiSize.x;
+        }
+
+        // (2) 왼쪽 화면을 벗어나면 → 오른쪽으로 붙임
+        if (targetPos.x - halfWidth < 0)
+        {
+            targetPos.x = screenPos.x + Mathf.Abs(_offset.x);
+        }
+
+        // (3) 위쪽 화면을 벗어나면 → 아래로 내림
+        if (targetPos.y + halfHeight > screenHeight)
+        {
+            targetPos.y = screenHeight - halfHeight - 10;
+        }
+
+        // (4) 아래쪽 화면을 벗어나면 → 위로 올림
+        if (targetPos.y - halfHeight < 0)
+        {
+            targetPos.y = halfHeight + 10;
+        }
+
+        _rectTransform.position = targetPos;
+    }
+
     public void ActivateEffect()
     {
         transform.SetAsLastSibling();
         
         // 초기 설정
         _rectTransform.localScale = Vector3.one;
-        _rectTransform.anchoredPosition = new Vector2(_posX, _minPosY);
         
-        _rectTransform.DOAnchorPos(new Vector2(_posX, _maxPosY), _activeDuration).SetEase(Ease.OutBack);
+        //_rectTransform.anchoredPosition = new Vector2(_posX, _minPosY);
+        // _rectTransform.DOAnchorPos(new Vector2(_posX, _maxPosY), _activeDuration).SetEase(Ease.OutBack);
     }
 
-    public void DeactivateEffect()
+    public void DeactivateEffect(Clickable target)
     {
-        _rectTransform.DOScale(Vector3.zero, _deactiveDuration);
+        _rectTransform.DOScale(Vector3.zero, _deactiveDuration)
+            .OnComplete(() =>
+            {
+                SetPosition(target);
+                _rectTransform.localScale = Vector3.one;
+                gameObject.SetActive(false);
+            });
     }
-    
+
     private void OnDestroy()
     {
         OnResetBtnClicked = null;

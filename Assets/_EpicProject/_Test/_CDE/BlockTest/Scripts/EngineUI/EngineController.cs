@@ -6,15 +6,18 @@ public class EngineController : MonoBehaviour
 {
     public Clickable CurrentTarget { get; private set; }
     public bool IsActivate { get; private set; } // 창 활성화 여부 체크
-    
+    public bool IsInHome { get; private set; } // Home 정렬 여부 체크
+
     public List<Numpad> NumpadList { get; private set; }
     public int SelectedIndex { get; private set; }
 
     private EngineUIController _engineUIController;
+    private DraggableUI _draggableUI;
 
     private void Awake()
     {
         _engineUIController = GetComponent<EngineUIController>();
+        _draggableUI = GetComponent<DraggableUI>();
         NumpadList = new List<Numpad>(transform.GetComponentsInChildren<Numpad>());
     }
 
@@ -24,6 +27,7 @@ public class EngineController : MonoBehaviour
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
         CurrentTarget.OnBlockChanged += ChangeAllNumpadVisual;
+        _draggableUI.OnParentChangedToHome += ChangeIsHome;
         
         gameObject.SetActive(false);
     }
@@ -33,6 +37,7 @@ public class EngineController : MonoBehaviour
         _engineUIController.OnClickCloseBtn -= Deactivate;
         _engineUIController.OnResetBtnClicked -= ResetFeature;
         CurrentTarget.OnBlockChanged -= ChangeAllNumpadVisual;
+        _draggableUI.OnParentChangedToHome -= ChangeIsHome;
     }
 
     public void InitEngineController(Clickable target)
@@ -55,6 +60,7 @@ public class EngineController : MonoBehaviour
 
         // UI 세팅
         _engineUIController.SetProfile(target.GetProfile());
+        _engineUIController.SetPosition(CurrentTarget);
     }
     
     public void ShowBlock(int index)
@@ -78,8 +84,10 @@ public class EngineController : MonoBehaviour
     
     public void Activate()
     {
+        if (IsActivate) return;
+        
         IsActivate = true;
-        // On 애니메이션 실행 
+
         _engineUIController.ActivateEffect();
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
     }
@@ -87,16 +95,23 @@ public class EngineController : MonoBehaviour
     private void Deactivate()
     {
         IsActivate = false;
+        IsInHome = false;
+        
         if (!gameObject.activeSelf) return;
-        _engineUIController.DeactivateEffect();
+        _draggableUI.SetParentToOriginal(false);
+        _engineUIController.DeactivateEffect(CurrentTarget);
+        
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
     }
 
     public void DeactivateSilently()
     {
         IsActivate = false;
+        IsInHome = false;
+        
         if (!gameObject.activeSelf) return;
-        _engineUIController.DeactivateEffect();
+        _draggableUI.SetParentToOriginal(false);
+        _engineUIController.DeactivateEffect(CurrentTarget);
     }
     
     private void ResetFeature()
@@ -121,5 +136,10 @@ public class EngineController : MonoBehaviour
         {
             numpad.ChangeVisual();
         }
+    }
+    
+    private void ChangeIsHome(bool isInHome)
+    {
+        IsInHome = isInHome;
     }
 }

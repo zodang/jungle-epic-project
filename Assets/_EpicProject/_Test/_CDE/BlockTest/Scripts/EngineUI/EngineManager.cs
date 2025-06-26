@@ -41,7 +41,20 @@ public class EngineManager : MonoBehaviour
 
     public void ActivateEngineUI(Clickable clickable)
     {
-        if (_engineDictionary.TryGetValue(clickable, out EngineController engineController))
+        if (!_engineDictionary.TryGetValue(clickable, out EngineController engineController)) return;
+
+        if (_isTabHomeGroupActive)
+        {
+            engineController.gameObject.SetActive(true);
+            engineController.Activate();
+            return;
+        }
+
+        if (engineController.IsInHome)
+        {
+            ToggleTabHome();
+        }
+        else
         {
             engineController.gameObject.SetActive(true);
             engineController.Activate();
