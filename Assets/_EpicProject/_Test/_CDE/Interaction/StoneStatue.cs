@@ -46,7 +46,7 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
 
     private void Start()
     {
-        foot.SetActive(false);
+        //foot.SetActive(false);
         twinkleLv1.SetActive(false);
         twinkleLv2.SetActive(false);
     }
@@ -124,7 +124,7 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
     {
         _enableMove = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-        foot.SetActive(true);
+        //foot.SetActive(true);
         _movement2D.MoveDir = Vector3.zero;
     }
 
@@ -132,7 +132,7 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
     {
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
-        foot.SetActive(false);
+        //foot.SetActive(false);
         _movement2D.MoveDir = Vector3.zero;
     }
     #endregion
