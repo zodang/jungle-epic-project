@@ -286,8 +286,9 @@ GameObject:
   - component: {fileID: 6342299150572126949}
   - component: {fileID: 8220973550217816553}
   - component: {fileID: 4916209526251903692}
-  - component: {fileID: 2574796457069267389}
-  - component: {fileID: 2648564721670709444}
+  - component: {fileID: 1237930426390322972}
+  - component: {fileID: 1711591104718662368}
+  - component: {fileID: 8716518068394947708}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
@@ -325,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1
-  defaultBlockTypes: 04000000
+  DefaultBlockList: 
 --- !u!114 &4916209526251903692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,42 +339,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2060d55cc4cabc4086edd2378a4ab60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rotateHandler: {fileID: 0}
+  _scaleHandler: {fileID: 0}
+  _lightHandler: {fileID: 0}
   MinPosX: -10
   MaxPosX: 6
---- !u!114 &2574796457069267389
+--- !u!114 &1237930426390322972
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8922597482439387798}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1e8d80f0842ff34c9996f2343f7aa34, type: 3}
+  m_Script: {fileID: 11500000, guid: f99275526023b35428f9f87a53d1c0e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hasIRotatable: 0
-  _rotateMin: 0
-  _rotateMax: 0
+  _minRotate: 0
+  _maxRotate: 359.9
   _currentRotate: 0
-  SetRotate: 0
---- !u!114 &2648564721670709444
+--- !u!114 &1711591104718662368
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8922597482439387798}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01f469f15f98f8b43be501c1409c9f0d, type: 3}
+  m_Script: {fileID: 11500000, guid: 56c4f7a804f048942b8d7925a44f353c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hasILightAdjustable: 0
-  _lightMin: 0
-  _lightMax: 0
-  _currentLight: 0
-  SetLight: 0
+  _minScale: 0.5
+  _maxScale: 2.5
+  _currentScale: 0
+--- !u!114 &8716518068394947708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8922597482439387798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38458fe6bd6e2e044963d7654bc29c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minBright: 0.5
+  _maxBright: 3
+  _currentBright: 0
 --- !u!1001 &5328251104935388544
 PrefabInstance:
   m_ObjectHideFlags: 0

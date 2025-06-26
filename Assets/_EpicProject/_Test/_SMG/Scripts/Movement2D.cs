@@ -75,11 +75,8 @@ public class Movement2D : MonoBehaviour
             Vector2 boxSize = new Vector2(checkDist / 2f, bounds.size.y);
 
             nextIsBirdge = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Bridge"));
-            //nextIsGround = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Ground"));
             nextIsGround = GroundTilemap.HasTile(GroundTilemap.WorldToCell(nextPoint));
 
-            //nextIsBirdge = IsTwoPointsCheckLayer(nextPoint, bounds.size.x / 2f * 0.9f, 0f, LayerMask.GetMask("Bridge"), true);
-            //nextIsGround = IsTwoPointsCheckLayer(nextPoint, bounds.size.x / 2f * 0.9f, 0f, LayerMask.GetMask("Ground"), true); 
             if (!(nextIsBirdge || nextIsGround))
             {
                 moveDir = new Vector2(0f, moveDir.y);
@@ -94,11 +91,8 @@ public class Movement2D : MonoBehaviour
             Vector2 boxSize = new Vector2(bounds.size.x, checkDist / 2f);
 
             nextIsBirdge = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Bridge"));
-            //nextIsGround = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Ground"));
             nextIsGround = GroundTilemap.HasTile(GroundTilemap.WorldToCell(nextPoint));
 
-            //nextIsBirdge = IsTwoPointsCheckLayer(nextPoint, 0f, bounds.size.y / 2f * 0.9f, LayerMask.GetMask("Bridge"), true);
-            //nextIsGround = IsTwoPointsCheckLayer(nextPoint, 0f, bounds.size.y / 2f * 0.9f, LayerMask.GetMask("Ground"), true);
             if (!(nextIsBirdge || nextIsGround))
             {
                 moveDir = new Vector2(moveDir.x, 0f);

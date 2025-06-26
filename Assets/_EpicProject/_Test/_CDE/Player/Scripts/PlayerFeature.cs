@@ -3,7 +3,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdjustable, IRotatable, IFeatureResetable
+public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
 {
     // Action
     public event Action<bool> OnControlEnabled;
@@ -14,7 +14,12 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
     private Vector2 _moveInput;
 
     public bool _enableMove;
-    public float scaleMin = 0.5f, scaleMax = 2.0f;
+    private float _minScale = 0.5f;
+    private float _maxScale = 2.0f;
+
+    [SerializeField] private RotateHandler _rotateHandler;
+    [SerializeField] private ScaleHandler _scaleHandler;
+    [SerializeField] private LightHandler _lightHandler;
 
     // ILightAdjustable
     private float _minBright = 1f;
@@ -38,7 +43,23 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         _model = transform.GetChild(1);
         _TwinkleLv1 = _model.GetChild(0).gameObject;
         _TwinkleLv2 = _model.GetChild(1).gameObject;
-        
+
+        if (ComponentHelper.TryGetComponent<RotateHandler>(ref _rotateHandler, this))
+        {
+            _rotateHandler.Init(_minRotate, _maxRotate, 1f);
+            _rotateHandler.OnSetValue += Rotate;
+        }
+        if (ComponentHelper.TryGetComponent<ScaleHandler>(ref _scaleHandler, this))
+        {
+            _scaleHandler.Init(_minScale, _maxScale, 0f);
+            _scaleHandler.OnSetValue += Scale;
+        }
+        if (ComponentHelper.TryGetComponent<LightHandler>(ref _lightHandler, this))
+        {
+            _lightHandler.Init(_minBright, _maxBright, 1f);
+            _lightHandler.OnSetValue += Twinkle;
+        }
+
         ResetFeature();
     }
 
@@ -48,14 +69,14 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         Move();
     }
 
-    //private void FixedUpdate()
-    //{
-    //    _rigidbody2D.linearVelocity = _moveInput * _speed;
-    //}
-
     void Rotate(float angle)
     {
         _model.localEulerAngles = new Vector3(0, 0, -angle);
+    }
+
+    void Scale(float scale)
+    {
+        transform.localScale = new Vector3(scale, scale, 1f);
     }
 
     void Twinkle(float bright)
@@ -80,9 +101,9 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
 
     public void ResetFeature()
     {
-        ((IScalable)this).SetValue(1f);
-        ((IRotatable)this).SetValue(0f);
-        ((ILightAdjustable)this).SetValue(1f);
+        _rotateHandler.SetValue(0f);
+        _scaleHandler.SetValue(1f);
+        _lightHandler.SetValue(1f);
     }
 
     #region Control
@@ -125,44 +146,6 @@ public class PlayerFeature : MonoBehaviour, IControllable, IScalable, ILightAdju
         {
             _moveInput = StageManager.Instance.InputManager.MoveInput;
         }
-    }
-    #endregion
-
-    #region Scale
-    float IScalable.GetMinValue() => scaleMin;
-    float IScalable.GetMaxValue() => scaleMax;
-    float IScalable.GetCurrentValue() => transform.localScale.x;
-    void IScalable.SetValue(float v)
-    {
-        transform.localScale = new Vector3(v, v, 1f);
-    }
-    #endregion
-
-    #region ILightAdjustable
-    float ILightAdjustable.GetMinValue() => _minBright;
-
-    float ILightAdjustable.GetMaxValue() => _maxBright;
-
-    float ILightAdjustable.GetCurrentValue() => _currentBright;
-    
-    void ILightAdjustable.SetValue(float value)
-    {
-        _currentBright = value;
-        Twinkle(_currentBright);
-    }
-    #endregion
-
-    #region IRotatable
-    float IRotatable.GetMinValue() => _minRotate;
-
-    float IRotatable.GetMaxValue() => _maxRotate;
-
-    float IRotatable.GetCurrentValue() => _currentRotate;
-    
-    void IRotatable.SetValue(float value)
-    {
-        _currentRotate = value;
-        Rotate(_currentRotate);
     }
     #endregion
 
