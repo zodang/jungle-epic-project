@@ -3,9 +3,14 @@ using UnityEngine.Rendering;
 using Unity.Cinemachine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 public class GlitchVision : MonoBehaviour
 {
+    // [MOD: KMS 25-06-26] 글리치 비전 시작시 쿨타임 표시 제작을 위한 추가
+    public static event Action BeginGlitch;
+    public static event Action EndGlitch;
+
     // [Mod: SMG 25-06-23] 튜토리얼 상태 체크를 위해 추가
     public bool IsGlitchVisionActive { get; private set; }
     [Header("Glitch Vision Settings")]
@@ -67,8 +72,11 @@ public class GlitchVision : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        //글리치비전 연타 막기 위한 임시 조건문 추가
+        if (Input.GetKeyDown(KeyCode.Q) && !IsGlitchVisionActive)
         {
+            //글리치비전 실행되면 GlitchIndicator로 전송
+            BeginGlitch?.Invoke();
             // Q 키를 눌렀을 때 GlitchVision 활성화
             ActivateGlitchVision();
 
@@ -119,6 +127,8 @@ public class GlitchVision : MonoBehaviour
                 obj.HideGlitch();
         }
         IsGlitchVisionActive = false;
+        //글리치비전 끝나면 GlitchIndicator로 전송
+        EndGlitch?.Invoke();
     }
 
     private IEnumerator GlitchVolumeRoutine()
