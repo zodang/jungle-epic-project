@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
 {
-    public Action<bool> OnParentChangedToHome;
+    public Action<bool> OnDragEndedInHome;
     
     private RectTransform _rectTransform;
     private Canvas _canvas;
@@ -18,15 +18,10 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         _canvas = GetComponentInParent<Canvas>();
         _originalParent = transform.parent;
     }
-
-    private void Start()
-    {
-        OnParentChangedToHome += SetParentToOriginal;
-    }
-
+    
     private void OnDestroy()
     {
-        OnParentChangedToHome = null;
+        OnDragEndedInHome = null;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -52,25 +47,24 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        bool isInHome = false;
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
         foreach (var result in results)
         {
-            // TabHome 자식으로 이동
             TabHome tabHome = result.gameObject.GetComponent<TabHome>();
             if (tabHome != null)
             {
+                // TabHome으로 정렬 시
                 transform.SetParent(tabHome.transform, false);
                 _rectTransform.anchoredPosition = Vector3.zero;
-                OnParentChangedToHome?.Invoke(true);
+                isInHome = true;
                 break;
             }
-            else
-            {
-                OnParentChangedToHome?.Invoke(false);
-            }
         }
+        
+        OnDragEndedInHome?.Invoke(isInHome);
     }
     
     public void OnPointerDown(PointerEventData eventData)
@@ -78,13 +72,9 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         transform.SetAsLastSibling();
     }
 
-    public void SetParentToOriginal(bool isInHome)
+    public void SetToOriginalParent()
     {
-        if (!isInHome)
-        {
-            // 정렬 해제 시 부모 복구
-            transform.SetParent(_originalParent);
-            transform.SetAsLastSibling();
-        }
+        transform.SetParent(_originalParent);
+        transform.SetAsLastSibling();
     }
 }

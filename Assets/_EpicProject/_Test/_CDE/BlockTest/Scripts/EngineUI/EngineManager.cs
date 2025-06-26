@@ -5,22 +5,24 @@ using UnityEngine;
 public class EngineManager : MonoBehaviour
 {
     [SerializeField] private EngineController engineUIPrefab;
+
     private Dictionary<Clickable, EngineController> _engineDictionary = new();
     private EngineUIManager _engineUIManager;
     private bool _isTabHomeGroupActive = true;
 
-    private void Start()
+    private void Awake()
     {
         _engineUIManager = GetComponent<EngineUIManager>();
-        
+    }
+
+    private void Start()
+    { 
         // ESC 키로 모든 EngineUI 비활성화
         StageManager.Instance.InputManager.OnEscPressed += DeactivateAllEngine;
         StageManager.Instance.InputManager.OnTabPressed += ToggleTabHome;
         
-        // Clickable마다 UI 추가
-        Clickable[] clickables = FindObjectsByType<Clickable>(FindObjectsSortMode.None);
-
-        foreach (var clickable in clickables)
+        // Clickable마다 UI 
+        foreach (var clickable in FindObjectsByType<Clickable>(FindObjectsSortMode.None))
         {
             EngineController engineController = Instantiate(engineUIPrefab, transform);
             _engineDictionary.Add(clickable, engineController);
@@ -43,6 +45,7 @@ public class EngineManager : MonoBehaviour
     {
         if (!_engineDictionary.TryGetValue(clickable, out EngineController engineController)) return;
 
+        // 타겟 Engine이 정렬 상태
         if (_isTabHomeGroupActive)
         {
             engineController.gameObject.SetActive(true);
@@ -50,6 +53,7 @@ public class EngineManager : MonoBehaviour
             return;
         }
 
+        // 타겟 Engine이 비정렬 상태
         if (engineController.IsInHome)
         {
             ToggleTabHome();
@@ -84,9 +88,9 @@ public class EngineManager : MonoBehaviour
             }
         }
 
+        // 하나라도 꺼진다면 효과음 재생
         if (anyDeactivated)
         {
-            // 하나라도 꺼진다면 효과음 재생
             GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         }
     }
