@@ -20762,6 +20762,7 @@ MonoBehaviour:
   nextIsBirdge: 0
   nextIsGround: 0
   testdist: 0
+  IsFalling: 0
   GroundTilemap: {fileID: 1890921042}
 --- !u!61 &1106254487995554267
 BoxCollider2D:
@@ -22011,7 +22012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 2
-  defaultBlockTypes: 02000000
+  DefaultBlockList: 
 --- !u!1 &2914923059426958886
 GameObject:
   m_ObjectHideFlags: 0
@@ -23030,6 +23031,7 @@ MonoBehaviour:
   nextIsBirdge: 0
   nextIsGround: 0
   testdist: 0
+  IsFalling: 0
   GroundTilemap: {fileID: 1890921042}
 --- !u!210 &5072321582509362362
 SortingGroup:
@@ -23590,7 +23592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 3
-  defaultBlockTypes: 03000000
+  DefaultBlockList: 
 --- !u!114 &6050521172774033237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24243,7 +24245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 2
-  defaultBlockTypes: 02000000
+  DefaultBlockList: 
 --- !u!212 &6881350712454113947
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -24505,7 +24507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 0
-  defaultBlockTypes: 01000000
+  DefaultBlockList: 
 --- !u!1 &7266495814915189461
 GameObject:
   m_ObjectHideFlags: 0
@@ -24871,6 +24873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b108c322c08c9a346bebbd289dec460b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BlockList: []
 --- !u!114 &7881516061752546442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24984,7 +24987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1
-  defaultBlockTypes: 04000000
+  DefaultBlockList: 
 --- !u!114 &8270869016894737523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25001,6 +25004,7 @@ MonoBehaviour:
   nextIsBirdge: 0
   nextIsGround: 0
   testdist: 0
+  IsFalling: 0
   GroundTilemap: {fileID: 1890921042}
 --- !u!1 &8588582385306168369
 GameObject:
@@ -25383,6 +25387,7 @@ MonoBehaviour:
   nextIsBirdge: 0
   nextIsGround: 0
   testdist: 0
+  IsFalling: 0
   GroundTilemap: {fileID: 0}
 --- !u!114 &9024503861639211597
 MonoBehaviour:
