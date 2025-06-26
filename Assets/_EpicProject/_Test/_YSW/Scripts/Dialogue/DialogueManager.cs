@@ -21,7 +21,13 @@ public class DialogueManager : MonoBehaviour
 
     public const string PLAYER_TAG = "Player";
     private const string PLAYER_SPEECH_ANCHOR_NAME = "PlayerSpeechAnchor";
-    public const string PLAYER_SPEAKER_ID_CONST = "당신"; // 또는 JSON의 "Player" ID
+    private static readonly Dictionary<string, string> PLAYER_DISPLAY_NAMES = new Dictionary<string, string>
+    {
+        // Localization: 화자 이름 비교
+        { "ko", "당신" },
+        { "en", "You" },
+        { "zh-Hans", "你" },
+    };
 
     private IDialogueState currentState;
     public readonly DialogueIdleState IdleState = new DialogueIdleState();
@@ -197,14 +203,14 @@ public class DialogueManager : MonoBehaviour
         string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
         string speaker = "";
         string text = "";
+        bool isPlayerSpeaking = PLAYER_DISPLAY_NAMES.TryGetValue(lang, out speaker);
         
         // [2] speaker와 text 안전하게 꺼내기 (딕셔너리에 해당 언어 없으면 빈 문자열 fallback)
         if (CurrentLineToShow.speaker != null && CurrentLineToShow.speaker.TryGetValue(lang, out var spk))
             speaker = spk;
         if (CurrentLineToShow.text != null && CurrentLineToShow.text.TryGetValue(lang, out var txt))
             text = txt;
-
-        bool isPlayerSpeaking = speaker.Equals(PLAYER_SPEAKER_ID_CONST, System.StringComparison.OrdinalIgnoreCase);
+        
         DialogueUI targetUI = null;
 
         // 이전에 활성화된 말풍선이 현재 화자와 다른 타입이면 숨김
@@ -246,8 +252,12 @@ public class DialogueManager : MonoBehaviour
         CurrentChoiceBubbleUI = InitializeSpecificDialogueUI(CurrentChoiceBubbleUI, choiceBubblePrefab, "ChoiceBubble");
         if (CurrentChoiceBubbleUI == null) { Debug.LogError("DM: Failed to initialize ChoiceBubbleUI."); TransitionToState(EndingState); return; }
         if (CurrentChoices == null || CurrentChoices.Count == 0) { Debug.LogWarning("DM: No choices for ChoiceBubble."); TransitionToState(EndingState); return; }
-
-        CurrentChoiceBubbleUI.SetSpeakerName(PLAYER_SPEAKER_ID_CONST);
+        
+        // Localization: 화자 이름 비교
+        string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
+        string playerDisplayName = PLAYER_DISPLAY_NAMES.ContainsKey(lang) ? PLAYER_DISPLAY_NAMES[lang] : "Player";
+        CurrentChoiceBubbleUI.SetSpeakerName(playerDisplayName);
+        
         CurrentChoiceBubbleUI.DisplayChoicesInMainText(CurrentChoices, CurrentSelectedChoiceIndex); // 선택지는 즉시 표시
         CurrentChoiceBubbleTargetAnchor = PlayerSpeechAnchor;
         CurrentChoiceBubbleUI.Show(true);
