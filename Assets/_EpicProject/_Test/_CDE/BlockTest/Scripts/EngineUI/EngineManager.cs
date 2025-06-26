@@ -6,11 +6,16 @@ public class EngineManager : MonoBehaviour
 {
     [SerializeField] private EngineController engineUIPrefab;
     private Dictionary<Clickable, EngineController> _engineDictionary = new();
+    private EngineUIManager _engineUIManager;
+    private bool _isTabHomeGroupActive = true;
 
     private void Start()
     {
+        _engineUIManager = GetComponent<EngineUIManager>();
+        
         // ESC 키로 모든 EngineUI 비활성화
-        StageManager.Instance.InputManager.OnOffEngine += DeactivateAllEngine;
+        StageManager.Instance.InputManager.OnEscPressed += DeactivateAllEngine;
+        StageManager.Instance.InputManager.OnTabPressed += ToggleTabHome;
         
         // Clickable마다 UI 추가
         Clickable[] clickables = FindObjectsByType<Clickable>(FindObjectsSortMode.None);
@@ -26,6 +31,12 @@ public class EngineManager : MonoBehaviour
             // Clickable의 기본 블록 세팅
             clickable.InitClickable(engineController);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        StageManager.Instance.InputManager.OnEscPressed -= DeactivateAllEngine;
+        StageManager.Instance.InputManager.OnTabPressed -= ToggleTabHome;
     }
 
     public void ActivateEngineUI(Clickable clickable)
@@ -66,9 +77,10 @@ public class EngineManager : MonoBehaviour
             GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         }
     }
-    
-    private void OnDestroy()
+
+    private void ToggleTabHome()
     {
-        StageManager.Instance.InputManager.OnOffEngine -= DeactivateAllEngine;
+        _isTabHomeGroupActive = !_isTabHomeGroupActive;
+        _engineUIManager.ActivateTabHomeGroup(_isTabHomeGroupActive);
     }
 }

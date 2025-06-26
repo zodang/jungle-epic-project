@@ -22,7 +22,7 @@ public class InventoryAniController : MonoBehaviour
     private void Start()
     {
         // Tab 누를 시 inventory 활성화
-        StageManager.Instance.InputManager.OnInventoryToggled += ToggleInventory;
+        StageManager.Instance.InputManager.OnTabPressed += ToggleInventory;
     }
 
     public void ToggleInventory()

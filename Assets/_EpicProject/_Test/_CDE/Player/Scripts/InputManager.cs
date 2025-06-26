@@ -9,8 +9,8 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     public event Action OnInteract;
-    public event Action OnOffEngine;
-    public event Action OnInventoryToggled;
+    public event Action OnEscPressed;
+    public event Action OnTabPressed;
     public Vector2 MoveInput { get; private set; }
 
     private InputActionAsset _inputActionAsset;
@@ -76,12 +76,12 @@ public class InputManager : MonoBehaviour
     
     private void OnOffEnginePerformed(InputAction.CallbackContext context)
     {
-        OnOffEngine?.Invoke();
+        OnEscPressed?.Invoke();
     }
 
     private void OnToggleInventoryPerformed(InputAction.CallbackContext context)
     {
-        OnInventoryToggled?.Invoke();
+        OnTabPressed?.Invoke();
     }
 
     private bool IsInputFieldFocused()
@@ -104,8 +104,8 @@ public class InputManager : MonoBehaviour
         _clickAction.performed -= OnCLickPerformed;
 
         OnInteract = null;
-        OnOffEngine = null;
-        OnInventoryToggled = null;
+        OnEscPressed = null;
+        OnTabPressed = null;
         
         _inputActionAsset = null;
         _actionMap = null;

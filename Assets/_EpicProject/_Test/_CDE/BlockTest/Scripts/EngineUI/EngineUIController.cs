@@ -33,7 +33,6 @@ public class EngineUIController : MonoBehaviour
     [SerializeField] private GameObject engineSlot;
     private bool _isFold = true;
     
-    private EngineUICloseBtn _closeBtn;
     private EngineUIOpacitySlider _opacitySlider;
     private Image _blockContainerImg;
     
