@@ -4,17 +4,29 @@
       "id": "npc1_greeting",
       "lines": [
         {
-          "speaker": "나무꾼",
-          "text": "내 얘기 좀 들어주겠나?"
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "내 얘기 좀 들어주겠나?",
+            "en": "Would you listen to my story?",
+            "zh-Hans": "可以听我说几句吗？"
+          }
         }
       ],
       "choices": [
         {
-          "text": "네 무슨일 있으신가요?",
+          "text": {
+            "ko": "네 무슨일 있으신가요?",
+            "en": "Yes, is there something wrong?",
+            "zh-Hans": "好的，有什么事吗？"
+          },
           "nextDialogueId": "npc1_info_town"
         },
         {
-          "text": "아니요 지금은 좀 바빠서.."
+          "text": {
+            "ko": "아니요 지금은 좀 바빠서..",
+            "en": "Sorry, I'm a bit busy now...",
+            "zh-Hans": "不好意思，我现在有点忙……"
+          }
         }
       ]
     },
@@ -22,16 +34,28 @@
       "id": "npc1_info_town",
       "lines": [
         {
-          "speaker": "나무꾼",
-          "text": "요즘 세상이 이상해진 거 알고 있나?"
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "요즘 세상이 이상해진 거 알고 있나?",
+            "en": "Did you notice the world is getting strange these days?",
+            "zh-Hans": "你知道最近世界变得很奇怪吗？"
+          }
         },
         {
-          "speaker": "나무꾼",
-          "text": "멀쩡하던 다리가 갑자기 끊어지고, 태양은 뒤틀려 있지. 그보다 나한테도 이상한 일이 벌어졌네!"
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "멀쩡하던 다리가 갑자기 끊어지고, 태양은 뒤틀려 있지. 그보다 나한테도 이상한 일이 벌어졌네!",
+            "en": "Bridges suddenly collapse, the sun is twisted... But something strange happened to me too!",
+            "zh-Hans": "好好的桥突然断了，太阳也扭曲了。更奇怪的是，我身上也发生了怪事！"
+          }
         },
         {
-          "speaker": "나무꾼",
-          "text": "평소처럼 나무를 베다가 잠깐 쉬고 있었는데, 글쎄 <b><color=red>도끼</color></b>가 스스로 날아서 연못에 빠졌지 뭔가!"
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "평소처럼 나무를 베다가 잠깐 쉬고 있었는데, 글쎄 <b><color=red>도끼</color></b>가 스스로 날아서 연못에 빠졌지 뭔가!",
+            "en": "My <b><color=red>axe</color></b> suddenly flew into the pond while I was taking a break!",
+            "zh-Hans": "像平时一样伐木休息的时候，<b><color=red>斧头</color></b>竟然自己飞进了池塘！"
+          }
         }
       ]
     },
@@ -39,8 +63,12 @@
       "id": "npc1_farewell",
       "lines": [
         {
-          "speaker": "경비원",
-          "text": "그래, 조심해서 다니게."
+          "speaker": { "ko": "경비원", "en": "Guard", "zh-Hans": "警卫" },
+          "text": {
+            "ko": "그래, 조심해서 다니게.",
+            "en": "Alright, be careful.",
+            "zh-Hans": "好，路上小心。"
+          }
         }
       ]
     },
@@ -48,16 +76,28 @@
       "id": "npc2",
       "lines": [
         {
-          "speaker": "나무꾼",
-          "text": "나무를 베다가 실수로 도끼를 연못에 빠뜨려버렸어.."
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "나무를 베다가 실수로 도끼를 연못에 빠뜨려버렸어..",
+            "en": "I accidentally dropped my axe into the pond while chopping wood...",
+            "zh-Hans": "砍树时不小心把斧头掉进池塘了……"
+          }
         },
         {
-          "speaker": "나무꾼",
-          "text": "혹시 도끼를 찾아와 주지 않을래?"
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "혹시 도끼를 찾아와 주지 않을래?",
+            "en": "Could you please find my axe?",
+            "zh-Hans": "你能帮我找回斧头吗？"
+          }
         },
         {
-          "speaker": "당신",
-          "text": "알겠습니다."
+          "speaker": { "ko": "당신", "en": "You", "zh-Hans": "你" },
+          "text": {
+            "ko": "알겠습니다.",
+            "en": "Alright, I understand.",
+            "zh-Hans": "好的，明白了。"
+          }
         }
       ]
     },
@@ -65,8 +105,12 @@
       "id": "baldHead",
       "lines": [
         {
-          "speaker": "나무꾼",
-          "text": "악 눈부셔!"
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "악 눈부셔!",
+            "en": "Ah! That's blinding!",
+            "zh-Hans": "啊，好刺眼！"
+          }
         }
       ]
     },
@@ -74,16 +118,28 @@
       "id": "npc_after_puzzle_A_solved",
       "lines": [
         {
-          "speaker": "나무꾼",
-          "text": "오! 연못이 다 말라버렸잖아?"
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "오! 연못이 다 말라버렸잖아?",
+            "en": "Oh! The pond has completely dried up!",
+            "zh-Hans": "哦！池塘都干了！"
+          }
         },
         {
-          "speaker": "나무꾼",
-          "text": "도끼가 부러졌는데 어떻게 하냐고?"
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "도끼가 부러졌는데 어떻게 하냐고?",
+            "en": "You're asking what to do about the broken axe?",
+            "zh-Hans": "你问斧头断了怎么办？"
+          }
         },
         {
-          "speaker": "나무꾼",
-          "text": "괜찮네! 나에겐 도끼가 없어도 독기는 있으니.. 후후"
+          "speaker": { "ko": "나무꾼", "en": "Lumberjack", "zh-Hans": "樵夫" },
+          "text": {
+            "ko": "괜찮네! 나에겐 도끼가 없어도 독기는 있으니.. 후후",
+            "en": "It's fine! Even if I don't have an axe, I still have my spirit... Hehe.",
+            "zh-Hans": "没关系！即使没有斧头，我还有气势……呵呵。"
+          }
         }
       ]
     },
@@ -91,12 +147,20 @@
       "id": "NPC_02_default",
       "lines": [
         {
-          "speaker": "꼬마",
-          "text": "다리가 끊어져서 마을로 돌아갈 수가 없어.."
+          "speaker": { "ko": "꼬마", "en": "Kid", "zh-Hans": "小孩" },
+          "text": {
+            "ko": "다리가 끊어져서 마을로 돌아갈 수가 없어..",
+            "en": "The bridge is out, so I can't return to the village...",
+            "zh-Hans": "桥断了，回不了村子……"
+          }
         },
         {
-          "speaker": "꼬마",
-          "text": "<b><color=red>커다란 걸</color></b> 다리 중간에 놓을 수 있다면 건널 수 있을지도?"
+          "speaker": { "ko": "꼬마", "en": "Kid", "zh-Hans": "小孩" },
+          "text": {
+            "ko": "<b><color=red>커다란 걸</color></b> 다리 중간에 놓을 수 있다면 건널 수 있을지도?",
+            "en": "If we could put <b><color=red>something big</color></b> in the middle of the bridge, maybe we could cross?",
+            "zh-Hans": "如果能在桥中间放<b><color=red>个大东西</color></b>，说不定就能过去了？"
+          }
         }
       ]
     }
