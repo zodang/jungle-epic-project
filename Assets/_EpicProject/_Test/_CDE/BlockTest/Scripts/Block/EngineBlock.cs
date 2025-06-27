@@ -19,20 +19,22 @@ public abstract class EngineBlock : MonoBehaviour
     // UI 초기화 (optional)
     public virtual void ResetUI() { }
     
-    
     private Clickable _prevTarget;
     private object _prevFeature;
 
     private BlockVisual _visual;
+    private InventorySlot _inventorySlot;
 
     protected virtual void Awake()
     {
         _visual = GetComponent<BlockVisual>();
+        _inventorySlot = FindAnyObjectByType<InventorySlot>();
     }
     
     private void Start()
     {
         _visual.OnDragEnd += WhenDragEnd;
+        _visual.OnRightClicked += DropToInventorySlot;
     }
 
     private void OnDestroy()
@@ -81,6 +83,14 @@ public abstract class EngineBlock : MonoBehaviour
                 break;
         }
     }
+
+    private void DropToInventorySlot()
+    {
+        // 인벤토리로 블록 이동
+        if (_inventorySlot == null) return;
+        WhenDroppedInventorySlot(_inventorySlot);
+        _visual.ChangeBlockVisual(SlotType.InventorySlot);
+    }
     
     private void WhenDroppedInventorySlot(ISlotType slot)
     {
@@ -97,7 +107,6 @@ public abstract class EngineBlock : MonoBehaviour
         inventory.AddBlock(this);
         
         inventorySlot.SetBlockPositionToInventory(this);
-
 
         _prevTarget = null;
         _prevFeature = null;

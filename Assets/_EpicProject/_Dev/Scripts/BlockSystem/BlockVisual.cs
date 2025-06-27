@@ -3,9 +3,10 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BlockVisual : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class BlockVisual : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Action<ISlotType> OnDragEnd;
+    public Action OnRightClicked;
     
     public static event Action OnAnyBlockBeginDrag;
     public static event Action OnAnyBlockEndDrag;
@@ -31,6 +32,15 @@ public class BlockVisual : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         _canvas = GetComponentInParent<Canvas>();
         _rectTransform = GetComponent<RectTransform>();
     }
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        // 해당 블록에 대한 우클릭 검사
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            OnRightClicked?.Invoke();
+        }
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -45,7 +55,7 @@ public class BlockVisual : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 eventData.pressEventCamera,
                 out Vector3 globalMousePos))
         {
-            _dragOffset = (Vector2)(_rectTransform.position - globalMousePos);
+            _dragOffset = _rectTransform.position - globalMousePos;
         }
     }
     

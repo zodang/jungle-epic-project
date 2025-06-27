@@ -83,6 +83,9 @@ public class EngineManager : MonoBehaviour
         {
             if (engineController.gameObject.activeSelf)
             {
+                // HomeGroup 비활성화 상태에서 정렬되어 있는 엔진은 넘어감 
+                if (!_isTabHomeGroupActive && engineController.IsInHome) continue;
+                
                 engineController.DeactivateSilently();
                 anyDeactivated = true;
             }
