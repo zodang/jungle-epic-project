@@ -1,7 +1,12 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatable, IScalable, IControllable
+public class StoneStatue : MonoBehaviour, IFeatureResetable, IControllable
 {
+    [SerializeField] private RotateHandler _rotateHandler;
+    [SerializeField] private ScaleHandler _scaleHandler;
+    [SerializeField] private LightHandler _lightHandler;
+
     // IFeatureResetable
     private float _defaultLight = 0f;
     private float _defaultRotation = 110f;
@@ -10,17 +15,14 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
     // ILightAdjustable
     private float _minBright = 0.5f;
     private float _maxBright = 3f;
-    private float _currentBright;
     
     // IRotatable
     private float _minAngle = 0f;
     private float _maxAngle = 359f;
-    private float _currentAngle;
     
     // IScalable
     private float _minScale = 0.8f;
     private float _maxScale = 2.5f;
-    private float _currentScale;
     
     // IControllable
     private bool _enableMove;    
@@ -40,7 +42,20 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody2D.gravityScale = 0f;
         _rigidbody2D.freezeRotation = true;
-        
+
+        ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<ScaleHandler>(ref _scaleHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<LightHandler>(ref _lightHandler, gameObject);
+
+        _rotateHandler.Init(_minAngle, _maxAngle, 1f);
+        _rotateHandler.OnSetValue += SetRotate;
+
+        _scaleHandler.Init(_minScale, _maxScale, 0f);
+        _scaleHandler.OnSetValue += SetScale;
+
+        _lightHandler.Init(_minBright, _maxBright, 1f);
+        _lightHandler.OnSetValue += Twinkle;
+
         ResetFeature();
     }
 
@@ -62,63 +77,28 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, ILightAdjustable, I
     #region IFeatureResetable
     public void ResetFeature()
     {
-        ((ILightAdjustable)this).SetValue(_defaultLight);
-        ((IScalable)this).SetValue(_defaultScale);
-        ((IRotatable)this).SetValue(_defaultRotation);
+        _rotateHandler.SetValue(_defaultRotation);
+        _scaleHandler.SetValue(_defaultScale);
+        _lightHandler.SetValue(_defaultLight);
     }
     #endregion
 
-    #region ILightAdjustable
-    float ILightAdjustable.GetMinValue() => _minBright;
-
-    float ILightAdjustable.GetMaxValue () => _maxBright;
-
-    float ILightAdjustable.GetCurrentValue() => _currentBright;
-
-    void ILightAdjustable.SetValue(float value)
-    {
-        _currentBright = value;
-        Twinkle(_currentBright);
-    }
-    
     private void Twinkle(float brightness)
     {
         twinkleLv1.SetActive(brightness >= 1.5f);
         twinkleLv2.SetActive(brightness >= 2.5f);
-    }
-    #endregion
-    
-    #region IRotatable
-    float IRotatable.GetMinValue() => _minAngle;
-
-    float IRotatable.GetMaxValue() => _maxAngle;
-
-    float IRotatable.GetCurrentValue() => _currentAngle;
-    
-    void IRotatable.SetValue(float value)
-    {
-        _currentAngle = value;
-        SetRotate(_currentAngle);
     }
     
     void SetRotate(float angle)
     {
         model.localEulerAngles = new Vector3(0, 0, -angle);
     }
-    #endregion
     
-    #region IScalable
-    float IScalable.GetMinValue() => _minScale;
-
-    float IScalable.GetMaxValue() => _maxScale;
-    float IScalable.GetCurrentValue() => _currentScale;
-    void IScalable.SetValue(float value)
+    void SetScale(float scale)
     {
-        _currentScale = value;
-        transform.localScale = new Vector3(_currentScale, _currentScale, _currentScale);
+        transform.localScale = new Vector3(scale, scale, scale);
     }
-    #endregion
-    
+
     #region IControllable
     public void EnableControl()
     {

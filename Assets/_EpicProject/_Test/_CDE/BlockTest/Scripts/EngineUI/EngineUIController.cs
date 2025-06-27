@@ -1,4 +1,3 @@
-using Define;
 using System;
 using TMPro;
 using UnityEngine;
@@ -10,7 +9,6 @@ public class EngineUIController : MonoBehaviour
 {
     public Action OnResetBtnClicked;
     public Action OnClickCloseBtn;
-    public Action OnClickUpBtn;
     
     [Header("Profile")]
     [SerializeField] private TMP_Text gameName;
@@ -27,37 +25,33 @@ public class EngineUIController : MonoBehaviour
     [SerializeField] private TMP_Text blockContainerText;
     [SerializeField] private List<Color> textColors;
 
-    [Header("Up Btn")] 
+    [Header("Fold")] 
+    private bool _isFold = true;
     [SerializeField] private Image baseImg;
     [SerializeField] private GameObject numpadSlot;
     [SerializeField] private GameObject engineSlot;
-    private bool _isFold = true;
     
-    private EngineUICloseBtn _closeBtn;
-    private EngineUIOpacitySlider _opacitySlider;
-    private Image _blockContainerImg;
+    [Header("Values")]
+    private float _minOpacity = 0.4f;
+    private float _deactiveDuration = 0.25f;
+    private Vector2 _offset = new Vector2(-200, 0);
     
+    private Canvas _canvas;
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
-    
-    [Header("Slot Icon")]
-    [SerializeField] private List<Image> iconImageList;
-
-    [Header("Dotween")]
-    private float _posX = 700f;
-    private float _minPosY = -900f;
-    private float _maxPosY = -245f;
-    private float _activeDuration = 1f;
-    private float _deactiveDuration = 0.25f;
-    
-    private float _minOpacity = 0.4f;
+    private EngineUIOpacitySlider _opacitySlider;
+    private Image _blockContainerImg;
 
     private void Awake()
     {
+        _canvas = GetComponentInParent<Canvas>();
         _canvasGroup = GetComponent<CanvasGroup>();
         _rectTransform = GetComponent<RectTransform>();
         _blockContainerImg = blockContainer.GetComponent<Image>();
+    }
 
+    private void Start()
+    {
         // opacity slider 기능 연결
         _opacitySlider = transform.GetComponentInChildren<EngineUIOpacitySlider>();
         _opacitySlider.GetComponent<Slider>().onValueChanged.AddListener(OnSliderValueChanged);
@@ -71,6 +65,12 @@ public class EngineUIController : MonoBehaviour
         ChangeBlockContainer(0);
     }
 
+    private void OnDestroy()
+    {
+        OnResetBtnClicked = null;
+        OnClickCloseBtn = null;
+    }
+    
     private void WhenCloseBtnClicked()
     {
         // Close Btn 클릭
@@ -99,8 +99,9 @@ public class EngineUIController : MonoBehaviour
 
     public void SetProfile(ClickableProfile profile)
     {
-        // 프로필 이름 변경
+        // 엔진 프로필 변경
         if (profile == null) return;
+        
         gameName.text = profile.name;
         targetImg.sprite = profile.sprite;
     }
@@ -123,45 +124,50 @@ public class EngineUIController : MonoBehaviour
         blockContainerText.color = textColors[index];
         blockContainerText.text = $"{index + 1}";
     }
-
-    public void SetSlotIcon(Dictionary<int, BlockType> slotBlockMap)
-    {
-        // Slot Btn 아이콘 변경
-        for (int i = 0; i < iconImageList.Count; i++)
-        {
-            if (slotBlockMap.TryGetValue(i, out var blockType))
-            {
-                var icon = StageManager.Instance.BlockFactory.GetIcon(blockType);
-                iconImageList[i].sprite = icon;
-                iconImageList[i].enabled = icon != null;
-            }
-            else
-            {
-                iconImageList[i].sprite = null;
-                iconImageList[i].enabled = false;
-            }
-        }
-    }
-
+    
     public void ActivateEffect()
     {
         transform.SetAsLastSibling();
-        
-        // 초기 설정
         _rectTransform.localScale = Vector3.one;
-        _rectTransform.anchoredPosition = new Vector2(_posX, _minPosY);
-        
-        _rectTransform.DOAnchorPos(new Vector2(_posX, _maxPosY), _activeDuration).SetEase(Ease.OutBack);
     }
 
-    public void DeactivateEffect()
+    public void DeactivateEffect(Clickable target)
     {
-        _rectTransform.DOScale(Vector3.zero, _deactiveDuration);
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.Append(_rectTransform.DOScale(Vector3.zero, _deactiveDuration));
+        sequence.OnComplete(() =>
+        {
+            SetPosition(target);
+            _rectTransform.localScale = Vector3.one;
+            gameObject.SetActive(false);
+        });
     }
-    
-    private void OnDestroy()
+
+    public void SetPosition(Clickable clickable)
     {
-        OnResetBtnClicked = null;
-        OnClickCloseBtn = null;
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
+
+        // 기본 위치: "왼쪽" (offset.x는 무조건 +, 방향만 음수)
+        Vector2 targetPos = screenPos - new Vector2(Mathf.Abs(_offset.x), _offset.y);
+
+        Vector2 uiSize = _rectTransform.sizeDelta * _canvas.scaleFactor;
+        float halfWidth = uiSize.x * 0.5f;
+        float halfHeight = uiSize.y * 0.5f;
+
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        float margin = 10f;
+
+        if (targetPos.x - halfWidth < 0)
+            targetPos.x = screenPos.x + Mathf.Abs(_offset.x);
+
+        if (targetPos.y + halfHeight > screenHeight)
+            targetPos.y = screenHeight - halfHeight - margin;
+        if (targetPos.y - halfHeight < 0)
+            targetPos.y = halfHeight + margin;
+
+        _rectTransform.position = targetPos;
     }
 }

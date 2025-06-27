@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class EngineController : MonoBehaviour
 {
-    public Clickable CurrentTarget { get; private set; }
     public bool IsActivate { get; private set; } // 창 활성화 여부 체크
-    
+    public bool IsInHome { get; private set; } // 정렬 여부 체크
     public List<Numpad> NumpadList { get; private set; }
     public int SelectedIndex { get; private set; }
 
+    private Clickable _currentTarget;
     private EngineUIController _engineUIController;
+    private DraggableUI _draggableUI;
 
     private void Awake()
     {
         _engineUIController = GetComponent<EngineUIController>();
+        _draggableUI = GetComponent<DraggableUI>();
+        
         NumpadList = new List<Numpad>(transform.GetComponentsInChildren<Numpad>());
     }
 
@@ -23,7 +26,8 @@ public class EngineController : MonoBehaviour
         // Button 기능 연결
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
-        CurrentTarget.OnBlockChanged += ChangeAllNumpadVisual;
+        _currentTarget.OnBlockChanged += ChangeAllNumpadVisual;
+        _draggableUI.OnDragEndedInHome += HandleDragEndedInHome;
         
         gameObject.SetActive(false);
     }
@@ -32,18 +36,19 @@ public class EngineController : MonoBehaviour
     {
         _engineUIController.OnClickCloseBtn -= Deactivate;
         _engineUIController.OnResetBtnClicked -= ResetFeature;
-        CurrentTarget.OnBlockChanged -= ChangeAllNumpadVisual;
+        _currentTarget.OnBlockChanged -= ChangeAllNumpadVisual;
+        _draggableUI.OnDragEndedInHome -= HandleDragEndedInHome;
     }
 
     public void InitEngineController(Clickable target)
     {
-        CurrentTarget = target;
+        _currentTarget = target;
         
         // Slot의 Target Clickable 설정
-        List<ISlotType> slots = new List<ISlotType>(transform.GetComponentsInChildren<ISlotType>());
-        for (int i = 0; i < slots.Count; i++)
+        List<ISlotType> slots = new(transform.GetComponentsInChildren<ISlotType>());
+        foreach (var slot in slots)
         {
-            slots[i].SetTargetClickable(CurrentTarget);
+            slot.SetTargetClickable(_currentTarget);
         }
         
         // Numpad 기능 세팅
@@ -55,31 +60,37 @@ public class EngineController : MonoBehaviour
 
         // UI 세팅
         _engineUIController.SetProfile(target.GetProfile());
+        _engineUIController.SetPosition(_currentTarget);
     }
     
     public void ShowBlock(int index)
     {
         SelectedIndex = index;
-        _engineUIController.ChangeBlockContainer(index);
         
-        foreach (var blockPair in CurrentTarget.BlockDictionary)
+        List<(int, EngineBlock, bool)> blocksToShow = new List<(int slotIndex, EngineBlock block, bool isActive)>();
+        foreach (var engineBlock in _currentTarget.BlockDictionary)
         {
-            int slotIndex = blockPair.Key;
-            EngineBlock block = blockPair.Value;
-
-            if (block == null) continue;
-
-            bool isActive = (slotIndex == index);
-
-            block.ShowBlockVisual(isActive);
-            _engineUIController.SetBlockPositionToEngine(block);
+            blocksToShow.Add((engineBlock.Key,engineBlock.Value, engineBlock.Key == index));
+        }
+        
+        _engineUIController.ChangeBlockContainer(index);
+        foreach (var blockData in blocksToShow)
+        {
+            if (blockData.Item2 != null)
+            {
+                // Block의 Visual 변경
+                blockData.Item2.ShowBlockVisual(blockData.Item3);
+                _engineUIController.SetBlockPositionToEngine(blockData.Item2);
+            }
         }
     }
     
     public void Activate()
     {
+        if (IsActivate) return;
         IsActivate = true;
-        // On 애니메이션 실행 
+
+        _engineUIController.SetPosition(_currentTarget);
         _engineUIController.ActivateEffect();
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
     }
@@ -87,24 +98,30 @@ public class EngineController : MonoBehaviour
     private void Deactivate()
     {
         IsActivate = false;
+        IsInHome = false;
         if (!gameObject.activeSelf) return;
-        _engineUIController.DeactivateEffect();
+        
+        _draggableUI.SetToOriginalParent();
+        _engineUIController.DeactivateEffect(_currentTarget);
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
     }
 
     public void DeactivateSilently()
     {
         IsActivate = false;
+        IsInHome = false;
         if (!gameObject.activeSelf) return;
-        _engineUIController.DeactivateEffect();
+        
+        _draggableUI.SetToOriginalParent();
+        _engineUIController.DeactivateEffect(_currentTarget);
     }
     
     private void ResetFeature()
     {
-        if (CurrentTarget == null) return;
+        if (_currentTarget == null) return;
 
         // Clickable의 기능 초기화
-        IFeatureResetable resettable = CurrentTarget.GetComponent<IFeatureResetable>();
+        IFeatureResetable resettable = _currentTarget.GetComponent<IFeatureResetable>();
         resettable?.ResetFeature();
         
         // Block의 UI 초기화
@@ -121,5 +138,11 @@ public class EngineController : MonoBehaviour
         {
             numpad.ChangeVisual();
         }
+    }
+    
+    private void HandleDragEndedInHome(bool isInHome)
+    {
+        IsInHome = isInHome;
+        if (!isInHome) _draggableUI.SetToOriginalParent();
     }
 }

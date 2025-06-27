@@ -1,23 +1,25 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatable, IScalable, IControllable
+public class Sun : MonoBehaviour, IFeatureResetable, IControllable//, ILightAdjustable, IRotatable, IScalable, 
 {
-    // ILightAdjustable: 빛 밝기 관련
-    private float _minBright = 1f;  //0.1f; 
-    private float _maxBright = 2f;  //3f
-    private float _currentBright;
+    [SerializeField] private RotateHandler _rotateHandler;
+    [SerializeField] private ScaleHandler _scaleHandler;
+    [SerializeField] private LightHandler _lightHandler;
+
+    // LightHandler
+    private float _minBright = 1f;
+    private float _maxBright = 2f;
     private const float _defaultBright = 1.7f;
 
-    // IRotatable: 회전 관련
+    // RotateHandler
     private float _minAngle = 0f;
-    private float _maxAngle = 359f;
-    private float _currentAngle;
+    private float _maxAngle = 359.9f;
     private const float _defaultAngle = 160f;
 
-    // IScalable
+    // ScaleHandler
     private float _minScale = 0.8f;
     private float _maxScale = 1.5f;
-    private float _currentScale;
     private const float _defaultScale = 1f;
 
     // IControllable
@@ -38,7 +40,20 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     {
         _model = transform.GetChild(0);
         _lightDir = transform.GetChild(1);
-        
+
+        ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<ScaleHandler>(ref _scaleHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<LightHandler>(ref _lightHandler, gameObject);
+
+        _rotateHandler.Init(_minAngle, _maxAngle, _defaultAngle);
+        _rotateHandler.OnSetValue += SetRotate;
+
+        _scaleHandler.Init(_minScale, _maxScale, _defaultScale);
+        _scaleHandler.OnSetValue += SetScale;
+
+        _lightHandler.Init(_minBright, _maxBright, _defaultBright);
+        _lightHandler.OnSetValue += AdjustLight;
+
         ResetFeature();
     }
 
@@ -72,9 +87,9 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     void AdjustLight(float brightness)
     {
         // Sun Dir
-        if (_currentBright < 1f)
-            _currentBright = 1f;
-        _lightDir.localScale = (_currentBright - 1f) * Vector3.one;
+        if (brightness < _minBright) 
+            return;
+        _lightDir.localScale = (brightness - _minBright) * Vector3.one;
     }
 
     // 0 ~ 359
@@ -84,12 +99,17 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
         _lightDir.localEulerAngles = new Vector3(0, 0, -angle);
     }
 
+    void SetScale(float scale)
+    {
+        transform.localScale = new Vector3(scale, scale, scale);
+    }
+
     void CheckTrigger()
     {
-        // 2f
         if(_currentPosX > -3f && _currentPosX < 6f)
         {
-            if(_currentAngle > 120 && _currentAngle <= 210 && _currentBright >1.6f)
+            float currentAngle = _rotateHandler.CurrentRotate;
+            if(currentAngle > 120 && currentAngle <= 210 && currentAngle > 1.6f)
             {
                 EvaporationHandler[] evaporations = FindObjectsByType<EvaporationHandler>(FindObjectsSortMode.None);
                 for (int i = 0; i < evaporations.Length; i++)
@@ -103,51 +123,13 @@ public class Sun : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatabl
     // IFeatureResetable
     public void ResetFeature()
     {
-        ((ILightAdjustable)this).SetValue(_defaultBright);
-        ((IRotatable)this).SetValue(_defaultAngle);
-        ((IScalable)this).SetValue(_defaultScale);
+        _rotateHandler.SetValue(_defaultAngle);
+        _scaleHandler.SetValue(_defaultScale);
+        _lightHandler.SetValue(_defaultBright);
+
         // DisableControl();
     }
 
-    #region ILightAdjustable
-    float ILightAdjustable.GetMinValue() => _minBright;
-
-    float ILightAdjustable.GetMaxValue() => _maxBright;
-
-    float ILightAdjustable.GetCurrentValue() => _currentBright;
-    
-    void ILightAdjustable.SetValue(float value)
-    {
-        _currentBright = value;
-        AdjustLight(value);
-    }
-    #endregion
-
-    #region IRotatable
-    float IRotatable.GetMinValue() => _minAngle;
-
-    float IRotatable.GetMaxValue() => _maxAngle;
-
-    float IRotatable.GetCurrentValue() => _currentAngle;
-    
-    void IRotatable.SetValue(float value)
-    {
-        _currentAngle = value;
-        SetRotate(_currentAngle);
-    }
-    #endregion
-
-    #region IScalable
-    float IScalable.GetMinValue() => _minScale;
-
-    float IScalable.GetMaxValue() => _maxScale;
-    float IScalable.GetCurrentValue() => _currentScale;
-    void IScalable.SetValue(float value)
-    {
-        _currentScale = value;
-        transform.localScale = new Vector3(_currentScale, _currentScale, _currentScale);
-    }
-    #endregion
 
     #region IControllable
     public void EnableControl()
