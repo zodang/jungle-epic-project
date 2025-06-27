@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Define;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement2D : MonoBehaviour
@@ -20,11 +22,25 @@ public class Movement2D : MonoBehaviour
     private float _fallDeltaTime = 0f;
     public bool IsFalling;
 
-    public Tilemap GroundTilemap;
+    //public Tilemap GroundTilemap;
+    private List<Tilemap> _groundTilemaps = new List<Tilemap>();
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _collider = GetComponentInChildren<BoxCollider2D>();
+
+        GameObject[] grounds = GameObject.FindGameObjectsWithTag(Tags.Ground);
+
+        for (int i = 0; i < grounds.Length; i++)
+        {
+            if (grounds[i].TryGetComponent<Tilemap>(out Tilemap tilemap))
+            {
+                if (!_groundTilemaps.Contains(tilemap))
+                {
+                    _groundTilemaps.Add(tilemap);
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -36,10 +52,10 @@ public class Movement2D : MonoBehaviour
         }
         else
         {
-            if (!GroundTilemap.HasTile(GroundTilemap.WorldToCell(transform.position))) // foot or 일부
+            if (!TilemapsHasTile(_groundTilemaps, transform.position))
             {
                 _fallDeltaTime += Time.deltaTime;
-                if(_fallDeltaTime > 0.18f)
+                if (_fallDeltaTime > 0.18f)
                 {
                     IsFalling = true;
                     Debug.Log(name + ": Falling");
@@ -75,7 +91,8 @@ public class Movement2D : MonoBehaviour
             Vector2 boxSize = new Vector2(checkDist / 2f, bounds.size.y);
 
             nextIsBirdge = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Bridge"));
-            nextIsGround = GroundTilemap.HasTile(GroundTilemap.WorldToCell(nextPoint));
+            nextIsGround = TilemapsHasTile(_groundTilemaps, nextPoint);
+            //nextIsGround = GroundTilemap.HasTile(GroundTilemap.WorldToCell(nextPoint));
 
             if (!(nextIsBirdge || nextIsGround))
             {
@@ -91,7 +108,8 @@ public class Movement2D : MonoBehaviour
             Vector2 boxSize = new Vector2(bounds.size.x, checkDist / 2f);
 
             nextIsBirdge = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Bridge"));
-            nextIsGround = GroundTilemap.HasTile(GroundTilemap.WorldToCell(nextPoint));
+            nextIsGround = TilemapsHasTile(_groundTilemaps, nextPoint);
+            //nextIsGround = GroundTilemap.HasTile(GroundTilemap.WorldToCell(nextPoint));
 
             if (!(nextIsBirdge || nextIsGround))
             {
@@ -108,46 +126,6 @@ public class Movement2D : MonoBehaviour
 
 
         return IsBoxCheckLayer(bounds.center, bounds.size, LayerMask.GetMask("FallZone"));
-
-        if (moveDir.x != 0f)
-        {
-            float xDir = moveDir.x > 0f ? 1f : -1f;
-            Vector2 colDir = new Vector2(xDir > 0 ? bounds.max.x : bounds.min.x, bounds.center.y);
-            Vector2 nextPoint = colDir + new Vector2(xDir * checkDist, 0f);
-            Vector2 boxSize = new Vector2(checkDist / 2f, bounds.size.y);
-
-            nextIsBirdge = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Bridge"));
-            //nextIsGround = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Ground"));
-            nextIsGround = GroundTilemap.HasTile(GroundTilemap.WorldToCell(nextPoint));
-
-            //nextIsBirdge = IsTwoPointsCheckLayer(nextPoint, bounds.size.x / 2f * 0.9f, 0f, LayerMask.GetMask("Bridge"), true);
-            //nextIsGround = IsTwoPointsCheckLayer(nextPoint, bounds.size.x / 2f * 0.9f, 0f, LayerMask.GetMask("Ground"), true); 
-            if (!(nextIsBirdge || nextIsGround))
-            {
-                moveDir = new Vector2(0f, moveDir.y);
-            }
-        }
-
-        if (moveDir.y != 0f)
-        {
-            float yDir = moveDir.y > 0f ? 1f : -1f;
-            Vector2 colDir = new Vector2(bounds.center.x, yDir > 0 ? bounds.max.y : bounds.min.y);
-            Vector2 nextPoint = colDir + new Vector2(0f, yDir * checkDist);
-            Vector2 boxSize = new Vector2(bounds.size.x, checkDist / 2f);
-
-            nextIsBirdge = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Bridge"));
-            //nextIsGround = IsBoxCheckLayer(nextPoint, boxSize, LayerMask.GetMask("Ground"));
-            nextIsGround = GroundTilemap.HasTile(GroundTilemap.WorldToCell(nextPoint));
-
-            //nextIsBirdge = IsTwoPointsCheckLayer(nextPoint, 0f, bounds.size.y / 2f * 0.9f, LayerMask.GetMask("Bridge"), true);
-            //nextIsGround = IsTwoPointsCheckLayer(nextPoint, 0f, bounds.size.y / 2f * 0.9f, LayerMask.GetMask("Ground"), true);
-            if (!(nextIsBirdge || nextIsGround))
-            {
-                moveDir = new Vector2(moveDir.x, 0f);
-            }
-        }
-
-        //return moveDir;
     }
 
     public bool IsPointCheckLayer(Vector2 point, LayerMask groundMask)
@@ -177,5 +155,20 @@ public class Movement2D : MonoBehaviour
         IsFalling = false;
         _rigidbody2D.linearVelocity = Vector2.zero;
         transform.position = position;
+    }
+
+    bool TilemapsHasTile(List<Tilemap> tilemaps, Vector3 worldPosition)
+    {
+        Debug.Log("tilemaps.Count: " + tilemaps.Count);
+        for(int i = 0; i < tilemaps.Count; i++)
+        {
+            Tilemap tilemap = tilemaps[i];
+            if(tilemap.HasTile(tilemap.WorldToCell(worldPosition)))
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
