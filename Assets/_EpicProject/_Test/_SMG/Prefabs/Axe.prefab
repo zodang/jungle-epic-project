@@ -477,7 +477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 2
-  defaultBlockTypes: 02000000
+  DefaultBlockList: 
 --- !u!114 &2284221299117802844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,6 +490,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7c148ee7b6e9047b5e63f4be98b9ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rotateHandler: {fileID: 0}
+  _scaleHandler: {fileID: 0}
+  _lightHandler: {fileID: 0}
 --- !u!114 &1094751793036873880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,6 +509,7 @@ MonoBehaviour:
   nextIsBirdge: 0
   nextIsGround: 0
   testdist: 0
+  IsFalling: 0
   GroundTilemap: {fileID: 0}
 --- !u!1 &7429857245029416562
 GameObject:

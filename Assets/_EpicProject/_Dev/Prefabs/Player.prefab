@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 0
-  defaultBlockTypes: 01000000
+  DefaultBlockList: 
 --- !u!114 &7833763572700565480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b108c322c08c9a346bebbd289dec460b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BlockList: []
 --- !u!114 &2278239420035226639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,8 +212,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enableMove: 0
-  scaleMin: 0.5
-  scaleMax: 2
+  _rotateHandler: {fileID: 0}
+  _scaleHandler: {fileID: 0}
+  _lightHandler: {fileID: 0}
 --- !u!114 &8270869016251555534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +231,7 @@ MonoBehaviour:
   nextIsBirdge: 0
   nextIsGround: 0
   testdist: 0
+  IsFalling: 0
   GroundTilemap: {fileID: 0}
 --- !u!210 &9198520053703797751
 SortingGroup:
