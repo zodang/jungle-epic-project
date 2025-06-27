@@ -8681,6 +8681,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 420110227}
     m_Modifications:
+    - target: {fileID: 2159567453746030362, guid: ea14f45c0abeddb43af3c0172e354f78, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2495899368044169504, guid: ea14f45c0abeddb43af3c0172e354f78, type: 3}
       propertyPath: m_Name
       value: EngineUIManager
@@ -8730,8 +8734,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea14f45c0abeddb43af3c0172e354f78, type: 3}
---- !u!4 &1105986769 stripped
-Transform:
+--- !u!224 &1105986769 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 4206970254781503485, guid: ea14f45c0abeddb43af3c0172e354f78, type: 3}
   m_PrefabInstance: {fileID: 1105986768}
   m_PrefabAsset: {fileID: 0}
