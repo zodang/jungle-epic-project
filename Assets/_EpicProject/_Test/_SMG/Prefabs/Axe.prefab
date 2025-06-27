@@ -414,9 +414,6 @@ GameObject:
   - component: {fileID: 2863637417438177281}
   - component: {fileID: 2284221299117802844}
   - component: {fileID: 1094751793036873880}
-  - component: {fileID: 6109124881400292724}
-  - component: {fileID: 3067474265581341080}
-  - component: {fileID: 3355985548440638914}
   m_Layer: 0
   m_Name: Axe
   m_TagString: Untagged
@@ -514,51 +511,6 @@ MonoBehaviour:
   testdist: 0
   IsFalling: 0
   GroundTilemap: {fileID: 0}
---- !u!114 &6109124881400292724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6263234234494228203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f99275526023b35428f9f87a53d1c0e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minRotate: 0
-  _maxRotate: 359.9
-  _currentRotate: 0
---- !u!114 &3067474265581341080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6263234234494228203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56c4f7a804f048942b8d7925a44f353c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minScale: 0.5
-  _maxScale: 2.5
-  _currentScale: 0
---- !u!114 &3355985548440638914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6263234234494228203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38458fe6bd6e2e044963d7654bc29c28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minBright: 0.5
-  _maxBright: 3
-  _currentBright: 0
 --- !u!1 &7429857245029416562
 GameObject:
   m_ObjectHideFlags: 0

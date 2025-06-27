@@ -41,21 +41,18 @@ public class Axe : MonoBehaviour, IFeatureResetable, IControllable
 
         _movement2D = GetComponent<Movement2D>();
 
-        if (ComponentHelper.TryGetComponent<RotateHandler>(ref _rotateHandler, this))
-        {
-            _rotateHandler.Init(_minRotate, _maxRotate, 1f);
-            _rotateHandler.OnSetValue += Rotate;
-        }
-        if (ComponentHelper.TryGetComponent<ScaleHandler>(ref _scaleHandler, this))
-        {
-            _scaleHandler.Init(_minScale, _maxScale, 0f);
-            _scaleHandler.OnSetValue += Resize;
-        }
-        if (ComponentHelper.TryGetComponent<LightHandler>(ref _lightHandler, this))
-        {
-            _lightHandler.Init(_minBright, _maxBright, 1f);
-            _lightHandler.OnSetValue += Twinkle;
-        }
+        ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<ScaleHandler>(ref _scaleHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<LightHandler>(ref _lightHandler, gameObject);
+
+        _rotateHandler.Init(_minRotate, _maxRotate, 1f);
+        _rotateHandler.OnSetValue += Rotate;
+
+        _scaleHandler.Init(_minScale, _maxScale, 0f);
+        _scaleHandler.OnSetValue += Resize;
+
+        _lightHandler.Init(_minBright, _maxBright, 1f);
+        _lightHandler.OnSetValue += Twinkle;
 
         // --- [새로 추가된 부분 2] 자기 자신에게 붙어있는 컴포넌트 찾아오기 ---
         _propertyController = transform.Find("Model").GetComponent<ObjectPropertyController>();
