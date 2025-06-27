@@ -35,6 +35,7 @@ namespace Define
         public const string Player = "Player";
         public const string Slash = "Slash";
         public const string Goal = "Goal";
+        public const string Ground = "Ground";
     }
 
     public static class Layers
