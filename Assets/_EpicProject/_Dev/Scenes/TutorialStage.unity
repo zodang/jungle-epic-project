@@ -343,6 +343,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7672360369343275020, guid: 8e0736b2fa075374f844fc171e9862f0, type: 3}
+      propertyPath: GroundTilemap
+      value: 
+      objectReference: {fileID: 931875682}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -67702,6 +67706,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 851351668}
   m_CullTransparentMesh: 1
+--- !u!1839735485 &931875682 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 8636112536448739937, guid: 53971cae37f4fcc4ea0b6d8f4544f5ff, type: 3}
+  m_PrefabInstance: {fileID: 627211542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &958942736
 GameObject:
   m_ObjectHideFlags: 0
@@ -69030,7 +69039,7 @@ PrefabInstance:
     - target: {fileID: 8270869016251555534, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: GroundTilemap
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 931875682}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
