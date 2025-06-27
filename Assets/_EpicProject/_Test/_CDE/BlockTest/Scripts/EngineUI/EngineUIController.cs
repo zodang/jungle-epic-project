@@ -34,7 +34,7 @@ public class EngineUIController : MonoBehaviour
     [Header("Values")]
     private float _minOpacity = 0.4f;
     private float _deactiveDuration = 0.25f;
-    private Vector2 _offset = new Vector2(100, 0);
+    private Vector2 _offset = new Vector2(-200, 0);
     
     private Canvas _canvas;
     private CanvasGroup _canvasGroup;
@@ -148,8 +148,8 @@ public class EngineUIController : MonoBehaviour
     {
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
 
-        // 기본 위치 오른쪽
-        Vector2 targetPos = screenPos + new Vector2(Mathf.Abs(_offset.x), _offset.y);
+        // 기본 위치: "왼쪽" (offset.x는 무조건 +, 방향만 음수)
+        Vector2 targetPos = screenPos - new Vector2(Mathf.Abs(_offset.x), _offset.y);
 
         Vector2 uiSize = _rectTransform.sizeDelta * _canvas.scaleFactor;
         float halfWidth = uiSize.x * 0.5f;
@@ -158,11 +158,15 @@ public class EngineUIController : MonoBehaviour
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;
 
-        // targetPos 설정
-        if (targetPos.x + halfWidth > screenWidth) targetPos.x = screenPos.x - Mathf.Abs(_offset.x) - uiSize.x;
-        if (targetPos.x - halfWidth < 0) targetPos.x = screenPos.x + Mathf.Abs(_offset.x);
-        if (targetPos.y + halfHeight > screenHeight) targetPos.y = screenHeight - halfHeight - 10;
-        if (targetPos.y - halfHeight < 0) targetPos.y = halfHeight + 10;
+        float margin = 10f;
+
+        if (targetPos.x - halfWidth < 0)
+            targetPos.x = screenPos.x + Mathf.Abs(_offset.x);
+
+        if (targetPos.y + halfHeight > screenHeight)
+            targetPos.y = screenHeight - halfHeight - margin;
+        if (targetPos.y - halfHeight < 0)
+            targetPos.y = halfHeight + margin;
 
         _rectTransform.position = targetPos;
     }

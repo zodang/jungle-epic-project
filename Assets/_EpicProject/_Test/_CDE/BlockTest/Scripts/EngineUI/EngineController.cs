@@ -88,9 +88,9 @@ public class EngineController : MonoBehaviour
     public void Activate()
     {
         if (IsActivate) return;
-        
         IsActivate = true;
 
+        _engineUIController.SetPosition(_currentTarget);
         _engineUIController.ActivateEffect();
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
     }
