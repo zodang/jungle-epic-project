@@ -155,9 +155,6 @@ GameObject:
   - component: {fileID: 6870589856441149938}
   - component: {fileID: 4466466381310287488}
   - component: {fileID: 9015730747424748848}
-  - component: {fileID: 8068936723376248553}
-  - component: {fileID: 9120760061346933270}
-  - component: {fileID: 5305804943186464192}
   m_Layer: 0
   m_Name: BrokenAxe_Handle
   m_TagString: Untagged
@@ -255,51 +252,6 @@ MonoBehaviour:
   testdist: 0
   IsFalling: 0
   GroundTilemap: {fileID: 0}
---- !u!114 &8068936723376248553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401340390167098473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f99275526023b35428f9f87a53d1c0e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minRotate: 0
-  _maxRotate: 359.9
-  _currentRotate: 0
---- !u!114 &9120760061346933270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401340390167098473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56c4f7a804f048942b8d7925a44f353c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minScale: 0.5
-  _maxScale: 2.5
-  _currentScale: 0
---- !u!114 &5305804943186464192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401340390167098473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38458fe6bd6e2e044963d7654bc29c28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minBright: 0.5
-  _maxBright: 3
-  _currentBright: 0
 --- !u!1 &1638975861664257316
 GameObject:
   m_ObjectHideFlags: 0

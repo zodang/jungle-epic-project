@@ -41,21 +41,18 @@ public class Sun : MonoBehaviour, IFeatureResetable, IControllable//, ILightAdju
         _model = transform.GetChild(0);
         _lightDir = transform.GetChild(1);
 
-        if (ComponentHelper.TryGetComponent<RotateHandler>(ref _rotateHandler, this))
-        {
-            _rotateHandler.Init(_minAngle, _maxAngle, _defaultAngle);
-            _rotateHandler.OnSetValue += SetRotate;
-        }
-        if (ComponentHelper.TryGetComponent<ScaleHandler>(ref _scaleHandler, this))
-        {
-            _scaleHandler.Init(_minScale, _maxScale, _defaultScale);
-            _scaleHandler.OnSetValue += SetScale;
-        }
-        if (ComponentHelper.TryGetComponent<LightHandler>(ref _lightHandler, this))
-        {
-            _lightHandler.Init(_minBright, _maxBright, _defaultBright);
-            _lightHandler.OnSetValue += AdjustLight;
-        }
+        ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<ScaleHandler>(ref _scaleHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<LightHandler>(ref _lightHandler, gameObject);
+
+        _rotateHandler.Init(_minAngle, _maxAngle, _defaultAngle);
+        _rotateHandler.OnSetValue += SetRotate;
+
+        _scaleHandler.Init(_minScale, _maxScale, _defaultScale);
+        _scaleHandler.OnSetValue += SetScale;
+
+        _lightHandler.Init(_minBright, _maxBright, _defaultBright);
+        _lightHandler.OnSetValue += AdjustLight;
 
         ResetFeature();
     }

@@ -44,21 +44,18 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
         _TwinkleLv1 = _model.GetChild(0).gameObject;
         _TwinkleLv2 = _model.GetChild(1).gameObject;
 
-        if (ComponentHelper.TryGetComponent<RotateHandler>(ref _rotateHandler, this))
-        {
-            _rotateHandler.Init(_minRotate, _maxRotate, 1f);
-            _rotateHandler.OnSetValue += Rotate;
-        }
-        if (ComponentHelper.TryGetComponent<ScaleHandler>(ref _scaleHandler, this))
-        {
-            _scaleHandler.Init(_minScale, _maxScale, 0f);
-            _scaleHandler.OnSetValue += Scale;
-        }
-        if (ComponentHelper.TryGetComponent<LightHandler>(ref _lightHandler, this))
-        {
-            _lightHandler.Init(_minBright, _maxBright, 1f);
-            _lightHandler.OnSetValue += Twinkle;
-        }
+        ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<ScaleHandler>(ref _scaleHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<LightHandler>(ref _lightHandler, gameObject);
+
+        _rotateHandler.Init(_minRotate, _maxRotate, 1f);
+        _rotateHandler.OnSetValue += Rotate;
+
+        _scaleHandler.Init(_minScale, _maxScale, 0f);
+        _scaleHandler.OnSetValue += Scale;
+
+        _lightHandler.Init(_minBright, _maxBright, 1f);
+        _lightHandler.OnSetValue += Twinkle;
 
         ResetFeature();
     }

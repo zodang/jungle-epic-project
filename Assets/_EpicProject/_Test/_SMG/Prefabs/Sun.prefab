@@ -286,9 +286,6 @@ GameObject:
   - component: {fileID: 6342299150572126949}
   - component: {fileID: 8220973550217816553}
   - component: {fileID: 4916209526251903692}
-  - component: {fileID: 1237930426390322972}
-  - component: {fileID: 1711591104718662368}
-  - component: {fileID: 8716518068394947708}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
@@ -344,51 +341,6 @@ MonoBehaviour:
   _lightHandler: {fileID: 0}
   MinPosX: -10
   MaxPosX: 6
---- !u!114 &1237930426390322972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8922597482439387798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f99275526023b35428f9f87a53d1c0e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minRotate: 0
-  _maxRotate: 359.9
-  _currentRotate: 0
---- !u!114 &1711591104718662368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8922597482439387798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56c4f7a804f048942b8d7925a44f353c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minScale: 0.5
-  _maxScale: 2.5
-  _currentScale: 0
---- !u!114 &8716518068394947708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8922597482439387798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38458fe6bd6e2e044963d7654bc29c28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minBright: 0.5
-  _maxBright: 3
-  _currentBright: 0
 --- !u!1001 &5328251104935388544
 PrefabInstance:
   m_ObjectHideFlags: 0
