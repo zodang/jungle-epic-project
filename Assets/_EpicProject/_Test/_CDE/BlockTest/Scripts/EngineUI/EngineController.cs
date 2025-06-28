@@ -5,7 +5,7 @@ using UnityEngine;
 public class EngineController : MonoBehaviour
 {
     public bool IsActivate { get; private set; } // 창 활성화 여부 체크
-    public bool IsInHome { get; private set; } // 정렬 여부 체크
+    public bool IsInHome; // 정렬 여부 체크
     public List<Numpad> NumpadList { get; private set; }
     public int SelectedIndex { get; private set; }
 
