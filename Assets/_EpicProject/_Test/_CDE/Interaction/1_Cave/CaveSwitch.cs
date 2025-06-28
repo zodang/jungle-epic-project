@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class CaveSwitch : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] private SpriteRenderer upSwitch;
     private readonly HashSet<ScaleChecker> _upObjects = new();
+
+    public Action<bool> OnSwitchPressed;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -36,11 +39,12 @@ public class CaveSwitch : MonoBehaviour
         }
         
         // Switch 상태 변경
-        ChangeSwitchVisual(!isPressed);
+        ChangeSwitchState(!isPressed);
     }
 
-    private void ChangeSwitchVisual(bool isUp)
+    private void ChangeSwitchState(bool isUp)
     {
+        OnSwitchPressed?.Invoke(isUp);
         upSwitch.enabled = isUp;
     }
 }
