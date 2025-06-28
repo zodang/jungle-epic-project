@@ -22,8 +22,8 @@ public class CaveRock : MonoBehaviour, IFeatureResetable, IControllable
     
     // IScalable
     private ScaleHandler _scaleHandler;
-    private float _minScale = 0.8f;
-    private float _maxScale = 2.5f;
+    private float _minScale = 0.1f;
+    private float _maxScale = 2f;
     private float _currentScale;
     
     // IControllable
