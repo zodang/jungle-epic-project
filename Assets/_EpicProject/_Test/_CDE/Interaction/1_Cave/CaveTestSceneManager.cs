@@ -2,6 +2,8 @@ using Unity.VisualScripting;
 
 public class CaveTestSceneManager : StageBaseManager
 {
+    private ScaleChecker _playerScaleChecker;
+    
     protected override void Awake()
     {
         // 스테이지 정보 불러오기
@@ -15,15 +17,15 @@ public class CaveTestSceneManager : StageBaseManager
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
 
         //플레이어 무게 감지 추가
-        PlayerManager.transform.AddComponent<ScaleChecker>();
-
+        _playerScaleChecker = PlayerManager.AddComponent<ScaleChecker>();
     }
 
     protected override void OnDestroy()
     {
-        base.Awake();
         // 플레이어 무게 감지 제거
-        Destroy(PlayerManager.transform.AddComponent<ScaleChecker>());
+        Destroy(_playerScaleChecker);
+        
+        base.OnDestroy();
     }
     
 }

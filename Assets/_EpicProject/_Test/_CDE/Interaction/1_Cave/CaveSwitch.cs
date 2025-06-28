@@ -5,46 +5,38 @@ public class CaveSwitch : MonoBehaviour
 {
     [Header("Sprite")]
     [SerializeField] private SpriteRenderer upSwitch;
-    
-    private readonly HashSet<ScaleChecker> _onSwitchObjects = new();
+    private readonly HashSet<ScaleChecker> _upObjects = new();
     
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Switch 올려진 오브젝트 추가
         ScaleChecker scaleChecker = other.GetComponent<ScaleChecker>();
         if (scaleChecker != null)
-            _onSwitchObjects.Add(scaleChecker);
+            _upObjects.Add(scaleChecker);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        // Switch 올려진 오브젝트 제거
         ScaleChecker scaleChecker = other.GetComponent<ScaleChecker>();
         if (scaleChecker != null)
-            _onSwitchObjects.Remove(scaleChecker);
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        ScaleChecker scaleChecker = other.GetComponent<ScaleChecker>();
-        
-        if (scaleChecker == null) return;
-        Debug.Log(scaleChecker.IsHeavyEnough);
-
-        ChangeSwitchVisual(scaleChecker.IsHeavyEnough);
+            _upObjects.Remove(scaleChecker);
     }
     
     private void Update()
     {
-        bool anyHeavy = false;
-        foreach (var checker in _onSwitchObjects)
+        bool isPressed = false;
+        foreach (var upObj in _upObjects)
         {
-            if (checker != null && checker.IsHeavyEnough)
+            if (upObj != null && upObj.IsHeavyEnough)
             {
-                anyHeavy = true;
+                isPressed = true;
                 break;
             }
         }
         
-        ChangeSwitchVisual(!anyHeavy);
+        // Switch 상태 변경
+        ChangeSwitchVisual(!isPressed);
     }
 
     private void ChangeSwitchVisual(bool isUp)
