@@ -9,6 +9,7 @@ public class CaveDoor : MonoBehaviour
     private CaveSwitch _caveSwitch;
 
     [Header("DOTween")] 
+    private Tween _doorTween;
     private readonly float _openHeight = 1f;
     private readonly float _closeHeight = 0f;
     private readonly float _duration = 0.5f;
@@ -27,6 +28,8 @@ public class CaveDoor : MonoBehaviour
     {
         // 문 여닫음 효과
         float endHeight = !isOpen ? _openHeight : _closeHeight;
-        door.transform.DOLocalMoveY(endHeight, _duration).SetEase(Ease.OutQuad);
+        
+        _doorTween?.Kill();
+        _doorTween = door.transform.DOLocalMoveY(endHeight, _duration).SetEase(Ease.OutQuad);
     }
 }
