@@ -159,7 +159,7 @@ public class Movement2D : MonoBehaviour
 
     bool TilemapsHasTile(List<Tilemap> tilemaps, Vector3 worldPosition)
     {
-        Debug.Log("tilemaps.Count: " + tilemaps.Count);
+        //Debug.Log("tilemaps.Count: " + tilemaps.Count);
         for(int i = 0; i < tilemaps.Count; i++)
         {
             Tilemap tilemap = tilemaps[i];
