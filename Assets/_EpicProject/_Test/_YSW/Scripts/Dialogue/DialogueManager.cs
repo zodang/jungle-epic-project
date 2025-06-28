@@ -203,13 +203,15 @@ public class DialogueManager : MonoBehaviour
         string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
         string speaker = "";
         string text = "";
-        bool isPlayerSpeaking = PLAYER_DISPLAY_NAMES.TryGetValue(lang, out speaker);
         
         // [2] speaker와 text 안전하게 꺼내기 (딕셔너리에 해당 언어 없으면 빈 문자열 fallback)
         if (CurrentLineToShow.speaker != null && CurrentLineToShow.speaker.TryGetValue(lang, out var spk))
             speaker = spk;
         if (CurrentLineToShow.text != null && CurrentLineToShow.text.TryGetValue(lang, out var txt))
             text = txt;
+        
+        string playerDisplayName = PLAYER_DISPLAY_NAMES.ContainsKey(lang) ? PLAYER_DISPLAY_NAMES[lang] : "Player";
+        bool isPlayerSpeaking = speaker.Equals(playerDisplayName, System.StringComparison.OrdinalIgnoreCase);
         
         DialogueUI targetUI = null;
 

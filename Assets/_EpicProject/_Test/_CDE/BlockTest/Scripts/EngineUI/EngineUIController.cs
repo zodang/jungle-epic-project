@@ -33,6 +33,8 @@ public class EngineUIController : MonoBehaviour
     
     [Header("Values")]
     private float _minOpacity = 0.4f;
+    // [MOD - 25-06-28 - KMS] 오브젝트 클릭 시 엔진 생성 애니메이션 
+    private float _activeDuration = 0.25f;
     private float _deactiveDuration = 0.25f;
     private Vector2 _offset = new Vector2(-200, 0);
     
@@ -124,11 +126,14 @@ public class EngineUIController : MonoBehaviour
         blockContainerText.color = textColors[index];
         blockContainerText.text = $"{index + 1}";
     }
-    
+
+    // [MOD - 25-06-28 - KMS] 오브젝트 클릭 시 엔진 생성 애니메이션 
     public void ActivateEffect()
     {
         transform.SetAsLastSibling();
-        _rectTransform.localScale = Vector3.one;
+        _rectTransform.DOKill();
+        _rectTransform.localScale = Vector3.zero;
+        _rectTransform.DOScale(Vector3.one, _activeDuration).SetEase(Ease.OutCubic);
     }
 
     public void DeactivateEffect(Clickable target)
