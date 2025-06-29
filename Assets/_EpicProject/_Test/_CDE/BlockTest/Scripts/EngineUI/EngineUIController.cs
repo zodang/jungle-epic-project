@@ -13,8 +13,10 @@ public class EngineUIController : MonoBehaviour
     
     [Header("Profile")]
     [SerializeField] private TMP_Text gameName;
-    [SerializeField] private Image targetImg;
-    
+    [SerializeField] private TMP_Text subGameName;
+    [SerializeField] private TMP_Text engineNum;
+    [SerializeField] private Image profileImg;
+
     [Header("Button")]
     [SerializeField] private Button closeBtn;
     [SerializeField] private Button resetBtn;
@@ -34,33 +36,23 @@ public class EngineUIController : MonoBehaviour
     [SerializeField] private GameObject engineSlot;
     
     [Header("Values")]
-    private float _minOpacity = 0.4f;
-    // [MOD - 25-06-28 - KMS] 오브젝트 클릭 시 엔진 생성 애니메이션 
-    private float _activeDuration = 0.25f;
-    private float _deactiveDuration = 0.25f;
+    private readonly float _activeDuration = 0.25f;
+    private readonly float _deactiveDuration = 0.25f;
     private Vector2 _offset = new Vector2(-200, 0);
     
     private Canvas _canvas;
-    private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
-    private EngineUIOpacitySlider _opacitySlider;
     private Image _blockContainerImg;
 
     private void Awake()
     {
         _canvas = GetComponentInParent<Canvas>();
-        _canvasGroup = GetComponent<CanvasGroup>();
         _rectTransform = GetComponent<RectTransform>();
         _blockContainerImg = blockContainer.GetComponent<Image>();
     }
 
     private void Start()
     {
-        // opacity slider 기능 연결
-        _opacitySlider = transform.GetComponentInChildren<EngineUIOpacitySlider>();
-        _opacitySlider.GetComponent<Slider>().onValueChanged.AddListener(OnSliderValueChanged);
-        _opacitySlider.GetComponent<Slider>().minValue = _minOpacity;
-        
         // Button 기능 연결
         closeBtn.onClick.AddListener(WhenCloseBtnClicked);
         resetBtn.onClick.AddListener(WhenResetBtnClicked);
@@ -102,20 +94,17 @@ public class EngineUIController : MonoBehaviour
         numpadSlot.SetActive(_isFold);
         engineSlot.SetActive(_isFold);
     }
-    
-    private void OnSliderValueChanged(float value)
-    {
-        // Canvas 투명도 조절
-        _canvasGroup.alpha = value;
-    }
 
     public void SetProfile(ClickableProfile profile)
     {
         // 엔진 프로필 변경
         if (profile == null) return;
-        
+        int engineIndex = (int.Parse(profile.id) + 1) % 10 ;
+
         gameName.text = profile.name;
-        targetImg.sprite = profile.sprite;
+        subGameName.text = profile.name;
+        engineNum.text = $"Engine. No. {engineIndex}.";
+        profileImg.sprite = profile.sprite;
     }
     
     public void SetBlockPositionToEngine(EngineBlock block)
@@ -137,7 +126,6 @@ public class EngineUIController : MonoBehaviour
         blockContainerText.text = $"{index + 1}";
     }
 
-    // [MOD - 25-06-28 - KMS] 오브젝트 클릭 시 엔진 생성 애니메이션 
     public void ActivateEffect()
     {
         transform.SetAsLastSibling();
@@ -185,4 +173,28 @@ public class EngineUIController : MonoBehaviour
 
         _rectTransform.position = targetPos;
     }
+
+    #region Opacity
+    
+    private float _minOpacity = 0.4f;
+    private CanvasGroup _canvasGroup;
+    private EngineUIOpacitySlider _opacitySlider;
+    
+    private void InitOpacitySlider()
+    {
+        _canvasGroup = GetComponent<CanvasGroup>();
+
+        // opacity slider 기능 연결
+        _opacitySlider = transform.GetComponentInChildren<EngineUIOpacitySlider>();
+        _opacitySlider.GetComponent<Slider>().onValueChanged.AddListener(OnSliderValueChanged);
+        _opacitySlider.GetComponent<Slider>().minValue = _minOpacity;
+    }
+    
+    private void OnSliderValueChanged(float value)
+    {
+        // Canvas 투명도 조절
+        _canvasGroup.alpha = value;
+    }
+
+    #endregion
 }
