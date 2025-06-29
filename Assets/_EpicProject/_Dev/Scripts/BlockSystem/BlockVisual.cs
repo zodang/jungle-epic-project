@@ -1,9 +1,10 @@
 using Define;
+using DG.Tweening;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BlockVisual : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Action<ISlotType> OnDragEnd;
     public Action OnRightClicked;
@@ -22,9 +23,15 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IBeginDragHandle
     private RectTransform _rectTransform;
     private Vector2 _dragOffset;
 
+    public RectTransform _visualObject;
+    private bool _isAnimating = false;
+    private bool _isPointerOver = false;
+    private Tween _hoverTween;
+
     private void Awake()
     {
         ChangeBlockVisual(SlotType.InventorySlot);
+        _visualObject = transform.GetChild(0).GetComponent<RectTransform>();
     }
 
     private void Start()
@@ -40,6 +47,42 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IBeginDragHandle
         {
             OnRightClicked?.Invoke();
         }
+    }
+    
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!InventoryBlock.activeSelf) return;
+        
+        _isPointerOver = true;
+        if (_isAnimating) return;
+
+        _hoverTween?.Kill();
+        _isAnimating = true;
+        _hoverTween = _visualObject.DOAnchorPosY(_visualObject.anchoredPosition.y + 30, 0.3f)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                _isAnimating = false;
+                if (!_isPointerOver) OnPointerExit(null);
+            });
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (!InventoryBlock.activeSelf) return;
+        
+        _isPointerOver = false;
+        if (_isAnimating) return;
+
+        _hoverTween?.Kill();
+        _isAnimating = true;
+        _hoverTween = _visualObject.DOAnchorPosY(0, 0.1f)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                _isAnimating = false;
+                if (_isPointerOver) OnPointerEnter(null);
+            });
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -80,6 +123,10 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IBeginDragHandle
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        _hoverTween?.Kill();
+        _isAnimating = false;
+        _visualObject.anchoredPosition = Vector2.zero;
+        
         OnDragEnd?.Invoke(_detectedSlot);
         OnAnyBlockEndDrag?.Invoke();
     }
