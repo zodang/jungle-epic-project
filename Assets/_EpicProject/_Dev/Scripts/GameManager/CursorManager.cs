@@ -7,8 +7,8 @@ public class CursorManager : MonoBehaviour
     [SerializeField] private GameObject leftCursor;
     [SerializeField] private GameObject rightCursor;
 
-    private float xOffset = -15f;
-    private float yOffset = 5f;
+    public float xOffset = -15f;
+    public float yOffset = 5f;
 
     private void Awake()
     {
