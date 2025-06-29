@@ -13,6 +13,10 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     
     private Transform _originalParent;
     private Transform _prevParent;
+
+    // [MOD - 25-06-29 - KMS] 엔진 드래그 시 Tap홈 flik 실행
+    public static event Action OnDragBeginEngine;
+    public static event Action OnDragEndEngine;
     
     private void Awake()
     {
@@ -28,6 +32,8 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //이벤트 Invoke 할 예정 드래그가 시작되면 Tap이 flik 되는 기능 활성화
+        OnDragBeginEngine?.Invoke();
         _prevParent = transform.parent;
         
         transform.SetParent(_originalParent);
@@ -76,6 +82,8 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         
         OnDragEndedInHome?.Invoke(true);
+        //이벤트 끝나는대로 끝내는 이벤트 호출 예정
+        OnDragEndEngine?.Invoke();
     }
     
     public void OnPointerDown(PointerEventData eventData)
@@ -139,6 +147,7 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         transform.SetParent(targetTabHome.transform, false);
         _rectTransform.anchoredPosition = Vector3.zero;
         myEngine.IsInHome = true;
+
     }
     #endregion
 }
