@@ -19,7 +19,7 @@ public class TabFliker : MonoBehaviour
             _tapImage = GetComponent<Image>();
 
         // 페이드 기능을 쓰려면 캔버스 렌더러 알파부터 초기화
-        _tapImage.canvasRenderer.SetAlpha(0f);
+        _tapImage.canvasRenderer.SetAlpha(1f);
     }
 
     private void Start()

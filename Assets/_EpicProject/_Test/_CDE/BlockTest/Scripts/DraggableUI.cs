@@ -57,6 +57,8 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        //이벤트 끝나는대로 끝내는 이벤트 호출 예정
+        OnDragEndEngine?.Invoke();
         TabHome targetTabHome = GetDropTabHome(eventData);
 
         if (targetTabHome == null) {
@@ -82,8 +84,7 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         }
         
         OnDragEndedInHome?.Invoke(true);
-        //이벤트 끝나는대로 끝내는 이벤트 호출 예정
-        OnDragEndEngine?.Invoke();
+
     }
     
     public void OnPointerDown(PointerEventData eventData)
