@@ -111,10 +111,13 @@ public class Clickable : MonoBehaviour, IClickable
         // 모든 칸이 채워져있을 때
         return (false, -1);
     }
-
-    public void RemoveBlock()
+    
+    public void RemoveBlock(int index = -1)
     {
-        BlockDictionary.Remove(EngineController.SelectedIndex);
+        // 지정된 index 값 없을 시 Selected Index 제거
+        if (index == -1) index = EngineController.SelectedIndex;
+     
+        BlockDictionary.Remove(index);
         OnBlockChanged?.Invoke();
     }
 
