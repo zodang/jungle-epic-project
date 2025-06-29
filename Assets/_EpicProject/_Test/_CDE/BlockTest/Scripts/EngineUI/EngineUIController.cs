@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class EngineUIController : MonoBehaviour
 {
     public Action OnResetBtnClicked;
+    public Action OnClearBtnClicked;
     public Action OnClickCloseBtn;
     
     [Header("Profile")]
@@ -17,6 +18,7 @@ public class EngineUIController : MonoBehaviour
     [Header("Button")]
     [SerializeField] private Button closeBtn;
     [SerializeField] private Button resetBtn;
+    [SerializeField] private Button clearBtn;
     [SerializeField] private Button upBtn;
     
     [Header("Block Container")]
@@ -62,6 +64,7 @@ public class EngineUIController : MonoBehaviour
         // Button 기능 연결
         closeBtn.onClick.AddListener(WhenCloseBtnClicked);
         resetBtn.onClick.AddListener(WhenResetBtnClicked);
+        clearBtn.onClick.AddListener(WhenClearBtnClicked);
         upBtn.onClick.AddListener(WhenUpBtnClicked);
 
         ChangeBlockContainer(0);
@@ -70,6 +73,7 @@ public class EngineUIController : MonoBehaviour
     private void OnDestroy()
     {
         OnResetBtnClicked = null;
+        OnClearBtnClicked = null;
         OnClickCloseBtn = null;
     }
     
@@ -83,6 +87,12 @@ public class EngineUIController : MonoBehaviour
     {
         // Reset Btn 클릭
         OnResetBtnClicked?.Invoke();
+    }
+    
+    private void WhenClearBtnClicked()
+    {
+        // Clear Btn 클릭
+        OnClearBtnClicked.Invoke();
     }
 
     private void WhenUpBtnClicked()

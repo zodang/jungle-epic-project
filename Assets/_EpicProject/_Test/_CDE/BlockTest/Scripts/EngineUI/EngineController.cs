@@ -1,5 +1,6 @@
 using Define;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EngineController : MonoBehaviour
@@ -26,6 +27,7 @@ public class EngineController : MonoBehaviour
         // Button 기능 연결
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
+        _engineUIController.OnClearBtnClicked += ClearBlock;
         _currentTarget.OnBlockChanged += ChangeAllNumpadVisual;
         _draggableUI.OnDragEndedInHome += HandleDragEndedInHome;
         
@@ -36,6 +38,7 @@ public class EngineController : MonoBehaviour
     {
         _engineUIController.OnClickCloseBtn -= Deactivate;
         _engineUIController.OnResetBtnClicked -= ResetFeature;
+        _engineUIController.OnClearBtnClicked -= ClearBlock;
         _currentTarget.OnBlockChanged -= ChangeAllNumpadVisual;
         _draggableUI.OnDragEndedInHome -= HandleDragEndedInHome;
     }
@@ -130,6 +133,16 @@ public class EngineController : MonoBehaviour
         {
             block.ResetUI();
         }
+    }
+
+    private void ClearBlock()
+    {
+        foreach (var block in _currentTarget.BlockDictionary.ToList())
+        {
+            block.Value.DropToInventorySlot(block.Key);
+        }
+        
+        ShowBlock(0);
     }
 
     public void ChangeAllNumpadVisual()
