@@ -15,6 +15,8 @@ namespace Define
         Scale,
         Rotate,
         Light,
+        Graphic,
+        Speed,
         Sound,
         Mess,
     }
