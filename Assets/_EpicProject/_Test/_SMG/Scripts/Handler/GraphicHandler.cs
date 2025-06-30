@@ -25,11 +25,11 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
         _isAnimated = _animator != null;
     }
 
-    public void InitGraphics (List<Sprite> graphics)
+    public int GetCurrentValue()
     {
-        _btnGraphicSprites = graphics;
+        return _currentGraphicType;
     }
-    
+
     public void SetGraphic(int index)
     {
         // Index 체크 후 Sprite 변경
@@ -51,7 +51,7 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
     {
         // 애니메이션 오브젝트 시 이동에 따른 Sprite 변경
         if (!_isAnimated) return;
-        if (_currentGraphicType != (int)GraphicType.High - 1) return;
+        if (_currentGraphicType != (int)GraphicType.High) return;
 
         int idx = 1;
         

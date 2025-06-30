@@ -34,10 +34,10 @@ namespace Define
 
     public enum GraphicType
     {
-        None,
         Low,
         Middle,
         High,
+        None,
     }
 
     public static class Tags

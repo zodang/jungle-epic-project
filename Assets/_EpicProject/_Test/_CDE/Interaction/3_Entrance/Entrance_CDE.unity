@@ -1336,6 +1336,37 @@ MonoBehaviour:
   OnTrigger:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &944137636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 944137637}
+  m_Layer: 0
+  m_Name: SpeechAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &944137637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944137636}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1590314757}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1075701029
 GameObject:
   m_ObjectHideFlags: 0
@@ -2041,8 +2072,8 @@ Transform:
   m_GameObject: {fileID: 1465946344}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1446473178}
@@ -2153,7 +2184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9f5c7c513f0f8458a79aca1aca8364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
+  ID: 0
   DefaultBlockList: 
 --- !u!61 &1466580206
 BoxCollider2D:
@@ -2437,13 +2468,14 @@ GameObject:
   - component: {fileID: 1590314756}
   - component: {fileID: 1590314755}
   - component: {fileID: 1590314754}
+  - component: {fileID: 1590314758}
   m_Layer: 0
   m_Name: Entrance_DetectionGuard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1590314754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2490,7 +2522,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.028056204, y: 0.12625259}
+  m_Offset: {x: 0, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2500,7 +2532,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.7668678, y: 0.9906478}
+  m_Size: {x: 0.35, y: 0.2}
   m_EdgeRadius: 0
 --- !u!50 &1590314756
 Rigidbody2D:
@@ -2528,7 +2560,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 7
 --- !u!4 &1590314757
 Transform:
   m_ObjectHideFlags: 0
@@ -2538,14 +2570,30 @@ Transform:
   m_GameObject: {fileID: 1590314753}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.51, y: 0, z: 0}
+  m_LocalPosition: {x: -1.91, y: -2.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1446473178}
   - {fileID: 445868775}
+  - {fileID: 944137637}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1590314758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590314753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4e865b148957264294010ea939fce24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultDialogueId: npc1_greeting
+  speechAnchor: {fileID: 944137637}
+  conditionalDialogues: []
 --- !u!1001 &1723781821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3051,7 +3099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9f5c7c513f0f8458a79aca1aca8364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
+  ID: 0
   DefaultBlockList: 
 --- !u!61 &2080086364
 BoxCollider2D:
@@ -3491,7 +3539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9f5c7c513f0f8458a79aca1aca8364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
+  ID: 0
   DefaultBlockList: 
 --- !u!4 &6846248133138498142
 Transform:
