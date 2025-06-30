@@ -51,7 +51,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
         _rotateHandler.Init(_minRotate, _maxRotate, 1f);
         _rotateHandler.OnSetValue += Rotate;
 
-        _scaleHandler.Init(_minScale, _maxScale, 0f);
+        _scaleHandler.Init(_minScale, _maxScale, 1f);
         _scaleHandler.OnSetValue += Scale;
 
         _lightHandler.Init(_minBright, _maxBright, 1f);
