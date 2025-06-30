@@ -40,34 +40,34 @@ public class ClickableOutline : MonoBehaviour
                 Vector2.zero,
                 float.PositiveInfinity,
                 LayerMask.GetMask("Clickable"))
-            .OrderBy(h => h.transform.position.z)
+            .OrderBy(h => h.collider.transform.position.z)
             .ToArray();
         bool nowHovered = false;
         bool isMaskBypass = false;
         for (int i = 0; i < hits.Length; i++)
         {
             Collider2D coll = hits[i].collider;
-            
-            IClickable clickable = coll.GetComponentInParent<IClickable>();
-            if (!clickable.IsUnityNull())
-            {
-                //clickable.OnClicked();
-                if(coll.transform == transform)
-                {
-                    nowHovered = true;
-                    break;
-                }
-            }
 
             ClickableMask clickableMask = coll.GetComponent<ClickableMask>();
             ClickableMaskBypass clickableMaskBypass = coll.GetComponent<ClickableMaskBypass>();
             if (!clickableMaskBypass.IsUnityNull())
             {
                 isMaskBypass = true;
+                continue;
             }
             else if (!clickableMask.IsUnityNull() && !isMaskBypass)
             {
                 break;
+            }
+
+            IClickable clickable = coll.GetComponentInParent<IClickable>();
+            if (!clickable.IsUnityNull())
+            {
+                if(coll.transform == transform)
+                {
+                    nowHovered = true;
+                    break;
+                }
             }
         }
         if (nowHovered != _isHovered)

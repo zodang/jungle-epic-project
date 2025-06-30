@@ -4,24 +4,24 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
 {
     [SerializeField] private Transform model;
     [SerializeField] private GameObject foot;
-    
+    [SerializeField] private Transform light;
+
     // IFeatureResettable
-    private float _defaultLight = 0f;
-    private float _defaultRotation = 0f;
-    private float _defaultScale = 1f;
     
-    // ILightAdjustable
+    
+
+    [Header("Setting/Light")]
+    public float DefaultLight = 0f;
+    public float MinBright = 0f;
+    public float MaxBright = 9f;
     private LightHandler _lightHandler;
-    private float _minBright = 0.5f;
-    private float _maxBright = 3f;
-    private float _currentBright;
-    
-    // IScalable
+
+    [Header("Setting/Scale")]
+    public float DefaultScale = 1f;
+    public float MinScale = 0.5f;
+    public float MaxScale = 2.5f;
     private ScaleHandler _scaleHandler;
-    private float _minScale = 0.8f;
-    private float _maxScale = 2.5f;
-    private float _currentScale;
-    
+
     // IControllable
     private Rigidbody2D _rigidbody2D;
     private Movement2D _movement2D;
@@ -36,10 +36,10 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = 0;
         
-        _scaleHandler.Init(_minScale, _maxScale, 0f);
+        _scaleHandler.Init(MinScale, MaxScale, 1f);
         _scaleHandler.OnSetValue += SetScale;
 
-        _lightHandler.Init(_minBright, _maxBright, 1f);
+        _lightHandler.Init(MinBright, MaxBright, 1f);
         _lightHandler.OnSetValue += SetLight;
 
         DisableControl();
@@ -57,12 +57,13 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
 
     private void SetScale(float scale)
     {
-        transform.localScale = new Vector3(scale, scale, scale);
+        transform.localScale = new Vector3(scale, scale, 1f);
     }
 
     private void SetLight(float bright)
     {
         // Todo: Light 변경 효과
+        light.transform.localScale = new Vector3(bright, bright, 1f);
     }
     
     public void EnableControl()
@@ -83,8 +84,8 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
     
     public void ResetFeature()
     {
-        _scaleHandler.SetValue(_defaultScale);
-        _lightHandler.SetValue(_defaultLight);
+        _scaleHandler.SetValue(DefaultScale);
+        _lightHandler.SetValue(DefaultLight);
     }
     #endregion FeatureSetting
 }
