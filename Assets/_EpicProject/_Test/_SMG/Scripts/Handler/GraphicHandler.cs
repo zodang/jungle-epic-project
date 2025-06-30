@@ -65,7 +65,7 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
         }
 
         // Index 체크 후 Sprite 변경
-        if (idx >= highGraphicSprites.Count || highGraphicSprites[idx] != null) return;
+        if (idx >= highGraphicSprites.Count || highGraphicSprites[idx] == null) return;
         _spriteRenderer.sprite = highGraphicSprites[idx];
     }
 }

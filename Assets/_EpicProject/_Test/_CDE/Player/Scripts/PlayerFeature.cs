@@ -30,6 +30,9 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
     private float _minRotate = 0f;
     private float _maxRotate = 359f;
     private float _currentRotate;
+    
+    // IGraphicChangeable
+    private GraphicHandler _graphicHandler;
 
     private Transform _model;
     private GameObject _TwinkleLv1;
@@ -47,6 +50,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
         ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
         ComponentHelper.TryGetOrAddComponent<ScaleHandler>(ref _scaleHandler, gameObject);
         ComponentHelper.TryGetOrAddComponent<LightHandler>(ref _lightHandler, gameObject);
+        TryGetComponent<GraphicHandler>(out _graphicHandler);
 
         _rotateHandler.Init(_minRotate, _maxRotate, 1f);
         _rotateHandler.OnSetValue += Rotate;
@@ -67,6 +71,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
     {
         if (!_enableMove) return;
         Move();
+        _graphicHandler?.SetSpriteDirection(StageManager.Instance.InputManager.MoveInput);
     }
 
     void Rotate(float angle)
