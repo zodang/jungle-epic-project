@@ -10,7 +10,13 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private RectTransform _rectTransform;
     private Canvas _canvas;
     private Vector2 _offset;
+    
     private Transform _originalParent;
+    private Transform _prevParent;
+
+    // [MOD - 25-06-29 - KMS] 엔진 드래그 시 Tap홈 flik 실행
+    public static event Action OnDragBeginEngine;
+    public static event Action OnDragEndEngine;
     
     private void Awake()
     {
@@ -26,6 +32,10 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //이벤트 Invoke 할 예정 드래그가 시작되면 Tap이 flik 되는 기능 활성화
+        OnDragBeginEngine?.Invoke();
+        _prevParent = transform.parent;
+        
         transform.SetParent(_originalParent);
         transform.SetAsLastSibling();
         
@@ -47,24 +57,34 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        bool isInHome = false;
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, results);
+        //이벤트 끝나는대로 끝내는 이벤트 호출 예정
+        OnDragEndEngine?.Invoke();
+        TabHome targetTabHome = GetDropTabHome(eventData);
 
-        foreach (var result in results)
+        if (targetTabHome == null) {
+            OnDragEndedInHome?.Invoke(false);
+            return;
+        }
+
+        EngineController myEngine = GetComponent<EngineController>();
+
+        if (targetTabHome.transform.childCount == 0)
         {
-            TabHome tabHome = result.gameObject.GetComponent<TabHome>();
-            if (tabHome != null)
-            {
-                // TabHome으로 정렬 시
-                transform.SetParent(tabHome.transform, false);
-                _rectTransform.anchoredPosition = Vector3.zero;
-                isInHome = true;
-                break;
-            }
+            // 빈 TabHome으로 이동
+            HandleDropToEmptyTabHome(targetTabHome, myEngine);
+            
+        }
+        else if (IsSwap(myEngine, targetTabHome))
+        {
+            HandleSwap(targetTabHome, myEngine);
+        }
+        else
+        {
+            HandleReplace(targetTabHome, myEngine);
         }
         
-        OnDragEndedInHome?.Invoke(isInHome);
+        OnDragEndedInHome?.Invoke(true);
+
     }
     
     public void OnPointerDown(PointerEventData eventData)
@@ -77,4 +97,58 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         transform.SetParent(_originalParent);
         transform.SetAsLastSibling();
     }
+
+    #region Swap/Replace
+    private bool IsSwap(EngineController myEngine, TabHome targetTabHome)
+    {
+        // 원래 TabHome에 있고, drop한 곳이 다른 TabHome일 때 swap
+        return myEngine.IsInHome
+               && _prevParent != null
+               && targetTabHome.transform != _prevParent;
+    }
+    
+    private TabHome GetDropTabHome(PointerEventData eventData)
+    {
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        foreach (var result in results)
+        {
+            var tabHome = result.gameObject.GetComponent<TabHome>();
+            if (tabHome != null) return tabHome;
+        }
+        return null;
+    }
+    
+    private void HandleDropToEmptyTabHome(TabHome tabHome, EngineController myEngine)
+    {
+        transform.SetParent(tabHome.transform, false);
+        _rectTransform.anchoredPosition = Vector3.zero;
+        myEngine.IsInHome = true;
+    }
+    
+    private void HandleSwap(TabHome targetTabHome, EngineController myEngine)
+    {
+        EngineController prevEngine = targetTabHome.transform.GetChild(0).GetComponent<EngineController>();
+        prevEngine.transform.SetParent(_prevParent, false);
+        prevEngine.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        prevEngine.IsInHome = true;
+
+        transform.SetParent(targetTabHome.transform, false);
+        _rectTransform.anchoredPosition = Vector3.zero;
+        myEngine.IsInHome = true;
+    }
+
+    private void HandleReplace(TabHome targetTabHome, EngineController myEngine)
+    {
+        EngineController prevEngine = targetTabHome.transform.GetChild(0).GetComponent<EngineController>();
+        prevEngine.transform.SetParent(_originalParent);
+        prevEngine.GetComponent<RectTransform>().anchoredPosition += new Vector2(300, 0);
+        prevEngine.IsInHome = false;
+
+        transform.SetParent(targetTabHome.transform, false);
+        _rectTransform.anchoredPosition = Vector3.zero;
+        myEngine.IsInHome = true;
+
+    }
+    #endregion
 }

@@ -92,14 +92,25 @@ public abstract class EngineBlock : MonoBehaviour
         _visual.ChangeBlockVisual(SlotType.InventorySlot);
     }
     
-    private void WhenDroppedInventorySlot(ISlotType slot)
+    public void DropToInventorySlot(int index)
+    {
+        // 인벤토리로 블록 이동
+        if (_inventorySlot == null) return;
+        WhenDroppedInventorySlot(_inventorySlot, index);
+        _visual.ChangeBlockVisual(SlotType.InventorySlot);
+        
+        // 비활성화 했던 Block Visual 활성화
+        _visual.ShowBlockVisual(true);
+    }
+    
+    private void WhenDroppedInventorySlot(ISlotType slot, int index = -1)
     {
         InventorySlot inventorySlot = slot as InventorySlot;
         
         if (_prevTarget != null && _prevFeature != null)
         {
             // 기능 비활성화
-            _prevTarget.RemoveBlock();
+            _prevTarget.RemoveBlock(index);
             Deactivate(_prevFeature);
         }
 
