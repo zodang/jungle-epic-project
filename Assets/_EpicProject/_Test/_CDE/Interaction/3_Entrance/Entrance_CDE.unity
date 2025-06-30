@@ -2059,10 +2059,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7794f1473522efe4dad8af1bd6c74568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _graphics:
+  _btnGraphicSprites:
   - {fileID: 5437857391014246301, guid: f4a60a90b6e2a76469636ee3c447e453, type: 3}
   - {fileID: 2552612439248618082, guid: a773922b5b825884296bf7d85d41a2f1, type: 3}
   - {fileID: -4211062958892163218, guid: c29886528065ba14cb33b53ff83b6fd0, type: 3}
+  highGraphicSprites: []
 --- !u!1001 &1562845942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39550,13 +39551,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ae9799cb0fd72408fbf3a2d972c223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _graphicSpriteData:
-  - GraphicType: 3
-    SpriteList:
-    - {fileID: -5395030710113770483, guid: 19effba52c9bbef4c91bfc79c5cc03c0, type: 3}
-    - {fileID: 2255893351823180136, guid: 43d255dc20308a94bad410e0679b95d7, type: 3}
-    - {fileID: 2114409862714013413, guid: 1ca377013d981fd4c8aa9ff656b50803, type: 3}
-    - {fileID: -8850817902391210655, guid: d4cda893b4b03a54c92c26aed6fbc4cc, type: 3}
 --- !u!114 &9083487878675343099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39569,10 +39563,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7794f1473522efe4dad8af1bd6c74568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _graphics:
+  _btnGraphicSprites:
   - {fileID: -4571864639697434643, guid: 28fec1596f9810544bf1efed911879ba, type: 3}
   - {fileID: -7519896555751355398, guid: 4b085615c00ad2844b31f6e16e09e4a1, type: 3}
   - {fileID: 2255893351823180136, guid: 43d255dc20308a94bad410e0679b95d7, type: 3}
+  highGraphicSprites:
+  - {fileID: -5395030710113770483, guid: 19effba52c9bbef4c91bfc79c5cc03c0, type: 3}
+  - {fileID: 2255893351823180136, guid: 43d255dc20308a94bad410e0679b95d7, type: 3}
+  - {fileID: -8850817902391210655, guid: d4cda893b4b03a54c92c26aed6fbc4cc, type: 3}
+  - {fileID: 2114409862714013413, guid: 1ca377013d981fd4c8aa9ff656b50803, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
