@@ -130,14 +130,26 @@ public class InputManager : MonoBehaviour
                     Vector2.zero,
                     float.PositiveInfinity,
                     LayerMask.GetMask("Clickable"))
-                .OrderBy(h => h.transform.position.z)
+                .OrderBy(h => h.collider.transform.position.z)
                 .ToArray();
-            // [MOD: SMG 25 - 06 - 28] 마우스 클릭 시, ClickableMask와 ClickableMaskBypass를 구분 및 동작
+
             bool isMaskBypass = false;
-            for(int i = 0; i < hits.Length; i++)
+
+            for (int i = 0; i < hits.Length; i++)
             {
                 Collider2D coll = hits[i].collider;
-                //if (coll.IsUnityNull()) continue;
+                
+                ClickableMask clickableMask = coll.GetComponent<ClickableMask>();
+                ClickableMaskBypass clickableMaskBypass = coll.GetComponent<ClickableMaskBypass>();
+                if (!clickableMaskBypass.IsUnityNull())
+                {
+                    isMaskBypass = true;
+                    continue;
+                }
+                else if (!clickableMask.IsUnityNull() && !isMaskBypass)
+                {
+                    break;
+                }
 
                 IClickable clickable = coll.GetComponentInParent<IClickable>();
                 if (!clickable.IsUnityNull())
@@ -145,19 +157,7 @@ public class InputManager : MonoBehaviour
                     clickable.OnClicked();
                     break;
                 }
-
-                ClickableMask clickableMask = coll.GetComponent<ClickableMask>();
-                ClickableMaskBypass clickableMaskBypass = coll.GetComponent<ClickableMaskBypass>();
-                if (!clickableMaskBypass.IsUnityNull())
-                {
-                    isMaskBypass = true;
-                }
-                else if (!clickableMask.IsUnityNull() && !isMaskBypass)
-                {
-                    break;
-                }
             }
-
             //RaycastHit2D hit = hits.OrderBy(h => h.transform.position.z).FirstOrDefault();
 
             //var clickable = hit.collider != null
