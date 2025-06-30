@@ -11,10 +11,10 @@ public class EntranceDetectionGuard : MonoBehaviour
 
     private void Start()
     {
-        _range.OnPlayerDetected += WhenDetectPlayer;
+        _range.OnPlayerDetected += WhenPlayerDetected;
     }
 
-    private void WhenDetectPlayer()
+    private void WhenPlayerDetected()
     {
         // TODO: 플레이어 감지 시
     }

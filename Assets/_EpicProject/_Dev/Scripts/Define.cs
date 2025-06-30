@@ -32,6 +32,14 @@ namespace Define
         BaldHead,
     }
 
+    public enum GraphicType
+    {
+        None,
+        Low,
+        Middle,
+        High,
+    }
+
     public static class Tags
     {
         public const string Player = "Player";

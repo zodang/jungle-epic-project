@@ -1,15 +1,18 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WantedPoster : MonoBehaviour
 {
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;
-    [SerializeField] private List<Sprite> graphicList;
-    
+
     private void Awake()
     {
-        ComponentHelper.TryGetOrAddComponent<GraphicHandler>(ref _graphicHandler, gameObject);
-        _graphicHandler.Init(graphicList);
+        _graphicHandler = GetComponent<GraphicHandler>();
+        _graphicHandler.OnSetValue += ChangeGraphic;
+    }
+
+    private void ChangeGraphic(int index)
+    {
+        // 스프라이트 변경 외 추가 사항 있을 시 사용
     }
 }
