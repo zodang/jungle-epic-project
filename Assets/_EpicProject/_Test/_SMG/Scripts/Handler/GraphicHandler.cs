@@ -32,6 +32,9 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
     
     public void SetGraphic(int index)
     {
+        // Index 체크 후 Sprite 변경
+        if (index >= _btnGraphicSprites.Count || _btnGraphicSprites[index] == null) return;
+        
         _currentGraphicType = index;
         
         _spriteRenderer.sprite = _btnGraphicSprites[index];
@@ -39,12 +42,14 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
         
         OnSetValue?.Invoke(index);
 
+        // 애니메이션 관련 오브젝트 구분
         if (!_isAnimated) return;
         _animator.enabled = (index == 1);
     }
     
     public void SetSpriteDirection(Vector2 dir)
     {
+        // 애니메이션 오브젝트 시 이동에 따른 Sprite 변경
         if (!_isAnimated) return;
         if (_currentGraphicType != (int)GraphicType.High - 1) return;
 
@@ -58,6 +63,9 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
         {
             idx = 2; // Right : Left
         }
+
+        // Index 체크 후 Sprite 변경
+        if (idx >= highGraphicSprites.Count || highGraphicSprites[idx] != null) return;
         _spriteRenderer.sprite = highGraphicSprites[idx];
     }
 }

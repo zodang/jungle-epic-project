@@ -56,7 +56,10 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
 
         _lightHandler.Init(_minBright, _maxBright, 1f);
         _lightHandler.OnSetValue += Twinkle;
+    }
 
+    private void Start()
+    {
         ResetFeature();
     }
 
