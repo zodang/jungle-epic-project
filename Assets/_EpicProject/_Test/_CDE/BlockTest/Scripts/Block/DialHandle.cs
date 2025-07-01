@@ -22,7 +22,7 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        GameManager.Instance.AudioManager.PlaySfx(SfxType.Click);
+        //GameManager.Instance.AudioManager.PlaySfx(SfxType.Click);
 
         _centerScreenPos = RectTransformUtility.WorldToScreenPoint(eventData.pressEventCamera, _rectTransform.position);
         _prevMouseDir = (eventData.position - _centerScreenPos).normalized;
