@@ -20,6 +20,8 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
     [SerializeField] private RotateHandler _rotateHandler;
     [SerializeField] private ScaleHandler _scaleHandler;
     [SerializeField] private LightHandler _lightHandler;
+    [SerializeField] private SpeedHandler _speedHandler;
+    private GraphicHandler _graphicHandler;
 
     // ILightAdjustable
     private float _minBright = 1f;
@@ -31,8 +33,9 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
     private float _maxRotate = 359f;
     private float _currentRotate;
     
-    // IGraphicChangeable
-    private GraphicHandler _graphicHandler;
+
+    // ISpeedChangeable
+    private int _defaultSpeedStep = 1;
 
     private Transform _model;
     private GameObject _TwinkleLv1;
@@ -50,6 +53,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
         ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
         ComponentHelper.TryGetOrAddComponent<ScaleHandler>(ref _scaleHandler, gameObject);
         ComponentHelper.TryGetOrAddComponent<LightHandler>(ref _lightHandler, gameObject);
+        ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
         TryGetComponent<GraphicHandler>(out _graphicHandler);
 
         _rotateHandler.Init(_minRotate, _maxRotate, 1f);
@@ -60,6 +64,9 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
 
         _lightHandler.Init(_minBright, _maxBright, 1f);
         _lightHandler.OnSetValue += Twinkle;
+        
+        _speedHandler.Init(_defaultSpeedStep);
+        _speedHandler.OnSetValue += ChangeSpeed;
     }
 
     private void Start()
@@ -103,12 +110,19 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
             }
         }
     }
+    
+    private void ChangeSpeed(int step)
+    {
+        float multiple = 0.5f + 0.5f * step;
+        _movement2D.MultiplySpeed(multiple);
+    }
 
     public void ResetFeature()
     {
         _rotateHandler.SetValue(0f);
         _scaleHandler.SetValue(1f);
         _lightHandler.SetValue(1f);
+        _speedHandler.SetValue(_defaultSpeedStep);
     }
 
     #region Control
