@@ -9,7 +9,8 @@ public class Movement2D : MonoBehaviour
     public Vector2 MoveDir { get; set; }
 
     private Rigidbody2D _rigidbody2D;
-    private float _speed = 5f;
+    private float _baseSpeed = 5f;
+    private float _speed;
 
     [Header("Bridge")]
     public bool CheckGround;
@@ -41,6 +42,8 @@ public class Movement2D : MonoBehaviour
                 }
             }
         }
+
+        _speed = _baseSpeed;
     }
 
     private void FixedUpdate()
@@ -170,5 +173,10 @@ public class Movement2D : MonoBehaviour
         }
         
         return false;
+    }
+    
+    public void MultiplySpeed(float multiple)
+    {
+        _speed = _baseSpeed * multiple;
     }
 }
