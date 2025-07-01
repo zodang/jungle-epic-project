@@ -22,7 +22,7 @@ public class ReturnState : FSMState
     public override void Enter()
     {
         _patrolFsm.SetFocus();
-        _targetPoint = GetClosestPatrolPoint();
+        _targetPoint = _patrolFsm.PatrolPositions[_patrolFsm.GetClosestPointIndex()];
         StageManager.Instance.InputManager.ActivatePlayerInput(false);
     }
 
@@ -45,7 +45,7 @@ public class ReturnState : FSMState
         Vector2 dir = (target - pos).normalized;
         _guard.SetMoveDirection(dir);
 
-        if (!(Vector3.Distance(_guard.transform.position, _targetPoint) < 1f)) return;
+        if (!(Vector3.Distance(_guard.transform.position, _targetPoint) < 2f)) return;
         
         // targetPoint에 도달
         _waiting = true;
@@ -56,23 +56,5 @@ public class ReturnState : FSMState
     {
         StageManager.Instance.InputManager.ActivatePlayerInput(true);
         _patrolFsm.UnsetFocus();
-    }
-    
-    private Vector3 GetClosestPatrolPoint()
-    {
-        //  가까운 patrolPoint 찾기
-        var points = _patrolFsm.PatrolPositions;
-        float minDist = float.MaxValue;
-        Vector3 closest = points[0];
-        for (int i = 0; i < points.Length; i++)
-        {
-            float dist = Vector3.Distance(_guard.transform.position, points[i]);
-            if (dist < minDist)
-            {
-                minDist = dist;
-                closest = points[i];
-            }
-        }
-        return closest;
     }
 }

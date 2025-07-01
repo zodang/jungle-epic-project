@@ -1,20 +1,23 @@
 using Define;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EntranceDetectionGuard : MonoBehaviour
 {
-    private DetectionRange _range;
+    private RespawnPointSquare _respawnPoint;
     
+    private DetectionRange _range;
     private DialogueTrigger _dialogueTrigger;
     private WantedPoster _poster;
-
-
+    
     private void Awake()
     {
         _range = GetComponentInChildren<DetectionRange>();
         _dialogueTrigger = GetComponent<DialogueTrigger>();
         _poster = FindAnyObjectByType<WantedPoster>();
+
+        _respawnPoint = FindAnyObjectByType<RespawnPointSquare>();
     }
 
     private void Start()
@@ -46,6 +49,14 @@ public class EntranceDetectionGuard : MonoBehaviour
         {
             _dialogueTrigger.TriggerDialogue(dialogueId);
         }
+        
+        StartCoroutine(WaitCo(playerObj));
+    }
+    
+    private IEnumerator WaitCo(GameObject player)
+    {
+        yield return new WaitForSeconds(0.1f);
+        player.GetComponent<Movement2D>().Respawn(_respawnPoint.transform.position);
     }
 
     private static readonly Dictionary<(GraphicType poster, GraphicType player), string> DetectionDialogueTable = new()

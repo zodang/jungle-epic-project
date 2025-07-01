@@ -1,5 +1,6 @@
 using Define;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
@@ -11,7 +12,7 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     
     // ISpeedChangeable
     private SpeedHandler _speedHandler;
-    private readonly int _defaultSpeedStep = 1;
+    private readonly int _defaultSpeedStep = 2;
     
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;
@@ -21,6 +22,10 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     
     public Action OnControlEnabled;
     public Action OnControlDisabled;
+    
+    private RespawnPointEntrance _respawnPoint;
+    private DetectionRange _range;
+    private DialogueTrigger _dialogueTrigger;
     
     private void Awake()
     {
@@ -32,23 +37,42 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         
         _graphicHandler.Init(_defaultGraphicType);
         
-        _animation = GetComponentInChildren<PlayerAnimation>();
         _movement2D = GetComponent<Movement2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = 0;
+        
+        _animation = GetComponentInChildren<PlayerAnimation>();
+
+        _respawnPoint = FindAnyObjectByType<RespawnPointEntrance>();
+        _range = GetComponentInChildren<DetectionRange>();
+        _dialogueTrigger = GetComponent<DialogueTrigger>();
     }
 
     private void Start()
     {
+        _range.OnPlayerDetected += WhenPlayerDetected;
+        
         DisableControl();
         ResetFeature();
         
         _animation.ActivateAnimation(true);
     }
-    
+
     public void SetMoveDirection(Vector2 dir)
     {
         _movement2D.MoveDir = dir;
+    }
+
+    private void WhenPlayerDetected(GameObject playerObj)
+    {
+        _dialogueTrigger.TriggerDialogue();
+        StartCoroutine(WaitCo(playerObj));
+    }
+    
+    private IEnumerator WaitCo(GameObject player)
+    {
+        yield return new WaitForSeconds(0.1f);
+        player.GetComponent<Movement2D>().Respawn(_respawnPoint.transform.position);
     }
 
     #region FeatureSetting
@@ -66,7 +90,6 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _enableMove = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         _movement2D.MoveDir = Vector3.zero;
-        // _animation.ActivateAnimation(true);
         
         OnControlEnabled?.Invoke();
     }
@@ -76,7 +99,6 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _movement2D.MoveDir = Vector3.zero;
-        // _animation.ActivateAnimation(false);
         
         OnControlDisabled?.Invoke();
     }

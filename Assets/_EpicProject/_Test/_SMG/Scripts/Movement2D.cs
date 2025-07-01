@@ -152,7 +152,7 @@ public class Movement2D : MonoBehaviour
         return Physics2D.OverlapBox(point, size, 0, layerMask);
     }
 
-    public void Reaspawn(Vector3 position)
+    public void Respawn(Vector3 position)
     {
         _fallDeltaTime = 0f;
         IsFalling = false;
