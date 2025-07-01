@@ -1,4 +1,5 @@
 using Define;
+using System;
 using UnityEngine;
 
 public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
@@ -18,6 +19,9 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     
     private PlayerAnimation _animation;
     
+    public Action OnControlEnabled;
+    public Action OnControlDisabled;
+    
     private void Awake()
     {
         ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
@@ -28,17 +32,16 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         
         _graphicHandler.Init(_defaultGraphicType);
         
+        _animation = GetComponentInChildren<PlayerAnimation>();
         _movement2D = GetComponent<Movement2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = 0;
-
-        _animation = GetComponentInChildren<PlayerAnimation>();
     }
 
     private void Start()
     {
         DisableControl();
-        ResetFeature(); 
+        ResetFeature();
     }
 
     #region FeatureSetting
@@ -57,6 +60,8 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         _movement2D.MoveDir = Vector3.zero;
         _animation.ActivateAnimation(true);
+        
+        OnControlEnabled?.Invoke();
     }
 
     public void DisableControl()
@@ -65,6 +70,8 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _movement2D.MoveDir = Vector3.zero;
         _animation.ActivateAnimation(false);
+        
+        OnControlDisabled?.Invoke();
     }
 
     private void ChangeSpeed(int step)
