@@ -80,7 +80,7 @@ public class ResolutionSetting : MonoBehaviour
             {
                 // 현재 해상도 설정
                 _currentResolutionIndex = _resolutions.Count - 1;
-                label = $"{res.width} x {res.height} {res.refreshRateRatio}Hz *";
+                // label = $"{res.width} x {res.height} {res.refreshRateRatio}Hz *";
             }
             
             optionList.Add(label);
