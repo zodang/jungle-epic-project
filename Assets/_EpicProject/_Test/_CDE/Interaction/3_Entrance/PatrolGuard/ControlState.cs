@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ControlState : FSMState
 {
     private EntrancePatrolGuard _guard;
@@ -15,7 +13,6 @@ public class ControlState : FSMState
 
     public override void Enter()
     {
-        Debug.Log("Control State");
         _guard.OnControlDisabled += ChangeToReturnState;
     }
 

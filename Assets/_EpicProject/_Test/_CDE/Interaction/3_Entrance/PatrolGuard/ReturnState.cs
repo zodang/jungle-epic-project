@@ -22,8 +22,6 @@ public class ReturnState : FSMState
 
     public override void Enter()
     {
-        Debug.Log("Return State");
-       
         _patrolFsm.SetFocus();
         StageManager.Instance.InputManager.ActivatePlayerInput(false);
         _targetPoint = GetClosestPatrolPoint();

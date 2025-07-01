@@ -21,6 +21,7 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     
     public Action OnControlEnabled;
     public Action OnControlDisabled;
+    public Action<float> OnSpeedChanged;
     
     private void Awake()
     {
@@ -78,6 +79,9 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     {
         float multiple = 0.5f + 0.5f * step;
         _movement2D.MultiplySpeed(multiple);
+        
+        // Patrol 속도 변경
+        OnSpeedChanged?.Invoke(multiple);
     }
     
     public void ResetFeature()

@@ -7,7 +7,9 @@ public class PatrolState : FSMState
     private FSM<FSMState> _fsm;
     
     private int _currentPoint;
-    private float patrolSpeed = 5f;
+
+    private float _baseSpeed = 5f;
+    private float _patrolSpeed = 5f;
     
     public PatrolState(EntrancePatrolGuard guard, PatrolFSM patrolFsm, FSM<FSMState> fsm)
     {
@@ -18,9 +20,8 @@ public class PatrolState : FSMState
 
     public override void Enter()
     {
-        Debug.Log("Patrol State");
-        
         _guard.OnControlEnabled += ChangeToControlState;
+        _guard.OnSpeedChanged += ChangeSpeed;
         _currentPoint = _patrolFsm.GetClosestPointIndex();
     }
 
@@ -32,7 +33,7 @@ public class PatrolState : FSMState
         _guard.transform.position = Vector3.MoveTowards(
             _guard.transform.position,
             _patrolFsm.PatrolPositions[_currentPoint],
-            patrolSpeed * Time.deltaTime
+            _patrolSpeed * Time.deltaTime
         );
 
         // 도착했다면 다음 포인트로
@@ -51,6 +52,9 @@ public class PatrolState : FSMState
     {
         _fsm.ChangeState(new ControlState(_guard, _patrolFsm, _fsm));
     }
-    
-    
+
+    private void ChangeSpeed(float multiple)
+    {
+        _patrolSpeed = _baseSpeed * multiple;
+    }
 }
