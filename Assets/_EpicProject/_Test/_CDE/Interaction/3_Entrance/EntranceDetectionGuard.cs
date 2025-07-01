@@ -39,10 +39,10 @@ public class EntranceDetectionGuard : MonoBehaviour
             return;
         }
         
-        int playerType = player.GetCurrentValue();
-        int posterType = poster.GetCurrentValue();
+        GraphicType playerType = player.GetCurrentValue();
+        GraphicType posterType = poster.GetCurrentValue();
         
-        if (DetectionDialogueTable.TryGetValue(((GraphicType)posterType, (GraphicType)playerType), out string dialogueId))
+        if (DetectionDialogueTable.TryGetValue((posterType, playerType), out string dialogueId))
         {
             _dialogueTrigger.TriggerDialogue(dialogueId);
         }

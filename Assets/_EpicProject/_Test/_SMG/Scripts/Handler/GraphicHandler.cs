@@ -16,7 +16,7 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
 
-    private int _currentGraphicType = 1;
+    private GraphicType _currentGraphicType = GraphicType.Middle;
     
     private void Awake()
     {
@@ -25,47 +25,52 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
         _isAnimated = _animator != null;
     }
 
-    public int GetCurrentValue()
+    public void Init(GraphicType type)
     {
-        return _currentGraphicType;
+        _currentGraphicType = type;
     }
 
-    public void SetGraphic(int index)
+    public void SetValue(GraphicType type)
     {
         // Index 체크 후 Sprite 변경
-        if (index >= _btnGraphicSprites.Count || _btnGraphicSprites[index] == null) return;
+        if ((int)type >= _btnGraphicSprites.Count || _btnGraphicSprites[(int)type] == null) return;
         
-        _currentGraphicType = index;
+        _currentGraphicType = type;
         
-        _spriteRenderer.sprite = _btnGraphicSprites[index];
+        _spriteRenderer.sprite = _btnGraphicSprites[(int)type];
         _spriteRenderer.flipX = false;
         
-        OnSetValue?.Invoke(index);
+        OnSetValue?.Invoke((int)type);
 
         // 애니메이션 관련 오브젝트 구분
         if (!_isAnimated) return;
-        _animator.enabled = (index == 1);
+        _animator.enabled = ((int)type == 1);
+    }
+    
+    public GraphicType GetCurrentValue()
+    {
+        return _currentGraphicType;
     }
     
     public void SetSpriteDirection(Vector2 dir)
     {
         // 애니메이션 오브젝트 시 이동에 따른 Sprite 변경
         if (!_isAnimated) return;
-        if (_currentGraphicType != (int)GraphicType.High) return;
+        if (_currentGraphicType != GraphicType.High) return;
 
-        int idx = 1;
+        int index = 1;
         
         if (Mathf.Abs(dir.y) >= Mathf.Abs(dir.x))
         {
-            idx = dir.y > 0 ? 0 : 1; // Up : Down
+            index = dir.y > 0 ? 0 : 1; // Up : Down
         }
         else
         {
-            idx = 2; // Right : Left
+            index = 2; // Right : Left
         }
 
         // Index 체크 후 Sprite 변경
-        if (idx >= highGraphicSprites.Count || highGraphicSprites[idx] == null) return;
-        _spriteRenderer.sprite = highGraphicSprites[idx];
+        if (index >= highGraphicSprites.Count || highGraphicSprites[index] == null) return;
+        _spriteRenderer.sprite = highGraphicSprites[index];
     }
 }

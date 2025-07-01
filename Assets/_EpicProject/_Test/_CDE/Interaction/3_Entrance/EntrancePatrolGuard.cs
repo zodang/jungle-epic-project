@@ -1,4 +1,4 @@
-using UnityEditor.Localization.Plugins.XLIFF.V20;
+using Define;
 using UnityEngine;
 
 public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
@@ -8,21 +8,25 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     private Movement2D _movement2D;
     private bool _enableMove;
     
-    // IGraphicChangeable
-    private GraphicHandler _graphicHandler;
-    
     // ISpeedChangeable
     private SpeedHandler _speedHandler;
+    private readonly int _defaultSpeedStep = 1;
+    
+    // IGraphicChangeable
+    private GraphicHandler _graphicHandler;
+    private readonly GraphicType _defaultGraphicType = GraphicType.Middle;
     
     private PlayerAnimation _animation;
     
     private void Awake()
     {
-        _graphicHandler = GetComponent<GraphicHandler>();
         ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
+        _graphicHandler = GetComponent<GraphicHandler>();
         
         _speedHandler.Init(1);
         _speedHandler.OnSetValue += ChangeSpeed;
+        
+        _graphicHandler.Init(_defaultGraphicType);
         
         _movement2D = GetComponent<Movement2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -71,7 +75,8 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     
     public void ResetFeature()
     {
-        // Todo: 리셋 기능
+        _speedHandler.SetValue(_defaultSpeedStep);
+        _graphicHandler.SetValue(_defaultGraphicType);
     }
 
     #endregion FeatureSetting

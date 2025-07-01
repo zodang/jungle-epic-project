@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine;
 
 public class EntranceBeauty : MonoBehaviour, IFeatureResetable, IControllable
@@ -7,14 +8,25 @@ public class EntranceBeauty : MonoBehaviour, IFeatureResetable, IControllable
     private Movement2D _movement2D;
     private bool _enableMove;
     
+    // ISpeedChangeable
+    private SpeedHandler _speedHandler;
+    private readonly int _defaultSpeedStep = 1;
+    
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;
+    private readonly GraphicType _defaultGraphicType = GraphicType.High;
     
     private PlayerAnimation _animation;
     
     private void Awake()
     {
+        ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
         _graphicHandler = GetComponent<GraphicHandler>();
+        
+        _speedHandler.Init(_defaultSpeedStep);
+        _speedHandler.OnSetValue += ChangeSpeed;
+        
+        _graphicHandler.Init(_defaultGraphicType);
         
         _movement2D = GetComponent<Movement2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -55,9 +67,16 @@ public class EntranceBeauty : MonoBehaviour, IFeatureResetable, IControllable
         _animation.ActivateAnimation(false);
     }
     
+    private void ChangeSpeed(int step)
+    {
+        float multiple = 0.5f + 0.5f * step;
+        _movement2D.MultiplySpeed(multiple);
+    }
+    
     public void ResetFeature()
     {
-        // Todo: 리셋 기능
+        _speedHandler.SetValue(_defaultSpeedStep);
+        _graphicHandler.SetValue(_defaultGraphicType);
     }
 
     #endregion FeatureSetting

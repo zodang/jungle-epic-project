@@ -33,9 +33,11 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
     private float _maxRotate = 359f;
     private float _currentRotate;
     
-
     // ISpeedChangeable
-    private int _defaultSpeedStep = 1;
+    private readonly int _defaultSpeedStep = 1;
+    
+    // IGraphicChangeable
+    private GraphicType _defaultGraphicType = GraphicType.Middle;
 
     private Transform _model;
     private GameObject _TwinkleLv1;
@@ -123,6 +125,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
         _scaleHandler.SetValue(1f);
         _lightHandler.SetValue(1f);
         _speedHandler.SetValue(_defaultSpeedStep);
+        _graphicHandler.SetValue(_defaultGraphicType);
     }
 
     #region Control

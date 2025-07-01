@@ -8,6 +8,6 @@ public class GraphicBlock : ButtonControlBase<IGraphicChangeable>
 
     protected override void OnButtonClicked(int buttonIndex)
     {
-        Feature.SetGraphic(buttonIndex);
+        Feature.SetValue((GraphicType)buttonIndex);
     }
 }

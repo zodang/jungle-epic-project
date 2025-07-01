@@ -1,5 +1,7 @@
+using Define;
+
 public interface IGraphicChangeable
 {
-    int GetCurrentValue();
-    void SetGraphic(int index);
+    GraphicType GetCurrentValue();
+    void SetValue(GraphicType type);
 }
