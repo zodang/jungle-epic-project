@@ -15,19 +15,29 @@ namespace Define
         Scale,
         Rotate,
         Light,
+        Graphic,
+        Speed,
         Sound,
         Mess,
     }
 
     public enum SfxType
     {
-        Click, Close, Deny, Dial, Get, Open, Text, Put, Clear, Grass
+        Open, Close, Text, Clear, Dial,Grass
     }
 
     public enum PlayerSkinType
     {
         Default,
         BaldHead,
+    }
+
+    public enum GraphicType
+    {
+        Low,
+        Middle,
+        High,
+        None,
     }
 
     public static class Tags
