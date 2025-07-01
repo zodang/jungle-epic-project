@@ -1,13 +1,31 @@
 using UnityEngine;
 using System.Collections;
+using DG.Tweening;
+using Unity.VisualScripting;
+using TMPro;
+using UnityEngine.UI;
 
 public class GlitchIndicator : MonoBehaviour
 {
-    // 글리치 종료 신호를 받기 위한 플래그
+    [Header("Animator")]
+    [SerializeField] private Animator _glitchAni;
+
+    [Header("Cooldown Image (RectTransform)")]
+    [SerializeField] private RectTransform _cooldownImageRT;
+
+    [Header("DOTween 세팅")]
+    [SerializeField] private float _tweenDuration = 0.3f;
+    private float _raiseY = 300f;  // 앵커 Y 이동량
+
+    public Vector2 _originalAnchoredPos;
     private bool _glitchEnded = false;
+
+    private DG.Tweening.Sequence sequence;
+
 
     private void Start()
     {
+        _originalAnchoredPos = _cooldownImageRT.anchoredPosition; 
         GlitchVision.BeginGlitch += StartGlitchTimer;
         GlitchVision.EndGlitch += OnGlitchEnd;
     }
@@ -18,32 +36,37 @@ public class GlitchIndicator : MonoBehaviour
         GlitchVision.EndGlitch -= OnGlitchEnd;
     }
 
-    // BeginGlitch 이벤트에 연결
     private void StartGlitchTimer()
     {
-        Debug.Log("글리치비전 시작됨");
         _glitchEnded = false;
-        StartCoroutine(GlitchTimerCoroutine());
+
+        // UI용 DOTween: 앵커 포지션 Y 값 변경
+        sequence = DOTween.Sequence();
+
+        sequence
+            .OnStart(() => { _glitchAni.Play("Glitch Count"); })
+            .Append(_cooldownImageRT.DOAnchorPosY(_originalAnchoredPos.y + _raiseY, _tweenDuration).SetEase(Ease.OutCubic))
+            .AppendInterval(3)
+            .Append(_cooldownImageRT.DOAnchorPosY(_originalAnchoredPos.y, _tweenDuration).SetEase(Ease.InCubic))
+            .OnComplete(() => { _glitchAni.Play("Empty");  _glitchEnded = true; })
+       ;
+
     }
 
-    // EndGlitch 이벤트에 연결
     private void OnGlitchEnd()
     {
         _glitchEnded = true;
     }
 
-    private IEnumerator GlitchTimerCoroutine()
-    {
-        // 1초마다 로그 출력
-        for (int i = 1; i <= 3; i++)
-        {
-            yield return new WaitForSeconds(1f);
-            Debug.Log($"{i}초..");
-        }
+    //private IEnumerator GlitchTimerCoroutine()
+    //{
+    //    _glitchAni.Play("Glitch Count");
+    //    yield return new WaitUntil(() => _glitchEnded);
 
-        // 여기서 EndGlitch 이벤트가 올 때까지 대기
-        yield return new WaitUntil(() => _glitchEnded);
+    //    // 다시 원위치로 내리기
+    //    _cooldownImageRT
+    //        .DOAnchorPosY(_originalAnchoredPos.y, _tweenDuration)
+    //        .SetEase(Ease.InCubic);
 
-        Debug.Log("글리치비전 끝남");
-    }
+    //}
 }
