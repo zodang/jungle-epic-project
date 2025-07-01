@@ -2,7 +2,7 @@ using Define;
 using System;
 using UnityEngine;
 
-public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
+public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
 {
     // IControllable
     private Rigidbody2D _rigidbody2D;

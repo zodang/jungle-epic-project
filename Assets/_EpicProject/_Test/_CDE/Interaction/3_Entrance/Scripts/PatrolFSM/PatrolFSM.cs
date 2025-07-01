@@ -8,14 +8,14 @@ public class PatrolFSM : MonoBehaviour
     public Vector3[] PatrolPositions => _patrolPositions;
     
     private CameraFraming _cameraFraming;
-    private EntrancePatrolGuard _guard;
+    private PatrolGuard _guard;
     
     private FSM<FSMState> _fsm;
     
     private void Awake()
     {
         _cameraFraming = FindAnyObjectByType<CameraFraming>();
-        _guard = GetComponent<EntrancePatrolGuard>();
+        _guard = GetComponent<PatrolGuard>();
         
         _fsm = new FSM<FSMState>();
         

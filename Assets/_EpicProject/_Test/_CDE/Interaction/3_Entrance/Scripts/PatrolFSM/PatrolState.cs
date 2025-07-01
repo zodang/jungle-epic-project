@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PatrolState : FSMState
 {
-    private EntrancePatrolGuard _guard;
+    private PatrolGuard _guard;
     private PatrolFSM _patrolFsm;
     private FSM<FSMState> _fsm;
     
     private int _currentPoint;
     
-    public PatrolState(EntrancePatrolGuard guard, PatrolFSM patrolFsm, FSM<FSMState> fsm)
+    public PatrolState(PatrolGuard guard, PatrolFSM patrolFsm, FSM<FSMState> fsm)
     {
         _guard = guard;
         _patrolFsm = patrolFsm;

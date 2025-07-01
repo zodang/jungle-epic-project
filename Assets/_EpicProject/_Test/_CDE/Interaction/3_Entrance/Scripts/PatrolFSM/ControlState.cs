@@ -1,10 +1,10 @@
 public class ControlState : FSMState
 {
-    private EntrancePatrolGuard _guard;
+    private PatrolGuard _guard;
     private PatrolFSM _patrolFsm;
     private FSM<FSMState> _fsm;
     
-    public ControlState(EntrancePatrolGuard guard, PatrolFSM patrolFsm, FSM<FSMState> fsm)
+    public ControlState(PatrolGuard guard, PatrolFSM patrolFsm, FSM<FSMState> fsm)
     {
         _guard = guard;
         _patrolFsm = patrolFsm;

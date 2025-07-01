@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ReturnState : FSMState
 {
-    private EntrancePatrolGuard _guard;
+    private PatrolGuard _guard;
     private PatrolFSM _patrolFsm;
     private FSM<FSMState> _fsm;
     
@@ -12,7 +12,7 @@ public class ReturnState : FSMState
     private float _waitTimer;
     private float _waitTime = 0.3f;
     
-    public ReturnState(EntrancePatrolGuard guard, PatrolFSM patrolFsm, FSM<FSMState> fsm)
+    public ReturnState(PatrolGuard guard, PatrolFSM patrolFsm, FSM<FSMState> fsm)
     {
         _guard = guard;
         _patrolFsm = patrolFsm;
