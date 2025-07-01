@@ -2993,8 +2993,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 815040171}
   - {fileID: 1294163296}
+  - {fileID: 815040171}
   m_Father: {fileID: 1771451939}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1723781821
@@ -3565,7 +3565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1924819228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3697,6 +3697,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _glitchAni: {fileID: 0}
+  _cooldownImageRT: {fileID: 0}
+  _tweenDuration: 0.3
+  _originalAnchoredPos: {x: 0, y: 0}
 --- !u!1 &2080086359
 GameObject:
   m_ObjectHideFlags: 0

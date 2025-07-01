@@ -12,12 +12,15 @@ public class PlayerAnimation : MonoBehaviour
     private RuntimeAnimatorController _defaultController;
 
     private bool _isAnimationActive;
+    private Movement2D _movement2D;
     
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
         _defaultController = _animator.runtimeAnimatorController;
+
+        _movement2D = transform.parent.GetComponent<Movement2D>();
         
         // SkinDictionary 초기화
         foreach (var skin in playerSkinData)
@@ -58,9 +61,9 @@ public class PlayerAnimation : MonoBehaviour
     private void Update()
     {
         if (!_isAnimationActive) return;
-     
-        Vector2 move = StageManager.Instance.InputManager.MoveInput;
-        bool isMoving = move.sqrMagnitude > 0.01f;
+
+        Vector2 move = _movement2D.MoveDir;
+        bool isMoving = _movement2D.MoveDir.sqrMagnitude > 0.1f;
         
         if (Mathf.Abs(move.x) > Mathf.Abs(move.y))
         {

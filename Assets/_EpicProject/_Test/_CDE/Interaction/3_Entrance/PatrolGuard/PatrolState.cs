@@ -7,9 +7,6 @@ public class PatrolState : FSMState
     private FSM<FSMState> _fsm;
     
     private int _currentPoint;
-
-    private float _baseSpeed = 5f;
-    private float _patrolSpeed = 5f;
     
     public PatrolState(EntrancePatrolGuard guard, PatrolFSM patrolFsm, FSM<FSMState> fsm)
     {
@@ -21,7 +18,6 @@ public class PatrolState : FSMState
     public override void Enter()
     {
         _guard.OnControlEnabled += ChangeToControlState;
-        _guard.OnSpeedChanged += ChangeSpeed;
         _currentPoint = _patrolFsm.GetClosestPointIndex();
     }
 
@@ -29,14 +25,13 @@ public class PatrolState : FSMState
     {
         if (_patrolFsm.PatrolPositions == null || _patrolFsm.PatrolPositions.Length == 0) return;
 
-        // 현재 목표 포인트로 이동
-        _guard.transform.position = Vector3.MoveTowards(
-            _guard.transform.position,
-            _patrolFsm.PatrolPositions[_currentPoint],
-            _patrolSpeed * Time.deltaTime
-        );
+        Vector3 pos = _guard.transform.position;
+        Vector3 target = _patrolFsm.PatrolPositions[_currentPoint];
+        Vector2 dir = (target - pos).normalized;
+        
+        _guard.SetMoveDirection(dir);
 
-        // 도착했다면 다음 포인트로
+        // 도착했다면 다음 포인트 이동
         if (Vector3.Distance(_guard.transform.position, _patrolFsm.PatrolPositions[_currentPoint]) < 0.1f)
         {
             _currentPoint = (_currentPoint + 1) % _patrolFsm.PatrolPositions.Length;
@@ -51,10 +46,5 @@ public class PatrolState : FSMState
     private void ChangeToControlState()
     {
         _fsm.ChangeState(new ControlState(_guard, _patrolFsm, _fsm));
-    }
-
-    private void ChangeSpeed(float multiple)
-    {
-        _patrolSpeed = _baseSpeed * multiple;
     }
 }

@@ -21,7 +21,6 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     
     public Action OnControlEnabled;
     public Action OnControlDisabled;
-    public Action<float> OnSpeedChanged;
     
     private void Awake()
     {
@@ -43,6 +42,13 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     {
         DisableControl();
         ResetFeature();
+        
+        _animation.ActivateAnimation(true);
+    }
+    
+    public void SetMoveDirection(Vector2 dir)
+    {
+        _movement2D.MoveDir = dir;
     }
 
     #region FeatureSetting
@@ -60,7 +66,7 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _enableMove = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         _movement2D.MoveDir = Vector3.zero;
-        _animation.ActivateAnimation(true);
+        // _animation.ActivateAnimation(true);
         
         OnControlEnabled?.Invoke();
     }
@@ -70,7 +76,7 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _movement2D.MoveDir = Vector3.zero;
-        _animation.ActivateAnimation(false);
+        // _animation.ActivateAnimation(false);
         
         OnControlDisabled?.Invoke();
     }
@@ -79,9 +85,6 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     {
         float multiple = 0.5f + 0.5f * step;
         _movement2D.MultiplySpeed(multiple);
-        
-        // Patrol 속도 변경
-        OnSpeedChanged?.Invoke(multiple);
     }
     
     public void ResetFeature()

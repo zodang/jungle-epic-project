@@ -6,7 +6,6 @@ public class ReturnState : FSMState
     private PatrolFSM _patrolFsm;
     private FSM<FSMState> _fsm;
     
-    private float _returnSpeed = 5f;
     private Vector3 _targetPoint;
     
     private bool _waiting;
@@ -23,8 +22,8 @@ public class ReturnState : FSMState
     public override void Enter()
     {
         _patrolFsm.SetFocus();
-        StageManager.Instance.InputManager.ActivatePlayerInput(false);
         _targetPoint = GetClosestPatrolPoint();
+        StageManager.Instance.InputManager.ActivatePlayerInput(false);
     }
 
     public override void Update()
@@ -41,13 +40,12 @@ public class ReturnState : FSMState
         }
         
         // 현재 위치에서 타겟 포인트로 이동
-        _guard.transform.position = Vector3.MoveTowards(
-            _guard.transform.position,
-            _targetPoint,
-            _returnSpeed * Time.deltaTime
-        );
+        Vector3 pos = _guard.transform.position;
+        Vector3 target = _targetPoint;
+        Vector2 dir = (target - pos).normalized;
+        _guard.SetMoveDirection(dir);
 
-        if (!(Vector3.Distance(_guard.transform.position, _targetPoint) < 0.1f)) return;
+        if (!(Vector3.Distance(_guard.transform.position, _targetPoint) < 1f)) return;
         
         // targetPoint에 도달
         _waiting = true;
