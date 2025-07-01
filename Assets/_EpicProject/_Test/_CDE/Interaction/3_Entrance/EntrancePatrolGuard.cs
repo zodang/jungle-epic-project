@@ -1,3 +1,4 @@
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
@@ -10,11 +11,18 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;
     
+    // ISpeedChangeable
+    private SpeedHandler _speedHandler;
+    
     private PlayerAnimation _animation;
     
     private void Awake()
     {
         _graphicHandler = GetComponent<GraphicHandler>();
+        ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
+        
+        _speedHandler.Init(1);
+        _speedHandler.OnSetValue += ChangeSpeed;
         
         _movement2D = GetComponent<Movement2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -53,6 +61,12 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _movement2D.MoveDir = Vector3.zero;
         _animation.ActivateAnimation(false);
+    }
+
+    private void ChangeSpeed(int step)
+    {
+        float multiple = 0.5f + 0.5f * step;
+        _movement2D.MultiplySpeed(multiple);
     }
     
     public void ResetFeature()
