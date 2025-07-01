@@ -24,7 +24,7 @@ public class DialogueTrigger : MonoBehaviour
         // 특정 ID 대사 시작
         if (StageBaseManager.Instance.DialogueManager != null && !string.IsNullOrEmpty(dialogueId) && _speechAnchor != null)
         {
-            StageBaseManager.Instance.DialogueManager.StartDialogue(defaultDialogueId, _speechAnchor.transform);
+            StageBaseManager.Instance.DialogueManager.StartDialogue(dialogueId, _speechAnchor.transform);
         }
     }
 }

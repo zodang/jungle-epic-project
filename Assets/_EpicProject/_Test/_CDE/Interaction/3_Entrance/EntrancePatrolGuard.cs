@@ -1,6 +1,5 @@
 using Define;
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
@@ -23,10 +22,6 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     public Action OnControlEnabled;
     public Action OnControlDisabled;
     
-    private RespawnPointEntrance _respawnPoint;
-    private DetectionRange _range;
-    private DialogueTrigger _dialogueTrigger;
-    
     private void Awake()
     {
         ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
@@ -42,16 +37,10 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _rigidbody2D.gravityScale = 0;
         
         _animation = GetComponentInChildren<PlayerAnimation>();
-
-        _respawnPoint = FindAnyObjectByType<RespawnPointEntrance>();
-        _range = GetComponentInChildren<DetectionRange>();
-        _dialogueTrigger = GetComponent<DialogueTrigger>();
     }
 
     private void Start()
     {
-        _range.OnPlayerDetected += WhenPlayerDetected;
-        
         DisableControl();
         ResetFeature();
         
@@ -62,19 +51,7 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     {
         _movement2D.MoveDir = dir;
     }
-
-    private void WhenPlayerDetected(GameObject playerObj)
-    {
-        _dialogueTrigger.TriggerDialogue();
-        StartCoroutine(WaitCo(playerObj));
-    }
     
-    private IEnumerator WaitCo(GameObject player)
-    {
-        yield return new WaitForSeconds(0.1f);
-        player.GetComponent<Movement2D>().Respawn(_respawnPoint.transform.position);
-    }
-
     #region FeatureSetting
 
     private void Update()

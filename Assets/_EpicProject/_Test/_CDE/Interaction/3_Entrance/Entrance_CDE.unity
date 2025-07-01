@@ -950,7 +950,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 352204544}
-  - component: {fileID: 352204545}
   m_Layer: 0
   m_Name: RespawnPoint_Square
   m_TagString: Untagged
@@ -973,18 +972,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 782472109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &352204545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352204543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f585e63f077d1bb4e9ecae2e8d4f0c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &420110223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,6 +1642,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 944137637}
+  - component: {fileID: 944137638}
   m_Layer: 0
   m_Name: SpeechAnchor
   m_TagString: Untagged
@@ -1677,6 +1665,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1590314757}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &944137638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944137636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b66257589f3de84299154c2665f079a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &951775127
 GameObject:
   m_ObjectHideFlags: 0
@@ -2149,7 +2149,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1107990817}
-  - component: {fileID: 1107990818}
   m_Layer: 0
   m_Name: RespawnPoint_Entrance
   m_TagString: Untagged
@@ -2172,18 +2171,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 782472109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1107990818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1107990816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 637e614c19758fa438508250bb0e246d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1177549767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2380,6 +2367,7 @@ GameObject:
   - component: {fileID: 1241659890}
   - component: {fileID: 1241659889}
   - component: {fileID: 1241659897}
+  - component: {fileID: 1241659898}
   m_Layer: 0
   m_Name: Entrance_PatrolGuard
   m_TagString: Untagged
@@ -2570,6 +2558,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultDialogueId: Detected_Entrance
+--- !u!114 &1241659898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241659888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52467599327c31d46aabde74fb026cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guardType: 0
+  respawnPoint: {fileID: 352204544}
 --- !u!1 &1270184693
 GameObject:
   m_ObjectHideFlags: 0
@@ -3558,8 +3560,8 @@ GameObject:
   - component: {fileID: 1590314757}
   - component: {fileID: 1590314756}
   - component: {fileID: 1590314755}
-  - component: {fileID: 1590314754}
   - component: {fileID: 1590314758}
+  - component: {fileID: 1590314759}
   m_Layer: 0
   m_Name: Entrance_DetectionGuard
   m_TagString: Untagged
@@ -3567,18 +3569,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1590314754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1590314753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af46776ea37ee694d831d5cde004a29d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &1590314755
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3683,6 +3673,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultDialogueId: 
+--- !u!114 &1590314759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590314753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52467599327c31d46aabde74fb026cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guardType: 1
+  respawnPoint: {fileID: 1107990817}
 --- !u!1001 &1723781821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41148,6 +41152,7 @@ GameObject:
   - component: {fileID: 9083487878675343100}
   - component: {fileID: 9083487878675343099}
   - component: {fileID: 9083487878675343101}
+  - component: {fileID: 9083487878675343102}
   m_Layer: 0
   m_Name: Entrance_PatrolGuard
   m_TagString: Untagged
@@ -41215,6 +41220,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultDialogueId: Detected_Entrance
+--- !u!114 &9083487878675343102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9083487878675343097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52467599327c31d46aabde74fb026cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guardType: 0
+  respawnPoint: {fileID: 352204544}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -41228,9 +41247,9 @@ SceneRoots:
   - {fileID: 1308466448}
   - {fileID: 440588827}
   - {fileID: 1075701030}
+  - {fileID: 1466580208}
   - {fileID: 8078079130747658628}
   - {fileID: 1241659896}
-  - {fileID: 1466580208}
   - {fileID: 1590314757}
   - {fileID: 2080086366}
   - {fileID: 782472109}
