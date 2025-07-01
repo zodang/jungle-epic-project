@@ -38,7 +38,7 @@ public abstract class DraggableBlock : MonoBehaviour,
         PrevSlot = _originalParent.GetComponent<Slot>();
         _rectTransform.SetParent(_canvas.transform);
 
-        GameManager.Instance.AudioManager.PlaySfx(SfxType.Click);
+        //GameManager.Instance.AudioManager.PlaySfx(SfxType.Click);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -78,7 +78,7 @@ public abstract class DraggableBlock : MonoBehaviour,
             _rectTransform.anchoredPosition = _originalAnchorPos;
         }
 
-        GameManager.Instance.AudioManager.PlaySfx(SfxType.Put);
+        //GameManager.Instance.AudioManager.PlaySfx(SfxType.Put);
 
         // 드래그블 끝났을때 EngineFliker 함수 호출
         OnAnyBlockEndDrag?.Invoke();

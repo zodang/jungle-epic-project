@@ -170,27 +170,27 @@ public class InputManager : MonoBehaviour
             //    clickable.OnClicked();
             //}
         }
-        
-        
-        /*// 테스트용 코드
+
+
+        // 테스트용 코드
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.PlayerControl);
         }
-        
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Scale);
         }
-        
+
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Rotate);
         }
-        
+
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Light);
-        }*/
+        }
     }
 }
