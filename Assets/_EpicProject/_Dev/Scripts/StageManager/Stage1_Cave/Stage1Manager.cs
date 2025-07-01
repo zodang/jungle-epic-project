@@ -13,7 +13,7 @@ public class Stage1Manager : StageBaseManager
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
     }
 
     // Update is called once per frame
