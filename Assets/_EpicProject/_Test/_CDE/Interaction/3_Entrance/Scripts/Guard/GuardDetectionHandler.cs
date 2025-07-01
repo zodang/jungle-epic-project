@@ -1,14 +1,21 @@
 using Define;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntranceDetectionGuard : MonoBehaviour
+enum GuardType
 {
+    Patrol,
+    Detection,
+}
+
+public class GuardDetectionHandler : MonoBehaviour
+{
+    [SerializeField] private GuardType guardType;
+    [SerializeField] private Transform respawnPoint;
     private DetectionRange _range;
-    
     private DialogueTrigger _dialogueTrigger;
     private WantedPoster _poster;
-
 
     private void Awake()
     {
@@ -21,33 +28,67 @@ public class EntranceDetectionGuard : MonoBehaviour
     {
         _range.OnPlayerDetected += WhenPlayerDetected;
     }
-
+    
     private void OnDestroy()
     {
         _range.OnPlayerDetected -= WhenPlayerDetected;
     }
-
+    
     private void WhenPlayerDetected(GameObject playerObj)
     {
-        // player의 Graphic 상태와 Poster의 Graphic 상태 비교
-        IGraphicChangeable player = playerObj.GetComponent<IGraphicChangeable>();
-        IGraphicChangeable poster = _poster.GetComponent<IGraphicChangeable>();
+        switch (guardType)
+        {
+            case GuardType.Detection:
+                HandleDetectionGuard(playerObj);
+                break;
+            case GuardType.Patrol:
+                HandlePatrolGuard(playerObj);
+                break;
+        }
+    }
 
-        if (player == null || poster == null)
+    private void HandleDetectionGuard(GameObject playerObj)
+    {
+        IGraphicChangeable player = playerObj.GetComponent<IGraphicChangeable>();
+        IGraphicChangeable posterGraphic = _poster.GetComponent<IGraphicChangeable>();
+            
+        if (player == null || posterGraphic == null)
         {
             Debug.LogWarning("GraphicChangeable 없음!");
             return;
         }
-        
+            
         GraphicType playerType = player.GetCurrentValue();
-        GraphicType posterType = poster.GetCurrentValue();
-        
+        GraphicType posterType = posterGraphic.GetCurrentValue();
+
         if (DetectionDialogueTable.TryGetValue((posterType, playerType), out string dialogueId))
         {
             _dialogueTrigger.TriggerDialogue(dialogueId);
         }
+
+        bool condition1 = playerType == GraphicType.Middle && posterType == GraphicType.Low; 
+        bool condition2 = playerType == GraphicType.High && posterType == GraphicType.Low;
+        
+        if (condition1 || condition2) return;
+        if (respawnPoint == null) return;
+        
+        StartCoroutine(RespawnCo(playerObj));
     }
 
+    private void HandlePatrolGuard(GameObject playerObj)
+    {
+        _dialogueTrigger.TriggerDialogue();
+        
+        if (respawnPoint == null) return;
+        StartCoroutine(RespawnCo(playerObj));
+    }
+    
+    private IEnumerator RespawnCo(GameObject player)
+    {
+        yield return new WaitForSeconds(0.1f);
+        player.GetComponent<Movement2D>().Respawn(respawnPoint.position);
+    }
+    
     private static readonly Dictionary<(GraphicType poster, GraphicType player), string> DetectionDialogueTable = new()
     {
         { (GraphicType.Low, GraphicType.Low), "Fail_Low_GraphicPlayer" },

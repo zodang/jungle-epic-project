@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
     public event Action OnInteract;
     public event Action OnEscPressed;
     public event Action OnTabPressed;
+    
     public Vector2 MoveInput { get; private set; }
 
     private InputActionAsset _inputActionAsset;
@@ -23,8 +24,10 @@ public class InputManager : MonoBehaviour
     private InputAction _clickAction;
     private InputAction _OffEngineAction;
     private InputAction _toggleInventoryAction;
-    
+
     private bool _isClicked;
+    
+    private bool _isPlayerInputActive = true;
 
     public void Awake()
     {
@@ -49,10 +52,16 @@ public class InputManager : MonoBehaviour
 
         _actionMap.Enable();
     }
+    
+    public void ActivatePlayerInput(bool isActive)
+    {
+        // 플레이어 입력 활성화
+        _isPlayerInputActive = isActive;
+    }
 
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
-        if (IsInputFieldFocused())  return;
+        if (!_isPlayerInputActive) return;
         
         var input = context.ReadValue<Vector2>();
         MoveInput = input;
@@ -65,23 +74,26 @@ public class InputManager : MonoBehaviour
 
     private void OnInteractionPerformed(InputAction.CallbackContext context)
     {
-        if (IsInputFieldFocused()) return;
+        if (!_isPlayerInputActive) return;
         
         OnInteract?.Invoke();
     }
     
     private void OnCLickPerformed(InputAction.CallbackContext context)
     {
+        if (!_isPlayerInputActive) return;
         _isClicked = true;
     }
     
     private void OnOffEnginePerformed(InputAction.CallbackContext context)
     {
+        if (!_isPlayerInputActive) return;
         OnEscPressed?.Invoke();
     }
 
     private void OnToggleInventoryPerformed(InputAction.CallbackContext context)
     {
+        if (!_isPlayerInputActive) return;
         OnTabPressed?.Invoke();
     }
 
@@ -170,8 +182,12 @@ public class InputManager : MonoBehaviour
             //    clickable.OnClicked();
             //}
         }
+        
+        BlockTest();
+    }
 
-
+    private void BlockTest()
+    {
         // 테스트용 코드
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -191,6 +207,16 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Light);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            FindAnyObjectByType<Inventory>().Collect(BlockType.Graphic);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            FindAnyObjectByType<Inventory>().Collect(BlockType.Speed);
         }
     }
 }

@@ -1,7 +1,7 @@
 using Define;
 using UnityEngine;
 
-public class EntranceBeauty : MonoBehaviour, IFeatureResetable, IControllable
+public class Beauty : MonoBehaviour, IFeatureResetable, IControllable
 {
     // IControllable
     private Rigidbody2D _rigidbody2D;

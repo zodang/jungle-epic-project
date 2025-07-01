@@ -1,7 +1,8 @@
 using Define;
+using System;
 using UnityEngine;
 
-public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
+public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
 {
     // IControllable
     private Rigidbody2D _rigidbody2D;
@@ -10,13 +11,16 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
     
     // ISpeedChangeable
     private SpeedHandler _speedHandler;
-    private readonly int _defaultSpeedStep = 1;
+    private readonly int _defaultSpeedStep = 2;
     
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;
     private readonly GraphicType _defaultGraphicType = GraphicType.Middle;
     
     private PlayerAnimation _animation;
+    
+    public Action OnControlEnabled;
+    public Action OnControlDisabled;
     
     private void Awake()
     {
@@ -31,16 +35,23 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _movement2D = GetComponent<Movement2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = 0;
-
+        
         _animation = GetComponentInChildren<PlayerAnimation>();
     }
 
     private void Start()
     {
         DisableControl();
-        ResetFeature(); 
+        ResetFeature();
+        
+        _animation.ActivateAnimation(true);
     }
 
+    public void SetMoveDirection(Vector2 dir)
+    {
+        _movement2D.MoveDir = dir;
+    }
+    
     #region FeatureSetting
 
     private void Update()
@@ -56,7 +67,8 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _enableMove = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         _movement2D.MoveDir = Vector3.zero;
-        _animation.ActivateAnimation(true);
+        
+        OnControlEnabled?.Invoke();
     }
 
     public void DisableControl()
@@ -64,7 +76,8 @@ public class EntrancePatrolGuard : MonoBehaviour, IFeatureResetable, IControllab
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _movement2D.MoveDir = Vector3.zero;
-        _animation.ActivateAnimation(false);
+        
+        OnControlDisabled?.Invoke();
     }
 
     private void ChangeSpeed(int step)
