@@ -1024,7 +1024,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2906032220206065666}
-  - {fileID: 1596998777}
   - {fileID: 8820923431745341424}
   - {fileID: 2626163095056800242}
   - {fileID: 1149379555}
@@ -1548,80 +1547,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
---- !u!1001 &1596998776
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 898480178}
-    m_Modifications:
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.6799998
-      objectReference: {fileID: 0}
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 15.87
-      objectReference: {fileID: 0}
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5074764965182787089, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: respawnPoint
-      value: 
-      objectReference: {fileID: 352204544}
-    - target: {fileID: 6133797238232758033, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6450619684729429769, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_Name
-      value: Entrance_PatrolGuard
-      objectReference: {fileID: 0}
-    - target: {fileID: 6450619684729429769, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
---- !u!4 &1596998777 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
-  m_PrefabInstance: {fileID: 1596998776}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1626188703
 GameObject:
   m_ObjectHideFlags: 0
@@ -2535,7 +2460,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.32
+      value: -6.7
       objectReference: {fileID: 0}
     - target: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
       propertyPath: m_LocalPosition.y
