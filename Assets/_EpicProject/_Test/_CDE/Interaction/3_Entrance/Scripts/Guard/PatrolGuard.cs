@@ -11,7 +11,7 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
     
     // ISpeedChangeable
     private SpeedHandler _speedHandler;
-    private readonly int _defaultSpeedStep = 2;
+    private readonly int _defaultSpeedStep = 1;
     
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;

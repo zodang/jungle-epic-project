@@ -13,12 +13,17 @@ public class GuardDetectionHandler : MonoBehaviour
 {
     [SerializeField] private GuardType guardType;
     [SerializeField] private Transform respawnPoint;
+
+    private PatrolFSM _patrolFsm;
+    
     private DetectionRange _range;
     private DialogueTrigger _dialogueTrigger;
     private WantedPoster _poster;
 
     private void Awake()
     {
+        _patrolFsm = GetComponent<PatrolFSM>();
+        
         _range = GetComponentInChildren<DetectionRange>();
         _dialogueTrigger = GetComponent<DialogueTrigger>();
         _poster = FindAnyObjectByType<WantedPoster>();
@@ -77,9 +82,10 @@ public class GuardDetectionHandler : MonoBehaviour
 
     private void HandlePatrolGuard(GameObject playerObj)
     {
-        _dialogueTrigger.TriggerDialogue();
-        
+        if (_patrolFsm.CurrentState != PatrolStateType.Patrol) return;
         if (respawnPoint == null) return;
+        
+        _dialogueTrigger.TriggerDialogue();
         StartCoroutine(RespawnCo(playerObj));
     }
     

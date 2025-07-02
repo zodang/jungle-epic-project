@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine;
 
 public class ReturnState : FSMState
@@ -21,9 +22,16 @@ public class ReturnState : FSMState
 
     public override void Enter()
     {
-        _patrolFsm.SetFocus();
+        _patrolFsm.ChangeCurrentState(PatrolStateType.Return);
+        
+        _guard.OnControlEnabled += ChangeToControlState;
+        
         _targetPoint = _patrolFsm.PatrolPositions[_patrolFsm.GetClosestPointIndex()];
         StageManager.Instance.InputManager.ActivatePlayerInput(false);
+
+        _patrolFsm.Agent.enabled = true;
+        _patrolFsm.Agent.SetDestination(_targetPoint);
+        _patrolFsm.SetFocus();
     }
 
     public override void Update()
@@ -38,8 +46,62 @@ public class ReturnState : FSMState
             }
             return;
         }
+
+        NavMeshMove();
+        UpdateAnimationByNavMesh();
+    }
+
+    public override void Exit()
+    {
+        _guard.OnControlEnabled -= ChangeToControlState;
         
-        // 현재 위치에서 타겟 포인트로 이동
+        StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        _patrolFsm.UnsetFocus();
+    }
+    
+    private void ChangeToControlState()
+    {
+        _fsm.ChangeState(new ControlState(_guard, _patrolFsm, _fsm));
+    }
+
+    private void NavMeshMove()
+    {
+        // NavMesh 사용한 이동
+        if (_patrolFsm.Agent.pathPending) return;
+        if (!(_patrolFsm.Agent.remainingDistance < 0.5f)) return;
+
+        _waiting = true;
+        _waitTimer = 0f;
+            
+        _patrolFsm.Agent.SetDestination(_patrolFsm.Agent.transform.position);
+    }
+    
+    private void UpdateAnimationByNavMesh()
+    {
+        Vector3 move = _patrolFsm.Agent.velocity;
+        bool isMoving = move.sqrMagnitude > 0.01f;
+
+        if (Mathf.Abs(move.x) > Mathf.Abs(move.y))
+        {
+            move.y = 0;
+        }
+        else
+        {
+            move.x = 0;
+        }
+
+        _patrolFsm.Animator.SetBool("IsMoving", isMoving);
+        _patrolFsm.Animator.SetFloat("AbsMoveX", Mathf.Abs(move.x));
+        _patrolFsm.Animator.SetFloat("MoveX", move.x);
+        _patrolFsm.Animator.SetFloat("MoveY", move.y);
+
+        // 좌우 반전
+        _patrolFsm.SpriteRenderer.flipX = move.x > 0;
+    }
+
+    private void RigidbodyMove()
+    {
+        // Movement2D 사용한 이동
         Vector3 pos = _guard.transform.position;
         Vector3 target = _targetPoint;
         Vector2 dir = (target - pos).normalized;
@@ -50,11 +112,5 @@ public class ReturnState : FSMState
         // targetPoint에 도달
         _waiting = true;
         _waitTimer = 0f;
-    }
-
-    public override void Exit()
-    {
-        StageManager.Instance.InputManager.ActivatePlayerInput(true);
-        _patrolFsm.UnsetFocus();
     }
 }

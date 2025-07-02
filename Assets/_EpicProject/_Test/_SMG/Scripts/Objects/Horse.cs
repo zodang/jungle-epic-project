@@ -5,6 +5,7 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
 {
     [SerializeField] private SpeedHandler _speedHandler;
     [SerializeField] private GraphicHandler _graphicHandler;
+    [SerializeField] private GameObject shadow;
 
     // IControllable
     private Rigidbody2D _rigidbody2D;
@@ -12,7 +13,7 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
     private bool _enableMove;
 
     // ISpeedChangeable
-    private readonly int _defaultSpeedStep = 1;
+    private readonly int _defaultSpeedStep = 3;
 
     // IGraphicChangeable
     private GraphicType _defaultGraphicType = GraphicType.Middle;
@@ -22,12 +23,13 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
     private void Awake()
     {
         ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
-        //ComponentHelper.TryGetOrAddComponent<GraphicHandler>(ref _graphicHandler, gameObject);
+        _graphicHandler = GetComponent<GraphicHandler>();
 
         _speedHandler.Init(1);
         _speedHandler.OnSetValue += ChangeSpeed;
 
-        //_graphicHandler.Init(_defaultGraphicType);
+        _graphicHandler.Init(_defaultGraphicType);
+        _graphicHandler.OnSetValue += ChangeGraphic;
 
         _animation = GetComponentInChildren<PlayerAnimation>();
 
@@ -48,12 +50,13 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
     {
         if (!_enableMove) return;
         _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput;
+        _graphicHandler?.SetSpriteDirection(StageManager.Instance.InputManager.MoveInput);
     }
 
     public void ResetFeature()
     {
         _speedHandler.SetValue(_defaultSpeedStep);
-        //_graphicHandler.SetValue(_defaultGraphicType);
+        _graphicHandler.SetValue(_defaultGraphicType);
     }
 
     public void EnableControl()
@@ -76,5 +79,10 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
     {
         float multiple = 0.5f + 0.5f * step;
         _movement2D.MultiplySpeed(multiple);
+    }
+
+    private void ChangeGraphic(int type)
+    {
+        shadow.SetActive(type == 1);
     }
 }
