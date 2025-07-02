@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class CaveDoor : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class CaveDoor : MonoBehaviour
     private readonly float _openHeight = 1f;
     private readonly float _closeHeight = 0f;
     private readonly float _duration = 0.5f;
+
+    public UnityEvent<bool> OnChangeDoorState;
 
     private void Awake()
     {
@@ -31,5 +34,7 @@ public class CaveDoor : MonoBehaviour
         
         _doorTween?.Kill();
         _doorTween = door.transform.DOLocalMoveY(endHeight, _duration).SetEase(Ease.OutQuad);
+
+        OnChangeDoorState?.Invoke(!isOpen);
     }
 }
