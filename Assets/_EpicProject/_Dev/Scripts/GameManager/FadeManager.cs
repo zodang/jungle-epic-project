@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -5,10 +6,12 @@ using UnityEngine.SceneManagement;
 public class FadeManager : MonoBehaviour
 {
     private FadeUI _fadeUI;
+    private TransitionManager _transitionManager;
 
     private void Awake()
     {
         _fadeUI = FindAnyObjectByType<FadeUI>();
+        _transitionManager = FindAnyObjectByType<TransitionManager>();
     }
 
     public void LoadScene(int index = -1)
@@ -18,7 +21,7 @@ public class FadeManager : MonoBehaviour
 
     private IEnumerator LoadSceneCo(int index)
     {
-        yield return _fadeUI.FadeCo(0, 1);
+        yield return _transitionManager.TurnOnAni();
 
         // index 지정되지 않으면 다음 씬으로 이동
         int currentIndex = SceneManager.GetActiveScene().buildIndex;
@@ -33,7 +36,7 @@ public class FadeManager : MonoBehaviour
                 yield return null;
             }
             
-            yield return _fadeUI.FadeCo(1, 0, 0);
+            yield return _transitionManager.TurnOffAni();
         }
         else
         {
