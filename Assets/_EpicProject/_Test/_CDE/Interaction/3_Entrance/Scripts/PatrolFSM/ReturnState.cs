@@ -48,6 +48,7 @@ public class ReturnState : FSMState
         }
 
         NavMeshMove();
+        UpdateAnimationByNavMesh();
     }
 
     public override void Exit()
@@ -56,6 +57,11 @@ public class ReturnState : FSMState
         
         StageManager.Instance.InputManager.ActivatePlayerInput(true);
         _patrolFsm.UnsetFocus();
+    }
+    
+    private void ChangeToControlState()
+    {
+        _fsm.ChangeState(new ControlState(_guard, _patrolFsm, _fsm));
     }
 
     private void NavMeshMove()
@@ -70,9 +76,27 @@ public class ReturnState : FSMState
         _patrolFsm.Agent.SetDestination(_patrolFsm.Agent.transform.position);
     }
     
-    private void ChangeToControlState()
+    private void UpdateAnimationByNavMesh()
     {
-        _fsm.ChangeState(new ControlState(_guard, _patrolFsm, _fsm));
+        Vector3 move = _patrolFsm.Agent.velocity;
+        bool isMoving = move.sqrMagnitude > 0.01f;
+
+        if (Mathf.Abs(move.x) > Mathf.Abs(move.y))
+        {
+            move.y = 0;
+        }
+        else
+        {
+            move.x = 0;
+        }
+
+        _patrolFsm.Animator.SetBool("IsMoving", isMoving);
+        _patrolFsm.Animator.SetFloat("AbsMoveX", Mathf.Abs(move.x));
+        _patrolFsm.Animator.SetFloat("MoveX", move.x);
+        _patrolFsm.Animator.SetFloat("MoveY", move.y);
+
+        // 좌우 반전
+        _patrolFsm.SpriteRenderer.flipX = move.x > 0;
     }
 
     private void RigidbodyMove()

@@ -11,11 +11,13 @@ public class PatrolFSM : MonoBehaviour
     [SerializeField] private Transform[] patrolPoints;
     private Vector3[] _patrolPositions;
     
-    private CameraFraming _cameraFraming;
     private PatrolGuard _guard;
-    
     private FSM<FSMState> _fsm;
+    private CameraFraming _cameraFraming;
     
+    public Animator Animator { get; private set; }
+    public SpriteRenderer SpriteRenderer { get; private set; }
+
     private void Awake()
     {
         _cameraFraming = FindAnyObjectByType<CameraFraming>();
@@ -32,7 +34,10 @@ public class PatrolFSM : MonoBehaviour
 
         Agent = GetComponent<NavMeshAgent>();
         Agent.updateRotation = false;
-        Agent.updateUpAxis = false; 
+        Agent.updateUpAxis = false;
+
+        Animator = transform.GetComponentInChildren<Animator>();
+        SpriteRenderer = transform.GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
