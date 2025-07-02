@@ -1,17 +1,23 @@
 using UnityEngine;
+using Define;
+using UnityEngine.AI;
 
 public class PatrolFSM : MonoBehaviour
 {
-    [SerializeField] private Transform[] patrolPoints;
-    
-    private Vector3[] _patrolPositions;
     public Vector3[] PatrolPositions => _patrolPositions;
+    public PatrolStateType CurrentState { get; private set; }
+    public NavMeshAgent Agent { get; private set; }
+
+    [SerializeField] private Transform[] patrolPoints;
+    private Vector3[] _patrolPositions;
     
-    private CameraFraming _cameraFraming;
     private PatrolGuard _guard;
-    
     private FSM<FSMState> _fsm;
+    private CameraFraming _cameraFraming;
     
+    public Animator Animator { get; private set; }
+    public SpriteRenderer SpriteRenderer { get; private set; }
+
     private void Awake()
     {
         _cameraFraming = FindAnyObjectByType<CameraFraming>();
@@ -25,20 +31,34 @@ public class PatrolFSM : MonoBehaviour
         {
             _patrolPositions[i] = patrolPoints[i].position;
         }
+
+        Agent = GetComponent<NavMeshAgent>();
+        Agent.updateRotation = false;
+        Agent.updateUpAxis = false;
+
+        Animator = transform.GetComponentInChildren<Animator>();
+        SpriteRenderer = transform.GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
     {
+        // 순찰 상태 변경
         _fsm.ChangeState(new PatrolState(_guard, this, _fsm));
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _fsm.Update();
+    }
+
+    public void ChangeCurrentState(PatrolStateType state)
+    {
+        CurrentState = state;
     }
     
     public int GetClosestPointIndex()
     {
+        // 가까운 순찰 point 검색
         float minDist = float.MaxValue;
         int index = 0;
         for (int i = 0; i < _patrolPositions.Length; i++)
@@ -52,17 +72,14 @@ public class PatrolFSM : MonoBehaviour
         }
         return index;
     }
-
-
+    
     public void SetFocus()
     {
         _cameraFraming.AddTarget(transform);
-        _cameraFraming.RemoveTarget(StageBaseManager.Instance.PlayerManager.transform);
     }
 
     public void UnsetFocus()
     {
         _cameraFraming.RemoveTarget(transform);
-        _cameraFraming.AddTarget(StageBaseManager.Instance.PlayerManager.transform);
     }
 }

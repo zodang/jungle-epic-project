@@ -1,3 +1,5 @@
+using Define;
+
 public class ControlState : FSMState
 {
     private PatrolGuard _guard;
@@ -13,7 +15,13 @@ public class ControlState : FSMState
 
     public override void Enter()
     {
+        _patrolFsm.ChangeCurrentState(PatrolStateType.Control);
+        
+        _patrolFsm.Agent.enabled = false;
+        _patrolFsm.SetFocus();
+        
         _guard.OnControlDisabled += ChangeToReturnState;
+
     }
 
     public override void Exit()

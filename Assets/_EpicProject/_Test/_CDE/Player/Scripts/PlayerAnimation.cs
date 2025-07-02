@@ -13,14 +13,14 @@ public class PlayerAnimation : MonoBehaviour
 
     private bool _isAnimationActive;
     private Movement2D _movement2D;
-    
+
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
         _defaultController = _animator.runtimeAnimatorController;
 
-        _movement2D = transform.parent.GetComponent<Movement2D>();
+        _movement2D = transform.GetComponentInParent<Movement2D>();
         
         // SkinDictionary 초기화
         foreach (var skin in playerSkinData)
@@ -56,6 +56,7 @@ public class PlayerAnimation : MonoBehaviour
         // 애니메이션 활성화, 비활성화 기능
         _isAnimationActive = isActive;
         _spriteRenderer.flipX = false;
+        _animator.SetBool("IsMoving", false);
     }
 
     private void Update()
