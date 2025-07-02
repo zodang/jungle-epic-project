@@ -20,7 +20,7 @@ public class PlayerAnimation : MonoBehaviour
         _animator = GetComponent<Animator>();
         _defaultController = _animator.runtimeAnimatorController;
 
-        _movement2D = transform.parent.GetComponent<Movement2D>();
+        _movement2D = transform.GetComponentInParent<Movement2D>();
         
         // SkinDictionary 초기화
         foreach (var skin in playerSkinData)
