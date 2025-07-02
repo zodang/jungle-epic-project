@@ -32,13 +32,11 @@ public class PatrolState : FSMState
 
         Vector3 pos = _guard.transform.position;
         Vector3 target = _patrolFsm.PatrolPositions[_currentPoint];
-        Vector2 dir = (target - pos).normalized;
-        
-        // 목적지로 이동
+        Vector2 dir = new Vector2(target.x - pos.x, 0f).normalized; // y는 무시!
         _guard.SetMoveDirection(dir);
 
         // 목적지 변경
-        if (Vector3.Distance(_guard.transform.position, _patrolFsm.PatrolPositions[_currentPoint]) < 0.1f)
+        if (Vector3.Distance(_guard.transform.position, _patrolFsm.PatrolPositions[_currentPoint]) < 1f)
         {
             _currentPoint = (_currentPoint + 1) % _patrolFsm.PatrolPositions.Length;
         }

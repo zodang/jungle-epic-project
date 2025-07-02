@@ -115,7 +115,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
     
     private void ChangeSpeed(int step)
     {
-        float multiple = 0.5f + 0.5f * step;
+        float multiple = (step == 0) ? 0.5f : step;
         _movement2D.MultiplySpeed(multiple);
     }
 

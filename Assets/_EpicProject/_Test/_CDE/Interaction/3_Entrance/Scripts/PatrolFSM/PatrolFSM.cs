@@ -23,8 +23,6 @@ public class PatrolFSM : MonoBehaviour
         _cameraFraming = FindAnyObjectByType<CameraFraming>();
         _guard = GetComponent<PatrolGuard>();
         
-        _fsm = new FSM<FSMState>();
-        
         // PatrolPoint의 Transform을 Vector3로 저장
         _patrolPositions = new Vector3[patrolPoints.Length];
         for (int i = 0; i < patrolPoints.Length; i++)
@@ -38,6 +36,8 @@ public class PatrolFSM : MonoBehaviour
 
         Animator = transform.GetComponentInChildren<Animator>();
         SpriteRenderer = transform.GetComponentInChildren<SpriteRenderer>();
+        
+        _fsm = new FSM<FSMState>();
     }
 
     private void Start()

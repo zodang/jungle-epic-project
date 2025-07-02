@@ -11,7 +11,7 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
     
     // ISpeedChangeable
     private SpeedHandler _speedHandler;
-    private readonly int _defaultSpeedStep = 1;
+    private readonly int _defaultSpeedStep = 3;
     
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;
@@ -85,7 +85,7 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
 
     private void ChangeSpeed(int step)
     {
-        float multiple = 0.5f + 0.5f * step;
+        float multiple = (step == 0) ? 0.5f : step;
         _movement2D.MultiplySpeed(multiple);
     }
     
