@@ -22,6 +22,8 @@ public class PatrolState : FSMState
         
         _guard.OnControlEnabled += ChangeToControlState;
         _currentPoint = _patrolFsm.GetClosestPointIndex();
+        
+        _patrolFsm.Agent.enabled = false;
     }
 
     public override void Update()
@@ -32,9 +34,10 @@ public class PatrolState : FSMState
         Vector3 target = _patrolFsm.PatrolPositions[_currentPoint];
         Vector2 dir = (target - pos).normalized;
         
+        // 목적지로 이동
         _guard.SetMoveDirection(dir);
 
-        // 도착했다면 다음 포인트 이동
+        // 목적지 변경
         if (Vector3.Distance(_guard.transform.position, _patrolFsm.PatrolPositions[_currentPoint]) < 0.1f)
         {
             _currentPoint = (_currentPoint + 1) % _patrolFsm.PatrolPositions.Length;

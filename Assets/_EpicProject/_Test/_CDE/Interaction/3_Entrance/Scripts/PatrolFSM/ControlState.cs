@@ -17,6 +17,8 @@ public class ControlState : FSMState
     {
         _patrolFsm.ChangeCurrentState(PatrolStateType.Control);
         _guard.OnControlDisabled += ChangeToReturnState;
+        
+        _patrolFsm.Agent.enabled = false;
     }
 
     public override void Exit()
