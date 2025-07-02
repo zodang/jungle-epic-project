@@ -4241,6 +4241,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc39333890a6f0a4cbe0d7a64522d6a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 8262483955319388384}
+  windowPanel: {fileID: 2122558234757252640}
   closeBtn: {fileID: 66259616757664525}
 --- !u!222 &928063491704182295
 CanvasRenderer:
@@ -8757,7 +8759,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6765557390793801909}
   - {fileID: 8058254164108395118}

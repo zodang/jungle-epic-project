@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ public class SettingUI : MonoBehaviour
     private Canvas _canvas;
     private GameBtnGroup _gameBtnGroup;
     private LanguageSetting _languageSetting;
-    
+
     [SerializeField] private Button closeBtn;
 
 
@@ -16,7 +17,7 @@ public class SettingUI : MonoBehaviour
         _canvas = GetComponent<Canvas>();
         _gameBtnGroup = GetComponentInChildren<GameBtnGroup>();
         _languageSetting = GetComponentInChildren<LanguageSetting>();
-        
+
         closeBtn.onClick.AddListener(OpenSettingUI);
     }
 
@@ -35,7 +36,7 @@ public class SettingUI : MonoBehaviour
     {
         // Setting UI 구분
         Scene currentScene = SceneManager.GetActiveScene();
-        
+
         _gameBtnGroup.gameObject.SetActive(currentScene.name != "MenuScene");
         _languageSetting.gameObject.SetActive(currentScene.name == "MenuScene");
     }
