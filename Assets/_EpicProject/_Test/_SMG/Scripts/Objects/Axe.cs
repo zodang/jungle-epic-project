@@ -48,7 +48,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IControllable
         _rotateHandler.Init(_minRotate, _maxRotate, 1f);
         _rotateHandler.OnSetValue += Rotate;
 
-        _scaleHandler.Init(_minScale, _maxScale, 0f);
+        _scaleHandler.Init(_minScale, _maxScale, 15f);
         _scaleHandler.OnSetValue += Resize;
 
         _lightHandler.Init(_minBright, _maxBright, 1f);
@@ -103,7 +103,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IControllable
     // IFeatureResetable
     public void ResetFeature()
     {
-        _rotateHandler.SetValue(0f);
+        _rotateHandler.SetValue(15f);
         _scaleHandler.SetValue(1f);
         _lightHandler.SetValue(1f);
 
