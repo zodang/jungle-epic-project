@@ -57,7 +57,7 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
 
     private void SetScale(float scale)
     {
-        transform.localScale = new Vector3(scale, scale, 1f);
+        model.localScale = new Vector3(scale, scale, 1f);
     }
 
     private void SetLight(float bright)
