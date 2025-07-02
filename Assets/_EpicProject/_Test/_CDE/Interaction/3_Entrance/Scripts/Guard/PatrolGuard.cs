@@ -11,13 +11,13 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
     
     // ISpeedChangeable
     private SpeedHandler _speedHandler;
-    private readonly int _defaultSpeedStep = 2;
+    private readonly int _defaultSpeedStep = 1;
     
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;
     private readonly GraphicType _defaultGraphicType = GraphicType.Middle;
     
-    private PlayerAnimation _animation;
+    private PlayerAnimation[] _animations;
     
     public Action OnControlEnabled;
     public Action OnControlDisabled;
@@ -36,15 +36,18 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = 0;
         
-        _animation = GetComponentInChildren<PlayerAnimation>();
+        _animations = GetComponentsInChildren<PlayerAnimation>();
     }
 
     private void Start()
     {
         DisableControl();
         ResetFeature();
-        
-        _animation.ActivateAnimation(true);
+
+        foreach (var animation in _animations)
+        {
+            animation.ActivateAnimation(true);
+        }
     }
 
     public void SetMoveDirection(Vector2 dir)
