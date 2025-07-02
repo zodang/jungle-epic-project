@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine;
 
 public class Stage1Manager : StageBaseManager
@@ -8,17 +9,23 @@ public class Stage1Manager : StageBaseManager
     {
         stageFilePath = "StageInfos/CaveStage";
         base.Awake();
+
+        _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
+        _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
     }
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
+
+
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnGoalTriggered()
     {
-        
+        GameManager.Instance.FadeManager.LoadScene();
     }
 }

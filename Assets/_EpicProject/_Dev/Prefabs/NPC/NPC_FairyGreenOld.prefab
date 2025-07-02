@@ -580,6 +580,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 104797873576022437}
   foot: {fileID: 5543752999582694576}
+  light: {fileID: 0}
+  DefaultLight: 0
+  MinBright: 0
+  MaxBright: 9
+  DefaultScale: 1
+  MinScale: 0.5
+  MaxScale: 2.5
 --- !u!114 &6780428592906111673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,7 +727,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2933880668169074327, guid: 09f79517a7e23d14486d9a3e6b585df5, type: 3}
+  m_Sprite: {fileID: 4869388548797904536, guid: 2e4214032daf806489cb57baebef7263, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
