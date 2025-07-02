@@ -1,4 +1,5 @@
 using Define;
+using System;
 using UnityEngine;
 
 public class Horse : MonoBehaviour, IControllable, IFeatureResetable
@@ -19,6 +20,9 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
     private GraphicType _defaultGraphicType = GraphicType.Middle;
 
     private PlayerAnimation _animation;
+    
+    public Action OnControlEnabled;
+    public Action OnControlDisabled;
 
     private void Awake()
     {
@@ -38,15 +42,15 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
         _rigidbody2D.gravityScale = 0;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         DisableControl();
         ResetFeature();
+        
+        _animation.ActivateAnimation(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!_enableMove) return;
         _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput;
@@ -64,7 +68,8 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
         _enableMove = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         _movement2D.MoveDir = Vector3.zero;
-        _animation.ActivateAnimation(true);
+        
+        OnControlEnabled?.Invoke();
     }
 
     public void DisableControl()
@@ -72,17 +77,26 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _movement2D.MoveDir = Vector3.zero;
-        _animation.ActivateAnimation(false);
+        
+        OnControlDisabled?.Invoke();
     }
 
     private void ChangeSpeed(int step)
     {
+        // Speed 블록에 의한 속도 변경
         float multiple = 0.5f + 0.5f * step;
         _movement2D.MultiplySpeed(multiple);
     }
 
     private void ChangeGraphic(int type)
     {
+        // 그림자 비활성화
         shadow.SetActive(type == 1);
+    }
+    
+    public void SetMoveDirection(Vector2 dir)
+    {
+        // FSM 상태에서 이동
+        _movement2D.MoveDir = dir;
     }
 }
