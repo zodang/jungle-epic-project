@@ -46,7 +46,6 @@ GameObject:
   - component: {fileID: 7342108114890054297}
   - component: {fileID: 2804899097127146035}
   - component: {fileID: 7922509211240639250}
-  - component: {fileID: 5721594649535115665}
   - component: {fileID: 296408183207308422}
   - component: {fileID: 7063571660131496104}
   m_Layer: 6
@@ -237,20 +236,6 @@ MonoBehaviour:
   isGlitchVision: 0
   glitchValueUpdateSpeed: 1
   glitchChangeInterval: 0.2
---- !u!114 &5721594649535115665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3685825111224187354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a08d74c54e54ab44bfcc11131d1107b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  VerticalCollider2D: {fileID: 0}
-  HorizontalCollider2D: {fileID: 0}
 --- !u!210 &296408183207308422
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -525,6 +510,7 @@ GameObject:
   - component: {fileID: 6899112337494170874}
   - component: {fileID: 920787284929834670}
   - component: {fileID: 2050584978474075732}
+  - component: {fileID: 92862361304056589}
   m_Layer: 0
   m_Name: Horse_SB
   m_TagString: Untagged
@@ -589,6 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speedHandler: {fileID: 0}
   _graphicHandler: {fileID: 0}
+  shadow: {fileID: 8303351960160280416}
 --- !u!114 &920787284929834670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,5 +605,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9f5c7c513f0f8458a79aca1aca8364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 
-  DefaultBlockList: 
+  ID: 3
+  DefaultBlockList: 06000000
+--- !u!114 &92862361304056589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413344444309064997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7794f1473522efe4dad8af1bd6c74568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _btnGraphicSprites:
+  - {fileID: -6794289216066522185, guid: de480624d6d4f6844a15d36225a6ee06, type: 3}
+  - {fileID: 850646052, guid: d69b17105a8988342876d99922733e03, type: 3}
+  - {fileID: -8164863400046795371, guid: 8023528d7f9eeac4bbf2a7684480ed13, type: 3}
+  highGraphicSprites:
+  - {fileID: -1025994194020819288, guid: de3658d79c9af66428152c5a0f930d59, type: 3}
+  - {fileID: -8164863400046795371, guid: 8023528d7f9eeac4bbf2a7684480ed13, type: 3}
+  - {fileID: -8590580667268769855, guid: 118591011b7b27542b6f7fec9933173b, type: 3}
