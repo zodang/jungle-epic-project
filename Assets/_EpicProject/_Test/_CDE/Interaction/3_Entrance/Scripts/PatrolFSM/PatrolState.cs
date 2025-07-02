@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine;
 
 public class PatrolState : FSMState
@@ -17,6 +18,8 @@ public class PatrolState : FSMState
 
     public override void Enter()
     {
+        _patrolFsm.ChangeCurrentState(PatrolStateType.Patrol);
+        
         _guard.OnControlEnabled += ChangeToControlState;
         _currentPoint = _patrolFsm.GetClosestPointIndex();
     }

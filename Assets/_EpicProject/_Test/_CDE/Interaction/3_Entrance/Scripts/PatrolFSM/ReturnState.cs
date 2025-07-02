@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine;
 
 public class ReturnState : FSMState
@@ -21,6 +22,8 @@ public class ReturnState : FSMState
 
     public override void Enter()
     {
+        _patrolFsm.ChangeCurrentState(PatrolStateType.Return);
+        
         _patrolFsm.SetFocus();
         _targetPoint = _patrolFsm.PatrolPositions[_patrolFsm.GetClosestPointIndex()];
         StageManager.Instance.InputManager.ActivatePlayerInput(false);

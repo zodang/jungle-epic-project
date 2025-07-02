@@ -40,6 +40,14 @@ namespace Define
         None,
     }
 
+    public enum PatrolStateType
+    {
+        Patrol,
+        Control,
+        Return,
+        None,
+    }
+
     public static class Tags
     {
         public const string Player = "Player";

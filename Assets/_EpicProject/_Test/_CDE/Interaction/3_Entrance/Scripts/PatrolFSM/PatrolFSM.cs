@@ -1,11 +1,13 @@
 using UnityEngine;
+using Define;
 
 public class PatrolFSM : MonoBehaviour
 {
-    [SerializeField] private Transform[] patrolPoints;
-    
-    private Vector3[] _patrolPositions;
     public Vector3[] PatrolPositions => _patrolPositions;
+    public PatrolStateType CurrentState { get; private set; }
+    
+    [SerializeField] private Transform[] patrolPoints;
+    private Vector3[] _patrolPositions;
     
     private CameraFraming _cameraFraming;
     private PatrolGuard _guard;
@@ -36,6 +38,11 @@ public class PatrolFSM : MonoBehaviour
     {
         _fsm.Update();
     }
+
+    public void ChangeCurrentState(PatrolStateType state)
+    {
+        CurrentState = state;
+    }
     
     public int GetClosestPointIndex()
     {
@@ -52,8 +59,7 @@ public class PatrolFSM : MonoBehaviour
         }
         return index;
     }
-
-
+    
     public void SetFocus()
     {
         _cameraFraming.AddTarget(transform);
