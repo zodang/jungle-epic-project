@@ -24,6 +24,8 @@ public class ReturnState : FSMState
     {
         _patrolFsm.ChangeCurrentState(PatrolStateType.Return);
         
+        _guard.OnControlEnabled += ChangeToControlState;
+        
         _targetPoint = _patrolFsm.PatrolPositions[_patrolFsm.GetClosestPointIndex()];
         StageManager.Instance.InputManager.ActivatePlayerInput(false);
 
@@ -50,6 +52,8 @@ public class ReturnState : FSMState
 
     public override void Exit()
     {
+        _guard.OnControlEnabled -= ChangeToControlState;
+        
         StageManager.Instance.InputManager.ActivatePlayerInput(true);
         _patrolFsm.UnsetFocus();
     }
@@ -64,6 +68,11 @@ public class ReturnState : FSMState
         _waitTimer = 0f;
             
         _patrolFsm.Agent.SetDestination(_patrolFsm.Agent.transform.position);
+    }
+    
+    private void ChangeToControlState()
+    {
+        _fsm.ChangeState(new ControlState(_guard, _patrolFsm, _fsm));
     }
 
     private void RigidbodyMove()

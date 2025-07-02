@@ -20,10 +20,10 @@ public class PatrolState : FSMState
     {
         _patrolFsm.ChangeCurrentState(PatrolStateType.Patrol);
         
-        _guard.OnControlEnabled += ChangeToControlState;
+        _patrolFsm.Agent.enabled = false;
         _currentPoint = _patrolFsm.GetClosestPointIndex();
         
-        _patrolFsm.Agent.enabled = false;
+        _guard.OnControlEnabled += ChangeToControlState;
     }
 
     public override void Update()

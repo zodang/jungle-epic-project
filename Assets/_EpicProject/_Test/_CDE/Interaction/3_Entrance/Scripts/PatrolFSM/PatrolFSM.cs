@@ -71,12 +71,10 @@ public class PatrolFSM : MonoBehaviour
     public void SetFocus()
     {
         _cameraFraming.AddTarget(transform);
-        _cameraFraming.RemoveTarget(StageBaseManager.Instance.PlayerManager.transform);
     }
 
     public void UnsetFocus()
     {
         _cameraFraming.RemoveTarget(transform);
-        _cameraFraming.AddTarget(StageBaseManager.Instance.PlayerManager.transform);
     }
 }
