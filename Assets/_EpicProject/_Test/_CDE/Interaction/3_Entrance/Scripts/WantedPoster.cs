@@ -16,6 +16,11 @@ public class WantedPoster : MonoBehaviour, IFeatureResetable, IControllable
     private GraphicHandler _graphicHandler;
     private readonly GraphicType _defaultGraphicType = GraphicType.Middle;
 
+    private float _baseSpeed = 5.0f;
+    private float _speed = 5.0f;
+    private float _minPosX = 0.2f;
+    private float _maxPosX = 2.5f;
+
     private void Awake()
     {
         ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
@@ -43,28 +48,31 @@ public class WantedPoster : MonoBehaviour, IFeatureResetable, IControllable
     {
         if (!_enableMove) return;
 
-        _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput;
-        _graphicHandler?.SetSpriteDirection(StageManager.Instance.InputManager.MoveInput);
+        Vector2 moveInput = new Vector2 (StageManager.Instance.InputManager.MoveInput.x, 0);
+        transform.Translate(moveInput * (_speed * Time.deltaTime));
+
+        Vector3 pos = transform.localPosition;
+        
+        if(pos.x < _minPosX) pos.x = _minPosX;
+        if(pos.x > _maxPosX) pos.x = _maxPosX;
+        
+        transform.localPosition = pos;
     }
 
     public void EnableControl()
     {
         _enableMove = true;
-        _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-        _movement2D.MoveDir = Vector3.zero;
     }
 
     public void DisableControl()
     {
         _enableMove = false;
-        _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
-        _movement2D.MoveDir = Vector3.zero;
     }
     
     private void ChangeSpeed(int step)
     {
         float multiple = 0.5f + 0.5f * step;
-        _movement2D.MultiplySpeed(multiple);
+        _speed = _baseSpeed * multiple;
     }
     
     public void ResetFeature()
