@@ -4,9 +4,11 @@ using UnityEngine;
 public class Beauty : MonoBehaviour, IFeatureResetable, IControllable
 {
     // IControllable
+    private bool _enableMove;
     private Rigidbody2D _rigidbody2D;
     private Movement2D _movement2D;
-    private bool _enableMove;
+    private readonly float _minPosY = -15f;
+    private readonly float _maxPosY = -12f;
     
     // ISpeedChangeable
     private SpeedHandler _speedHandler;
@@ -47,6 +49,13 @@ public class Beauty : MonoBehaviour, IFeatureResetable, IControllable
     {
         if (!_enableMove) return;
 
+        Vector3 pos = transform.position;
+        
+        if(pos.y < _minPosY) pos.y = _minPosY;
+        if(pos.y > _maxPosY) pos.y = _maxPosY;
+        
+        transform.position = pos;
+        
         _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput;
         _graphicHandler?.SetSpriteDirection(StageManager.Instance.InputManager.MoveInput);
     }

@@ -4,23 +4,20 @@ using UnityEngine;
 public class WantedPoster : MonoBehaviour, IFeatureResetable, IControllable
 {
     // IControllable
-    private Rigidbody2D _rigidbody2D;
-    private Movement2D _movement2D;
     private bool _enableMove;
+    private readonly float _minPosX = 0.2f;
+    private readonly float _maxPosX = 2.5f;
     
     // ISpeedChangeable
     private SpeedHandler _speedHandler;
     private readonly int _defaultSpeedStep = 1;
+    private readonly float _baseSpeed = 5.0f;
+    private float _speed = 5.0f;
     
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;
     private readonly GraphicType _defaultGraphicType = GraphicType.Middle;
-
-    private float _baseSpeed = 5.0f;
-    private float _speed = 5.0f;
-    private float _minPosX = 0.2f;
-    private float _maxPosX = 2.5f;
-
+    
     private void Awake()
     {
         ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
@@ -30,10 +27,6 @@ public class WantedPoster : MonoBehaviour, IFeatureResetable, IControllable
         _speedHandler.OnSetValue += ChangeSpeed;
         
         _graphicHandler.Init(_defaultGraphicType);
-        
-        _movement2D = GetComponent<Movement2D>();
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-        _rigidbody2D.gravityScale = 0;
     }
     
     private void Start()
