@@ -1,3 +1,4 @@
+using Define;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,8 @@ public class CaveSwitch : MonoBehaviour
     private readonly HashSet<ScaleChecker> _upObjects = new();
 
     public Action<bool> OnSwitchPressed;
-    
+    private bool _wasPressedLastFrame = false;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Switch 올려진 오브젝트 추가
@@ -37,7 +39,16 @@ public class CaveSwitch : MonoBehaviour
                 break;
             }
         }
-        
+
+        if (isPressed != _wasPressedLastFrame)
+        {
+            GameManager.Instance.AudioManager.PlaySfx(SfxType.CaveButton);
+
+            ChangeSwitchState(!isPressed);
+        }
+
+        _wasPressedLastFrame = isPressed;
+
         // Switch 상태 변경
         ChangeSwitchState(!isPressed);
     }

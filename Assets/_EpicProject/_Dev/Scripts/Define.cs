@@ -23,7 +23,7 @@ namespace Define
 
     public enum SfxType
     {
-        Open, Close, Text, Clear, Dial,Grass
+        Open, Close, Text, Clear, Dial, Grass, CaveButton
     }
 
     public enum PlayerSkinType
