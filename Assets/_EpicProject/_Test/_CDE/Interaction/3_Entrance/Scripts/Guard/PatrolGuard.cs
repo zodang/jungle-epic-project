@@ -10,6 +10,7 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
     private bool _enableMove;
     
     // ISpeedChangeable
+    private static readonly float[] SpeedMultipliers = { 0.5f, 1f, 3f, 6f };
     private SpeedHandler _speedHandler;
     private readonly int _defaultSpeedStep = 3;
     
@@ -85,7 +86,7 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
 
     private void ChangeSpeed(int step)
     {
-        float multiple = (step == 0) ? 0.5f : step;
+        float multiple = (step >= 0 && step < SpeedMultipliers.Length) ? SpeedMultipliers[step] : 1f;
         _movement2D.MultiplySpeed(multiple);
     }
     
