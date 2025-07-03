@@ -1,4 +1,5 @@
 using Define;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,9 @@ public class GuardDetectionHandler : MonoBehaviour
     private DialogueTrigger _dialogueTrigger;
     private WantedPoster _poster;
 
+    private Collider2D _collider;
+    public Action OnPlayerPass;
+
     private void Awake()
     {
         _patrolFsm = GetComponent<PatrolFSM>();
@@ -27,6 +31,8 @@ public class GuardDetectionHandler : MonoBehaviour
         _range = GetComponentInChildren<DetectionRange>();
         _dialogueTrigger = GetComponent<DialogueTrigger>();
         _poster = FindAnyObjectByType<WantedPoster>();
+
+        _collider = _range.GetComponent<Collider2D>();
     }
 
     private void Start()
@@ -74,8 +80,13 @@ public class GuardDetectionHandler : MonoBehaviour
         bool condition1 = playerType == GraphicType.Middle && posterType == GraphicType.Low; 
         bool condition2 = playerType == GraphicType.High && posterType == GraphicType.Low;
         
-        if (condition1 || condition2) return;
-        if (respawnPoint == null) return;
+        if (condition1 || condition2)
+        {
+            // 조건 만족 시 감지 해제
+            _collider.enabled = false;
+            OnPlayerPass?.Invoke();
+            return;
+        }
         
         StartCoroutine(RespawnCo(playerObj));
     }
@@ -91,6 +102,12 @@ public class GuardDetectionHandler : MonoBehaviour
     
     private IEnumerator RespawnCo(GameObject player)
     {
+        if (respawnPoint == null)
+        {
+            Debug.LogWarning($"{respawnPoint} 없음");
+            yield return null;
+        }
+        
         yield return new WaitForSeconds(0.1f);
         player.GetComponent<Movement2D>().Respawn(respawnPoint.position);
     }
