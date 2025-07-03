@@ -1,15 +1,14 @@
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class ButtonControlBase<TFeature> : EngineBlock where TFeature : class
 {
     protected TFeature Feature;
-    private List<Button> _btnList;
+    [SerializeField] private List<Button> _btnList;
     
     public override void Activate(object feature)
     {
-        _btnList = new List<Button>(GetComponentsInChildren<Button>());
-
         Feature = feature as TFeature;
         if (Feature == null) return;
 
