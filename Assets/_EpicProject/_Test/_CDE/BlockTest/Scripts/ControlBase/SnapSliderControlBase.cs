@@ -42,7 +42,7 @@ public abstract class SnapSliderControlBase<TFeature> : EngineBlock where TFeatu
     protected void UpdatePercentText(float value)
     {
         if (_speedText == null || _slider == null) return;
-        _speedText.text = $"{value}";
+        _speedText.text = $"{value + 1}";
     }
     
     protected abstract float GetCurrentValue();
