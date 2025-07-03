@@ -233,6 +233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4485903256206781020}
   - component: {fileID: 6860280356113480174}
+  - component: {fileID: 7916742701843160176}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -311,6 +312,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &7916742701843160176
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6728393337255642081}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: b81ec4b387772b64fa7a0307ae0ddc3f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &9112468014400208658
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,6 +347,7 @@ GameObject:
   - component: {fileID: 3870701577889082150}
   - component: {fileID: 2263833784378995187}
   - component: {fileID: 3043747287554918450}
+  - component: {fileID: 7959888840399294810}
   m_Layer: 0
   m_Name: Entrance_DetectionGuard
   m_TagString: Untagged
@@ -449,3 +473,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guardType: 1
   respawnPoint: {fileID: 0}
+--- !u!114 &7959888840399294810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9112468014400208658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d94cd84460fae4c8daf8a5b00554cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
