@@ -21,9 +21,9 @@ public class SightFade : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Clickable")) return;
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("Clickable")) return;
         
-        Transform target = collision.transform.root;
+        Transform target = collision.transform;
         if (_cinemachineTargetGroup.FindMember(target) >= 0)
         {
             if(!_insider.Contains(target))
@@ -37,9 +37,9 @@ public class SightFade : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Clickable")) return;
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("Clickable")) return;
 
-        Transform target = collision.transform.root;
+        Transform target = collision.transform;
         if (_insider.Contains(target))
         {
             _insider.Remove(target);
