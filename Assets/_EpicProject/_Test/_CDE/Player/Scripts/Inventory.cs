@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         _inventorySlot = FindAnyObjectByType<InventorySlot>();
+        DefaultBlockList.Add(BlockType.PlayerControl);
     }
 
     private void Start()

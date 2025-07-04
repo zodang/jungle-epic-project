@@ -75,6 +75,8 @@ public class EngineController : MonoBehaviour
         
         _engineUIController.DeactivateEffect(_currentTarget);
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
+        ClearBlock();
+
     }
 
     public void DeactivateSilently()
@@ -83,6 +85,7 @@ public class EngineController : MonoBehaviour
         if (!gameObject.activeSelf) return;
         
         _engineUIController.DeactivateEffect(_currentTarget);
+        ClearBlock();
     }
     
     private void ResetFeature()

@@ -13,13 +13,14 @@ public class EngineManager : MonoBehaviour
     private void Awake()
     {
         _engineUIManager = GetComponent<EngineUIManager>();
+
+        _engineUIManager.ActivateTabHomeGroup(false);
     }
 
     private void Start()
     { 
         // ESC 키로 모든 EngineUI 비활성화
-        StageManager.Instance.InputManager.OnEscPressed += DeactivateAllEngine;
-        StageManager.Instance.InputManager.OnTabPressed += ToggleTabHome;
+        StageManager.Instance.InputManager.OnTabPressed += DeactivateAllEngine;
         
         // Clickable마다 UI 
         foreach (var clickable in FindObjectsByType<Clickable>(FindObjectsSortMode.None))
@@ -37,8 +38,7 @@ public class EngineManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        StageManager.Instance.InputManager.OnEscPressed -= DeactivateAllEngine;
-        StageManager.Instance.InputManager.OnTabPressed -= ToggleTabHome;
+        StageManager.Instance.InputManager.OnTabPressed -= DeactivateAllEngine;
     }
 
     public void ActivateEngineUI(Clickable clickable)
