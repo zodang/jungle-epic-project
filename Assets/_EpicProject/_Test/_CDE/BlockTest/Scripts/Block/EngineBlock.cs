@@ -36,14 +36,14 @@ public abstract class EngineBlock : MonoBehaviour
     private void Start()
     {
         _visual.OnDragEnd += WhenDragEnd;
-        _visual.OnLeftClicked += ActivateEngineBlock;
+        _visual.OnLeftClicked += ToggleEngineBlock;
         _visual.OnRightClicked += DropToInventorySlot;
     }
 
     private void OnDestroy()
     {
         _visual.OnDragEnd -= WhenDragEnd;
-        _visual.OnLeftClicked -= ActivateEngineBlock;
+        _visual.OnLeftClicked -= ToggleEngineBlock;
         _visual.OnRightClicked -= DropToInventorySlot;
     }
     
@@ -77,6 +77,18 @@ public abstract class EngineBlock : MonoBehaviour
             case SlotType.None:
                 WhenDroppedNone();
                 break;
+        }
+    }
+
+    private void ToggleEngineBlock()
+    {
+        if (_visual.IsRaised)
+        {
+            DeactivateEngineBlock();
+        }
+        else
+        {
+            ActivateEngineBlock();
         }
     }
 
@@ -199,8 +211,6 @@ public abstract class EngineBlock : MonoBehaviour
     
     private void WhenDroppedNone()
     {
-        Debug.Log(_currentSlotType);
-        
         // 기존 부모로 이동
         if (_currentSlotType == SlotType.InventorySlot)
         {

@@ -28,7 +28,7 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     private bool _isPointerOver = false;
     private Tween _hoverTween;
 
-    private bool _isRaised;
+    public bool IsRaised;
     private float _yRaisedPos = 130;
 
     private bool _isDragged;
@@ -53,7 +53,6 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         // 해당 블록에 대한 우클릭 검사
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            _isRaised = !_isRaised;
             OnLeftClicked?.Invoke();
         }
         
@@ -203,12 +202,11 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     {
         _hoverTween?.Kill();
         _isAnimating = false;
-
         if (_isDragging) return;
         
-        _isRaised = raise;
+        IsRaised = raise;
 
-        if (_isRaised)
+        if (IsRaised)
             _visualObject.anchoredPosition = _yRaisedPos * Vector2.up;
         else
         {
