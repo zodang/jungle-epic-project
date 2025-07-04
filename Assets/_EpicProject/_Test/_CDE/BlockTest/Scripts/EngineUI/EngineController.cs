@@ -6,20 +6,22 @@ using UnityEngine;
 public class EngineController : MonoBehaviour
 {
     public bool IsActivate { get; private set; } // 창 활성화 여부 체크
-    public bool IsInHome; // 정렬 여부 체크
-    public List<Numpad> NumpadList { get; private set; }
-    public int SelectedIndex { get; private set; }
-
+    
     private Clickable _currentTarget;
     private EngineUIController _engineUIController;
     private DraggableUI _draggableUI;
-
+    
+    public List<EngineSlot> EngineSlotList = new List<EngineSlot>();
+    
     private void Awake()
     {
         _engineUIController = GetComponent<EngineUIController>();
-        _draggableUI = GetComponent<DraggableUI>();
-        
-        NumpadList = new List<Numpad>(transform.GetComponentsInChildren<Numpad>());
+        EngineSlotList = new List<EngineSlot>(GetComponentsInChildren<EngineSlot>());
+
+        for (int i = 0; i < EngineSlotList.Count; i++)
+        {
+            EngineSlotList[i].Init(i);
+        }
     }
 
     private void Start()
@@ -28,8 +30,6 @@ public class EngineController : MonoBehaviour
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
         _engineUIController.OnClearBtnClicked += ClearBlock;
-        _currentTarget.OnBlockChanged += ChangeAllNumpadVisual;
-        _draggableUI.OnDragEndedInHome += HandleDragEndedInHome;
         
         gameObject.SetActive(false);
     }
@@ -39,8 +39,6 @@ public class EngineController : MonoBehaviour
         _engineUIController.OnClickCloseBtn -= Deactivate;
         _engineUIController.OnResetBtnClicked -= ResetFeature;
         _engineUIController.OnClearBtnClicked -= ClearBlock;
-        _currentTarget.OnBlockChanged -= ChangeAllNumpadVisual;
-        _draggableUI.OnDragEndedInHome -= HandleDragEndedInHome;
     }
 
     public void InitEngineController(Clickable target)
@@ -53,39 +51,9 @@ public class EngineController : MonoBehaviour
         {
             slot.SetTargetClickable(_currentTarget);
         }
-        
-        // Numpad 기능 세팅
-        for (int i = 0; i < NumpadList.Count; i++)
-        {
-            NumpadList[i].Init(i);
-            NumpadList[i].OnClickNumpad += ShowBlock;
-        }
 
         // UI 세팅
         _engineUIController.SetProfile(target.GetProfile());
-        _engineUIController.SetPosition(_currentTarget);
-    }
-    
-    public void ShowBlock(int index)
-    {
-        SelectedIndex = index;
-        
-        List<(int, EngineBlock, bool)> blocksToShow = new List<(int slotIndex, EngineBlock block, bool isActive)>();
-        foreach (var engineBlock in _currentTarget.BlockDictionary)
-        {
-            blocksToShow.Add((engineBlock.Key,engineBlock.Value, engineBlock.Key == index));
-        }
-        
-        _engineUIController.ChangeBlockContainer(index);
-        foreach (var blockData in blocksToShow)
-        {
-            if (blockData.Item2 != null)
-            {
-                // Block의 Visual 변경
-                blockData.Item2.ShowBlockVisual(blockData.Item3);
-                _engineUIController.SetBlockPositionToEngine(blockData.Item2);
-            }
-        }
     }
     
     public void Activate()
@@ -93,7 +61,6 @@ public class EngineController : MonoBehaviour
         if (IsActivate) return;
         IsActivate = true;
 
-        _engineUIController.SetPosition(_currentTarget);
         _engineUIController.ActivateEffect();
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
     }
@@ -101,10 +68,8 @@ public class EngineController : MonoBehaviour
     private void Deactivate()
     {
         IsActivate = false;
-        IsInHome = false;
         if (!gameObject.activeSelf) return;
         
-        _draggableUI.SetToOriginalParent();
         _engineUIController.DeactivateEffect(_currentTarget);
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
     }
@@ -112,10 +77,8 @@ public class EngineController : MonoBehaviour
     public void DeactivateSilently()
     {
         IsActivate = false;
-        IsInHome = false;
         if (!gameObject.activeSelf) return;
         
-        _draggableUI.SetToOriginalParent();
         _engineUIController.DeactivateEffect(_currentTarget);
     }
     
@@ -141,21 +104,5 @@ public class EngineController : MonoBehaviour
         {
             block.Value.DropToInventorySlot(block.Key);
         }
-        
-        ShowBlock(0);
-    }
-
-    public void ChangeAllNumpadVisual()
-    {
-        foreach (var numpad in NumpadList)
-        {
-            numpad.ChangeVisual();
-        }
-    }
-    
-    private void HandleDragEndedInHome(bool isInHome)
-    {
-        IsInHome = isInHome;
-        if (!isInHome) _draggableUI.SetToOriginalParent();
     }
 }
