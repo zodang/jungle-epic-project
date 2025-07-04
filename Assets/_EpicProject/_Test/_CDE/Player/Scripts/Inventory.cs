@@ -55,4 +55,30 @@ public class Inventory : MonoBehaviour
             Collect(type);
         }
     }
+    
+    private void Update()
+    {
+        for (int i = 1; i <= 4; i++)
+        {
+            KeyCode key = KeyCode.Alpha0 + i;
+            int idx = i - 1;
+
+            if (Input.GetKeyDown(key))
+            {
+                if (_inventorySlot.transform.childCount > idx)
+                {
+                    var block = _inventorySlot.transform.GetChild(idx + 1).GetComponent<EngineBlock>();
+                    block?.ActivateEngineBlock();
+                }
+            }
+            else if (Input.GetKeyUp(key))
+            {
+                if (_inventorySlot.transform.childCount > idx)
+                {
+                    var block = _inventorySlot.transform.GetChild(idx + 1).GetComponent<EngineBlock>();
+                    block?.DeactivateEngineBlock();
+                }
+            }
+        }
+    }
 }

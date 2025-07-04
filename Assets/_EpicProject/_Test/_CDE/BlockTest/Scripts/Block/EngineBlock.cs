@@ -80,12 +80,20 @@ public abstract class EngineBlock : MonoBehaviour
         }
     }
 
-    private void ActivateEngineBlock()
+    public void ActivateEngineBlock()
     {
         if (_currentSlotType is SlotType.EngineSlot) return;
         
         _visual.ChangeBlockVisual(SlotType.EngineSlot);
-        _visual.RaiseVisual();
+        _visual.RaiseVisual(true);
+    }
+    
+    public void DeactivateEngineBlock()
+    {
+        if (_currentSlotType is SlotType.EngineSlot) return;
+        
+        _visual.ChangeBlockVisual(SlotType.InventorySlot);
+        _visual.RaiseVisual(false);
     }
 
     public void DropToInventorySlot()

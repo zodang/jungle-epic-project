@@ -189,32 +189,32 @@ public class InputManager : MonoBehaviour
     private void BlockTest()
     {
         // 테스트용 코드
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.PlayerControl);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Scale);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.F3))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Rotate);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.F4))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Light);
         }
         
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.F5))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Graphic);
         }
         
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.F6))
         {
             FindAnyObjectByType<Inventory>().Collect(BlockType.Speed);
         }

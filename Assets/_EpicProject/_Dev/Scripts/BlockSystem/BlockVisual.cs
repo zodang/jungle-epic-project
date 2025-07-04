@@ -32,6 +32,7 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     private float _yRaisedPos = 130;
 
     private bool _isDragged;
+    private bool _isDragging;
 
     private void Awake()
     {
@@ -52,6 +53,7 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         // 해당 블록에 대한 우클릭 검사
         if (eventData.button == PointerEventData.InputButton.Left)
         {
+            _isRaised = !_isRaised;
             OnLeftClicked?.Invoke();
         }
         
@@ -100,6 +102,7 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     public void OnBeginDrag(PointerEventData eventData)
     {
         _isDragged = false;
+        _isDragging = true;
         
         OnAnyBlockBeginDrag?.Invoke();
         
@@ -146,6 +149,7 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     public void OnEndDrag(PointerEventData eventData)
     {
         _isDragged = false;
+        _isDragging = false;
         
         _hoverTween?.Kill();
         _isAnimating = false;
@@ -194,15 +198,18 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         EngineBlock.SetActive(slotType == SlotType.EngineSlot);
         NumpadBlock.SetActive(slotType == SlotType.NumpadSlot || slotType == SlotType.Numpad);
     }
-
-    public void RaiseVisual()
+    
+    public void RaiseVisual(bool raise)
     {
         _hoverTween?.Kill();
         _isAnimating = false;
-        _visualObject.anchoredPosition = Vector2.zero;
+
+        if (_isDragging) return;
         
-        _isRaised = !_isRaised;
-        if (_isRaised) _visualObject.anchoredPosition = _yRaisedPos * Vector2.up;
+        _isRaised = raise;
+
+        if (_isRaised)
+            _visualObject.anchoredPosition = _yRaisedPos * Vector2.up;
         else
         {
             _visualObject.anchoredPosition = Vector2.zero;
