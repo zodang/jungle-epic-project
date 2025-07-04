@@ -61,13 +61,13 @@ public class Inventory : MonoBehaviour
         for (int i = 1; i <= 4; i++)
         {
             KeyCode key = KeyCode.Alpha0 + i;
-            int idx = i - 1;
+            int idx = i;
 
             if (Input.GetKeyDown(key))
             {
                 if (_inventorySlot.transform.childCount > idx)
                 {
-                    var block = _inventorySlot.transform.GetChild(idx + 1).GetComponent<EngineBlock>();
+                    var block = _inventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
                     block?.ActivateEngineBlock();
                 }
             }
@@ -75,7 +75,7 @@ public class Inventory : MonoBehaviour
             {
                 if (_inventorySlot.transform.childCount > idx)
                 {
-                    var block = _inventorySlot.transform.GetChild(idx + 1).GetComponent<EngineBlock>();
+                    var block = _inventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
                     block?.DeactivateEngineBlock();
                 }
             }
