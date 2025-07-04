@@ -44,25 +44,8 @@ public class EngineManager : MonoBehaviour
     public void ActivateEngineUI(Clickable clickable)
     {
         if (!_engineDictionary.TryGetValue(clickable, out EngineController engineController)) return;
-
-        // 타겟 Engine이 정렬 상태
-        if (_isTabHomeGroupActive)
-        {
-            engineController.gameObject.SetActive(true);
-            engineController.Activate();
-            return;
-        }
-
-        // 타겟 Engine이 비정렬 상태
-        if (engineController.IsInHome)
-        {
-            ToggleTabHome();
-        }
-        else
-        {
-            engineController.gameObject.SetActive(true);
-            engineController.Activate();
-        }
+        engineController.gameObject.SetActive(true);
+        engineController.Activate();
     }
 
     public bool GetActivateEngineUI(Clickable clickable)
@@ -83,9 +66,6 @@ public class EngineManager : MonoBehaviour
         {
             if (engineController.gameObject.activeSelf)
             {
-                // HomeGroup 비활성화 상태에서 정렬되어 있는 엔진은 넘어감 
-                if (!_isTabHomeGroupActive && engineController.IsInHome) continue;
-                
                 engineController.DeactivateSilently();
                 anyDeactivated = true;
             }

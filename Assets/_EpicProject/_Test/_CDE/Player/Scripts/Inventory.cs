@@ -14,7 +14,9 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
+        Clickable player = StageBaseManager.Instance.PlayerManager.GetComponent<Clickable>();
         _inventorySlot.SetInventory(this);
+        _inventorySlot.SetTargetClickable(player);
     }
 
     public void AddBlock(EngineBlock block)

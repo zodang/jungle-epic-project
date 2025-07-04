@@ -21,6 +21,7 @@ public abstract class EngineBlock : MonoBehaviour
     
     private Clickable _prevTarget;
     private object _prevFeature;
+    private int _prevSlotIndex = -1;
 
     private BlockVisual _visual;
     private InventorySlot _inventorySlot;
@@ -46,6 +47,7 @@ public abstract class EngineBlock : MonoBehaviour
     {
         _prevTarget = target;
         _prevFeature = target.GetComponent(RequiredFeatureType);
+        _prevSlotIndex = -1;
 
         if (_prevFeature != null)
         {
@@ -72,12 +74,6 @@ public abstract class EngineBlock : MonoBehaviour
             case SlotType.EngineSlot:
                 WhenDroppedEngineSlot(slot);
                 break;
-            case SlotType.NumpadSlot:
-                WhenDroppedNumpadSlot(slot);
-                break;
-            case SlotType.Numpad:
-                WhenDroppedNumpad(slot);
-                break;
             case SlotType.None:
                 WhenDroppedNone();
                 break;
@@ -96,21 +92,21 @@ public abstract class EngineBlock : MonoBehaviour
     {
         // 인벤토리로 블록 이동
         if (_inventorySlot == null) return;
-        WhenDroppedInventorySlot(_inventorySlot, index);
+        WhenDroppedInventorySlot(_inventorySlot);
         _visual.ChangeBlockVisual(SlotType.InventorySlot);
         
         // 비활성화 했던 Block Visual 활성화
         _visual.ShowBlockVisual(true);
     }
     
-    private void WhenDroppedInventorySlot(ISlotType slot, int index = -1)
+    private void WhenDroppedInventorySlot(ISlotType slot)
     {
         InventorySlot inventorySlot = slot as InventorySlot;
         
         if (_prevTarget != null && _prevFeature != null)
         {
             // 기능 비활성화
-            _prevTarget.RemoveBlock(index);
+            _prevTarget.RemoveBlock(_prevSlotIndex);
             Deactivate(_prevFeature);
         }
 
@@ -121,16 +117,20 @@ public abstract class EngineBlock : MonoBehaviour
 
         _prevTarget = null;
         _prevFeature = null;
+        _prevSlotIndex = -1;
     }
     
     private void WhenDroppedEngineSlot(ISlotType slot)
     {
+        EngineSlot engineSlot = slot as EngineSlot;
+        int targetIndex = engineSlot.Index;
+        
         Clickable newTarget = slot.GetTargetClickable();
         
         // 이전 Target의 기능 비활성화
         if (_prevTarget != null && _prevFeature != null)
         {
-            _prevTarget.RemoveBlock();
+            _prevTarget.RemoveBlock(_prevSlotIndex);
             Deactivate(_prevFeature);
         }
         
@@ -138,7 +138,7 @@ public abstract class EngineBlock : MonoBehaviour
         if (newFeature == null) return;
 
         // Target에 Block 추가
-        var (canAdd, index) = newTarget.TryAddBlock(this);
+        var (canAdd, index) = newTarget.TryAddBlock(targetIndex,this);
         _visual.ChangeBlockVisual(SlotType.EngineSlot);
         
         // Block 추가 실패 시 복귀
@@ -151,79 +151,11 @@ public abstract class EngineBlock : MonoBehaviour
         // 새로운 Target의 기능 활성화
         Activate(newFeature);
 
-        _prevTarget = newTarget;
-        _prevFeature = newFeature;
-        
-        newTarget.EngineController.ShowBlock(index);
-    }
-    
-    private void WhenDroppedNumpadSlot(ISlotType slot)
-    {
-        Clickable newTarget = slot.GetTargetClickable();
-
-        // 이전 Target의 기능 비활성화
-        if (_prevTarget != null && _prevFeature != null)
-        {
-            _prevTarget.RemoveBlock();
-            Deactivate(_prevFeature);
-        }
-
-        object newFeature = newTarget.GetComponent(RequiredFeatureType);
-        if (newFeature == null) return;
-
-        // Target에 Block 추가
-        var (canAdd, index) = newTarget.TryAddBlock(this);
-        _visual.ChangeBlockVisual(SlotType.EngineSlot);
-        
-        // Block 추가 실패 시 복귀
-        if (!canAdd)
-        {
-            ReturnToPrevious();
-            return;
-        }
-        
-        // 새로운 Target의 기능 활성화
-        Activate(newFeature);
+        newTarget.EngineController.EngineSlotList[index].SetBlock(this);
 
         _prevTarget = newTarget;
         _prevFeature = newFeature;
-        
-        newTarget.EngineController.ShowBlock(index);
-    }
-    
-    private void WhenDroppedNumpad(ISlotType slot)
-    {
-        if (slot is not Numpad numpad) return;
-        
-        Clickable newTarget = slot.GetTargetClickable();
-        
-        // 이전 Target의 기능 비활성화
-        if (_prevTarget != null && _prevFeature != null)
-        {
-            _prevTarget.RemoveBlock();
-            Deactivate(_prevFeature);
-        }
-        object newFeature = newTarget.GetComponent(RequiredFeatureType);
-        if (newFeature == null) return;
-        
-        // Target에 Block 추가
-        var (canAdd, index) = newTarget.TryAddBlock(numpad.Index, this);
-        _visual.ChangeBlockVisual(SlotType.EngineSlot);
-        
-        // Block 추가 실패 시 복귀
-        if (!canAdd)
-        {
-            ReturnToPrevious();
-            return;
-        }
-        
-        // 새로운 Target의 기능 활성화
-        Activate(newFeature);
-
-        _prevTarget = newTarget;
-        _prevFeature = newFeature;
-        
-        newTarget.EngineController.ShowBlock(index);
+        _prevSlotIndex = index;
     }
     
     private void WhenDroppedNone()
@@ -235,4 +167,6 @@ public abstract class EngineBlock : MonoBehaviour
     {
         Debug.LogWarning("Return To Previous");
     }
+    
+    
 }

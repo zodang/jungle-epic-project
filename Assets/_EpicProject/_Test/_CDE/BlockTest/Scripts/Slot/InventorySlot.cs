@@ -4,6 +4,7 @@ using UnityEngine;
 public class InventorySlot : MonoBehaviour, ISlotType
 {
     private Inventory _inventory;
+    private Clickable _targetClickable;
     
     public SlotType GetSlotType()
     {
@@ -12,7 +13,7 @@ public class InventorySlot : MonoBehaviour, ISlotType
 
     public Clickable GetTargetClickable()
     {
-        return null;
+        return _targetClickable;
     }
     
     public Inventory GetInventory()
@@ -29,7 +30,10 @@ public class InventorySlot : MonoBehaviour, ISlotType
     {
         block.transform.SetParent(transform);
     }
-    
-    public void SetTargetClickable(Clickable clickable) {/* 사용하지 않음*/ }
+
+    public void SetTargetClickable(Clickable clickable)
+    {
+        _targetClickable = clickable;
+    }
 }
 

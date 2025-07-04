@@ -11,44 +11,48 @@ public class EngineUIController : MonoBehaviour
     public Action OnClearBtnClicked;
     public Action OnClickCloseBtn;
     
-    [Header("Profile")]
-    [SerializeField] private TMP_Text gameName;
-    [SerializeField] private TMP_Text subGameName;
-    [SerializeField] private TMP_Text engineNum;
+    [Header("Profile Group")]
+    [SerializeField] private GameObject profileGroup;
     [SerializeField] private Image profileImg;
+    [SerializeField] private TMP_Text profileName;
+    
+    [Header("Slot Group")]
+    [SerializeField] private GameObject engineSlotGroup;
 
     [Header("Button")]
     [SerializeField] private Button closeBtn;
-    [SerializeField] private Button resetBtn;
-    [SerializeField] private Button clearBtn;
     [SerializeField] private Button upBtn;
-    
-    [Header("Block Container")]
-    [SerializeField] private Transform blockContainer;
-    [SerializeField] private List<Color> containerColors;   
-    [SerializeField] private TMP_Text blockContainerText;
-    [SerializeField] private List<Color> textColors;
 
     [Header("Fold")] 
     private bool _isFold = true;
-    [SerializeField] private Image baseImg;
-    [SerializeField] private GameObject numpadSlot;
-    [SerializeField] private GameObject engineSlot;
+    private Image _baseImg;
     
     [Header("Values")]
     private readonly float _activeDuration = 0.25f;
     private readonly float _deactiveDuration = 0.25f;
+    private RectTransform _rectTransform;
+    
+    [Header("*Deprecated")]
+    [SerializeField] private TMP_Text subGameName;
+    [SerializeField] private TMP_Text engineNum;
+    [SerializeField] private Button resetBtn;
+    [SerializeField] private Button clearBtn;
+    [SerializeField] private Transform blockContainer;
+    private Image _blockContainerImg;
+    [SerializeField] private TMP_Text blockContainerText;
+    [SerializeField] private List<Color> containerColors;   
+    [SerializeField] private List<Color> textColors;
+    [SerializeField] private GameObject numpadSlot;
+    private Canvas _canvas;
     private Vector2 _offset = new Vector2(-200, 0);
     
-    private Canvas _canvas;
-    private RectTransform _rectTransform;
-    private Image _blockContainerImg;
-
     private void Awake()
     {
-        _canvas = GetComponentInParent<Canvas>();
+        // _canvas = GetComponentInParent<Canvas>();
+        // _blockContainerImg = blockContainer.GetComponent<Image>();
         _rectTransform = GetComponent<RectTransform>();
-        _blockContainerImg = blockContainer.GetComponent<Image>();
+        
+        _baseImg = GetComponent<Image>();
     }
 
     private void Start()
@@ -59,7 +63,7 @@ public class EngineUIController : MonoBehaviour
         clearBtn.onClick.AddListener(WhenClearBtnClicked);
         upBtn.onClick.AddListener(WhenUpBtnClicked);
 
-        ChangeBlockContainer(0);
+        // ChangeBlockContainer(0);
     }
 
     private void OnDestroy()
@@ -90,9 +94,9 @@ public class EngineUIController : MonoBehaviour
     private void WhenUpBtnClicked()
     {
         _isFold = !_isFold;
-        baseImg.enabled = _isFold;
+        _baseImg.enabled = _isFold;
         numpadSlot.SetActive(_isFold);
-        engineSlot.SetActive(_isFold);
+        engineSlotGroup.SetActive(_isFold);
     }
 
     public void SetProfile(ClickableProfile profile)
@@ -101,7 +105,7 @@ public class EngineUIController : MonoBehaviour
         if (profile == null) return;
         int engineIndex = (int.Parse(profile.id) + 1) % 10 ;
 
-        gameName.text = profile.name;
+        profileName.text = profile.name;
         subGameName.text = profile.name;
         engineNum.text = $"Engine. No. {engineIndex}.";
         profileImg.sprite = profile.sprite;
