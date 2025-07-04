@@ -126,6 +126,7 @@ public class Clickable : MonoBehaviour, IClickable
     public void OnClicked()
     {
         // 클릭 시 Engine UI 활성화
+        if (GetComponent<PlayerManager>() != null) return;
         StageBaseManager.Instance.EngineManager.ActivateEngineUI(this);
     }
 }

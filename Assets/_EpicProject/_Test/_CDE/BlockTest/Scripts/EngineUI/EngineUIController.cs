@@ -149,7 +149,7 @@ public class EngineUIController : MonoBehaviour
 
     public void SetPosition(Clickable clickable)
     {
-        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
+        /*Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
 
         // 기본 위치: "왼쪽" (offset.x는 무조건 +, 방향만 음수)
         Vector2 targetPos = screenPos - new Vector2(Mathf.Abs(_offset.x), _offset.y);
@@ -171,7 +171,7 @@ public class EngineUIController : MonoBehaviour
         if (targetPos.y - halfHeight < 0)
             targetPos.y = halfHeight + margin;
 
-        _rectTransform.position = targetPos;
+        _rectTransform.position = targetPos;*/
     }
 
     #region Opacity

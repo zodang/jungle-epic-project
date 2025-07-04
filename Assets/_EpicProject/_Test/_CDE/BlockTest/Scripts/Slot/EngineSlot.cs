@@ -1,9 +1,12 @@
 using Define;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EngineSlot : MonoBehaviour, ISlotType
 {
     private Clickable _targetClickable;
+    [SerializeField] private GameObject blockContainer;
+    [SerializeField] private Image slotIcon;
 
     public SlotType GetSlotType()
     {
