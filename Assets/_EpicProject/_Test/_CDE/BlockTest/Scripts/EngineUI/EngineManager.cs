@@ -44,6 +44,7 @@ public class EngineManager : MonoBehaviour
     public void ActivateEngineUI(Clickable clickable)
     {
         if (!_engineDictionary.TryGetValue(clickable, out EngineController engineController)) return;
+        DeactivateAllEngineSilently();
         engineController.gameObject.SetActive(true);
         engineController.Activate();
     }
@@ -77,6 +78,18 @@ public class EngineManager : MonoBehaviour
             GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         }
     }
+    
+    private void DeactivateAllEngineSilently()
+    {
+        foreach (var engineController in _engineDictionary.Values)
+        {
+            if (engineController.gameObject.activeSelf)
+            {
+                engineController.DeactivateSilently();
+            }
+        }
+    }
+
 
     private void ToggleTabHome()
     {

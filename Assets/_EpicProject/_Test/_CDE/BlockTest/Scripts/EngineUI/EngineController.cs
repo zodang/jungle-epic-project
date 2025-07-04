@@ -54,7 +54,6 @@ public class EngineController : MonoBehaviour
 
         // UI 세팅
         _engineUIController.SetProfile(target.GetProfile());
-        _engineUIController.SetPosition(_currentTarget);
     }
     
     public void Activate()
@@ -62,7 +61,6 @@ public class EngineController : MonoBehaviour
         if (IsActivate) return;
         IsActivate = true;
 
-        _engineUIController.SetPosition(_currentTarget);
         _engineUIController.ActivateEffect();
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
     }

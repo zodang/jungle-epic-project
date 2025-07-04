@@ -95,8 +95,9 @@ public class EngineUIController : MonoBehaviour
     {
         _isFold = !_isFold;
         _baseImg.enabled = _isFold;
-        numpadSlot.SetActive(_isFold);
         engineSlotGroup.SetActive(_isFold);
+        
+        // numpadSlot.SetActive(_isFold);
     }
 
     public void SetProfile(ClickableProfile profile)
@@ -145,37 +146,9 @@ public class EngineUIController : MonoBehaviour
         sequence.Append(_rectTransform.DOScale(Vector3.zero, _deactiveDuration));
         sequence.OnComplete(() =>
         {
-            SetPosition(target);
             _rectTransform.localScale = Vector3.one;
             gameObject.SetActive(false);
         });
-    }
-
-    public void SetPosition(Clickable clickable)
-    {
-        /*Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, clickable.transform.position);
-
-        // 기본 위치: "왼쪽" (offset.x는 무조건 +, 방향만 음수)
-        Vector2 targetPos = screenPos - new Vector2(Mathf.Abs(_offset.x), _offset.y);
-
-        Vector2 uiSize = _rectTransform.sizeDelta * _canvas.scaleFactor;
-        float halfWidth = uiSize.x * 0.5f;
-        float halfHeight = uiSize.y * 0.5f;
-
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
-
-        float margin = 10f;
-
-        if (targetPos.x - halfWidth < 0)
-            targetPos.x = screenPos.x + Mathf.Abs(_offset.x);
-
-        if (targetPos.y + halfHeight > screenHeight)
-            targetPos.y = screenHeight - halfHeight - margin;
-        if (targetPos.y - halfHeight < 0)
-            targetPos.y = halfHeight + margin;
-
-        _rectTransform.position = targetPos;*/
     }
 
     #region Opacity
