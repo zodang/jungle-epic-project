@@ -35,11 +35,10 @@ public class Inventory : MonoBehaviour
 
     public void RemoveBlock(EngineBlock block)
     {
-        if (BlockList.Contains(block))
-        {
-            BlockList.Remove(block);
-            block.Deactivate(_target.GetComponent(block.RequiredFeatureType));
-        }
+        if (!BlockList.Contains(block)) return;
+
+        BlockList.Remove(block);
+        block.Deactivate(_target.GetComponent(block.RequiredFeatureType));
     }
 
     public void Collect(BlockType type)

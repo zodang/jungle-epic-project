@@ -25,6 +25,7 @@ public abstract class EngineBlock : MonoBehaviour
 
     private BlockVisual _visual;
     private InventorySlot _inventorySlot;
+    private SlotType _currentSlotType;
 
     protected virtual void Awake()
     {
@@ -35,12 +36,15 @@ public abstract class EngineBlock : MonoBehaviour
     private void Start()
     {
         _visual.OnDragEnd += WhenDragEnd;
+        _visual.OnLeftClicked += ActivateEngineBlock;
         _visual.OnRightClicked += DropToInventorySlot;
     }
 
     private void OnDestroy()
     {
         _visual.OnDragEnd -= WhenDragEnd;
+        _visual.OnLeftClicked -= ActivateEngineBlock;
+        _visual.OnRightClicked -= DropToInventorySlot;
     }
     
     public void InitDefaultBlock(Clickable target, SlotType type, int index = -1)
@@ -48,6 +52,7 @@ public abstract class EngineBlock : MonoBehaviour
         _prevTarget = target;
         _prevFeature = target.GetComponent(RequiredFeatureType);
         _prevSlotIndex = index;
+        _currentSlotType = type;
         
         if (_prevFeature != null)
         {
@@ -75,8 +80,18 @@ public abstract class EngineBlock : MonoBehaviour
         }
     }
 
+    private void ActivateEngineBlock()
+    {
+        if (_currentSlotType is SlotType.EngineSlot) return;
+        
+        _visual.ChangeBlockVisual(SlotType.EngineSlot);
+        _visual.RaiseVisual();
+    }
+
     public void DropToInventorySlot()
     {
+        if (_currentSlotType is SlotType.InventorySlot) return;
+        
         // 인벤토리로 블록 이동
         if (_inventorySlot == null) return;
         WhenDroppedInventorySlot(_inventorySlot);
@@ -109,6 +124,7 @@ public abstract class EngineBlock : MonoBehaviour
         _prevTarget = newTarget;
         _prevFeature = newFeature;
         _prevSlotIndex = -1;
+        _currentSlotType = SlotType.InventorySlot;
     }
     
     private void WhenDroppedEngineSlot(ISlotType slot)
@@ -153,6 +169,7 @@ public abstract class EngineBlock : MonoBehaviour
         _prevTarget = newTarget;
         _prevFeature = newFeature;
         _prevSlotIndex = index;
+        _currentSlotType = SlotType.EngineSlot;
     }
     
     private void WhenDroppedNone()
