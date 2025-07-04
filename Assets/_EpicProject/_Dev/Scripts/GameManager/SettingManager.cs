@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class SettingManager : MonoBehaviour
 {
+    public static SettingManager Instance { get; private set; } 
     public ResolutionSetting ResolutionSetting { get; private set; }
     public LanguageSetting LanguageSetting { get; private set; }
     public AudioSetting AudioSetting { get; private set; }
@@ -10,6 +12,15 @@ public class SettingManager : MonoBehaviour
 
     private void Awake()
     {
+        // 싱글턴 초기화 KMS
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         ResolutionSetting = transform.GetComponentInChildren<ResolutionSetting>();
         LanguageSetting = transform.GetComponentInChildren<LanguageSetting>();
         AudioSetting = transform.GetComponentInChildren<AudioSetting>();
@@ -19,7 +30,8 @@ public class SettingManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
+        // ESC 키를 눌렀을 때 설정 UI 열기
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             OpenSetting();
         }
