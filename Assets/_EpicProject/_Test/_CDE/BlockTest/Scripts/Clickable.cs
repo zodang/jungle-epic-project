@@ -65,6 +65,50 @@ public class Clickable : MonoBehaviour, IClickable
         }
     }
     
+    public (bool canAdd, int usedIndex, EngineBlock movedBlock, int movedBlockIndex) TryAddOrMoveOrReplaceBlock(int preferredIndex, EngineBlock block)
+    {
+        int slotCount = EngineController.EngineSlotList.Count;
+
+        // 이미 블록이 있다면
+        if (BlockDictionary.TryGetValue(preferredIndex, out var existingBlock))
+        {
+            // 빈 슬롯 찾기
+            int emptyIndex = -1;
+            for (int i = 0; i < slotCount; i++)
+            {
+                if (!BlockDictionary.ContainsKey(i))
+                {
+                    emptyIndex = i;
+                    break;
+                }
+            }
+
+            if (emptyIndex >= 0)
+            {
+                // 기존 블록을 빈 슬롯으로 이동
+                BlockDictionary.Remove(preferredIndex);
+                BlockDictionary[emptyIndex] = existingBlock;
+                BlockDictionary[preferredIndex] = block;
+                OnBlockChanged?.Invoke();
+                return (true, preferredIndex, existingBlock, emptyIndex);
+            }
+            else
+            {
+                // 빈 슬롯 없으면 기존 블록은 인벤토리로
+                BlockDictionary[preferredIndex] = block;
+                OnBlockChanged?.Invoke();
+                return (true, preferredIndex, existingBlock, -1);
+            }
+        }
+        else
+        {
+            // 비어있으면 바로 추가
+            BlockDictionary[preferredIndex] = block;
+            OnBlockChanged?.Invoke();
+            return (true, preferredIndex, null, -1);
+        }
+    }
+    
     public (bool canAdd, int index) TryAddBlock(int preferredIndex, EngineBlock block)
     {
         int slotCount = EngineController.EngineSlotList.Count;

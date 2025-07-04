@@ -138,6 +138,7 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         if (!TryGetSlotUnderMouse(out ISlotType slot))
         {
             ChangeBlockVisual(SlotType.InventorySlot);
+            _detectedSlot = null;
             return;
         }
         
