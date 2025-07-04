@@ -52,7 +52,7 @@ public class EngineSlot : MonoBehaviour, ISlotType
     private void SetBlockParent(EngineBlock block)
     {
         // 해당 block의 부모를 해당 Slot으로 변경
-        block.transform.SetParent(_blockContainer.transform);
+        block.transform.SetParent(_blockContainer.transform, false);
 
         RectTransform rectTransform = block.GetComponent<RectTransform>();
         rectTransform.anchorMin = Vector2.one * 0.5f;

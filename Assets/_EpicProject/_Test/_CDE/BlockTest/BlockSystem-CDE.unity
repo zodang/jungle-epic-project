@@ -499,6 +499,10 @@ PrefabInstance:
       propertyPath: slideY
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 9067766490160474272, guid: 251ccd1e15db7a947a709712f7afd3bb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1521,7 +1525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6045967471531419273, guid: d0cdca60a086e4b48b59f49560fc2edb, type: 3}
       propertyPath: DefaultBlockList.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6045967471531419273, guid: d0cdca60a086e4b48b59f49560fc2edb, type: 3}
       propertyPath: defaultBlockTypes.Array.size
@@ -1766,9 +1770,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7256648872860790428, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: DefaultBlockList.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7256648872860790428, guid: 8eaaf468140627149994db49216f5843, type: 3}
+      propertyPath: 'DefaultBlockList.Array.data[0]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7833763572700565480, guid: 8eaaf468140627149994db49216f5843, type: 3}
+      propertyPath: DefaultBlockList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7833763572700565480, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: 'DefaultBlockList.Array.data[0]'
       value: 1
       objectReference: {fileID: 0}

@@ -24,6 +24,9 @@ public class EngineManager : MonoBehaviour
         // Clickable마다 UI 
         foreach (var clickable in FindObjectsByType<Clickable>(FindObjectsSortMode.None))
         {
+            // 플레이어 제외
+            if (clickable.GetComponent<PlayerManager>() != null) continue;
+            
             EngineController engineController = Instantiate(engineUIPrefab, transform);
             _engineDictionary.Add(clickable, engineController);
 
@@ -44,6 +47,8 @@ public class EngineManager : MonoBehaviour
     public void ActivateEngineUI(Clickable clickable)
     {
         if (!_engineDictionary.TryGetValue(clickable, out EngineController engineController)) return;
+        if (engineController.IsActivate) return;
+        
         DeactivateAllEngineSilently();
         engineController.gameObject.SetActive(true);
         engineController.Activate();
@@ -89,7 +94,6 @@ public class EngineManager : MonoBehaviour
             }
         }
     }
-
 
     private void ToggleTabHome()
     {

@@ -43,23 +43,18 @@ public abstract class EngineBlock : MonoBehaviour
         _visual.OnDragEnd -= WhenDragEnd;
     }
     
-    public void InitDefaultBlock(Clickable target)
+    public void InitDefaultBlock(Clickable target, SlotType type)
     {
         _prevTarget = target;
         _prevFeature = target.GetComponent(RequiredFeatureType);
         _prevSlotIndex = -1;
-
+        
         if (_prevFeature != null)
         {
             Activate(_prevFeature);
         }
         
-        _visual.ChangeBlockVisual(SlotType.EngineSlot);
-    }
-    
-    public void ShowBlockVisual(bool isActive)
-    {
-        _visual.ShowBlockVisual(isActive);
+        _visual.ChangeBlockVisual(type);
     }
     
     private void WhenDragEnd(ISlotType slot)
@@ -102,21 +97,29 @@ public abstract class EngineBlock : MonoBehaviour
     private void WhenDroppedInventorySlot(ISlotType slot)
     {
         InventorySlot inventorySlot = slot as InventorySlot;
+        Clickable newTarget = slot.GetTargetClickable();
         
         if (_prevTarget != null && _prevFeature != null)
         {
-            // 기능 비활성화
+            // 이전 Target의 기능 비활성화
             _prevTarget.RemoveBlock(_prevSlotIndex);
             Deactivate(_prevFeature);
         }
+        
+        object newFeature = newTarget.GetComponent(RequiredFeatureType);
+        if (newFeature == null) return;
 
+        // Inventory에 Block 추가
         Inventory inventory = inventorySlot.GetInventory(); 
         inventory.AddBlock(this);
         
+        // 새로운 Target의 기능 활성화
+        Activate(newFeature);
         inventorySlot.SetBlockPositionToInventory(this);
 
-        _prevTarget = null;
-        _prevFeature = null;
+        Debug.Log(newTarget);
+        _prevTarget = newTarget;
+        _prevFeature = newFeature;
         _prevSlotIndex = -1;
     }
     
@@ -128,7 +131,13 @@ public abstract class EngineBlock : MonoBehaviour
         Clickable newTarget = slot.GetTargetClickable();
         
         // 이전 Target의 기능 비활성화
-        if (_prevTarget != null && _prevFeature != null)
+        if (_prevTarget == StageBaseManager.Instance.PlayerManager.GetComponent<Clickable>())
+        {
+            StageBaseManager.Instance.PlayerManager.Inventory.RemoveBlock(this);
+            Deactivate(_prevFeature);
+        }
+        
+        else if (_prevTarget != null && _prevFeature != null)
         {
             _prevTarget.RemoveBlock(_prevSlotIndex);
             Deactivate(_prevFeature);
@@ -153,6 +162,7 @@ public abstract class EngineBlock : MonoBehaviour
 
         newTarget.EngineController.EngineSlotList[index].SetBlock(this);
 
+        Debug.Log(newTarget);
         _prevTarget = newTarget;
         _prevFeature = newFeature;
         _prevSlotIndex = index;
@@ -167,6 +177,4 @@ public abstract class EngineBlock : MonoBehaviour
     {
         Debug.LogWarning("Return To Previous");
     }
-    
-    
 }

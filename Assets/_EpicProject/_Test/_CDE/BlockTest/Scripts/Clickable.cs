@@ -25,11 +25,11 @@ public class Clickable : MonoBehaviour, IClickable
     #endregion
 
     #region Block
-    
+
     // 블록 관련 기능
     public event Action OnBlockChanged;
     public Dictionary<int, EngineBlock> BlockDictionary = new();
-    public List<BlockType> DefaultBlockList = new ();
+    public List<BlockType> DefaultBlockList = new();
 
     public EngineController EngineController { get; private set; }
 
@@ -54,12 +54,13 @@ public class Clickable : MonoBehaviour, IClickable
 
             EngineBlock block = StageManager.Instance.BlockFactory.CreateBlock(type);
             if (block == null) continue;
-            
+
             // 블록 상태 갱신
             BlockDictionary[i] = block;
             
             // 블록 기능 활성화
-            block.InitDefaultBlock(this);
+            engineController.EngineSlotList[i].SetBlock(block);
+            block.InitDefaultBlock(this, SlotType.EngineSlot);
         }
     }
     
@@ -107,6 +108,7 @@ public class Clickable : MonoBehaviour, IClickable
     {
         // 클릭 시 Engine UI 활성화
         if (GetComponent<PlayerManager>() != null) return;
+        
         StageBaseManager.Instance.EngineManager.ActivateEngineUI(this);
     }
 }
