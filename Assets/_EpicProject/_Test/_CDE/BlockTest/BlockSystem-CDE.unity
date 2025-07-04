@@ -1536,6 +1536,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6045967471531419273, guid: d0cdca60a086e4b48b59f49560fc2edb, type: 3}
+      propertyPath: 'DefaultBlockList.Array.data[1]'
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6045967471531419273, guid: d0cdca60a086e4b48b59f49560fc2edb, type: 3}
       propertyPath: 'defaultBlockTypes.Array.data[1]'
       value: 2
       objectReference: {fileID: 0}
@@ -2040,8 +2044,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _glitchAni: {fileID: 0}
-  _cooldownImageRT: {fileID: 0}
-  _tweenDuration: 0.3
   _originalAnchoredPos: {x: 0, y: 0}
 --- !u!1001 &2065207603
 PrefabInstance:
