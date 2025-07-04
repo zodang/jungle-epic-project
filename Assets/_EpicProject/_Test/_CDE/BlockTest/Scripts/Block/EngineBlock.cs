@@ -43,11 +43,11 @@ public abstract class EngineBlock : MonoBehaviour
         _visual.OnDragEnd -= WhenDragEnd;
     }
     
-    public void InitDefaultBlock(Clickable target, SlotType type)
+    public void InitDefaultBlock(Clickable target, SlotType type, int index = -1)
     {
         _prevTarget = target;
         _prevFeature = target.GetComponent(RequiredFeatureType);
-        _prevSlotIndex = -1;
+        _prevSlotIndex = index;
         
         if (_prevFeature != null)
         {
@@ -75,23 +75,12 @@ public abstract class EngineBlock : MonoBehaviour
         }
     }
 
-    private void DropToInventorySlot()
+    public void DropToInventorySlot()
     {
         // 인벤토리로 블록 이동
         if (_inventorySlot == null) return;
         WhenDroppedInventorySlot(_inventorySlot);
         _visual.ChangeBlockVisual(SlotType.InventorySlot);
-    }
-    
-    public void DropToInventorySlot(int index)
-    {
-        // 인벤토리로 블록 이동
-        if (_inventorySlot == null) return;
-        WhenDroppedInventorySlot(_inventorySlot);
-        _visual.ChangeBlockVisual(SlotType.InventorySlot);
-        
-        // 비활성화 했던 Block Visual 활성화
-        _visual.ShowBlockVisual(true);
     }
     
     private void WhenDroppedInventorySlot(ISlotType slot)
@@ -117,7 +106,6 @@ public abstract class EngineBlock : MonoBehaviour
         Activate(newFeature);
         inventorySlot.SetBlockPositionToInventory(this);
 
-        Debug.Log(newTarget);
         _prevTarget = newTarget;
         _prevFeature = newFeature;
         _prevSlotIndex = -1;
@@ -162,7 +150,6 @@ public abstract class EngineBlock : MonoBehaviour
 
         newTarget.EngineController.EngineSlotList[index].SetBlock(this);
 
-        Debug.Log(newTarget);
         _prevTarget = newTarget;
         _prevFeature = newFeature;
         _prevSlotIndex = index;

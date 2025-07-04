@@ -33,7 +33,7 @@ public class Clickable : MonoBehaviour, IClickable
 
     public EngineController EngineController { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         OnBlockChanged += CheckBlockDictionary;
     }
@@ -54,13 +54,14 @@ public class Clickable : MonoBehaviour, IClickable
 
             EngineBlock block = StageManager.Instance.BlockFactory.CreateBlock(type);
             if (block == null) continue;
-
-            // 블록 상태 갱신
-            BlockDictionary[i] = block;
             
             // 블록 기능 활성화
+            block.InitDefaultBlock(this, SlotType.EngineSlot, i);
             engineController.EngineSlotList[i].SetBlock(block);
-            block.InitDefaultBlock(this, SlotType.EngineSlot);
+            
+            // 블록 상태 갱신
+            BlockDictionary[i] = block;
+            OnBlockChanged?.Invoke();
         }
     }
     

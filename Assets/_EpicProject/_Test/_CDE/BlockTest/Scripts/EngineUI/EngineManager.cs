@@ -32,9 +32,6 @@ public class EngineManager : MonoBehaviour
 
             // Clickable대로 EngineUI 세팅 
             engineController.InitEngineController(clickable);
-            
-            // Clickable의 기본 블록 세팅
-            clickable.InitClickable(engineController);
         }
     }
     

@@ -51,6 +51,9 @@ public class EngineController : MonoBehaviour
         {
             slot.SetTargetClickable(_currentTarget);
         }
+        
+        // Clickable의 기본 블록 세팅
+        _currentTarget.InitClickable(this);
 
         // UI 세팅
         _engineUIController.SetProfile(target.GetProfile());
@@ -102,7 +105,7 @@ public class EngineController : MonoBehaviour
     {
         foreach (var block in _currentTarget.BlockDictionary.ToList())
         {
-            block.Value.DropToInventorySlot(block.Key);
+            block.Value.DropToInventorySlot();
         }
     }
 }
