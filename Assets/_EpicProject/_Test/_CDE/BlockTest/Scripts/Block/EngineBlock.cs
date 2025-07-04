@@ -64,7 +64,7 @@ public abstract class EngineBlock : MonoBehaviour
     
     private void WhenDragEnd(ISlotType slot)
     {
-        SlotType slotType = slot.GetSlotType();
+        SlotType slotType = slot?.GetSlotType() ?? SlotType.None;
         
         switch (slotType)
         {
@@ -182,7 +182,20 @@ public abstract class EngineBlock : MonoBehaviour
     
     private void WhenDroppedNone()
     {
-        Debug.LogWarning("Dropped None");
+        // 기존 부모로 이동
+        if (_currentSlotType == SlotType.InventorySlot)
+        {
+            _visual.ChangeBlockVisual(SlotType.InventorySlot);
+            _visual.transform.SetParent(_inventorySlot.transform, false);
+            _visual.transform.localPosition = Vector3.zero;
+        }
+        else if (_currentSlotType == SlotType.EngineSlot && _prevTarget != null && _prevSlotIndex >= 0)
+        {
+            // Slot의 BlockContainer 등 정확한 위치로 복귀 처리
+            var engineSlot = _prevTarget.EngineController.EngineSlotList[_prevSlotIndex];
+            _visual.transform.SetParent(engineSlot.transform, false);
+            _visual.transform.localPosition = Vector3.zero;
+        }
     }
     
     private void ReturnToPrevious()

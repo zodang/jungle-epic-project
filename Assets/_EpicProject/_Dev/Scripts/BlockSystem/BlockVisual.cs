@@ -144,8 +144,7 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         _detectedSlot = slot;
         ChangeBlockVisual(_detectedSlot);
     }
-
-
+    
     public void OnEndDrag(PointerEventData eventData)
     {
         _isDragged = false;
