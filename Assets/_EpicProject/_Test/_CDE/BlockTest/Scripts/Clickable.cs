@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Define;
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class Clickable : MonoBehaviour, IClickable
@@ -24,13 +25,24 @@ public class Clickable : MonoBehaviour, IClickable
     #endregion
 
     #region Block
-    
+
     // 블록 관련 기능
     public event Action OnBlockChanged;
     public Dictionary<int, EngineBlock> BlockDictionary = new();
-    public List<BlockType> DefaultBlockList = new ();
+    public List<BlockType> DefaultBlockList = new();
 
     public EngineController EngineController { get; private set; }
+
+    private void Awake()
+    {
+        OnBlockChanged += CheckBlockDictionary;
+    }
+
+    private void CheckBlockDictionary()
+    {
+        var entries = BlockDictionary.Select(kvp => $"{kvp.Key}:{kvp.Value.name}");
+        Debug.Log(string.Join(", ", entries));
+    }
 
     public void InitClickable(EngineController engineController)
     {
@@ -42,58 +54,71 @@ public class Clickable : MonoBehaviour, IClickable
 
             EngineBlock block = StageManager.Instance.BlockFactory.CreateBlock(type);
             if (block == null) continue;
-
-            if (i >= engineController.NumpadList.Count) continue;
+            
+            // 블록 기능 활성화
+            block.InitDefaultBlock(this, SlotType.EngineSlot, i);
+            engineController.EngineSlotList[i].SetBlock(block);
             
             // 블록 상태 갱신
             BlockDictionary[i] = block;
-            
-            // 블록 기능 활성화
-            block.InitDefaultBlock(this);
-
-            // UI 표시
-            engineController.ShowBlock(i);
+            OnBlockChanged?.Invoke();
         }
-        
-        EngineController.ChangeAllNumpadVisual();
     }
     
-    public (bool canAdd, int index) TryAddBlock(EngineBlock block)
+    public (bool canAdd, int usedIndex, EngineBlock movedBlock, int movedBlockIndex) TryAddOrMoveOrReplaceBlock(int preferredIndex, EngineBlock block)
     {
-        int slotCount = EngineController.NumpadList.Count;
+        int slotCount = EngineController.EngineSlotList.Count;
 
-        // Selected Index가 비어있을 때
-        if (!BlockDictionary.ContainsKey(EngineController.SelectedIndex))
+        // 이미 블록이 있다면
+        if (BlockDictionary.TryGetValue(preferredIndex, out var existingBlock))
         {
-            BlockDictionary[EngineController.SelectedIndex] = block;
-            OnBlockChanged?.Invoke();
-            return (true, EngineController.SelectedIndex);
-        }
-
-        // Selected Index가 채워져있을 때
-        for (int i = 0; i < slotCount; i++)
-        {
-            if (!BlockDictionary.ContainsKey(i))
+            // 빈 슬롯 찾기
+            int emptyIndex = -1;
+            for (int i = 0; i < slotCount; i++)
             {
-                BlockDictionary[i] = block;
+                if (!BlockDictionary.ContainsKey(i))
+                {
+                    emptyIndex = i;
+                    break;
+                }
+            }
+
+            if (emptyIndex >= 0)
+            {
+                // 기존 블록을 빈 슬롯으로 이동
+                BlockDictionary.Remove(preferredIndex);
+                BlockDictionary[emptyIndex] = existingBlock;
+                BlockDictionary[preferredIndex] = block;
                 OnBlockChanged?.Invoke();
-                return (true, i);
+                return (true, preferredIndex, existingBlock, emptyIndex);
+            }
+            else
+            {
+                // 빈 슬롯 없으면 기존 블록은 인벤토리로
+                BlockDictionary[preferredIndex] = block;
+                OnBlockChanged?.Invoke();
+                return (true, preferredIndex, existingBlock, -1);
             }
         }
-
-        // 모든 칸이 채워져있을 때
-        return (false, -1);
+        else
+        {
+            // 비어있으면 바로 추가
+            BlockDictionary[preferredIndex] = block;
+            OnBlockChanged?.Invoke();
+            return (true, preferredIndex, null, -1);
+        }
     }
     
     public (bool canAdd, int index) TryAddBlock(int preferredIndex, EngineBlock block)
     {
-        int slotCount = EngineController.NumpadList.Count;
+        int slotCount = EngineController.EngineSlotList.Count;
 
         // Preferred Index가 비어있을 때
         if (!BlockDictionary.ContainsKey(preferredIndex))
         {
             BlockDictionary[preferredIndex] = block;
             OnBlockChanged?.Invoke();
+            
             return (true, preferredIndex);
         }
 
@@ -104,6 +129,7 @@ public class Clickable : MonoBehaviour, IClickable
             {
                 BlockDictionary[i] = block;
                 OnBlockChanged?.Invoke();
+                
                 return (true, i);
             }
         }
@@ -112,13 +138,13 @@ public class Clickable : MonoBehaviour, IClickable
         return (false, -1);
     }
     
-    public void RemoveBlock(int index = -1)
+    public void RemoveBlock(int index)
     {
-        // 지정된 index 값 없을 시 Selected Index 제거
-        if (index == -1) index = EngineController.SelectedIndex;
-     
-        BlockDictionary.Remove(index);
-        OnBlockChanged?.Invoke();
+        if (BlockDictionary.ContainsKey(index))
+        {
+            BlockDictionary.Remove(index);
+            OnBlockChanged?.Invoke();
+        }
     }
 
     #endregion
@@ -126,6 +152,8 @@ public class Clickable : MonoBehaviour, IClickable
     public void OnClicked()
     {
         // 클릭 시 Engine UI 활성화
+        if (GetComponent<PlayerManager>() != null) return;
+        
         StageBaseManager.Instance.EngineManager.ActivateEngineUI(this);
     }
 }

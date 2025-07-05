@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DialHandle : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public event Action<float> OnValueChanged;
 
@@ -18,6 +18,12 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
+    }
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        // EngineBlock 클릭 방지를 위한 return
+        return;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -70,4 +76,6 @@ public class DialHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         float angle = Mathf.Lerp(0, 360, normalized);
         _rectTransform.localEulerAngles = new Vector3(0, 0, angle);
     }
+
+    
 }
