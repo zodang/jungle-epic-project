@@ -14,7 +14,6 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Transform _originalParent;
     private Transform _prevParent;
 
-    // [MOD - 25-06-29 - KMS] 엔진 드래그 시 Tap홈 flik 실행
     public static event Action OnDragBeginEngine;
     public static event Action OnDragEndEngine;
     
@@ -102,9 +101,11 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private bool IsSwap(EngineController myEngine, TabHome targetTabHome)
     {
         // 원래 TabHome에 있고, drop한 곳이 다른 TabHome일 때 swap
-        return myEngine.IsInHome
+        /*return myEngine.IsInHome
                && _prevParent != null
-               && targetTabHome.transform != _prevParent;
+               && targetTabHome.transform != _prevParent;*/
+
+        return false;
     }
     
     private TabHome GetDropTabHome(PointerEventData eventData)
@@ -123,7 +124,7 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         transform.SetParent(tabHome.transform, false);
         _rectTransform.anchoredPosition = Vector3.zero;
-        myEngine.IsInHome = true;
+        // myEngine.IsInHome = true;
     }
     
     private void HandleSwap(TabHome targetTabHome, EngineController myEngine)
@@ -131,11 +132,11 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         EngineController prevEngine = targetTabHome.transform.GetChild(0).GetComponent<EngineController>();
         prevEngine.transform.SetParent(_prevParent, false);
         prevEngine.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-        prevEngine.IsInHome = true;
+        // prevEngine.IsInHome = true;
 
         transform.SetParent(targetTabHome.transform, false);
         _rectTransform.anchoredPosition = Vector3.zero;
-        myEngine.IsInHome = true;
+        // myEngine.IsInHome = true;
     }
 
     private void HandleReplace(TabHome targetTabHome, EngineController myEngine)
@@ -143,11 +144,11 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         EngineController prevEngine = targetTabHome.transform.GetChild(0).GetComponent<EngineController>();
         prevEngine.transform.SetParent(_originalParent);
         prevEngine.GetComponent<RectTransform>().anchoredPosition += new Vector2(300, 0);
-        prevEngine.IsInHome = false;
+        // prevEngine.IsInHome = false;
 
         transform.SetParent(targetTabHome.transform, false);
         _rectTransform.anchoredPosition = Vector3.zero;
-        myEngine.IsInHome = true;
+        // myEngine.IsInHome = true;
 
     }
     #endregion

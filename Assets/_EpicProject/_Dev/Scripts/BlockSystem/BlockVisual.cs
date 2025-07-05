@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Action<ISlotType> OnDragEnd;
+    public Action OnLeftClicked;
     public Action OnRightClicked;
     
     public static event Action OnAnyBlockBeginDrag;
@@ -14,7 +15,6 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     
     private ISlotType _detectedSlot;
     
-    public GameObject VisualGroup;
     public GameObject EngineBlock;
     public GameObject InventoryBlock;
     public GameObject NumpadBlock;
@@ -27,6 +27,12 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     private bool _isAnimating = false;
     private bool _isPointerOver = false;
     private Tween _hoverTween;
+
+    public bool IsRaised;
+    private float _yRaisedPos = 130;
+
+    private bool _isDragged;
+    private bool _isDragging;
 
     private void Awake()
     {
@@ -42,7 +48,14 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (_isDragged) return;
+        
         // 해당 블록에 대한 우클릭 검사
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            OnLeftClicked?.Invoke();
+        }
+        
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             OnRightClicked?.Invoke();
@@ -87,10 +100,14 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        _isDragged = false;
+        _isDragging = true;
+        
         OnAnyBlockBeginDrag?.Invoke();
         
         transform.SetParent(_canvas.transform);
         transform.SetAsLastSibling();
+        ChangeBlockVisual(SlotType.InventorySlot);
 
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
                 _rectTransform,
@@ -104,6 +121,8 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     
     public void OnDrag(PointerEventData eventData)
     {
+        _isDragged = true;
+        
         // UI 중앙을 마우스 위치로 이동
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
                 _rectTransform,
@@ -115,14 +134,22 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         }
 
         // Slot 감지
-        if (!TryGetSlotUnderMouse(out ISlotType slot)) return;
+        if (!TryGetSlotUnderMouse(out ISlotType slot))
+        {
+            ChangeBlockVisual(SlotType.InventorySlot);
+            _detectedSlot = null;
+            return;
+        }
+        
         _detectedSlot = slot;
         ChangeBlockVisual(_detectedSlot);
     }
-
-
+    
     public void OnEndDrag(PointerEventData eventData)
     {
+        _isDragged = false;
+        _isDragging = false;
+        
         _hoverTween?.Kill();
         _isAnimating = false;
         _visualObject.anchoredPosition = Vector2.zero;
@@ -170,12 +197,26 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         EngineBlock.SetActive(slotType == SlotType.EngineSlot);
         NumpadBlock.SetActive(slotType == SlotType.NumpadSlot || slotType == SlotType.Numpad);
     }
-
-    public void ShowBlockVisual(bool isActive)
-    {
-        VisualGroup.SetActive(isActive);
-    }
     
+    public void RaiseVisual(bool raise)
+    {
+        _hoverTween?.Kill();
+        _isAnimating = false;
+        if (_isDragging) return;
+        
+        IsRaised = raise;
+
+        if (IsRaised)
+            _visualObject.anchoredPosition = _yRaisedPos * Vector2.up;
+        else
+        {
+            _visualObject.anchoredPosition = Vector2.zero;
+            ChangeBlockVisual(SlotType.InventorySlot);
+        }
+    }
+
+    #region Deprecated
+
     public void ForceBeginDrag(PointerEventData eventData)
     {
         transform.SetParent(_canvas.transform);
@@ -219,4 +260,6 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     {
         OnDragEnd?.Invoke(_detectedSlot);
     }
+
+    #endregion
 }
