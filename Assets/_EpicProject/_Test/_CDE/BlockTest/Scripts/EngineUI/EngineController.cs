@@ -10,13 +10,10 @@ public class EngineController : BlockContainerBase
     
     private Clickable _currentTarget;
     private EngineUIController _engineUIController;
-    public Dictionary<int, EngineBlock> BlockDictionary = new();
-
-    public List<EngineSlot> EngineSlotList = new List<EngineSlot>();
-
+    private Dictionary<int, EngineBlock> _blockDictionary = new();
     private List<BlockType> _defaultBlockList;
+    public List<EngineSlot> EngineSlotList = new List<EngineSlot>();
     
-    // 블록 관련 기능
     public event Action OnBlockChanged;
     
     private void Awake()
@@ -37,8 +34,7 @@ public class EngineController : BlockContainerBase
         _engineUIController.OnResetBtnClicked += ResetFeature;
         _engineUIController.OnClearBtnClicked += ClearBlock;
         
-        OnBlockChanged += CheckBlockDictionary;
-
+        // OnBlockChanged += CheckBlockDictionary;
         gameObject.SetActive(false);
     }
 
@@ -51,7 +47,7 @@ public class EngineController : BlockContainerBase
     
     private void CheckBlockDictionary()
     {
-        var entries = BlockDictionary.Select(kvp => $"{kvp.Key}:{kvp.Value.name}");
+        var entries = _blockDictionary.Select(kvp => $"{kvp.Key}:{kvp.Value.name}");
         string values = string.Join(", ", entries); 
         Debug.Log($"@@DE: {_currentTarget.name} : {values}");
     }
@@ -89,7 +85,7 @@ public class EngineController : BlockContainerBase
             EngineSlotList[i].SetBlock(block);
             
             // 블록 상태 갱신
-            BlockDictionary[i] = block;
+            _blockDictionary[i] = block;
             OnBlockChanged?.Invoke();
             
             RegisterBlockEvents(block);
@@ -130,10 +126,10 @@ public class EngineController : BlockContainerBase
         int slotCount = EngineSlotList.Count;
 
         // Target Index에 Block 없을 때
-        if (!BlockDictionary.TryGetValue(targetIndex, out var existingBlock))
+        if (!_blockDictionary.TryGetValue(targetIndex, out var existingBlock))
         {
             // Target Index에 Block 추가
-            BlockDictionary[targetIndex] = block;
+            _blockDictionary[targetIndex] = block;
             OnBlockChanged?.Invoke();
             return (null, -1);
         }
@@ -143,7 +139,7 @@ public class EngineController : BlockContainerBase
         for (int i = 0; i < slotCount; i++)
         {
             // 빈 슬롯 검사
-            if (BlockDictionary.ContainsKey(i)) continue;
+            if (_blockDictionary.ContainsKey(i)) continue;
             emptyIndex = i;
             break;
         }
@@ -152,25 +148,26 @@ public class EngineController : BlockContainerBase
         if (emptyIndex >= 0)
         {
             // 기존 블록을 빈 슬롯으로 이동
-            BlockDictionary[emptyIndex] = existingBlock;
-            BlockDictionary.Remove(targetIndex);
+            _blockDictionary[emptyIndex] = existingBlock;
+            _blockDictionary.Remove(targetIndex);
             
             // Target Index에 Block 추가
-            BlockDictionary[targetIndex] = block;
+            _blockDictionary[targetIndex] = block;
             OnBlockChanged?.Invoke();
             return (existingBlock, emptyIndex);
         }
 
         // Target Index에 Block 추가
-        BlockDictionary[targetIndex] = block;
+        _blockDictionary[targetIndex] = block;
         OnBlockChanged?.Invoke();
         return (existingBlock, -1);
     }
 
     protected override void RemoveBlock(int index)
     {
-        if (!BlockDictionary.ContainsKey(index)) return;
-        BlockDictionary.Remove(index);
+        if (!_blockDictionary.ContainsKey(index)) return;
+        _blockDictionary.Remove(index);
+        EngineSlotList[index].SetBlock(null);
         OnBlockChanged?.Invoke();
     }
     private void ResetFeature()
@@ -191,7 +188,7 @@ public class EngineController : BlockContainerBase
 
     private void ClearBlock()
     {
-        foreach (var block in BlockDictionary.ToList())
+        foreach (var block in _blockDictionary.ToList())
         {
             DropToInventorySlot(block.Value);
         }
