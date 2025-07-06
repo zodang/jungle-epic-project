@@ -47,6 +47,7 @@ public class EngineSlot : MonoBehaviour, ISlotType
     {
         _currentBlock = block;
         SetBlockParent(block);
+        SetIcon(block);
     }
 
     private void SetBlockParent(EngineBlock block)
@@ -58,5 +59,11 @@ public class EngineSlot : MonoBehaviour, ISlotType
         rectTransform.anchorMin = Vector2.one * 0.5f;
         rectTransform.anchorMax = Vector2.one * 0.5f;
         rectTransform.anchoredPosition = Vector2.zero;
+    }
+
+    private void SetIcon(EngineBlock block)
+    {
+        Sprite iconSprite = StageManager.Instance.BlockFactory.GetIcon(block.Type);
+        _slotIconImg.sprite = iconSprite;
     }
 }
