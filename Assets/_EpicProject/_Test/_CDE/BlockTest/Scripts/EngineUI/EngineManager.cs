@@ -10,15 +10,18 @@ public class EngineManager : MonoBehaviour
     private EngineUIManager _engineUIManager;
     private bool _isTabHomeGroupActive = true;
 
+    private BlockContainerBase _inventory;
+
     private void Awake()
     {
         _engineUIManager = GetComponent<EngineUIManager>();
-
         _engineUIManager.ActivateTabHomeGroup(false);
     }
 
     private void Start()
-    { 
+    {
+        _inventory = StageBaseManager.Instance.PlayerManager.Inventory;
+        
         // ESC 키로 모든 EngineUI 비활성화
         StageManager.Instance.InputManager.OnTabPressed += DeactivateAllEngine;
         
@@ -26,13 +29,18 @@ public class EngineManager : MonoBehaviour
         foreach (var clickable in FindObjectsByType<Clickable>(FindObjectsSortMode.None))
         {
             // 플레이어 제외
-            if (clickable.GetComponent<PlayerManager>() != null) continue;
+            if (clickable.GetComponent<PlayerManager>() != null)
+            {
+                clickable.InitBlockContainerBase(_inventory);
+                continue;
+            }
             
             EngineController engineController = Instantiate(engineUIPrefab, transform);
             _engineDictionary.Add(clickable, engineController);
 
             // Clickable대로 EngineUI 세팅 
-            engineController.InitEngineController(clickable);
+            clickable.InitBlockContainerBase(engineController);
+            clickable.InitEngineController(engineController);
         }
     }
     

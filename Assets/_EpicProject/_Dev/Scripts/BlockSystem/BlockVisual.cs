@@ -4,7 +4,9 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class BlockVisual : MonoBehaviour, 
+    IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, 
+    IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Action<ISlotType> OnDragEnd;
     public Action OnLeftClicked;
@@ -51,15 +53,8 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         if (_isDragged) return;
         
         // 해당 블록에 대한 우클릭 검사
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            OnLeftClicked?.Invoke();
-        }
-        
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            OnRightClicked?.Invoke();
-        }
+        if (eventData.button == PointerEventData.InputButton.Left) OnLeftClicked?.Invoke();
+        if (eventData.button == PointerEventData.InputButton.Right) OnRightClicked?.Invoke();
     }
     
     public void OnPointerEnter(PointerEventData eventData)
@@ -214,52 +209,4 @@ public class BlockVisual : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
             ChangeBlockVisual(SlotType.InventorySlot);
         }
     }
-
-    #region Deprecated
-
-    public void ForceBeginDrag(PointerEventData eventData)
-    {
-        transform.SetParent(_canvas.transform);
-        transform.SetAsLastSibling();
-
-        RectTransform parentRect = _rectTransform.parent as RectTransform;
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            parentRect,
-            eventData.position,
-            eventData.pressEventCamera,
-            out var localPointerPosition
-        );
-
-        _rectTransform.anchoredPosition = localPointerPosition;
-        _dragOffset = Vector2.zero;
-    }
-
-    public void ForceDrag(PointerEventData eventData)
-    {
-        RectTransform parentRect = _rectTransform.parent as RectTransform;
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            parentRect,
-            eventData.position,
-            eventData.pressEventCamera,
-            out var localPoint
-        );
-
-        _rectTransform.anchoredPosition = localPoint + _dragOffset + Vector2.up;
-
-        // Slot Type 감지
-        if (!TryGetSlotUnderMouse(out ISlotType slot)) return;
-
-        _detectedSlot = slot;
-        ChangeBlockVisual(_detectedSlot);
-    }
-
-
-    public void ForceEndDrag(PointerEventData eventData)
-    {
-        OnDragEnd?.Invoke(_detectedSlot);
-    }
-
-    #endregion
 }
