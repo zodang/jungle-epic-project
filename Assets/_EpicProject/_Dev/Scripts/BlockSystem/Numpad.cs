@@ -33,7 +33,7 @@ public class Numpad : MonoBehaviour, ISlotType, IPointerDownHandler, IPointerUpH
 
     public void ChangeVisual()
     {
-        if (_targetClickable.BlockDictionary.TryGetValue(Index, out var block) && block != null)
+        /*if (_targetClickable.BlockDictionary.TryGetValue(Index, out var block) && block != null)
         {
             var icon = StageManager.Instance.BlockFactory.GetIcon(block.Type);
             _iconImg.sprite = icon;
@@ -44,7 +44,7 @@ public class Numpad : MonoBehaviour, ISlotType, IPointerDownHandler, IPointerUpH
         {
             _iconImg.enabled = false;
             _numText.enabled = true;
-        }
+        }*/
     }
 
     public SlotType GetSlotType() => SlotType.Numpad;
@@ -63,7 +63,7 @@ public class Numpad : MonoBehaviour, ISlotType, IPointerDownHandler, IPointerUpH
 
         // 드래그 준비
         if (_targetClickable == null) return;
-        _targetClickable.BlockDictionary.TryGetValue(Index, out _blockToDrag);
+        // _targetClickable.EngineController.BlockDictionary.TryGetValue(Index, out _blockToDrag);
         
         // 클릭 처리
         OnClickNumpad?.Invoke(Index);
@@ -78,12 +78,12 @@ public class Numpad : MonoBehaviour, ISlotType, IPointerDownHandler, IPointerUpH
             _isDragging = true;
 
             var visual = _blockToDrag.GetComponent<BlockVisual>();
-            visual?.ForceBeginDrag(eventData);
+            // visual?.ForceBeginDrag(eventData);
         }
 
         if (_isDragging)
         {
-            _blockToDrag.GetComponent<BlockVisual>()?.ForceDrag(eventData);
+            // _blockToDrag.GetComponent<BlockVisual>()?.ForceDrag(eventData);
         }
     }
 
@@ -93,7 +93,7 @@ public class Numpad : MonoBehaviour, ISlotType, IPointerDownHandler, IPointerUpH
 
         if (_isDragging)
         {
-            _blockToDrag.GetComponent<BlockVisual>()?.ForceEndDrag(eventData);
+            // _blockToDrag.GetComponent<BlockVisual>()?.ForceEndDrag(eventData);
         }
         else
         {

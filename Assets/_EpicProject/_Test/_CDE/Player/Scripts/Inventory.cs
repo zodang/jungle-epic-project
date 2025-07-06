@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Define;
+using System.Linq;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : BlockContainerBase
 {
     public List<EngineBlock> BlockList = new List<EngineBlock>();
     public List<BlockType> DefaultBlockList = new();
@@ -24,22 +25,28 @@ public class Inventory : MonoBehaviour
 
         InitInventory();
     }
-
+    
+    private void CheckBlockDictionary()
+    {
+        var entries = BlockList.Select(b => b.name);
+        string values = string.Join(", ", entries); 
+        Debug.Log($"@@DE: {_target.name} : {values}");
+    }
+    
     public void AddBlock(EngineBlock block)
     {
-        if (!BlockList.Contains(block))
-        {
-            BlockList.Add(block);
-            block.InitDefaultBlock(_target, SlotType.InventorySlot);
-        }
+        if (BlockList.Contains(block)) return;
+        
+        BlockList.Add(block);
+        block.InitDefaultBlock(_target, SlotType.InventorySlot);
+        
+        RegisterBlockEvents(block);
     }
 
-    public void RemoveBlock(EngineBlock block)
+    protected override void RemoveBlock(int index)
     {
-        if (!BlockList.Contains(block)) return;
-
-        BlockList.Remove(block);
-        block.Deactivate(_target.GetComponent(block.RequiredFeatureType));
+        if (index < 0 || index >= BlockList.Count) return;
+        BlockList.RemoveAt(index);
     }
 
     public void Collect(BlockType type)
