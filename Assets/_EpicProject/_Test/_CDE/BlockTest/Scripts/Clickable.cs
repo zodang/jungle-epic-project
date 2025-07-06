@@ -65,77 +65,46 @@ public class Clickable : MonoBehaviour, IClickable
         }
     }
     
-    public (bool canAdd, int usedIndex, EngineBlock movedBlock, int movedBlockIndex) TryAddOrMoveOrReplaceBlock(int preferredIndex, EngineBlock block)
+    public (EngineBlock movedBlock, int movedBlockIndex) TryAddOrMoveOrReplaceBlock(int targetIndex, EngineBlock block)
     {
         int slotCount = EngineController.EngineSlotList.Count;
 
-        // 이미 블록이 있다면
-        if (BlockDictionary.TryGetValue(preferredIndex, out var existingBlock))
+        // Target Index에 Block 없을 때
+        if (!BlockDictionary.TryGetValue(targetIndex, out var existingBlock))
         {
-            // 빈 슬롯 찾기
-            int emptyIndex = -1;
-            for (int i = 0; i < slotCount; i++)
-            {
-                if (!BlockDictionary.ContainsKey(i))
-                {
-                    emptyIndex = i;
-                    break;
-                }
-            }
-
-            if (emptyIndex >= 0)
-            {
-                // 기존 블록을 빈 슬롯으로 이동
-                BlockDictionary.Remove(preferredIndex);
-                BlockDictionary[emptyIndex] = existingBlock;
-                BlockDictionary[preferredIndex] = block;
-                OnBlockChanged?.Invoke();
-                return (true, preferredIndex, existingBlock, emptyIndex);
-            }
-            else
-            {
-                // 빈 슬롯 없으면 기존 블록은 인벤토리로
-                BlockDictionary[preferredIndex] = block;
-                OnBlockChanged?.Invoke();
-                return (true, preferredIndex, existingBlock, -1);
-            }
-        }
-        else
-        {
-            // 비어있으면 바로 추가
-            BlockDictionary[preferredIndex] = block;
+            // Target Index에 Block 추가
+            BlockDictionary[targetIndex] = block;
             OnBlockChanged?.Invoke();
-            return (true, preferredIndex, null, -1);
+            return (null, -1);
         }
-    }
-    
-    public (bool canAdd, int index) TryAddBlock(int preferredIndex, EngineBlock block)
-    {
-        int slotCount = EngineController.EngineSlotList.Count;
-
-        // Preferred Index가 비어있을 때
-        if (!BlockDictionary.ContainsKey(preferredIndex))
-        {
-            BlockDictionary[preferredIndex] = block;
-            OnBlockChanged?.Invoke();
-            
-            return (true, preferredIndex);
-        }
-
-        // Preferred Index가 채워져있을 때
+        
+        // Target Index에 Block 있을 때 
+        int emptyIndex = -1;
         for (int i = 0; i < slotCount; i++)
         {
-            if (!BlockDictionary.ContainsKey(i))
-            {
-                BlockDictionary[i] = block;
-                OnBlockChanged?.Invoke();
-                
-                return (true, i);
-            }
+            // 빈 슬롯 검사
+            if (BlockDictionary.ContainsKey(i)) continue;
+            emptyIndex = i;
+            break;
         }
 
-        // 모든 칸이 채워져있을 때
-        return (false, -1);
+        // 빈 슬롯이 있을 때
+        if (emptyIndex >= 0)
+        {
+            // 기존 블록을 빈 슬롯으로 이동
+            BlockDictionary[emptyIndex] = existingBlock;
+            BlockDictionary.Remove(targetIndex);
+            
+            // Target Index에 Block 추가
+            BlockDictionary[targetIndex] = block;
+            OnBlockChanged?.Invoke();
+            return (existingBlock, emptyIndex);
+        }
+
+        // Target Index에 Block 추가
+        BlockDictionary[targetIndex] = block;
+        OnBlockChanged?.Invoke();
+        return (existingBlock, -1);
     }
     
     public void RemoveBlock(int index)
