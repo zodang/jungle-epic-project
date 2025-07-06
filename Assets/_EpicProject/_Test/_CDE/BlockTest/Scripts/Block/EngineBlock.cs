@@ -123,9 +123,9 @@ public abstract class EngineBlock : MonoBehaviour
         InventorySlot inventorySlot = slot as InventorySlot;
         Clickable newTarget = slot.GetTargetClickable();
         
+        // 이전 Target의 기능 비활성화
         if (_prevTarget != null && _prevFeature != null)
         {
-            // 이전 Target의 기능 비활성화
             _prevTarget.RemoveBlock(_prevSlotIndex);
             Deactivate(_prevFeature);
         }
@@ -151,61 +151,47 @@ public abstract class EngineBlock : MonoBehaviour
     {
         EngineSlot engineSlot = slot as EngineSlot;
         int targetIndex = engineSlot.Index;
-
-        Clickable newTarget = slot.GetTargetClickable();
-
-        // 이전 Target의 기능 비활성화
-        if (_prevTarget == StageBaseManager.Instance.PlayerManager.GetComponent<Clickable>())
-        {
-            StageBaseManager.Instance.PlayerManager.Inventory.RemoveBlock(this);
-            Deactivate(_prevFeature);
-        }
-        else if (_prevTarget != null && _prevFeature != null)
+        
+        // Prev Target의 기능 비활성화
+        if (_prevTarget != null && _prevFeature != null)
         {
             _prevTarget.RemoveBlock(_prevSlotIndex);
             Deactivate(_prevFeature);
         }
-
+        
+        // New Target 기능 활성화
+        Clickable newTarget = slot.GetTargetClickable();
         object newFeature = newTarget.GetComponent(RequiredFeatureType);
-        if (newFeature == null) return;
+        
+        Activate(newFeature);
+        newTarget.EngineController.EngineSlotList[targetIndex].SetBlock(this);
+        
+        var (movedBlock, movedBlockIndex) = newTarget.TryAddOrMoveOrReplaceBlock(targetIndex, this);
 
-        // 바뀐 부분: TryAddOrMoveOrReplaceBlock 사용
-        var (canAdd, usedIndex, movedBlock, movedBlockIndex) = newTarget.TryAddOrMoveOrReplaceBlock(targetIndex, this);
-
-        if (!canAdd)
-        {
-            ReturnToPrevious();
-            return;
-        }
-
-        // 내 블록은 사용된 슬롯에 할당, 부모 위치 바꿔주기
-        newTarget.EngineController.EngineSlotList[usedIndex].SetBlock(this);
-
-        // 기존 블록이 있던 경우 처리
+        // Target Index에 Block 있을 때
         if (movedBlock != null)
         {
             if (movedBlockIndex >= 0)
             {
-                // 엔진의 빈 슬롯으로 이동
+                // 빈 슬롯으로 이동
                 newTarget.EngineController.EngineSlotList[movedBlockIndex].SetBlock(movedBlock);
-                movedBlock.InitDefaultBlock(newTarget, SlotType.EngineSlot, movedBlockIndex);
             }
             else
             {
-                // 인벤토리로 이동 (Player 인벤토리 예시);
+                movedBlock.Deactivate(movedBlock.RequiredFeatureType);
+
+                // 인벤토리로 이동
                 var inventory = StageBaseManager.Instance.PlayerManager.Inventory;
                 inventory.AddBlock(movedBlock);
                 movedBlock.InitDefaultBlock(_inventorySlot.GetTargetClickable(), SlotType.InventorySlot, -1);
                 movedBlock.transform.SetParent(_inventorySlot.transform, false);
+                
             }
         }
 
-        // 새로운 Target의 기능 활성화
-        Activate(newFeature);
-
         _prevTarget = newTarget;
         _prevFeature = newFeature;
-        _prevSlotIndex = usedIndex;
+        _prevSlotIndex = targetIndex;
         _currentSlotType = SlotType.EngineSlot;
     }
     
@@ -224,10 +210,5 @@ public abstract class EngineBlock : MonoBehaviour
             engineSlot.SetBlock(this);
             _visual.ChangeBlockVisual(SlotType.EngineSlot);
         }
-    }
-    
-    private void ReturnToPrevious()
-    {
-        Debug.LogWarning("Return To Previous");
     }
 }
