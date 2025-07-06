@@ -52,21 +52,6 @@ public class CameraFraming : MonoBehaviour
 
         _cinemachineTargetGroup.RemoveMember(target);
     }
-
-    //[Header("Test")]
-    //public Transform TestTarget;
-
-    //[ContextMenu("AddTarget(TestTarget)")]
-    //void TestAddTarget()
-    //{
-    //    AddTarget(TestTarget);
-    //}
-
-    //[ContextMenu("RemoveTarget(TestTarget)")]
-    //void TestRemoveTarget()
-    //{
-    //    RemoveTarget(TestTarget);
-    //}
 }
 
 
