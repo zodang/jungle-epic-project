@@ -14,6 +14,8 @@ public class EngineUIManager : MonoBehaviour
     private void Start()
     {
         _sequence = DOTween.Sequence();
+        leftGroup.gameObject.SetActive(false);
+        rightGroup.gameObject.SetActive(false);
     }
 
     public void ActivateTabHomeGroup(bool isActive)

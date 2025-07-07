@@ -15,7 +15,6 @@ public class EngineManager : MonoBehaviour
     private void Awake()
     {
         _engineUIManager = GetComponent<EngineUIManager>();
-        _engineUIManager.ActivateTabHomeGroup(false);
     }
 
     private void Start()
