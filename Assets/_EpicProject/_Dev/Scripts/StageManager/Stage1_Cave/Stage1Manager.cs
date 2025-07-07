@@ -26,6 +26,11 @@ public class Stage1Manager : StageBaseManager
 
     private void OnGoalTriggered()
     {
+#if STEAMWORKS_NET
+        GameManager.Instance.AudioManager.PlayBgm(false);
+        GameManager.Instance.FadeManager.LoadScene(1);
+#else
         GameManager.Instance.FadeManager.LoadScene();
+#endif
     }
 }
