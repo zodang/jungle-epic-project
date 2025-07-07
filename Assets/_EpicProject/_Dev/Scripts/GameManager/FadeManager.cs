@@ -5,12 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class FadeManager : MonoBehaviour
 {
-    private FadeUI _fadeUI;
     private TransitionManager _transitionManager;
 
     private void Awake()
     {
-        _fadeUI = FindAnyObjectByType<FadeUI>();
         _transitionManager = FindAnyObjectByType<TransitionManager>();
     }
 
