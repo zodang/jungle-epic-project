@@ -20,7 +20,7 @@ public class TutorialStageManager : StageBaseManager
     {
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
         
-        GameManager.Instance.AudioManager.PlayBgm(true);
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage1);
         Invoke(nameof(CollectBlock), .05f);
     }
 

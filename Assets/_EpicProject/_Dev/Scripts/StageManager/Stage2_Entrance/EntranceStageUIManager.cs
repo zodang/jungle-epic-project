@@ -17,7 +17,7 @@ public class EntranceStageUIManager : MonoBehaviour
     
     private void OnClickRestartBtn()
     {
-        GameManager.Instance.AudioManager.PlayBgm(false);
+        GameManager.Instance.AudioManager.StopBgm();
         GameManager.Instance.FadeManager.LoadScene(1);
     }
 }
