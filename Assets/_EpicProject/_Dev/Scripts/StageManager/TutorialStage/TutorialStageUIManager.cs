@@ -11,13 +11,13 @@ public class TutorialStageUIManager : MonoBehaviour
 
     private void Awake()
     {
-        questionBtn.onClick.AddListener(OnClickQuestionBtn);
-        startBtn.onClick.AddListener(OnClickStartBtn);
+        // questionBtn.onClick.AddListener(OnClickQuestionBtn);
+        // startBtn.onClick.AddListener(OnClickStartBtn);
     }
     
     private void Start()
     {
-        startPanel.SetActive(true);
+        // startPanel.SetActive(true);
     }
     
     private void OnClickQuestionBtn()
