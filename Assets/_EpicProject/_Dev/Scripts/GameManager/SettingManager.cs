@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class SettingManager : MonoBehaviour
@@ -9,6 +8,7 @@ public class SettingManager : MonoBehaviour
     public AudioSetting AudioSetting { get; private set; }
 
     private SettingUI _settingUI;
+    public SettingData CurrentSetting { get; private set; } = new SettingData();
 
     private void Awake()
     {
@@ -28,6 +28,12 @@ public class SettingManager : MonoBehaviour
         _settingUI = FindAnyObjectByType<SettingUI>();
     }
 
+    private void Start()
+    {
+        // LoadSetting();
+        // ApplySetting();
+    }
+
     public void Update()
     {
         // ESC 키를 눌렀을 때 설정 UI 열기
@@ -40,5 +46,34 @@ public class SettingManager : MonoBehaviour
     public void OpenSetting()
     {
         _settingUI.OpenSettingUI();
+    }
+
+    private void SaveSetting()
+    {
+        // 저장된 설정값 변경
+        CurrentSetting.LanguageIndex = LanguageSetting.CurrentIndex;
+        CurrentSetting.ResolutionIndex = ResolutionSetting.CurrentIndex;
+        CurrentSetting.IsFullScreen = ResolutionSetting.IsFullScreen;
+        CurrentSetting.BgmVolume = AudioSetting.CurrentBgmVolume;
+        CurrentSetting.SfxVolume = AudioSetting.CurrentSfxVolume;
+
+        // 변경된 설정값 저장
+        GameSaveData gameSaveData = GameManager.Instance.SaveManager.LoadData();
+        gameSaveData.SettingData = CurrentSetting;
+        GameManager.Instance.SaveManager.SaveData(gameSaveData);
+    }
+
+    private void LoadSetting()
+    {
+        // 저장된 설정값 불러오기
+        GameSaveData gameSaveData = GameManager.Instance.SaveManager.LoadData();
+        CurrentSetting = gameSaveData.SettingData;
+    }
+
+    private void ApplySetting()
+    {
+        LanguageSetting.ChangeLanguage(CurrentSetting.LanguageIndex);
+        ResolutionSetting.ChangeResolution(CurrentSetting.ResolutionIndex);
+        ResolutionSetting.ChangeFullScreen(CurrentSetting.IsFullScreen);
     }
 }

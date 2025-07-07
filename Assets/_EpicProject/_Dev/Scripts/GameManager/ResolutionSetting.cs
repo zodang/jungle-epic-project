@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class ResolutionSetting : MonoBehaviour
 {
+    public int CurrentIndex { get; private set; }
+    public bool IsFullScreen { get; private set; } = true;
+    
     private TMP_Dropdown _resolutionDropDown;
     private Toggle _fullScreenToggle;
     
     private List<Resolution> _resolutions = new List<Resolution>();
-    private int _currentResolutionIndex;
-    private bool _isFullScreen = true;
     
     private void Awake()
     {
@@ -23,9 +24,9 @@ public class ResolutionSetting : MonoBehaviour
     private void Start()
     {
         // 해상도 설정
-        Resolution resolution = _resolutions[_currentResolutionIndex];
+        Resolution resolution = _resolutions[CurrentIndex];
         Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
-        Screen.SetResolution(resolution.width, resolution.height, _isFullScreen);
+        Screen.SetResolution(resolution.width, resolution.height, IsFullScreen);
         
         // 토글 설정
         _fullScreenToggle.SetIsOnWithoutNotify(true);
@@ -33,19 +34,36 @@ public class ResolutionSetting : MonoBehaviour
         _resolutionDropDown.onValueChanged.AddListener(OnResolutionValueChanged);
         _fullScreenToggle.onValueChanged.AddListener(OnFullScreenValueChanged);
     }
+
+    public void ChangeResolution(int index)
+    {
+        // Index 변경
+        CurrentIndex = index;
+        
+        // 해상도 적용
+        Resolution resolution = _resolutions[index];
+        Screen.SetResolution(resolution.width, resolution.height, IsFullScreen);
+    }
+
+    public void ChangeFullScreen(bool isFullScreen)
+    {
+        // Index 변경
+        IsFullScreen = isFullScreen;
+        
+        // 전체화면 적용
+        Screen.fullScreen = isFullScreen;
+    }
     
     private void OnResolutionValueChanged(int index)
     {
-        Resolution resolution = _resolutions[index];
-        Screen.SetResolution(resolution.width, resolution.height, _isFullScreen);
+        ChangeResolution(index);
     }
 
     private void OnFullScreenValueChanged(bool isFullScreen)
     {
-        _isFullScreen = isFullScreen;
-        Screen.fullScreen = isFullScreen;
+        ChangeFullScreen(isFullScreen);
     }
-
+    
     private void InitDropdown()
     {
         _resolutions.Clear();
@@ -79,7 +97,7 @@ public class ResolutionSetting : MonoBehaviour
             if (res.width == Screen.currentResolution.width && res.height == Screen.currentResolution.height)
             {
                 // 현재 해상도 설정
-                _currentResolutionIndex = _resolutions.Count - 1;
+                CurrentIndex = _resolutions.Count - 1;
                 // label = $"{res.width} x {res.height} {res.refreshRateRatio}Hz *";
             }
             
@@ -87,7 +105,7 @@ public class ResolutionSetting : MonoBehaviour
         }
 
         _resolutionDropDown.AddOptions(optionList);
-        _resolutionDropDown.value = _currentResolutionIndex;
+        _resolutionDropDown.value = CurrentIndex;
         _resolutionDropDown.RefreshShownValue();
     }
 }
