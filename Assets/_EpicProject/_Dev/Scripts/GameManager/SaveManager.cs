@@ -84,9 +84,13 @@ public class SaveManager : MonoBehaviour
         
         // 기본값 세팅
         saveData.SettingData.LanguageIndex = 0;
+        saveData.SettingData.IsFullScreen = true;
         saveData.SettingData.ResolutionIndex =
             GameManager.Instance.SettingManager.ResolutionSetting.GetOptimalResolutionIndex();
-        saveData.SettingData.IsFullScreen = true;
+        saveData.SettingData.BgmVolume =
+            GameManager.Instance.SettingManager.AudioSetting.GetOptimalBgmVolume();
+        saveData.SettingData.SfxVolume =
+            GameManager.Instance.SettingManager.AudioSetting.GetOptimalSfxVolume();
 
         saveData.StageData.ClearStageIndex = 0;
 

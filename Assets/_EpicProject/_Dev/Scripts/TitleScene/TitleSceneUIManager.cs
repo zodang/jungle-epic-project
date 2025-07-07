@@ -25,7 +25,7 @@ public class TitleSceneUIManager : MonoBehaviour
 
     public void SetContinueBtn(bool isEnable)
     {
-        continueGameBtn.enabled = isEnable;
+        // continueGameBtn.enabled = isEnable;
     }
 
     private void OnClickNewGameBtn()

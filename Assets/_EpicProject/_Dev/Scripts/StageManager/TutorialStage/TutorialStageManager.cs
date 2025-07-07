@@ -16,8 +16,6 @@ public class TutorialStageManager : StageBaseManager
     {
         // 대화 불러오기
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
-
-        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage1);
      
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
