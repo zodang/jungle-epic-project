@@ -19,6 +19,8 @@ public class EntranceSceneManager : StageBaseManager
         
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
+
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage3);
     }
     
     private void OnGoalTriggered()

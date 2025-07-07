@@ -19,6 +19,7 @@ public class TutorialStageManager : StageBaseManager
      
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Tutorial);
     }
 
     private void OnGoalTriggered()
