@@ -18,6 +18,11 @@ public class GlitchIndicator : MonoBehaviour
 
     private void Start()
     {
+        if (_glitchAni == null)
+        {
+            _glitchAni = FindAnyObjectByType<GlitchIndicator>().GetComponent<Animator>();
+        }
+        
         GlitchVision.BeginGlitch += StartGlitchTimer;
         GlitchVision.EndGlitch += OnGlitchEnd;
     }
