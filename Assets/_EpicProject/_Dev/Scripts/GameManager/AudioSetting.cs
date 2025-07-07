@@ -20,21 +20,24 @@ public class AudioSetting : MonoBehaviour
         SfxSlider.maxValue = GetOptimalSfxVolume() * 2f;
         SfxSlider.value = GetOptimalSfxVolume();
         SfxSlider.onValueChanged.AddListener(OnSfxValueChanged);
-
     }
 
-    private void OnBgmValueChanged(float volume)
+    public void ChangeBgmVolume(float volume)
     {
         CurrentBgmVolume = volume;
+        BgmSlider.value = volume;
+        
         GameManager.Instance.AudioManager.SetBgmVolume(volume);
     }
     
-    private void OnSfxValueChanged(float volume)
+    public void ChangeSfxVolume(float volume)
     {
         CurrentSfxVolume = volume;
+        SfxSlider.value = volume;
+        
         GameManager.Instance.AudioManager.SetSfxVolume(volume);
     }
-
+    
     public float GetOptimalBgmVolume()
     {
         return GameManager.Instance.AudioManager.DefaultBgmVolume;
@@ -43,5 +46,15 @@ public class AudioSetting : MonoBehaviour
     public float GetOptimalSfxVolume()
     {
         return GameManager.Instance.AudioManager.DefaultSfxVolume;
+    }
+
+    private void OnBgmValueChanged(float volume)
+    {
+        ChangeBgmVolume(volume);
+    }
+    
+    private void OnSfxValueChanged(float volume)
+    {
+        ChangeSfxVolume(volume);
     }
 }

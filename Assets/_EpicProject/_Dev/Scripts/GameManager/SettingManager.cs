@@ -31,6 +31,7 @@ public class SettingManager : MonoBehaviour
 
         StartCoroutine(ApplyLocalization());
         ApplyResolutionSetting();
+        ApplyAudioSetting();
     }
 
     public void Update()
@@ -79,5 +80,11 @@ public class SettingManager : MonoBehaviour
     {
         ResolutionSetting.ChangeResolution(_currentSetting.ResolutionIndex);
         ResolutionSetting.ChangeFullScreen(_currentSetting.IsFullScreen);
+    }
+
+    private void ApplyAudioSetting()
+    {
+        AudioSetting.ChangeBgmVolume(_currentSetting.BgmVolume);
+        AudioSetting.ChangeSfxVolume(_currentSetting.SfxVolume);
     }
 }
