@@ -4,6 +4,8 @@ using UnityEngine;
 public class TitleSceneManager : MonoBehaviour
 {
     [SerializeField] private StageManager stageManagerPrefab;
+    private TitleSceneUIManager _uiManager;
+    private int _clearStageIndex;
 
     private void Awake()
     {
@@ -11,14 +13,19 @@ public class TitleSceneManager : MonoBehaviour
         {
             stageManagerPrefab = Resources.Load<StageManager>("Prefabs/StageManager");
         }
-        
+
         // 테스트용 코드 추가
         gameObject.AddComponent<BootstrapManager>();
+        _uiManager = FindAnyObjectByType<TitleSceneUIManager>();
     }
     
     public void Start()
     {
         // GameManager.Instance.AudioManager.PlayBgm(true);
+        
+        // 이어하기 버튼 활성화
+        _clearStageIndex = GameManager.Instance.SaveManager.LoadStageData().ClearStageIndex;
+        _uiManager.SetContinueBtn(_clearStageIndex > 2);
     }
 
     public void StartNewGame()
@@ -31,9 +38,7 @@ public class TitleSceneManager : MonoBehaviour
     public void ContinueGame()
     {
         Instantiate(stageManagerPrefab, Vector3.zero, Quaternion.identity);
-        int clearStageIndex = GameManager.Instance.SaveManager.LoadStageData().ClearStageIndex;
-        int targetIndex = Mathf.Max(2, clearStageIndex + 1);
-        
+        int targetIndex = Mathf.Max(2, _clearStageIndex + 1);
         GameManager.Instance.FadeManager.LoadScene(targetIndex);
     }
 

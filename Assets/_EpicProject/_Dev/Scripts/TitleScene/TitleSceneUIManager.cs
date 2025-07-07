@@ -23,6 +23,11 @@ public class TitleSceneUIManager : MonoBehaviour
         exitGameBtn.onClick.AddListener(OnClickExitGameBtn);
     }
 
+    public void SetContinueBtn(bool isEnable)
+    {
+        continueGameBtn.enabled = isEnable;
+    }
+
     private void OnClickNewGameBtn()
     {
         _titleSceneManager.StartNewGame();
