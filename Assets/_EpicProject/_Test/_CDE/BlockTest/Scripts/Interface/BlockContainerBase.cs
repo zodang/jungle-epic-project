@@ -5,7 +5,7 @@ public abstract class BlockContainerBase : MonoBehaviour
 {
     protected abstract void RemoveBlock(int index);
     
-    public virtual void RegisterBlockEvents(EngineBlock block)
+    protected void RegisterBlockEvents(EngineBlock block)
     {
         UnregisterBlockEvents(block);
         
@@ -14,7 +14,7 @@ public abstract class BlockContainerBase : MonoBehaviour
         block.OnBlockRightClick += OnBlockRightClickHandler;
     }
 
-    public virtual void UnregisterBlockEvents(EngineBlock block)
+    private void UnregisterBlockEvents(EngineBlock block)
     {
         block.OnBlockDragEnd -= OnBlockDragEndHandler;
         block.OnBlockLeftClick -= OnBlockLeftClickHandler;
@@ -114,10 +114,9 @@ public abstract class BlockContainerBase : MonoBehaviour
                 inventory.AddBlock(movedBlock);
                 movedBlock.InitDefaultBlock(FindAnyObjectByType<InventorySlot>().GetTargetClickable(), SlotType.InventorySlot, -1);
                 movedBlock.transform.SetParent(FindAnyObjectByType<InventorySlot>().transform, false);
-                
             }
+            movedBlock.ChangeTargetInfo(newTarget, newFeature, movedBlockIndex, SlotType.EngineSlot);
         }
-
         block.ChangeTargetInfo(newTarget, newFeature, targetIndex, SlotType.EngineSlot);
     }
     
