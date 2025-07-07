@@ -63,7 +63,19 @@
             "zh-Hans": "你"
           },
           "text": {
-            "ko": "이런... 움직일수가 없어!",
+            "ko": "...어?",
+            "en": "...Huh?",
+            "zh-Hans": "...咦？"
+          }
+        },
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "나 움직일 수가 없어!",
             "en": "Oh no... I can't move!",
             "zh-Hans": "糟了……动不了了！"
           }
@@ -75,9 +87,9 @@
             "zh-Hans": "你"
           },
           "text": {
-            "ko": "아무래도 나에게 버그가 일어난 것 같아.",
-            "en": "I think there's a bug affecting me.",
-            "zh-Hans-Hans": "看来是我身上出了Bug。"
+            "ko": "아무래도 나랑 돌에 버그가 생긴 것 같아.",
+            "en": "Looks like there’s a bug between me and the rock.",
+            "zh-Hans-Hans": "好像我和石头之间出现了bug。"
           }
         },
         {
@@ -87,9 +99,9 @@
             "zh-Hans": "你"
           },
           "text": {
-            "ko": "내 몸을 더 자세히 살펴봐야겠어.",
-            "en": "I'd better take a closer look at myself.",
-            "zh-Hans": "得仔细检查一下我的身体。"
+            "ko": "돌을 좀 더 자세히 살펴봐야겠어.",
+            "en": "I should take a closer look at it.",
+            "zh-Hans": "我得仔细看看这块石头。"
           }
         },
         {
@@ -140,9 +152,9 @@
             "zh-Hans": "你"
           },
           "text": {
-            "ko": "<b><color=red>나</color></b>를 <b><color=red>클릭</color></b>해, 내 상태창을 열어보자.",
-            "en": "Let's <b><color=red>click</color></b> on <b><color=red>myself</color></b> to open my status window.",
-            "zh-Hans": "点击<b><color=red>我</color></b>，<b><color=red>打开</color></b>我的状态窗口。"
+            "ko": "<b><color=red>돌</color></b>을 <b><color=red>클릭</color></b>해, 상태창을 열어보자.",
+            "en": "Let's <b><color=red>click</color></b> on <b><color=red>rock</color></b> to open rock's status window.",
+            "zh-Hans": "点击<b><color=red>石头</color></b>，<b><color=red>打开</color></b>石头的状态窗口。"
           }
         }
       ]
@@ -157,9 +169,9 @@
             "zh-Hans": "你"
           },
           "text": {
-            "ko": "이것이 나의 상태창이구나.",
-            "en": "So this is my status window.",
-            "zh-Hans": "这就是我的状态窗口啊。"
+            "ko": "이것이 돌의 상태창이구나.",
+            "en": "So this is rock status window.",
+            "zh-Hans": "这就是石头的状态窗口啊。"
           }
         },
         {
@@ -169,9 +181,9 @@
             "zh-Hans": "你"
           },
           "text": {
-            "ko": "하지만 상태창이 텅 비어있잖아…? 이래선 움직일 수 없어!",
-            "en": "But the status window is empty...? I can't move like this!",
-            "zh-Hans": "可是状态窗口是空的……这样可没法动啊！"
+            "ko": "움직임이랑 관련된 블럭이 들어있어!",
+            "en": "There’s a movement block inside!",
+            "zh-Hans": "里面有个跟动作有关的方块！"
           }
         },
         {
@@ -181,9 +193,9 @@
             "zh-Hans": "你"
           },
           "text": {
-            "ko": "움직임과 관련된 블럭을 상태창에 넣을 수 있다면...",
-            "en": "If only I could put a movement-related block into the status window...",
-            "zh-Hans": "如果能把和移动有关的方块放进状态窗口就好了……"
+            "ko": "이 블럭을 나한테 가져올 수 있다면...",
+            "en": "If only I could bring this block to me...",
+            "zh-Hans": "如果我能把这个方块拿过来就好了..."
           }
         },
         {
@@ -193,9 +205,9 @@
             "zh-Hans": "你"
           },
           "text": {
-            "ko": "아래 <b><color=red>인벤토리</color></b>에 있는 컨트롤러 블럭을 <b><color=red>드래그</color></b>해볼까..?",
-            "en": "Should I <b><color=red>drag</color></b> the controller block from the <b><color=red>inventory</color></b> below...?",
-            "zh-Hans": "要不要试着把下面<b><color=red>库存</color></b>里的控制方块<b><color=red>拖动</color></b>过来……"
+            "ko": "아래에 있는 내 <b><color=red>상태창</color></b>에 컨트롤러 블록을 <b><color=red>드래그</color></b>해볼까?",
+            "en": "How about dragging the controller block to my <b><color=red>status window</color></b> down there?",
+            "zh-Hans": "要不要试试看把控制器方块拖到我下面的<b><color=red>状态窗口</color></b>？"
           }
         }
       ]
@@ -222,9 +234,9 @@
             "zh-Hans": "你"
           },
           "text": {
-            "ko": "버그가 생긴 사물은, 상태창에 블럭을 넣어 문제를 해결할 수 있구나.",
-            "en": "So I can fix bugged objects by putting blocks into their status windows.",
-            "zh-Hans": "原来把方块放进状态窗口就能修复出Bug的物品啊。"
+            "ko": "버그가 생긴 물건은 상태창을 조사해서 문제를 해결할 수 있네.",
+            "en": "If there’s a bug with an object, you can check its status window to fix the problem.",
+            "zh-Hans": "出现问题的物体，可以通过查看状态窗口来解决问题。"
           }
         },
         {
