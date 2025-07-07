@@ -8,5 +8,19 @@ public class GameUIManager : MonoBehaviour
     private void Awake()
     {
         PopupUI = GetComponentInChildren<PopupUI>();
+        SettingUI = GetComponentInChildren<SettingUI>();
+    }
+
+    private void Update()
+    {
+        if (!Input.GetKeyDown(KeyCode.Escape)) return;
+        if (PopupUI.IsActive())
+        {
+            PopupUI.HidePopup();
+        }
+        else
+        {
+            SettingUI.OpenSettingUI(!SettingUI.IsActive());
+        }
     }
 }
