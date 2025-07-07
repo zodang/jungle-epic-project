@@ -21,6 +21,16 @@ namespace Define
         Mess,
     }
 
+    public enum BgmType
+    {
+        None, // BGM이 없는 상태
+        Lobby,
+        Stage1,
+        Stage2,
+        Stage3,
+        Stage4
+    }
+
     public enum SfxType
     {
         Open, Close, Text, Clear, Dial, Grass, CaveButton

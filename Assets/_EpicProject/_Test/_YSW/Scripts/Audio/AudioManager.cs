@@ -5,10 +5,22 @@ using System.Collections.Generic;
 public class AudioManager : MonoBehaviour
 {
     [Header("#BGM")]
-    public AudioClip bgmClip;
+    //public AudioClip bgmClip;
     public float bgmVolume;
     AudioSource bgmPlayer;
     AudioHighPassFilter bgmEffect;
+
+    // BGM 타입과 오디오 클립을 연결하기 위한 클래스
+    [System.Serializable]
+    public class BgmSound
+    {
+        public BgmType type;
+        public AudioClip clip;
+    }
+
+    [SerializeField]
+    private List<BgmSound> bgmClips; // Inspector에서 설정할 BGM 리스트
+    private Dictionary<BgmType, AudioClip> _bgmClipDict; // 실제 게임에서 사용할 BGM 데이터
 
     [Header("#SFX")]
     public AudioClip[] sfxClips;
@@ -51,8 +63,17 @@ public class AudioManager : MonoBehaviour
         bgmPlayer.playOnAwake = false;
         bgmPlayer.loop = true;
         bgmPlayer.volume = bgmVolume;
-        bgmPlayer.clip = bgmClip;
+        //bgmPlayer.clip = bgmClip;
         bgmEffect = Camera.main.GetComponent<AudioHighPassFilter>();
+
+        // --- [추가] BGM 데이터 초기화 ---
+        // Inspector에서 설정한 값을 Dictionary로 옮겨서 사용하기 쉽게 만듭니다.
+        _bgmClipDict = new Dictionary<BgmType, AudioClip>();
+        foreach (BgmSound bgm in bgmClips)
+        {
+            _bgmClipDict.Add(bgm.type, bgm.clip);
+        }
+
 
         //효과음 플레이어 초기화
         GameObject sfxObject = new GameObject("SfxPlayer");
@@ -78,16 +99,32 @@ public class AudioManager : MonoBehaviour
         // --- [새로 추가된 부분 2 끝] ---
     }
 
-    public void PlayBgm(bool isPlay)
+    // --- [수정] BGM 재생 함수 ---
+    public void PlayBgm(BgmType bgmType)
     {
-        if (isPlay)
+        // 요청한 BGM 타입이 Dictionary에 있는지 확인합니다.
+        if (!_bgmClipDict.ContainsKey(bgmType))
         {
-            bgmPlayer.Play();
+            Debug.LogError($"BgmType '{bgmType}' not found in dictionary.");
+            return;
         }
-        else
+
+        AudioClip clipToPlay = _bgmClipDict[bgmType];
+
+        // 현재 재생 중인 클립과 같은 클립이면 아무것도 하지 않습니다.
+        if (bgmPlayer.isPlaying && bgmPlayer.clip == clipToPlay)
         {
-            bgmPlayer.Stop();
+            return;
         }
+
+        bgmPlayer.clip = clipToPlay;
+        bgmPlayer.Play();
+    }
+
+    // --- [추가] BGM 정지 함수 ---
+    public void StopBgm()
+    {
+        bgmPlayer.Stop();
     }
 
     public void EffectBgm(bool isPlay)
