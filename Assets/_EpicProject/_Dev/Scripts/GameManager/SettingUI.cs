@@ -34,11 +34,7 @@ public class SettingUI : MonoBehaviour
 
     public void OpenSettingUI(bool isOpen)
     {
-        if (isOpen)
-        {
-            SwitchSettingUI(); 
-        }
-        
+        SwitchSettingUI(); 
         _canvas.enabled = isOpen;
     }
 

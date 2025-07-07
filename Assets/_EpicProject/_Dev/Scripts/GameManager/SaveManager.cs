@@ -11,62 +11,69 @@ public class SaveManager : MonoBehaviour
     {
         GameSaveData data = LoadData();
         data.SettingData = setting;
-        SaveData(data);
+        SaveAllData(data);
+    }
+    
+    public void SaveStageData(StageData stage)
+    {
+        GameSaveData data = LoadData();
+        data.StageData = stage;
+        SaveAllData(data);
     }
 
     public SettingData LoadSettingData()
     {
         return LoadData().SettingData;
     }
-
-    public void SaveStageData(StageData stage)
-    {
-        GameSaveData data = LoadData();
-        data.StageData = stage;
-        SaveData(data);
-    }
-
+    
     public StageData LoadStageData()
     {
         return LoadData().StageData;
     }
     
-    private void SaveData(GameSaveData data)
+    public void DeleteSettingData()
+    {
+        SettingData settingData = new SettingData();
+        settingData.ResolutionIndex = GameManager.Instance.SettingManager.ResolutionSetting.GetOptimalResolutionIndex();
+        settingData.IsFullScreen = true;
+        SaveSettingData(settingData);
+    }
+
+    public void DeleteStageData()
+    {
+        StageData stageData = new StageData();
+        stageData.ClearStageIndex = 0;
+        SaveStageData(stageData);
+    }
+    
+    private void SaveAllData(GameSaveData data)
     {
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(SavePath, json);
-        Debug.Log($"저장 완료: {SavePath}");
     }
 
     private GameSaveData LoadData()
     {
         if (!File.Exists(SavePath))
         {
-            Debug.Log("새 데이터 생성");
             return SetNewGameData();
         }
 
         string json = File.ReadAllText(SavePath);
         GameSaveData data = JsonUtility.FromJson<GameSaveData>(json);
-        Debug.Log($"로드 완료 : {SavePath}");
         return data;
     }
 
-    private void DeleteAllData()
-    {
-        SaveData(new GameSaveData());
-    }
-
-    public void DeleteData()
+    private void DeleteData()
     {
         if (!File.Exists(SavePath))
         {
-            Debug.Log("삭제 실패");
+            Debug.Log("@@DE: 삭제 실패");
             return;
         }
 
         File.Delete(SavePath);
-        Debug.Log("삭제 완료");
+        Debug.Log("@@DE: 삭제 완료");
     }
 
     private GameSaveData SetNewGameData()
@@ -76,11 +83,14 @@ public class SaveManager : MonoBehaviour
         saveData.StageData = new StageData();
         
         // 기본값 세팅
+        saveData.SettingData.LanguageIndex = 0;
         saveData.SettingData.ResolutionIndex =
             GameManager.Instance.SettingManager.ResolutionSetting.GetOptimalResolutionIndex();
         saveData.SettingData.IsFullScreen = true;
 
-        SaveData(saveData);
+        saveData.StageData.ClearStageIndex = 0;
+
+        SaveAllData(saveData);
         return saveData;
     }
 }

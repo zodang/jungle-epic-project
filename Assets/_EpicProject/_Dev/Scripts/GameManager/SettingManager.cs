@@ -4,26 +4,17 @@ using UnityEngine.Localization.Settings;
 
 public class SettingManager : MonoBehaviour
 {
-    public static SettingManager Instance { get; private set; } 
     public ResolutionSetting ResolutionSetting { get; private set; }
     public LanguageSetting LanguageSetting { get; private set; }
     public AudioSetting AudioSetting { get; private set; }
-    public SettingData CurrentSetting { get; private set; } = new SettingData();
     
     private SettingUI _settingUI;
     private bool _isSettingUIOpen = false;
     
+    private SettingData _currentSetting = new SettingData();
+    
     private void Awake()
     {
-        // 싱글턴 초기화 KMS
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
         ResolutionSetting = FindAnyObjectByType<ResolutionSetting>();
         LanguageSetting = FindAnyObjectByType<LanguageSetting>();
         AudioSetting = FindAnyObjectByType<AudioSetting>();
@@ -36,7 +27,7 @@ public class SettingManager : MonoBehaviour
         _settingUI.OnCloseBtnClicked += OpenSetting;
         
         // 저장된 설정값 불러오기
-        CurrentSetting  = GameManager.Instance.SaveManager.LoadSettingData();
+        _currentSetting = GameManager.Instance.SaveManager.LoadSettingData();
 
         StartCoroutine(ApplyLocalization());
         ApplyResolutionSetting();
@@ -66,27 +57,27 @@ public class SettingManager : MonoBehaviour
     private void SaveSetting()
     {
         // 저장된 설정값 변경
-        CurrentSetting.LanguageIndex = LanguageSetting.CurrentIndex;
-        CurrentSetting.ResolutionIndex = ResolutionSetting.CurrentIndex;
-        CurrentSetting.IsFullScreen = ResolutionSetting.IsFullScreen;
-        CurrentSetting.BgmVolume = AudioSetting.CurrentBgmVolume;
-        CurrentSetting.SfxVolume = AudioSetting.CurrentSfxVolume;
+        _currentSetting.LanguageIndex = LanguageSetting.CurrentIndex;
+        _currentSetting.ResolutionIndex = ResolutionSetting.CurrentIndex;
+        _currentSetting.IsFullScreen = ResolutionSetting.IsFullScreen;
+        _currentSetting.BgmVolume = AudioSetting.CurrentBgmVolume;
+        _currentSetting.SfxVolume = AudioSetting.CurrentSfxVolume;
 
         // 변경된 설정값 저장
         SettingData settingData = GameManager.Instance.SaveManager.LoadSettingData();
-        settingData = CurrentSetting;
+        settingData = _currentSetting;
         GameManager.Instance.SaveManager.SaveSettingData(settingData);
     }
     
     private IEnumerator ApplyLocalization()
     {
         yield return LocalizationSettings.InitializationOperation;
-        LanguageSetting .ChangeLanguage(CurrentSetting.LanguageIndex);
+        LanguageSetting .ChangeLanguage(_currentSetting.LanguageIndex);
     }
 
     private void ApplyResolutionSetting()
     {
-        ResolutionSetting.ChangeResolution(CurrentSetting.ResolutionIndex);
-        ResolutionSetting.ChangeFullScreen(CurrentSetting.IsFullScreen);
+        ResolutionSetting.ChangeResolution(_currentSetting.ResolutionIndex);
+        ResolutionSetting.ChangeFullScreen(_currentSetting.IsFullScreen);
     }
 }
