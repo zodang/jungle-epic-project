@@ -244,7 +244,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:5a8b6df81ff67b24b9b8dab3020ad831
     m_TableEntryReference:
-      m_KeyId: 567621935104
+      m_KeyId: 12462806491136
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -477,7 +477,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:5a8b6df81ff67b24b9b8dab3020ad831
     m_TableEntryReference:
-      m_KeyId: 4145606516736
+      m_KeyId: 12852105011200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -526,6 +526,7 @@ MonoBehaviour:
           items:
           - rid: 6568114275076800661
           - rid: 6568114275076800662
+          - rid: 6568114275076800679
         m_UpdateType: 0
     - rid: 6568114275076800661
       type: {class: UnityObjectProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
@@ -556,3 +557,14 @@ MonoBehaviour:
         - localeIdentifier:
             m_Code: zh-Hans
           value: {fileID: -7230928090764793273, guid: 3631377776b0d444db7f43e94e157ed0, type: 2}
+    - rid: 6568114275076800679
+      type: {class: EnumTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_PropertyPath: m_VerticalAlignment
+        m_VariantData:
+        - localeIdentifier:
+            m_Code: en
+          value: 256
+        - localeIdentifier:
+            m_Code: zh-Hans
+          value: 512

@@ -244,7 +244,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:5a8b6df81ff67b24b9b8dab3020ad831
     m_TableEntryReference:
-      m_KeyId: 456556765184
+      m_KeyId: 12459656568832
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -359,8 +359,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -13.4}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: -23.1}
+  m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5246751947050636443
 CanvasRenderer:
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -455,7 +455,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -1.0105591, y: 0, z: -0.505249, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -477,7 +477,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:5a8b6df81ff67b24b9b8dab3020ad831
     m_TableEntryReference:
-      m_KeyId: 4140732735488
+      m_KeyId: 12849286438912
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -526,6 +526,7 @@ MonoBehaviour:
           items:
           - rid: 6568114275076800658
           - rid: 6568114275076800659
+          - rid: 6568114275076800680
         m_UpdateType: 0
     - rid: 6568114275076800658
       type: {class: UnityObjectProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
@@ -556,3 +557,14 @@ MonoBehaviour:
         - localeIdentifier:
             m_Code: zh-Hans
           value: {fileID: -7230928090764793273, guid: 3631377776b0d444db7f43e94e157ed0, type: 2}
+    - rid: 6568114275076800680
+      type: {class: EnumTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_PropertyPath: m_VerticalAlignment
+        m_VariantData:
+        - localeIdentifier:
+            m_Code: en
+          value: 256
+        - localeIdentifier:
+            m_Code: zh-Hans
+          value: 512
