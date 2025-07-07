@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class ResolutionSetting : MonoBehaviour
 {
+    public int CurrentIndex { get; private set; }
+    public bool IsFullScreen { get; private set; } = true;
+    
     private TMP_Dropdown _resolutionDropDown;
     private Toggle _fullScreenToggle;
     
     private List<Resolution> _resolutions = new List<Resolution>();
-    private int _currentResolutionIndex;
-    private bool _isFullScreen = true;
     
     private void Awake()
     {
@@ -23,9 +24,9 @@ public class ResolutionSetting : MonoBehaviour
     private void Start()
     {
         // 해상도 설정
-        Resolution resolution = _resolutions[_currentResolutionIndex];
+        Resolution resolution = _resolutions[CurrentIndex];
         Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
-        Screen.SetResolution(resolution.width, resolution.height, _isFullScreen);
+        Screen.SetResolution(resolution.width, resolution.height, IsFullScreen);
         
         // 토글 설정
         _fullScreenToggle.SetIsOnWithoutNotify(true);
@@ -33,61 +34,91 @@ public class ResolutionSetting : MonoBehaviour
         _resolutionDropDown.onValueChanged.AddListener(OnResolutionValueChanged);
         _fullScreenToggle.onValueChanged.AddListener(OnFullScreenValueChanged);
     }
+
+    public void ChangeResolution(int index)
+    {
+        // Index 변경
+        CurrentIndex = index;
+        _resolutionDropDown.value = CurrentIndex;
+        
+        // 해상도 적용
+        Resolution resolution = _resolutions[index];
+        Screen.SetResolution(resolution.width, resolution.height, IsFullScreen);
+    }
+
+    public void ChangeFullScreen(bool isFullScreen)
+    {
+        // Toggle 변경
+        IsFullScreen = isFullScreen;
+        _fullScreenToggle.isOn = isFullScreen;
+        
+        // 전체화면 적용
+        Screen.fullScreen = isFullScreen;
+    }
+
+    public int GetOptimalResolutionIndex()
+    {
+        _resolutions.Clear();
+        HashSet<string> added = new();
+        Resolution[] allRes = Screen.resolutions;
+
+        var current = Screen.currentResolution;
+        int closestIndex = 0;
+        int minDiff = int.MaxValue;
+        int idx = 0;
+
+        for (int i = 0; i < allRes.Length; i++)
+        {
+            Resolution res = allRes[i];
+            float aspect = (float)res.width / res.height;
+            bool is16by9 = Mathf.Approximately(aspect, 16f / 9f);
+            bool is16by10 = Mathf.Approximately(aspect, 16f / 10f);
+            if (!is16by9 && !is16by10) continue;
+
+            string key = $"{res.width}x{res.height}";
+            if (added.Contains(key)) continue;
+            added.Add(key);
+
+            _resolutions.Add(res);
+
+            int diff = Mathf.Abs(res.width - current.width) + Mathf.Abs(res.height - current.height);
+            if (diff < minDiff)
+            {
+                minDiff = diff;
+                closestIndex = idx;
+            }
+
+            idx++;
+        }
+        return closestIndex;
+    }
+    private void InitDropdown()
+    {
+        List<string> optionList = new();
+        int defaultIndex = GetOptimalResolutionIndex();
+        
+        _resolutionDropDown.ClearOptions();
+        
+        foreach (var res in _resolutions)
+        {
+            optionList.Add($"{res.width} x {res.height}");
+        }
+
+        CurrentIndex = defaultIndex;
+        
+        _resolutionDropDown.AddOptions(optionList);
+        _resolutionDropDown.value = CurrentIndex;
+        
+        _resolutionDropDown.RefreshShownValue();
+    }
     
     private void OnResolutionValueChanged(int index)
     {
-        Resolution resolution = _resolutions[index];
-        Screen.SetResolution(resolution.width, resolution.height, _isFullScreen);
+        ChangeResolution(index);
     }
 
     private void OnFullScreenValueChanged(bool isFullScreen)
     {
-        _isFullScreen = isFullScreen;
-        Screen.fullScreen = isFullScreen;
-    }
-
-    private void InitDropdown()
-    {
-        _resolutions.Clear();
-        _resolutionDropDown.options.Clear();
-
-        List<string> optionList = new();
-        HashSet<string> addedResolutions = new(); // 중복 방지용
-        Resolution[] allResolutions = Screen.resolutions;
-
-        for (int i = 0; i < allResolutions.Length; i++)
-        {
-            Resolution res = allResolutions[i];
-            float aspect = (float)res.width / res.height;
-
-            // 16:9 혹은 16:10 비율
-            bool is16by9 = Mathf.Approximately(aspect, 16f / 9f);
-            bool is16by10 = Mathf.Approximately(aspect, 16f / 10f);
-
-            if (!is16by9 && !is16by10) continue;
-
-            string key = $"{res.width} x {res.height}";
-
-            // 중복 해상도 방지
-            if (addedResolutions.Contains(key)) continue;
-
-            addedResolutions.Add(key);
-            _resolutions.Add(res);
-            
-            string label = $"{res.width} x {res.height} {res.refreshRateRatio}Hz";
-
-            if (res.width == Screen.currentResolution.width && res.height == Screen.currentResolution.height)
-            {
-                // 현재 해상도 설정
-                _currentResolutionIndex = _resolutions.Count - 1;
-                // label = $"{res.width} x {res.height} {res.refreshRateRatio}Hz *";
-            }
-            
-            optionList.Add(label);
-        }
-
-        _resolutionDropDown.AddOptions(optionList);
-        _resolutionDropDown.value = _currentResolutionIndex;
-        _resolutionDropDown.RefreshShownValue();
+        ChangeFullScreen(isFullScreen);
     }
 }

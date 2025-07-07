@@ -1,10 +1,11 @@
-using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SettingUI : MonoBehaviour
 {
+    public Action OnCloseBtnClicked;
     private Canvas _canvas;
     private GameBtnGroup _gameBtnGroup;
     private LanguageSetting _languageSetting;
@@ -18,18 +19,23 @@ public class SettingUI : MonoBehaviour
         _gameBtnGroup = GetComponentInChildren<GameBtnGroup>();
         _languageSetting = GetComponentInChildren<LanguageSetting>();
 
-        closeBtn.onClick.AddListener(OpenSettingUI);
+        closeBtn.onClick.AddListener(OnClickCloseBtn);
     }
 
     private void Start()
     {
-        _canvas.enabled = false;
+        OpenSettingUI(false);
     }
 
-    public void OpenSettingUI()
+    private void OnClickCloseBtn()
     {
-        SwitchSettingUI();
-        _canvas.enabled = !_canvas.enabled;
+        OnCloseBtnClicked?.Invoke();
+    }
+
+    public void OpenSettingUI(bool isOpen)
+    {
+        SwitchSettingUI(); 
+        _canvas.enabled = isOpen;
     }
 
     private void SwitchSettingUI()

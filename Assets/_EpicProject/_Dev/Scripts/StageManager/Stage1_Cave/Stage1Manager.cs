@@ -7,30 +7,22 @@ public class Stage1Manager : StageBaseManager
 
     protected override void Awake()
     {
+        // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/CaveStage";
         base.Awake();
+    }
 
+    private void Start()
+    {
+        // 대화 불러오기
+        DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
+        
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
     }
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-
-
-        DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
-    }
-
     private void OnGoalTriggered()
     {
-#if STEAMWORKS_NET
-        GameManager.Instance.AudioManager.PlayBgm(false);
-        GameManager.Instance.FadeManager.LoadScene(1);
-#else
-        GameManager.Instance.FadeManager.LoadScene();
-#endif
+        GameManager.Instance.FadeManager.LoadNextScene();
     }
 }

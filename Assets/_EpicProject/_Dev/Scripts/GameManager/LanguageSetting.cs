@@ -5,9 +5,11 @@ using UnityEngine.Localization.Settings;
 
 public class LanguageSetting : MonoBehaviour
 {
+    public int CurrentIndex { get; private set; }
+
     private TMP_Dropdown _languageDropdown;
     private readonly List<string> _languageOptions = new List<string> {"English", "한국어", "中文" };
-
+    
     private void Awake()
     {
         _languageDropdown = GetComponentInChildren<TMP_Dropdown>();
@@ -25,16 +27,14 @@ public class LanguageSetting : MonoBehaviour
         _languageDropdown.ClearOptions();
         _languageDropdown.AddOptions(_languageOptions);
         
-        // Todo: 저장된 언어 설정 불러오기
-        int savedIndex = 1;
-        
-        _languageDropdown.value = savedIndex;
-        ChangeLanguage(savedIndex);
+        ChangeLanguage(CurrentIndex);
     }
 
-    private void ChangeLanguage(int index)
+    public void ChangeLanguage(int index)
     {
+        CurrentIndex = index;
+        
+        _languageDropdown.value = CurrentIndex;
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
-        // Todo: 언어 설정 저장
     }
 }

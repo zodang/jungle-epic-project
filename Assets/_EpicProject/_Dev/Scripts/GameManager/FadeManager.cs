@@ -14,19 +14,35 @@ public class FadeManager : MonoBehaviour
         _transitionManager = FindAnyObjectByType<TransitionManager>();
     }
 
-    public void LoadScene(int index = -1)
+    public void LoadScene(int index)
     {
+        // 특정 Scene으로 이동
         StartCoroutine(LoadSceneCo(index));
+    }
+
+    public void LoadCurrentScene()
+    {
+        // 현재 Scene으로 이동
+        int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        StartCoroutine(LoadSceneCo(currentIndex));
+    }
+
+    public void LoadNextScene()
+    {
+        // 다음 Scene으로 이동
+        int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        StageManager.Instance.SaveSceneIndex(currentIndex);
+
+        StartCoroutine(LoadSceneCo(currentIndex + 1));
     }
 
     private IEnumerator LoadSceneCo(int index)
     {
+        // 마지막 씬을 넘어갈 시 마지막 index 씬 호출
+        int targetIndex = Mathf.Min(index, SceneManager.sceneCountInBuildSettings - 1);
+        
         yield return _transitionManager.TurnOnAni();
 
-        // index 지정되지 않으면 다음 씬으로 이동
-        int currentIndex = SceneManager.GetActiveScene().buildIndex;
-        int targetIndex = (index == -1) ? currentIndex + 1 : index;
-        
         if (targetIndex < SceneManager.sceneCountInBuildSettings)
         {
             // 씬 비동기 로드

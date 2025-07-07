@@ -40,8 +40,7 @@ public class Inventory : BlockContainerBase
         BlockList.Add(block);
         block.InitDefaultBlock(_target, SlotType.InventorySlot);
         
-        
-        CheckBlockDictionary();
+        // CheckBlockDictionary();
     }
 
     protected override void RemoveBlock(int index)
@@ -49,7 +48,7 @@ public class Inventory : BlockContainerBase
         if (index < 0 || index >= BlockList.Count) return;
         BlockList.RemoveAt(index);
         
-        CheckBlockDictionary();
+        // CheckBlockDictionary();
     }
 
     public void Collect(BlockType type)
