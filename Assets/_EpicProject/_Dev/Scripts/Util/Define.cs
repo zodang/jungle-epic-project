@@ -28,7 +28,9 @@ namespace Define
         Stage1,
         Stage2,
         Stage3,
-        Stage4
+        Stage4,
+        Stage4_2,
+        Ending,
     }
 
     public enum SfxType
