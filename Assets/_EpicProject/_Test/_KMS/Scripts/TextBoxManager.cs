@@ -26,7 +26,7 @@ public class TextBoxManager : MonoBehaviour
 
     private IEnumerator AnimateDots()
     {
-        string[] dotPhases = { "", ".", "..", "..." };
+        string[] dotPhases = { "   ", ".  ", ".. ", "..." };
         int index = 0;
 
         while (true)
