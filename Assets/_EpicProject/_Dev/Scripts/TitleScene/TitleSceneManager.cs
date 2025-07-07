@@ -1,4 +1,3 @@
-using Define;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,11 +21,9 @@ public class TitleSceneManager : MonoBehaviour
     
     public void Start()
     {
-       
-        
         // 이어하기 버튼 활성화
         _clearStageIndex = GameManager.Instance.SaveManager.LoadStageData().ClearStageIndex;
-        _uiManager.SetContinueBtn(_clearStageIndex > 2);
+        _uiManager.SetContinueBtn(_clearStageIndex < 2);
     }
 
     public void StartNewGame()

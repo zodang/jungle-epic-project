@@ -33,15 +33,6 @@ public class SettingManager : MonoBehaviour
         ApplyResolutionSetting();
         ApplyAudioSetting();
     }
-
-    public void Update()
-    {
-        // ESC 키를 눌렀을 때 설정 UI 열기
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            OpenSetting();
-        }
-    }
     
     public void OpenSetting()
     {
