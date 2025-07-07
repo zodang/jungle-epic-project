@@ -40,19 +40,26 @@ public class Inventory : BlockContainerBase
         BlockList.Add(block);
         block.InitDefaultBlock(_target, SlotType.InventorySlot);
         
-        RegisterBlockEvents(block);
+        
+        CheckBlockDictionary();
     }
 
     protected override void RemoveBlock(int index)
     {
         if (index < 0 || index >= BlockList.Count) return;
         BlockList.RemoveAt(index);
+        
+        CheckBlockDictionary();
     }
 
     public void Collect(BlockType type)
     {
         var factory = StageManager.Instance.BlockFactory;
-        AddBlock(factory.CreateBlock(type, _inventorySlot.transform));
+
+        EngineBlock block = factory.CreateBlock(type, _inventorySlot.transform); 
+        RegisterBlockEvents(block);
+        
+        AddBlock(block);
     }
 
     private void InitInventory()
