@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PopupUI : MonoBehaviour
 {
+    public bool IsActive() => gameObject.activeSelf;
+    
     private CanvasGroup _canvasGroup;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text messageText;
@@ -15,15 +17,6 @@ public class PopupUI : MonoBehaviour
     {
         _canvasGroup = GetComponent<CanvasGroup>();
         HidePopup();
-    }
-
-    public void Update()
-    {
-        // ESC 키를 눌렀을 때 설정 UI 열기
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            HidePopup();
-        }
     }
 
     public void ShowPopup(string title, string message, Action onOk = null, Action onCancel = null, string okLabel = "확인", string cancelLabel = "취소")

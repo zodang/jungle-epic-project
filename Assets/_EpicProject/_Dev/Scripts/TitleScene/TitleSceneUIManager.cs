@@ -11,9 +11,10 @@ public class TitleSceneUIManager : MonoBehaviour
     [SerializeField] private Button settingBtn;
     [SerializeField] private Button exitGameBtn;
 
+    private bool _isNewGame;
     private Image _continueImg;
     private TMP_Text _continueText;
-
+    
     private void Awake()
     {
         _titleSceneManager = FindAnyObjectByType<TitleSceneManager>();
@@ -32,6 +33,8 @@ public class TitleSceneUIManager : MonoBehaviour
     
     public void SetContinueBtn(bool isNew)
     {
+        _isNewGame = isNew;
+        
         if (isNew)
         {
             continueGameBtn.enabled = false;
@@ -48,18 +51,25 @@ public class TitleSceneUIManager : MonoBehaviour
 
     private void OnClickNewGameBtn()
     {
-        GameManager.Instance.UIManager.PopupUI.ShowPopup
-        (
-            "새로 시작",
-            "진행 중인 게임 데이터가 삭제됩니다.\n계속 진행하시겠습니까?",
-            onOk: () =>
-            {
-                _titleSceneManager.StartNewGame();
-            },
-            onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
-            "계속하기",
-            "취소"
-        );
+        if (_isNewGame)
+        {
+            _titleSceneManager.StartNewGame();
+        }
+        else
+        {
+            GameManager.Instance.UIManager.PopupUI.ShowPopup
+            (
+                "새로 시작",
+                "진행 중인 게임 데이터가 삭제됩니다.\n계속 진행하시겠습니까?",
+                onOk: () =>
+                {
+                    _titleSceneManager.StartNewGame();
+                },
+                onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
+                "계속하기",
+                "취소"
+            );
+        }
     }
 
     private void OnClickContinueGameBtn()
