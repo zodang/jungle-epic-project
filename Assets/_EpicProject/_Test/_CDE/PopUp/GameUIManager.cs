@@ -7,7 +7,7 @@ public class GameUIManager : MonoBehaviour
 
     private void Awake()
     {
-        PopupUI = GetComponentInChildren<PopupUI>();
+        PopupUI = GetComponentInChildren<PopupUI>(true);
         SettingUI = GetComponentInChildren<SettingUI>();
     }
 
