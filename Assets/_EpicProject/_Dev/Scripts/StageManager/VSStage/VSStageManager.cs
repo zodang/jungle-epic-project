@@ -10,9 +10,6 @@ public class VSStageManager : StageBaseManager
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/VSStage";
         base.Awake();
-
-        _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
-        _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
     }
 
     private void Start()
@@ -20,16 +17,18 @@ public class VSStageManager : StageBaseManager
         // 대화 불러오기
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
 
-        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage1);
         ObjectPropertyController foundAxe = FindAnyObjectByType<ObjectPropertyController>();
         if (foundAxe != null)
         {
             foundAxe.Submerge();
         }
+        
+        _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
+        _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
     }
 
     private void OnGoalTriggered()
     {
-        GameManager.Instance.FadeManager.LoadScene();
+        GameManager.Instance.FadeManager.LoadNextScene();
     }
 }

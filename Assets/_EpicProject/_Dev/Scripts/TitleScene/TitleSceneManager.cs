@@ -1,10 +1,11 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TitleSceneManager : MonoBehaviour
 {
     [SerializeField] private StageManager stageManagerPrefab;
+    private TitleSceneUIManager _uiManager;
+    private int _clearStageIndex;
 
     private void Awake()
     {
@@ -12,26 +13,33 @@ public class TitleSceneManager : MonoBehaviour
         {
             stageManagerPrefab = Resources.Load<StageManager>("Prefabs/StageManager");
         }
+
+        // 테스트용 코드 추가
+        gameObject.AddComponent<BootstrapManager>();
+        _uiManager = FindAnyObjectByType<TitleSceneUIManager>();
     }
     
     public void Start()
     {
         // GameManager.Instance.AudioManager.PlayBgm(true);
+        
+        // 이어하기 버튼 활성화
+        _clearStageIndex = GameManager.Instance.SaveManager.LoadStageData().ClearStageIndex;
+        _uiManager.SetContinueBtn(_clearStageIndex > 2);
     }
 
     public void StartNewGame()
     {
+        GameManager.Instance.SaveManager.DeleteStageData();
         Instantiate(stageManagerPrefab, Vector3.zero, Quaternion.identity);
         GameManager.Instance.FadeManager.LoadScene(2);
-
-        // 테스트 씬 연결
-        //SceneManager.LoadScene("AAStageScene_CDE");
     }
 
     public void ContinueGame()
     {
         Instantiate(stageManagerPrefab, Vector3.zero, Quaternion.identity);
-        // TODO: 클리어한 다음 씬 실행
+        int targetIndex = Mathf.Max(2, _clearStageIndex + 1);
+        GameManager.Instance.FadeManager.LoadScene(targetIndex);
     }
 
     public void ExitGame()

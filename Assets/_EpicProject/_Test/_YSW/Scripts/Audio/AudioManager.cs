@@ -6,6 +6,9 @@ public class AudioManager : MonoBehaviour
 {
     [Header("#BGM")]
     //public AudioClip bgmClip;
+    public float DefaultBgmVolume { get; private set; } = 0.2f;
+    public float DefaultSfxVolume { get; private set; } = 0.5f;
+
     public float bgmVolume;
     AudioSource bgmPlayer;
     AudioHighPassFilter bgmEffect;
@@ -171,6 +174,26 @@ public class AudioManager : MonoBehaviour
             sfxPlayers[loopIndex].clip = sfxClips[(int)sfx];
             sfxPlayers[loopIndex].Play();
             break;
+        }
+    }
+    
+    public void SetBgmVolume(float value)
+    {
+        bgmVolume = Mathf.Clamp(value, 0f, DefaultBgmVolume * 2);
+        if (bgmPlayer != null)
+            bgmPlayer.volume = bgmVolume;
+    }
+
+    public void SetSfxVolume(float value)
+    {
+        sfxVolume = Mathf.Clamp(value, 0f, DefaultSfxVolume * 2);
+        if (sfxPlayers != null)
+        {
+            foreach (var player in sfxPlayers)
+            {
+                if (player != null)
+                    player.volume = sfxVolume;
+            }
         }
     }
 }

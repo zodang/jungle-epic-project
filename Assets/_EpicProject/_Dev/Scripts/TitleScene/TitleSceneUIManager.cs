@@ -18,9 +18,14 @@ public class TitleSceneUIManager : MonoBehaviour
     private void Start()
     {
         newGameBtn.onClick.AddListener(OnClickNewGameBtn);
-        // continueGameBtn.onClick.AddListener(OnClickContinueGameBtn);
+        continueGameBtn.onClick.AddListener(OnClickContinueGameBtn);
         settingBtn.onClick.AddListener(OnClickSettingBtn);
         exitGameBtn.onClick.AddListener(OnClickExitGameBtn);
+    }
+
+    public void SetContinueBtn(bool isEnable)
+    {
+        continueGameBtn.enabled = isEnable;
     }
 
     private void OnClickNewGameBtn()
@@ -30,7 +35,7 @@ public class TitleSceneUIManager : MonoBehaviour
 
     private void OnClickContinueGameBtn()
     {
-        // TODO: 이어 시작하기 기능
+        _titleSceneManager.ContinueGame();
     }
     
     private void OnClickSettingBtn()

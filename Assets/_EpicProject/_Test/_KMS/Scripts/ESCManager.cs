@@ -1,4 +1,6 @@
 // ESCManager.cs
+
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +12,11 @@ public class ESCManager : MonoBehaviour
     private void Awake()
     {
         _button = GetComponent<Button>();
-        // SettingManager.Instance가 null이 아닐 때만 리스너 등록
-        _button.onClick.AddListener(() =>
-        {
-            if (SettingManager.Instance != null)
-                SettingManager.Instance.OpenSetting();
-            else
-                Debug.LogWarning("SettingManager.Instance is null!");
-        });
+    }
+
+    private void Start()
+    {
+        _button.onClick.AddListener(GameManager.Instance.SettingManager.OpenSetting);
+
     }
 }
