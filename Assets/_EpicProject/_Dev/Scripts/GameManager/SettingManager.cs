@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 public class SettingManager : MonoBehaviour
 {
@@ -6,10 +8,11 @@ public class SettingManager : MonoBehaviour
     public ResolutionSetting ResolutionSetting { get; private set; }
     public LanguageSetting LanguageSetting { get; private set; }
     public AudioSetting AudioSetting { get; private set; }
-
-    private SettingUI _settingUI;
     public SettingData CurrentSetting { get; private set; } = new SettingData();
-
+    
+    private SettingUI _settingUI;
+    private bool _isSettingUIOpen = false;
+    
     private void Awake()
     {
         // 싱글턴 초기화 KMS
@@ -21,17 +24,22 @@ public class SettingManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        ResolutionSetting = transform.GetComponentInChildren<ResolutionSetting>();
-        LanguageSetting = transform.GetComponentInChildren<LanguageSetting>();
-        AudioSetting = transform.GetComponentInChildren<AudioSetting>();
+        ResolutionSetting = FindAnyObjectByType<ResolutionSetting>();
+        LanguageSetting = FindAnyObjectByType<LanguageSetting>();
+        AudioSetting = FindAnyObjectByType<AudioSetting>();
         
         _settingUI = FindAnyObjectByType<SettingUI>();
     }
 
     private void Start()
     {
-        // LoadSetting();
-        // ApplySetting();
+        _settingUI.OnCloseBtnClicked += OpenSetting;
+        
+        // 저장된 설정값 불러오기
+        CurrentSetting  = GameManager.Instance.SaveManager.LoadSettingData();
+
+        StartCoroutine(ApplyLocalization());
+        ApplyResolutionSetting();
     }
 
     public void Update()
@@ -42,10 +50,17 @@ public class SettingManager : MonoBehaviour
             OpenSetting();
         }
     }
-
+    
     public void OpenSetting()
     {
-        _settingUI.OpenSettingUI();
+        _isSettingUIOpen = !_isSettingUIOpen;
+        _settingUI.OpenSettingUI(_isSettingUIOpen);
+        
+        if (!_isSettingUIOpen)
+        {
+            // Setting UI 닫을 때 설정 데이터 저장
+            SaveSetting();
+        }
     }
 
     private void SaveSetting()
@@ -58,21 +73,19 @@ public class SettingManager : MonoBehaviour
         CurrentSetting.SfxVolume = AudioSetting.CurrentSfxVolume;
 
         // 변경된 설정값 저장
-        GameSaveData gameSaveData = GameManager.Instance.SaveManager.LoadData();
-        gameSaveData.SettingData = CurrentSetting;
-        GameManager.Instance.SaveManager.SaveData(gameSaveData);
+        SettingData settingData = GameManager.Instance.SaveManager.LoadSettingData();
+        settingData = CurrentSetting;
+        GameManager.Instance.SaveManager.SaveSettingData(settingData);
+    }
+    
+    private IEnumerator ApplyLocalization()
+    {
+        yield return LocalizationSettings.InitializationOperation;
+        LanguageSetting .ChangeLanguage(CurrentSetting.LanguageIndex);
     }
 
-    private void LoadSetting()
+    private void ApplyResolutionSetting()
     {
-        // 저장된 설정값 불러오기
-        GameSaveData gameSaveData = GameManager.Instance.SaveManager.LoadData();
-        CurrentSetting = gameSaveData.SettingData;
-    }
-
-    private void ApplySetting()
-    {
-        LanguageSetting.ChangeLanguage(CurrentSetting.LanguageIndex);
         ResolutionSetting.ChangeResolution(CurrentSetting.ResolutionIndex);
         ResolutionSetting.ChangeFullScreen(CurrentSetting.IsFullScreen);
     }
