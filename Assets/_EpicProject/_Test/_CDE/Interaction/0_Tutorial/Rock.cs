@@ -5,7 +5,7 @@ public class Rock : MonoBehaviour, IFeatureResetable, ILightAdjustable, IRotatab
     // IFeatureResetable
     private float _defaultLight = 0f;
     private float _defaultRotation = 0f;
-    private float _defaultScale = 3f;
+    public float _defaultScale = 3f;
         
     // ILightAdjustable
     private float _minBright = 0.5f;

@@ -665,6 +665,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &45845278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 45845280}
+  - component: {fileID: 45845279}
+  m_Layer: 0
+  m_Name: TutorialSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &45845279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45845278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fdab653759e254f8f1905f38a97941, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 1723781841}
+  TestTurorialID: 0
+--- !u!4 &45845280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45845278}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.9860451, y: 3.44446, z: -0.010923653}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &156248338 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4009997615038237478, guid: 33106de32a36fd84cab34868dc22ccf0, type: 3}
@@ -3664,6 +3710,11 @@ PrefabInstance:
 --- !u!224 &877839485 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5631596540919983347, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+  m_PrefabInstance: {fileID: 877839484}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &877839486 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6443405099380542556, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
   m_PrefabInstance: {fileID: 877839484}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &880489532
@@ -6897,6 +6948,236 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1692051193
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1723781822}
+    m_Modifications:
+    - target: {fileID: 1141551796757089335, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1545038547935672223, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: defaultDialogueId
+      value: Tutorial_1_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: speechBubbleAnchor
+      value: 
+      objectReference: {fileID: 1723781823}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].priority
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[1].priority
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[2].priority
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[3].priority
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[4].priority
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[5].priority
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[6].priority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[7].priority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].dialogueId
+      value: Tutorial_3_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[1].dialogueId
+      value: Tutorial_1_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[2].dialogueId
+      value: Tutorial_1_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[3].dialogueId
+      value: Tutorial_1_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[4].dialogueId
+      value: Tutorial_2_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[5].dialogueId
+      value: Tutorial_2_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[6].dialogueId
+      value: Tutorial_2_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[7].dialogueId
+      value: Tutorial_2_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[8].dialogueId
+      value: Tutorial_2_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].requiredFlagName
+      value: Tutorial_3_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[1].requiredFlagName
+      value: Tutorial_1_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[2].requiredFlagName
+      value: Tutorial_1_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[3].requiredFlagName
+      value: Tutorial_1_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[4].requiredFlagName
+      value: Tutorial_2_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[5].requiredFlagName
+      value: Tutorial_2_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[6].requiredFlagName
+      value: Tutorial_2_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[7].requiredFlagName
+      value: Tutorial_2_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[8].requiredFlagName
+      value: Tutorial_2_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[2].requiredFlagValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[3].requiredFlagValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[4].requiredFlagValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[5].requiredFlagValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[6].requiredFlagValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[7].requiredFlagValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: conditionalDialogues.Array.data[8].requiredFlagValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5072321582273628957, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876736424109231691, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616162118734565932, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_Name
+      value: NPC_Lumberjack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674045795221288387, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123758390199711608, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+--- !u!4 &1692051194 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+  m_PrefabInstance: {fileID: 1692051193}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1723781821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6972,7 +7253,10 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6302454607338894449, guid: 8eaaf468140627149994db49216f5843, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1692051194}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1633253394416912569, guid: 8eaaf468140627149994db49216f5843, type: 3}
       insertIndex: -1
@@ -6981,6 +7265,11 @@ PrefabInstance:
 --- !u!4 &1723781822 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
+  m_PrefabInstance: {fileID: 1723781821}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1723781823 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 636837826175497698, guid: 8eaaf468140627149994db49216f5843, type: 3}
   m_PrefabInstance: {fileID: 1723781821}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1723781833
@@ -6996,6 +7285,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleThreshold: 1
+--- !u!114 &1723781841 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7256648872860790428, guid: 8eaaf468140627149994db49216f5843, type: 3}
+  m_PrefabInstance: {fileID: 1723781821}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751082277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd9f5c7c513f0f8458a79aca1aca8364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1747393519
 GameObject:
   m_ObjectHideFlags: 0
@@ -7810,7 +8110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _glitchAni: {fileID: 0}
+  _glitchAni: {fileID: 877839486}
   _originalAnchoredPos: {x: 0, y: 0}
 --- !u!1001 &1937957342
 PrefabInstance:
@@ -8741,3 +9041,4 @@ SceneRoots:
   - {fileID: 1558756077}
   - {fileID: 1160913998}
   - {fileID: 2016351837}
+  - {fileID: 45845280}
