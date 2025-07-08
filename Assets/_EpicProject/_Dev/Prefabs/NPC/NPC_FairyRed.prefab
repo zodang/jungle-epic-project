@@ -740,9 +740,9 @@ MonoBehaviour:
   light: {fileID: 5009083845259065566}
   DefaultLight: 0
   MinBright: 0
-  MaxBright: 9
-  DefaultScale: 1
-  MinScale: 0.8
+  MaxBright: 15
+  DefaultScale: 2
+  MinScale: 0.5
   MaxScale: 2.5
 --- !u!114 &7709748375629812306
 MonoBehaviour:
@@ -757,11 +757,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultDialogueId: npc_01
-  conditionalDialogues:
-  - dialogueId: baldHead
-    requiredFlagName: baldHead
-    requiredFlagValue: 1
-    priority: 0
+  conditionalDialogues: []
   speechBubbleAnchor: {fileID: 1282190860933515059}
 --- !u!114 &4720779580638883806
 MonoBehaviour:
@@ -1036,7 +1032,7 @@ Transform:
   m_GameObject: {fileID: 5612469307271667693}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
