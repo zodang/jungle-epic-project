@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class TitleSceneUIManager : MonoBehaviour
@@ -57,17 +58,19 @@ public class TitleSceneUIManager : MonoBehaviour
         }
         else
         {
+            string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "New_Title");
+            string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "New_Message");
+            string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "New_Confirm");
+            string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "New_Cancel");
+            
             GameManager.Instance.UIManager.PopupUI.ShowPopup
             (
-                "새로 시작",
-                "진행 중인 게임 데이터가 삭제됩니다.\n계속 진행하시겠습니까?",
-                onOk: () =>
-                {
-                    _titleSceneManager.StartNewGame();
-                },
+                title,
+                message,
+                onOk: () => { _titleSceneManager.StartNewGame(); },
                 onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
-                "계속하기",
-                "취소"
+                okLabel,
+                cancelLabel
             );
         }
     }
@@ -84,17 +87,19 @@ public class TitleSceneUIManager : MonoBehaviour
 
     private void OnClickExitGameBtn()
     {
+        string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Title");
+        string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Message");
+        string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Confirm");
+        string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Cancel");
+        
         GameManager.Instance.UIManager.PopupUI.ShowPopup
         (
-            "게임 종료",
-            "게임을 종료하시겠습니까?",
-            onOk: () =>
-            {
-                _titleSceneManager.ExitGame();
-            },
+            title,
+            message,
+            onOk: () => {_titleSceneManager.ExitGame(); },
             onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
-            "종료하기",
-            "취소"
+            okLabel,
+            cancelLabel
         );
     }
 }
