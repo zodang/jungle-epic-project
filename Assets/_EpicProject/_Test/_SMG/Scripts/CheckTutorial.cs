@@ -7,6 +7,7 @@ public class CheckTutorial : MonoBehaviour
     bool _isInit = false;
 
     public Clickable Player;
+    public Clickable SmallRock;
     public Clickable Rock;
 
     int _tutorialStep;
@@ -35,7 +36,7 @@ public class CheckTutorial : MonoBehaviour
         _tutorialStep = 1;
         _updateTimeDelta = 0f;
         _moveTimeDelta = 0f;
-        Invoke("Init", 0.3f);
+        Invoke("Init", 0.55f);
     }
 
     private void OnDisable()
@@ -54,8 +55,10 @@ public class CheckTutorial : MonoBehaviour
 
     private bool _isPlayerUIOpen;
     private bool _isRockUIOpen;
+    private bool _isSmallRockUIOpen;
     private bool _isPlayerMoveEnable;
     private bool _isRockMoveEnable;
+    private bool _isSmallRockMoveEnable;
     private bool _isGlitchVision;
 
     // Update is called once per frame
@@ -66,8 +69,10 @@ public class CheckTutorial : MonoBehaviour
 
         _isPlayerUIOpen = TutorialStageManager.Instance.EngineManager.GetActivateEngineUI(Player);
         _isRockUIOpen = TutorialStageManager.Instance.EngineManager.GetActivateEngineUI(Rock);
+        _isSmallRockUIOpen = TutorialStageManager.Instance.EngineManager.GetActivateEngineUI(SmallRock);
         _isPlayerMoveEnable = Player.GetComponent<PlayerManager>().Feature._enableMove;
         _isRockMoveEnable = Rock.GetComponent<Rock>().EnableMove;
+        _isSmallRockMoveEnable = SmallRock.GetComponent<Rock>().EnableMove;
         _isGlitchVision = FindAnyObjectByType<GlitchVision>().IsGlitchVisionActive;
 
         if(_tutorialStep < 6)
@@ -95,7 +100,7 @@ public class CheckTutorial : MonoBehaviour
                         if (StageManager.Instance.InputManager.MoveInput != Vector2.zero)
                         {
                             _updateTimeDelta += Time.deltaTime;
-                            if (_updateTimeDelta > 1f)
+                            if (_updateTimeDelta > 0.7f)
                             {
                                 _updateTimeDelta = 0f;
                                 StartTutorial(_tutorialStep);
@@ -114,10 +119,10 @@ public class CheckTutorial : MonoBehaviour
                         }
                         break;
                     case 4:
-                        if (_isPlayerUIOpen)
+                        if (_isSmallRockUIOpen)
                         {
                             _updateTimeDelta += Time.deltaTime;
-                            if (_updateTimeDelta > 1f)
+                            if (_updateTimeDelta > 0.7f)
                             {
                                 _updateTimeDelta = 0f;
                                 StartTutorial(_tutorialStep);
@@ -135,7 +140,7 @@ public class CheckTutorial : MonoBehaviour
                     if (_isRockUIOpen)
                     {
                         _updateTimeDelta += Time.deltaTime;
-                        if (_updateTimeDelta > 1f)
+                        if (_updateTimeDelta > 0.7f)
                         {
                             _updateTimeDelta = 0f;
                             StartTutorial(_tutorialStep);
@@ -165,6 +170,7 @@ public class CheckTutorial : MonoBehaviour
         //{
         //    TutorialStageManager.Instance.EngineManager.OnActivateEngineUI += _checkActions[i];
         //}
+        StartTutorial(_tutorialStep);
         _isInit = true;
     }
 

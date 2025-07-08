@@ -1,4 +1,6 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class GameBtnGroup : MonoBehaviour
@@ -22,14 +24,48 @@ public class GameBtnGroup : MonoBehaviour
 
     private void OnClickMenuBtn()
     {
-        GameManager.Instance.FadeManager.LoadScene(1);
-        GameManager.Instance.SettingManager.OpenSetting();
+        string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Menu_Title");
+        string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Menu_Message");
+        string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Menu_Confirm");
+        string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Menu_Cancel");
+        
+        GameManager.Instance.UIManager.PopupUI.ShowPopup
+        (
+            title,
+            message,
+            onOk: () =>
+            {
+                GameManager.Instance.FadeManager.LoadScene(1);
+                GameManager.Instance.SettingManager.OpenSetting();
+            },
+            onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
+            okLabel,
+            cancelLabel
+        );
     }
 
     private void OnClickQuitBtn()
     {
-        GameManager.Instance.FadeManager.LoadScene(1);
-        GameManager.Instance.SettingManager.OpenSetting();
+        string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Title");
+        string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Message");
+        string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Confirm");
+        string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Cancel");
+
+        GameManager.Instance.UIManager.PopupUI.ShowPopup
+        (
+            title,
+            message,
+            onOk: () =>
+            {
+#if UNITY_EDITOR
+                EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+            },
+            onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
+            okLabel,
+            cancelLabel
+        );
     }
-    
 }

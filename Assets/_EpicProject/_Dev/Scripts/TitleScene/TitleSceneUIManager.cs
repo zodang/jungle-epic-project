@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class TitleSceneUIManager : MonoBehaviour
@@ -10,9 +12,16 @@ public class TitleSceneUIManager : MonoBehaviour
     [SerializeField] private Button settingBtn;
     [SerializeField] private Button exitGameBtn;
 
+    private bool _isNewGame;
+    private Image _continueImg;
+    private TMP_Text _continueText;
+    
     private void Awake()
     {
         _titleSceneManager = FindAnyObjectByType<TitleSceneManager>();
+        
+        _continueImg = continueGameBtn.GetComponent<Image>();
+        _continueText = continueGameBtn.GetComponentInChildren<TMP_Text>();
     }
 
     private void Start()
@@ -22,15 +31,48 @@ public class TitleSceneUIManager : MonoBehaviour
         settingBtn.onClick.AddListener(OnClickSettingBtn);
         exitGameBtn.onClick.AddListener(OnClickExitGameBtn);
     }
-
-    public void SetContinueBtn(bool isEnable)
+    
+    public void SetContinueBtn(bool isNew)
     {
-        // continueGameBtn.enabled = isEnable;
+        _isNewGame = isNew;
+        
+        if (isNew)
+        {
+            continueGameBtn.enabled = false;
+            _continueImg.color = new Color(_continueImg.color.r, _continueImg.color.g, _continueImg.color.b, 0.5f);
+            _continueText.color = new Color(0, 0, 0, 0.5f);
+        }
+        else
+        {
+            continueGameBtn.enabled = true;
+            _continueImg.color = new Color(_continueImg.color.r, _continueImg.color.g, _continueImg.color.b, 1.0f);
+            _continueText.color = new Color(0, 0, 0, 1.0f);
+        }
     }
 
     private void OnClickNewGameBtn()
     {
-        _titleSceneManager.StartNewGame();
+        if (_isNewGame)
+        {
+            _titleSceneManager.StartNewGame();
+        }
+        else
+        {
+            string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "New_Title");
+            string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "New_Message");
+            string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "New_Confirm");
+            string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "New_Cancel");
+            
+            GameManager.Instance.UIManager.PopupUI.ShowPopup
+            (
+                title,
+                message,
+                onOk: () => { _titleSceneManager.StartNewGame(); },
+                onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
+                okLabel,
+                cancelLabel
+            );
+        }
     }
 
     private void OnClickContinueGameBtn()
@@ -42,9 +84,22 @@ public class TitleSceneUIManager : MonoBehaviour
     {
         GameManager.Instance.SettingManager.OpenSetting();
     }
-    
+
     private void OnClickExitGameBtn()
     {
-        _titleSceneManager.ExitGame();
+        string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Title");
+        string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Message");
+        string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Confirm");
+        string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "Quit_Cancel");
+        
+        GameManager.Instance.UIManager.PopupUI.ShowPopup
+        (
+            title,
+            message,
+            onOk: () => {_titleSceneManager.ExitGame(); },
+            onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
+            okLabel,
+            cancelLabel
+        );
     }
 }

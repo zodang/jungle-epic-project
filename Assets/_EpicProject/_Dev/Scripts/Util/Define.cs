@@ -24,11 +24,13 @@ namespace Define
     public enum BgmType
     {
         None, // BGM이 없는 상태
-        Lobby,
+        Tutorial,
         Stage1,
         Stage2,
         Stage3,
-        Stage4
+        Stage4,
+        Stage4_2,
+        Ending,
     }
 
     public enum SfxType

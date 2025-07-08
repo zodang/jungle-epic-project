@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class SettingUI : MonoBehaviour
 {
     public Action OnCloseBtnClicked;
+    public bool IsActive() => _canvas.enabled;
+    
     private Canvas _canvas;
     private GameBtnGroup _gameBtnGroup;
     private LanguageSetting _languageSetting;

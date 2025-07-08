@@ -11,10 +11,15 @@ public class Inventory : BlockContainerBase
     private InventorySlot _inventorySlot;
     private Clickable _target;
 
+    public bool StartGetPlayerControl = true;
+
     private void Awake()
     {
         _inventorySlot = FindAnyObjectByType<InventorySlot>();
-        DefaultBlockList.Add(BlockType.PlayerControl);
+        if (StartGetPlayerControl)
+        {
+            DefaultBlockList.Add(BlockType.PlayerControl);
+        }
     }
 
     private void Start()
