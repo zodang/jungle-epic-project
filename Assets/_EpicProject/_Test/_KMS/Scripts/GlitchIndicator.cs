@@ -36,7 +36,8 @@ public class GlitchIndicator : MonoBehaviour
     private void StartGlitchTimer()
     {
         _glitchEnded = false;
-        _glitchAni.Play("Glitch Count");
+        Debug.Log("글리치비전 실행");
+        _glitchAni.Play("ON Glitch");
     }
 
     private void OnGlitchEnd()
