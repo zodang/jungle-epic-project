@@ -4,7 +4,7 @@ public class TimelineDialogue : MonoBehaviour
 {
     private int _index = 0;
     private SpeechAnchor _speechAnchor;
-    public string[] dialogues;
+    [SerializeField] private string[] dialogues;
 
     private void Awake()
     {

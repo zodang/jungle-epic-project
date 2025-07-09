@@ -52,6 +52,21 @@ public class CameraFraming : MonoBehaviour
 
         _cinemachineTargetGroup.RemoveMember(target);
     }
+    
+    public void SetTarget(Transform newTarget)
+    {
+        if (_cinemachineTargetGroup.IsUnityNull()) return;
+
+        // 기존 멤버 모두 제거
+        int count = _cinemachineTargetGroup.Targets.Count;
+        for (int i = count - 1; i >= 0; i--)
+        {
+            _cinemachineTargetGroup.Targets.RemoveAt(i);
+        }
+
+        // 새로운 멤버 추가
+        _cinemachineTargetGroup.AddMember(newTarget, 1, 1);
+    }
 }
 
 

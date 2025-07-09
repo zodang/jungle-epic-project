@@ -36,6 +36,9 @@ public class BlockVisual : MonoBehaviour,
     private bool _isDragged;
     private bool _isDragging;
 
+    private bool _canHover = true;
+    private bool _canDrag = true;
+
     private void Awake()
     {
         ChangeBlockVisual(SlotType.InventorySlot);
@@ -47,9 +50,17 @@ public class BlockVisual : MonoBehaviour,
         _canvas = GetComponentInParent<Canvas>();
         _rectTransform = GetComponent<RectTransform>();
     }
+
+    public void EnableMouseInteraction(bool canInteraction)
+    {
+        _canHover = canInteraction;
+        _canDrag = canInteraction;
+    }
     
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!_canHover) return;
+        
         if (_isDragged) return;
         
         // 해당 블록에 대한 우클릭 검사
@@ -59,6 +70,8 @@ public class BlockVisual : MonoBehaviour,
     
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!_canHover) return;
+        
         if (!InventoryBlock.activeSelf) return;
         
         _isPointerOver = true;
@@ -77,6 +90,8 @@ public class BlockVisual : MonoBehaviour,
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!_canHover) return;
+        
         if (!InventoryBlock.activeSelf) return;
         
         _isPointerOver = false;
@@ -95,6 +110,8 @@ public class BlockVisual : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!_canDrag) return;
+        
         _isDragged = false;
         _isDragging = true;
         
@@ -116,6 +133,8 @@ public class BlockVisual : MonoBehaviour,
     
     public void OnDrag(PointerEventData eventData)
     {
+        if (!_canDrag) return;
+        
         _isDragged = true;
         
         // UI 중앙을 마우스 위치로 이동
@@ -142,6 +161,8 @@ public class BlockVisual : MonoBehaviour,
     
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!_canDrag) return;
+        
         _isDragged = false;
         _isDragging = false;
         

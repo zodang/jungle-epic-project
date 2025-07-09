@@ -2,21 +2,20 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-public class CDEEndingSceneManager : StageBaseManager
+public class FinalMeetingStageManager : StageBaseManager
 {
-    private CDEEndingStageUI _stageUI;
     private Daughter _daughter;
     
     private PlayableDirector _playableDirector;
     [SerializeField] TimelineAsset[] timelines;
+    private int _timelineIndex;
     
     protected override void Awake()
     {
         // 스테이지 정보 불러오기
-        stageFilePath = "StageInfos/VSStage";
+        stageFilePath = "StageInfos/FinalMeetingStage";
         base.Awake();
 
-        _stageUI = FindAnyObjectByType<CDEEndingStageUI>();
         _daughter = FindAnyObjectByType<Daughter>();
 
         _playableDirector = GetComponent<PlayableDirector>();
@@ -30,12 +29,13 @@ public class CDEEndingSceneManager : StageBaseManager
         // 감정 블록 장착 시 타임라인 재생
         _daughter.OnEmotionEnabled += ChangeTimeline;
 
-        PlayTimeline(0);
+        PlayTimeline(_timelineIndex);
     }
 
     private void ChangeTimeline()
     {
-        PlayTimeline(1);
+        _timelineIndex++;
+        PlayTimeline(_timelineIndex);
     }
 
     private void PlayTimeline(int index)

@@ -128,4 +128,9 @@ public abstract class EngineBlock : MonoBehaviour
         _visual.ChangeBlockVisual(SlotType.InventorySlot);
         _visual.RaiseVisual(false);
     }
+
+    public void SetDrag(bool isAble)
+    {
+        _visual.EnableMouseInteraction(isAble);
+    }
 }
