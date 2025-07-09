@@ -1,4 +1,6 @@
 using Define;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,12 +34,12 @@ public class EngineSlot : MonoBehaviour, ISlotType
     public int Index { get; private set; } = -1;
     private EngineBlock _currentBlock;
 
+    // KMS 0708 / Todo : 블록 놔뒀을때 애니메이션 실행 구간
+    public static event Action OnBlockPlaced;
+
     private void Awake()
     {
         _blockContainer = GetComponentInChildren<BlockContainer>();
-        _slotIcon = GetComponentInChildren<EngineSlotIcon>();
-        _slotIconImg = _slotIcon.GetComponent<Image>();
-        _defaultSprite = _slotIconImg.sprite;
     }
 
     public void Init(int index)
@@ -49,7 +51,7 @@ public class EngineSlot : MonoBehaviour, ISlotType
     {
         _currentBlock = block;
         SetBlockParent(_currentBlock);
-        SetIcon(_currentBlock);
+        // SetIcon(_currentBlock);
     }
 
     private void SetBlockParent(EngineBlock block)
@@ -62,6 +64,9 @@ public class EngineSlot : MonoBehaviour, ISlotType
         rectTransform.anchorMin = Vector2.one * 0.5f;
         rectTransform.anchorMax = Vector2.one * 0.5f;
         rectTransform.anchoredPosition = Vector2.zero;
+        // KMS 0708 / Todo : 블록 놔뒀을때 애니메이션 실행 구간 
+        OnBlockPlaced?.Invoke();
+        print("애니메이션 실행"); // 디버그용
     }
 
     private void SetIcon(EngineBlock block)
