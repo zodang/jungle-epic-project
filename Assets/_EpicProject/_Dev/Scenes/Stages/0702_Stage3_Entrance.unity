@@ -2038,11 +2038,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5631596540919983347, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
   m_PrefabInstance: {fileID: 1311545349}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1311545351 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6443405099380542556, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
-  m_PrefabInstance: {fileID: 1311545349}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1357880250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2523,6 +2518,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
   m_PrefabInstance: {fileID: 1723781821}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1744882578 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3294518938588340986, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+  m_PrefabInstance: {fileID: 1311545349}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1755429525
 GameObject:
   m_ObjectHideFlags: 0
@@ -2890,7 +2890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _glitchAni: {fileID: 1311545351}
+  _glitchAni: {fileID: 1744882578}
   _originalAnchoredPos: {x: 0, y: 0}
 --- !u!1001 &1957279659
 PrefabInstance:
