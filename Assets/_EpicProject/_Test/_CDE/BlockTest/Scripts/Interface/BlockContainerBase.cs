@@ -21,6 +21,13 @@ public abstract class BlockContainerBase : MonoBehaviour
         block.OnBlockRightClick -= OnBlockRightClickHandler;
     }
 
+    protected void UnregisterClickEvents(EngineBlock block)
+    {
+        // 클릭 이벤트 제외
+        block.OnBlockLeftClick -= OnBlockLeftClickHandler;
+        block.OnBlockRightClick -= OnBlockRightClickHandler; 
+    }
+
     private void OnBlockDragEndHandler(EngineBlock block, ISlotType slot)
     {
         SlotType slotType = slot?.GetSlotType() ?? SlotType.None;
@@ -127,6 +134,12 @@ public abstract class BlockContainerBase : MonoBehaviour
             var engineSlot = block.PrevTarget.EngineController.EngineSlotList[block.PrevSlotIndex];
             engineSlot.SetBlock(block);
             block.SetVisualState(SlotType.EngineSlot);
+        }
+        else if (block.SimpleSlot != null)
+        {
+            // SimpleSlot을 사용하는 Block일 시 SimpleSlot으로 복귀
+            block.transform.SetParent(block.SimpleSlot.transform, false);
+            block.transform.localPosition = Vector3.zero;
         }
         else
         {

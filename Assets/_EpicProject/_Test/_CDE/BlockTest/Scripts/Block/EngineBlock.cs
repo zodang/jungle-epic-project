@@ -31,11 +31,15 @@ public abstract class EngineBlock : MonoBehaviour
     public SlotType CurrentSlotType { get; private set; }
 
     public InventorySlot InventorySlot { get; private set; }
-    
+    public SimpleSlot SimpleSlot { get; private set; }
+
     protected virtual void Awake()
     {
         _visual = GetComponent<BlockVisual>();
         InventorySlot = FindAnyObjectByType<InventorySlot>();
+
+        // SimpleSlot 사용하는 Block일 시 사용
+        SimpleSlot = GetComponentInParent<SimpleSlot>();
     }
     
     private void Start()

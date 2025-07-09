@@ -182,14 +182,14 @@ public class BlockVisual : MonoBehaviour,
     {
         SlotType slotType = slot.GetSlotType();
         InventoryBlock.SetActive(slotType == SlotType.InventorySlot);
-        EngineBlock.SetActive(slotType == SlotType.EngineSlot);
+        EngineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot);
         NumpadBlock.SetActive(slotType == SlotType.NumpadSlot || slotType == SlotType.Numpad);
     }
 
     public void ChangeBlockVisual(SlotType slotType)
     {
         InventoryBlock.SetActive(slotType == SlotType.InventorySlot);
-        EngineBlock.SetActive(slotType == SlotType.EngineSlot);
+        EngineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot);
         NumpadBlock.SetActive(slotType == SlotType.NumpadSlot || slotType == SlotType.Numpad);
     }
     

@@ -1,0 +1,18 @@
+public class CDEEndingSceneManager : StageBaseManager
+{
+    private CDEEndingStageUI _stageUI;
+    protected override void Awake()
+    {
+        // 스테이지 정보 불러오기
+        stageFilePath = "StageInfos/VSStage";
+        base.Awake();
+
+        _stageUI = FindAnyObjectByType<CDEEndingStageUI>();
+    }
+
+    private void Start()
+    {
+        // 대화 불러오기
+        DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
+    }
+}
