@@ -32,6 +32,7 @@ public class EngineController : BlockContainerBase
         // Button 기능 연결
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
+        _engineUIController.OnTabBtnClicked += Deactivate;
         _engineUIController.OnClearBtnClicked += ClearBlock;
         
         // OnBlockChanged += CheckBlockDictionary;
@@ -42,6 +43,7 @@ public class EngineController : BlockContainerBase
     {
         _engineUIController.OnClickCloseBtn -= Deactivate;
         _engineUIController.OnResetBtnClicked -= ResetFeature;
+        _engineUIController.OnTabBtnClicked -= Deactivate;
         _engineUIController.OnClearBtnClicked -= ClearBlock;
     }
     

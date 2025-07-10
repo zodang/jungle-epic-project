@@ -31,7 +31,7 @@ public class BlockVisual : MonoBehaviour,
     private Tween _hoverTween;
 
     public bool IsRaised;
-    private float _yRaisedPos = 130;
+    private float _yRaisedPos = 150;
 
     private bool _isDragged;
     private bool _isDragging;
