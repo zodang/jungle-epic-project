@@ -7,6 +7,7 @@ using DG.Tweening;
 public class EngineUIController : MonoBehaviour
 {
     public Action OnResetBtnClicked;
+    public Action OnTabBtnClicked;
     public Action OnClearBtnClicked;
     public Action OnClickCloseBtn;
 
@@ -28,7 +29,7 @@ public class EngineUIController : MonoBehaviour
     private RectTransform _rectTransform;
 
     [SerializeField] private Button resetBtn;
-    [SerializeField] private Button clearBtn;
+    [SerializeField] private Button tabBtn;
 
     private void Awake()
     {
@@ -41,7 +42,7 @@ public class EngineUIController : MonoBehaviour
     {
         // Button 기능 연결
         resetBtn.onClick.AddListener(WhenResetBtnClicked);
-        clearBtn.onClick.AddListener(WhenClearBtnClicked);
+        tabBtn.onClick.AddListener(WhenTabBtnClicked);
     }
 
     private void OnDestroy()
@@ -61,6 +62,11 @@ public class EngineUIController : MonoBehaviour
     {
         // Reset Btn 클릭
         OnResetBtnClicked?.Invoke();
+    }
+
+    private void WhenTabBtnClicked()
+    {
+        OnTabBtnClicked?.Invoke();
     }
 
     private void WhenClearBtnClicked()
