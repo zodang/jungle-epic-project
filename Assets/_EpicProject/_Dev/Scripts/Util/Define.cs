@@ -5,6 +5,7 @@ namespace Define
         None,
         InventorySlot,
         EngineSlot,
+        SimpleSlot,
         NumpadSlot,
         Numpad
     }
@@ -17,6 +18,7 @@ namespace Define
         Light,
         Graphic,
         Speed,
+        Emotion,
         Sound,
         Mess,
     }
