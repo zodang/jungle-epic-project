@@ -8,6 +8,7 @@ enum GuardType
 {
     Patrol,
     Detection,
+    Stand
 }
 
 public class GuardDetectionHandler : MonoBehaviour
@@ -55,6 +56,9 @@ public class GuardDetectionHandler : MonoBehaviour
             case GuardType.Patrol:
                 HandlePatrolGuard(playerObj);
                 break;
+            case GuardType.Stand:
+                HandleStandGuard(playerObj);
+                break;
         }
     }
 
@@ -100,6 +104,14 @@ public class GuardDetectionHandler : MonoBehaviour
         StartCoroutine(RespawnCo(playerObj));
     }
     
+    private void HandleStandGuard(GameObject playerObj)
+    {
+        if (respawnPoint == null) return;
+
+        _dialogueTrigger.TriggerDialogue();
+        StartCoroutine(RespawnCo(playerObj));
+    }
+
     private IEnumerator RespawnCo(GameObject player)
     {
         if (respawnPoint == null)
