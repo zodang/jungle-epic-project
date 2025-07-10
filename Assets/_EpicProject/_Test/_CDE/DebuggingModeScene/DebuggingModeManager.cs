@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class DebuggingModeManager : StageBaseManager
 {
+    [SerializeField] private EngineController engineController;
+    [SerializeField] private Clickable _brokenBlock;
+    
     protected override void Awake()
     {
         // 스테이지 정보 불러오기

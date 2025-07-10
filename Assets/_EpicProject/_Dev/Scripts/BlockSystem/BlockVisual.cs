@@ -8,22 +8,20 @@ public class BlockVisual : MonoBehaviour,
     IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, 
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Action<ISlotType> OnDragEnd;
+    public Action<ISlot> OnDragEnd;
     public Action OnLeftClicked;
     public Action OnRightClicked;
     
     public static event Action OnAnyBlockBeginDrag;
     public static event Action OnAnyBlockEndDrag;
     
-    private ISlotType _detectedSlot;
+    private ISlot _detectedSlot;
     
     public GameObject EngineBlock;
     public GameObject InventoryBlock;
-    public GameObject NumpadBlock;
     
     private Canvas _canvas;
     private RectTransform _rectTransform;
-    private Vector2 _dragOffset;
 
     public RectTransform _visualObject;
     private bool _isAnimating = false;
@@ -124,15 +122,6 @@ public class BlockVisual : MonoBehaviour,
         transform.SetParent(_canvas.transform);
         transform.SetAsLastSibling();
         ChangeBlockVisual(SlotType.InventorySlot);
-
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                _rectTransform,
-                eventData.position,
-                eventData.pressEventCamera,
-                out Vector3 globalMousePos))
-        {
-            _dragOffset = _rectTransform.position - globalMousePos;
-        }
     }
     
     public void OnDrag(PointerEventData eventData)
@@ -152,7 +141,7 @@ public class BlockVisual : MonoBehaviour,
         }
 
         // Slot 감지
-        if (!TryGetSlotUnderMouse(out ISlotType slot))
+        if (!TryGetSlotUnderMouse(out ISlot slot))
         {
             ChangeBlockVisual(SlotType.InventorySlot);
             _detectedSlot = null;
@@ -178,7 +167,7 @@ public class BlockVisual : MonoBehaviour,
         OnAnyBlockEndDrag?.Invoke();
     }
     
-    private bool TryGetSlotUnderMouse(out ISlotType slot)
+    private bool TryGetSlotUnderMouse(out ISlot slot)
     {
         slot = null;
 
@@ -192,7 +181,7 @@ public class BlockVisual : MonoBehaviour,
 
         foreach (var result in raycastResults)
         {
-            var slotInterface = result.gameObject.GetComponent<ISlotType>();
+            var slotInterface = result.gameObject.GetComponent<ISlot>();
             if (slotInterface != null)
             {
                 slot = slotInterface;
@@ -203,19 +192,17 @@ public class BlockVisual : MonoBehaviour,
         return false;
     }
     
-    private void ChangeBlockVisual(ISlotType slot)
+    private void ChangeBlockVisual(ISlot slot)
     {
         SlotType slotType = slot.GetSlotType();
-        InventoryBlock.SetActive(slotType == SlotType.InventorySlot);
+        InventoryBlock.SetActive(slotType == SlotType.InventorySlot || slotType == SlotType.ToolBoxSlot);
         EngineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot);
-        NumpadBlock.SetActive(slotType == SlotType.NumpadSlot || slotType == SlotType.Numpad);
     }
 
     public void ChangeBlockVisual(SlotType slotType)
     {
-        InventoryBlock.SetActive(slotType == SlotType.InventorySlot);
+        InventoryBlock.SetActive(slotType == SlotType.InventorySlot || slotType == SlotType.ToolBoxSlot);
         EngineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot);
-        NumpadBlock.SetActive(slotType == SlotType.NumpadSlot || slotType == SlotType.Numpad);
     }
     
     public void RaiseVisual(bool raise)
