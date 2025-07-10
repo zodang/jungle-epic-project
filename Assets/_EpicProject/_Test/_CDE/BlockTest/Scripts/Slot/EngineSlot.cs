@@ -54,7 +54,6 @@ public class EngineSlot : MonoBehaviour, ISlot
     {
         _currentBlock = block;
         SetBlockParent(_currentBlock);
-        // SetIcon(_currentBlock);
     }
 
     private void SetBlockParent(EngineBlock block)

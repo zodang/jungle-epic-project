@@ -205,4 +205,10 @@ public class EngineController : BlockContainerBase
         WhenDroppedInventorySlot(block, InventorySlot);
         block.SetVisualState(SlotType.InventorySlot);
     }
+
+    public void DisableEngineDeactivate()
+    {
+        _engineUIController.OnTabBtnClicked -= Deactivate;
+        _engineUIController.DisableTabBtn();
+    }
 }

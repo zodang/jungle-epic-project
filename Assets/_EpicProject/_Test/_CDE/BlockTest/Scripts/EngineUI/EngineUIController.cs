@@ -119,4 +119,10 @@ public class EngineUIController : MonoBehaviour
         _sequence = DOTween.Sequence().SetAutoKill(false);
         _sequence.Append(_rectTransform.DOAnchorPosX(endPos, _duration)).SetEase(Ease.InQuad);
     }
+
+    public void DisableTabBtn()
+    {
+        tabBtn.enabled = false;
+        tabBtn.GetComponent<Image>().color = new Color(1,1,1,0.5f);
+    }
 }
