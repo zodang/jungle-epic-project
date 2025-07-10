@@ -1,20 +1,9 @@
 using UnityEngine;
-using System.Collections;
-using DG.Tweening;
-using Unity.VisualScripting;
-using TMPro;
-using UnityEngine.UI;
+
 
 public class GlitchIndicator : MonoBehaviour
 {
-    [Header("Animator")]
     [SerializeField] private Animator _glitchAni;
-
-    public Vector2 _originalAnchoredPos;
-    private bool _glitchEnded = false;
-
-    private DG.Tweening.Sequence sequence;
-
 
     private void Start()
     {
@@ -35,15 +24,13 @@ public class GlitchIndicator : MonoBehaviour
 
     private void StartGlitchTimer()
     {
-        _glitchEnded = false;
-        Debug.Log("글리치비전 실행");
-        _glitchAni.Play("ON Glitch");
+        _glitchAni.Play("ON Glitch", 0, 0f);
+        _glitchAni.Play("Glitch Count", 1, 0f);
     }
 
     private void OnGlitchEnd()
     {
-        _glitchEnded = true;
-        _glitchAni.Play("Empty");
+        _glitchAni.Play("Empty", 1, 0f);
     }
 
 }

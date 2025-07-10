@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: BlockAni Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: BlockAni
+  m_TableCollectionNameGuidString: bb4c9744ce6c3284ab0d40c5bf56ba3f
+  m_Entries:
+  - m_Id: 1763522863104
+    m_Key: AniControl
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2084882046976
+    m_Key: AniGraphic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2205082411008
+    m_Key: AniLight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2341212741632
+    m_Key: AniRotate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2538017873920
+    m_Key: AniScale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2667420540928
+    m_Key: AniSpeed
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items:
+    - rid: 6568114359891918848
+  m_KeyGenerator:
+    rid: 6568114356584710245
+  references:
+    version: 2
+    RefIds:
+    - rid: 6568114356584710245
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1752126004005
+    - rid: 6568114359891918848
+      type: {class: AssetTypeMetadata, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries:
+        - m_KeyId: 1763522863104
+          m_TableCodes:
+          - zh-Hans
+          - en
+          - ko
+        - m_KeyId: 2084882046976
+          m_TableCodes:
+          - zh-Hans
+          - en
+          - ko
+        - m_KeyId: 2205082411008
+          m_TableCodes:
+          - zh-Hans
+          - en
+          - ko
+        - m_KeyId: 2341212741632
+          m_TableCodes:
+          - zh-Hans
+          - en
+          - ko
+        - m_KeyId: 2538017873920
+          m_TableCodes:
+          - zh-Hans
+          - en
+          - ko
+        - m_KeyId: 2667420540928
+          m_TableCodes:
+          - en
+          - zh-Hans
+          - ko
+        m_TypeString: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null

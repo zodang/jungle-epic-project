@@ -699,6 +699,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 187358714}
   m_CullTransparentMesh: 1
+--- !u!95 &195202989 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4933739621265889110, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+  m_PrefabInstance: {fileID: 7954285601478966798}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &301793643
 GameObject:
   m_ObjectHideFlags: 0
@@ -19643,8 +19648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _glitchAni: {fileID: 0}
-  _originalAnchoredPos: {x: 0, y: 0}
+  _glitchAni: {fileID: 195202989}
 --- !u!1001 &2018267319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20036,6 +20040,14 @@ PrefabInstance:
     - target: {fileID: 8218167193114042189, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
       propertyPath: m_Name
       value: StageBaseCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 9145731873391032685, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1924819232}
+    - target: {fileID: 9145731873391032685, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGlitch
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
