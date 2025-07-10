@@ -2028,6 +2028,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StageBaseCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 9145731873391032685, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1924819232}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2518,9 +2522,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
   m_PrefabInstance: {fileID: 1723781821}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1744882578 stripped
+--- !u!95 &1744882581 stripped
 Animator:
-  m_CorrespondingSourceObject: {fileID: 3294518938588340986, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4933739621265889110, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
   m_PrefabInstance: {fileID: 1311545349}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1755429525
@@ -2890,8 +2894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _glitchAni: {fileID: 1744882578}
-  _originalAnchoredPos: {x: 0, y: 0}
+  _glitchAni: {fileID: 1744882581}
 --- !u!1001 &1957279659
 PrefabInstance:
   m_ObjectHideFlags: 0
