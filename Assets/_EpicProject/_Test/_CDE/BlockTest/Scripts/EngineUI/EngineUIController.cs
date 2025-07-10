@@ -30,6 +30,12 @@ public class EngineUIController : MonoBehaviour
 
     [SerializeField] private Button resetBtn;
     [SerializeField] private Button tabBtn;
+    
+    [Header("Dotween")] 
+    private float _outsidePos = 0;
+    private float _insidePos = -300;
+    private float _duration = 0.4f;
+    private Sequence _sequence;
 
     private void Awake()
     {
@@ -96,19 +102,21 @@ public class EngineUIController : MonoBehaviour
     {
         transform.SetAsLastSibling();
         _rectTransform.DOKill();
-        _rectTransform.localScale = Vector3.zero;
-        _rectTransform.DOScale(Vector3.one, _activeDuration).SetEase(Ease.OutCubic);
+        _rectTransform.DOAnchorPosX(_insidePos, 0);
+        ActivateSequence(true);
     }
 
     public void DeactivateEffect(Clickable target)
     {
-        Sequence sequence = DOTween.Sequence();
+        _rectTransform.DOKill();
+        ActivateSequence(false);
+    }
 
-        sequence.Append(_rectTransform.DOScale(Vector3.zero, _deactiveDuration));
-        sequence.OnComplete(() =>
-        {
-            _rectTransform.localScale = Vector3.one;
-            gameObject.SetActive(false);
-        });
+    private void ActivateSequence(bool isActive)
+    {
+        float endPos = isActive ? _outsidePos : _insidePos;
+
+        _sequence = DOTween.Sequence().SetAutoKill(false);
+        _sequence.Append(_rectTransform.DOAnchorPosX(endPos, _duration)).SetEase(Ease.InQuad);
     }
 }
