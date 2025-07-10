@@ -1,7 +1,7 @@
 using Define;
 using UnityEngine;
 
-public class InventorySlot : MonoBehaviour, ISlotType
+public class InventorySlot : MonoBehaviour, ISlot
 {
     private Inventory _inventory;
     private Clickable _targetClickable;
@@ -15,7 +15,20 @@ public class InventorySlot : MonoBehaviour, ISlotType
     {
         return _targetClickable;
     }
-    
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
+
+    public void SetBlockPosition(EngineBlock block)
+    {
+        block.transform.SetParent(transform);
+        block.transform.localPosition = Vector3.zero;
+        block.SetVisualState(SlotType.InventorySlot);
+        
+    }
+
     public Inventory GetInventory()
     {
         return _inventory;
@@ -35,5 +48,7 @@ public class InventorySlot : MonoBehaviour, ISlotType
     {
         _targetClickable = clickable;
     }
+
+    
 }
 

@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using Define;
+using System;
 using UnityEngine;
 
 public class Clickable : MonoBehaviour, IClickable
 {
+    public Action OnClickAction;
+    
     public string ID;
     private ClickableProfile _profile;
     [SerializeField] private List<BlockType> DefaultBlockList = new();
@@ -13,6 +16,8 @@ public class Clickable : MonoBehaviour, IClickable
 
     public void OnClicked()
     {
+        OnClickAction?.Invoke();
+        
         // 클릭 시 Engine UI 활성화
         if (GetComponent<PlayerManager>() != null) return;
         
