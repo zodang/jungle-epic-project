@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using System.Collections.Generic;
 
 public class EngineUIController : MonoBehaviour
 {
@@ -19,10 +18,6 @@ public class EngineUIController : MonoBehaviour
     [Header("Slot Group")] 
     [SerializeField] private GameObject engineSlotGroup;
 
-    [Header("Button")] 
-    [SerializeField] private Button closeBtn;
-    [SerializeField] private Button upBtn;
-
     [Header("Fold")] 
     private bool _isFold = true;
     private Image _baseImg;
@@ -32,7 +27,6 @@ public class EngineUIController : MonoBehaviour
     private readonly float _deactiveDuration = 0.25f;
     private RectTransform _rectTransform;
 
-    [Header("*Deprecated")]
     [SerializeField] private Button resetBtn;
     [SerializeField] private Button clearBtn;
 
@@ -46,10 +40,8 @@ public class EngineUIController : MonoBehaviour
     private void Start()
     {
         // Button 기능 연결
-        closeBtn.onClick.AddListener(WhenCloseBtnClicked);
         resetBtn.onClick.AddListener(WhenResetBtnClicked);
         clearBtn.onClick.AddListener(WhenClearBtnClicked);
-        upBtn.onClick.AddListener(WhenUpBtnClicked);
     }
 
     private void OnDestroy()
