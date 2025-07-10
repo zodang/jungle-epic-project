@@ -664,6 +664,8 @@ GameObject:
   - component: {fileID: 2536922364173396324}
   - component: {fileID: 1662851898788157901}
   - component: {fileID: 1917374139579094581}
+  - component: {fileID: 6202625592389111193}
+  - component: {fileID: 8674599352381132741}
   m_Layer: 5
   m_Name: EngineBlock
   m_TagString: Untagged
@@ -781,6 +783,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tooltipData: {fileID: 11400000, guid: 80d0165cdc020de4e8f120ed11ce2b8f, type: 2}
+--- !u!95 &6202625592389111193
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7187070622661725702}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ca661a84acd4cdb4cb22e7509ac38c65, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8674599352381132741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7187070622661725702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e0d97f7241df9943bc25ad3faf25937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 6202625592389111193}
 --- !u!1 &7194107298989328483
 GameObject:
   m_ObjectHideFlags: 0
