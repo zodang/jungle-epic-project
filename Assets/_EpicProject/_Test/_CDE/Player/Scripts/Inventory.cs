@@ -9,6 +9,7 @@ public class Inventory : BlockContainerBase
     public List<BlockType> DefaultBlockList = new();
     
     private InventorySlot _inventorySlot;
+    private InventoryUIController _inventoryUI;
     private Clickable _target;
 
     public bool StartGetPlayerControl = true;
@@ -16,6 +17,8 @@ public class Inventory : BlockContainerBase
     private void Awake()
     {
         _inventorySlot = FindAnyObjectByType<InventorySlot>();
+        _inventoryUI = FindAnyObjectByType<InventoryUIController>();
+        
         if (StartGetPlayerControl)
         {
             DefaultBlockList.Add(BlockType.PlayerControl);
@@ -28,9 +31,16 @@ public class Inventory : BlockContainerBase
         _inventorySlot.SetInventory(this);
         _inventorySlot.SetTargetClickable(_target);
 
+        _inventoryUI.OnResetBtnClicked += ResetFeature;
+
         InitInventory();
     }
-    
+
+    private void OnDestroy()
+    {
+        _inventoryUI.OnResetBtnClicked -= ResetFeature;
+    }
+
     private void CheckBlockDictionary()
     {
         var entries = BlockList.Select(b => b.name);
@@ -72,6 +82,22 @@ public class Inventory : BlockContainerBase
         {
             BlockType type = DefaultBlockList[i];
             Collect(type);
+        }
+    }
+    
+    private void ResetFeature()
+    {
+        if (_target == null) return;
+
+        // Clickable의 기능 초기화
+        IFeatureResetable resettable = _target.GetComponent<IFeatureResetable>();
+        resettable?.ResetFeature();
+        
+        // Block의 UI 초기화
+        EngineBlock[] blocks = _inventoryUI.GetComponentsInChildren<EngineBlock>(includeInactive: true);
+        foreach (EngineBlock block in blocks)
+        {
+            block.ResetUI();
         }
     }
     
