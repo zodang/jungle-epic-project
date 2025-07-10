@@ -72,8 +72,13 @@ public class GlitchVision : MonoBehaviour
 
     private void Update()
     {
-        //글리치비전 연타 막기 위한 임시 조건문 추가
-        if (Input.GetKeyDown(KeyCode.Q) && !IsGlitchVisionActive)
+        if (Input.GetKeyDown(KeyCode.Q))
+            StartGlitch();
+    }
+
+    public void StartGlitch()
+    {
+        if (!IsGlitchVisionActive)
         {
             //글리치비전 실행되면 GlitchIndicator로 전송
             BeginGlitch?.Invoke();
@@ -90,8 +95,8 @@ public class GlitchVision : MonoBehaviour
                 StopCoroutine(LowPassRoutine());
             lowPassRoutine = StartCoroutine(LowPassRoutine());
         }
-    }
 
+    }
 
     public void ActivateGlitchVision()
     {
