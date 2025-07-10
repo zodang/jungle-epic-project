@@ -140,6 +140,8 @@ public abstract class BlockContainerBase : MonoBehaviour
             // SimpleSlot을 사용하는 Block일 시 SimpleSlot으로 복귀
             block.transform.SetParent(block.SimpleSlot.transform, false);
             block.transform.localPosition = Vector3.zero;
+            block.SetVisualState(SlotType.SimpleSlot);
+
         }
         else
         {

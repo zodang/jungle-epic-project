@@ -51,10 +51,14 @@ public class BlockVisual : MonoBehaviour,
         _rectTransform = GetComponent<RectTransform>();
     }
 
-    public void EnableMouseInteraction(bool canInteraction)
+    public void ActivateHoverEvent(bool canHover)
     {
-        _canHover = canInteraction;
-        _canDrag = canInteraction;
+        _canHover = canHover;
+    }
+
+    public void ActivateDragEvent(bool canDrag)
+    {
+        _canDrag = canDrag;
     }
     
     public void OnPointerClick(PointerEventData eventData)

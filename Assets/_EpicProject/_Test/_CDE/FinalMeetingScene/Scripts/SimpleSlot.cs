@@ -12,7 +12,6 @@ public class SimpleSlot : BlockContainerBase
     private void Start()
     {
         InitBlock();
-        Invoke(nameof(AddEvents), 10f);
     }
 
     protected override void RemoveBlock(int index)
@@ -27,16 +26,15 @@ public class SimpleSlot : BlockContainerBase
         _block.InitDefaultBlock(targetClickable, SlotType.SimpleSlot);
         
         // 블록 상호작용 비활성화
-        _block.SetDrag(false);
+        _block.SetInteraction(false);
+        _block.SetVisualState(SlotType.InventorySlot);
     }
 
-    private void AddEvents()
+    public void AddEvents()
     {
-        // 블록 이벤트 추가
-        UnregisterClickEvents(_block);
-        
         // 블록 상호작용 활성화
-        _block.SetDrag(true);
+        _block.SetInteraction(true);
         _block.AddComponent<BlockCanvasConverter>();
+        _block.SetVisualState(SlotType.SimpleSlot);
     }
 }
