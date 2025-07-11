@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6751843466373159609}
   - component: {fileID: 7265677643707726574}
   m_Layer: 5
-  m_Name: Next Button
+  m_Name: NextBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u9000\u51FA\u6E38\u620F \u9000\u51FA\u6E38\u620F \u9000\u51FA\u6E38\u620F\u9000\u51FA\u6E38\u620F"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8656fcac61445cd4480cc576a59f3e5c, type: 2}
   m_sharedMaterial: {fileID: 5946828158881471986, guid: 8656fcac61445cd4480cc576a59f3e5c, type: 2}
@@ -590,9 +590,9 @@ GameObject:
   - component: {fileID: 6035682846445418434}
   - component: {fileID: 3411704860052492869}
   - component: {fileID: 5621390595837131987}
-  - component: {fileID: -2113388972879516525}
+  - component: {fileID: 2142323104865242769}
   m_Layer: 5
-  m_Name: SpeechBubble_Player
+  m_Name: SimpleSpeechBubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-2113388972879516525
+--- !u!114 &2142323104865242769
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -668,16 +668,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5682641207033410957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42b179e211ff3644aab2c31a4d4a922b, type: 3}
+  m_Script: {fileID: 11500000, guid: 076cf57bb4ddc9448b800a7925a5a1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choiceItemPrefab: {fileID: 0}
-  choicesContainer: {fileID: 0}
-  selectedChoiceColor: {r: 1, g: 1, b: 0.5, a: 1}
-  defaultChoiceColor: {r: 1, g: 1, b: 1, a: 0.5}
-  onNextActionRequested:
-    m_PersistentCalls:
-      m_Calls: []
+  speakerText: {fileID: 8290721109664100069}
+  dialogueText: {fileID: 7113066023448554255}
+  nextBtn: {fileID: 7265677643707726574}
 --- !u!1 &6023919014164920230
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,7 +740,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 66c6da97c2e25134eaa276a11a7c655d, type: 2}
   m_sharedMaterial: {fileID: 1895534707242828084, guid: 66c6da97c2e25134eaa276a11a7c655d, type: 2}
@@ -879,7 +875,7 @@ GameObject:
   - component: {fileID: 978195098736604332}
   - component: {fileID: 5380646994066312714}
   m_Layer: 5
-  m_Name: Player
+  m_Name: PlayerImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

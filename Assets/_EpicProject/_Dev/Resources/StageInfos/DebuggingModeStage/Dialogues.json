@@ -158,9 +158,22 @@
             "en": "",
             "zh-Hans": ""
           }
+        },
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "'속도'를 안정적인 상태로 조절해야겠어..",
+            "en": "",
+            "zh-Hans": ""
+          }
         }
       ]
     },
+    
 
     {
       "id": "step_3_3_player",
@@ -180,7 +193,6 @@
       ]
     },
     
-
     {
       "id": "step_retry_player",
       "lines": [
@@ -192,11 +204,121 @@
           },
           "text": {
             "ko": "다시 한 번 생각해보자.",
-            "en": "",
-            "zh-Hans": ""
+            "en": "Let's think about it again.",
+            "zh-Hans": "我们再考虑一下。"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "console_light_broken",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "[ERROR] CORE_TEMP: CRITICAL_LOW",
+            "en": "[ERROR] CORE_TEMP: CRITICAL_LOW",
+            "zh-Hans": "[ERROR] CORE_TEMP: CRITICAL_LOW。"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "console_light_solved",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "[SOLVED] CORE_TEMP: STABLE.",
+            "en": "[SOLVED] CORE_TEMP: STABLE.",
+            "zh-Hans": "[SOLVED] CORE_TEMP: STABLE."
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "console_scale_broken",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "[ERROR] CORE_SCALE: VALUE_TOO_SMALL.",
+            "en": "[ERROR] CORE_SCALE: VALUE_TOO_SMALL.",
+            "zh-Hans": "[ERROR] CORE_SCALE: VALUE_TOO_SMALL."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "console_scale_solved",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "[SOLVED] CORE_SCALE: NORMALIZED.",
+            "en": "[SOLVED] CORE_SCALE: NORMALIZED.",
+            "zh-Hans": "[SOLVED] CORE_SCALE: NORMALIZED."
+          }
+        }
+      ]
+    },
+    
+    
+    {
+      "id": "console_speed_broken",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "[ERROR] CORE_PULSE: UNSTABLE.",
+            "en": "[ERROR] CORE_PULSE: UNSTABLE.",
+            "zh-Hans": "[ERROR] CORE_PULSE: UNSTABLE."
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "console_speed_solved",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "[SOLVED] CORE_PULSE: STABLE.",
+            "en": "[SOLVED] CORE_PULSE: STABLE.",
+            "zh-Hans": "[SOLVED] CORE_PULSE: STABLE."
           }
         }
       ]
     }
+    
   ]
 }

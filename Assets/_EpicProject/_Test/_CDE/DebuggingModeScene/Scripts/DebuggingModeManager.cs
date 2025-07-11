@@ -21,7 +21,7 @@ public class DebuggingModeManager : StageBaseManager
     private void Start()
     {
         // 대화 불러오기
-        DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
+        // DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
 
         _brokenBlock.OnClickAction += WhenBlockClicked;
     }
