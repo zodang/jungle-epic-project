@@ -8,7 +8,7 @@ public class TargetAlignmentChecker : MonoBehaviour
     [SerializeField] private Transform _target;
     [SerializeField] private List<Vector3> _rotationAnswers;
 
-    public bool IsAligned { get; private set; }
+    
 
     [Header("Offset")]
     public Vector3 _offsetPosition;
@@ -21,7 +21,7 @@ public class TargetAlignmentChecker : MonoBehaviour
     public Vector3 _rangeScale = new Vector3(0.15f, 0.15f, 0.15f);
 
     [Header("State")]
-    public bool IsAligend;
+    public bool IsAligned { get; private set; }
     private bool _prevIsAligend;
     public bool IsAligendPosition { get; private set; }
     public bool IsAlignedRotation { get; private set; }
@@ -66,11 +66,11 @@ public class TargetAlignmentChecker : MonoBehaviour
             Mathf.Abs(goalScale.y - _target.localScale.y) <= _rangeScale.y;// &&
             //Mathf.Abs(goalScale.z - _target.localScale.z) <= _rangeScale.z;
 
-        IsAligend = IsAligendPosition && IsAlignedRotation && IsAligendScale;
-        if(_prevIsAligend != IsAligend)
+        IsAligned = IsAligendPosition && IsAlignedRotation && IsAligendScale;
+        if(_prevIsAligend != IsAligned)
         {
-            _prevIsAligend = IsAligend;
-            OnIsAligend?.Invoke(IsAligend);
+            _prevIsAligend = IsAligned;
+            OnIsAligend?.Invoke(IsAligned);
         }
         
     }
