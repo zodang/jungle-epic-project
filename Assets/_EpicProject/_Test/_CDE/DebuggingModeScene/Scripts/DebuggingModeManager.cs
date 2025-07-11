@@ -6,6 +6,7 @@ public class DebuggingModeManager : StageBaseManager
     [SerializeField] private Clickable _brokenBlock;
     
     private PlayableDirector _playableDirector;
+    private PuzzleFSM _puzzleFSM;
     
     protected override void Awake()
     {
@@ -14,6 +15,7 @@ public class DebuggingModeManager : StageBaseManager
         base.Awake();
         
         _playableDirector = GetComponent<PlayableDirector>();
+        _puzzleFSM = GetComponent<PuzzleFSM>();
     }
 
     private void Start()
@@ -40,6 +42,11 @@ public class DebuggingModeManager : StageBaseManager
         _brokenBlock.OnClickAction -= WhenBlockClicked;
         
         _playableDirector.Play();
+    }
+
+    public void WhenTimelineEnd()
+    {
+        _puzzleFSM.StartPuzzle();
     }
     
 }

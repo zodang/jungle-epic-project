@@ -416,6 +416,7 @@ GameObject:
   - component: {fileID: 70214633}
   - component: {fileID: 70214635}
   - component: {fileID: 70214636}
+  - component: {fileID: 70214637}
   m_Layer: 5
   m_Name: ToolBox
   m_TagString: Untagged
@@ -439,7 +440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 500, y: 0}
   m_SizeDelta: {x: 425.68, y: -200}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &70214633
@@ -519,6 +520,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultBlockList: 010000000200000003000000040000000500000006000000
+--- !u!95 &70214637
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70214631}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &167653539
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,6 +573,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1075701030}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &265337248 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4933739621265889110, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+  m_PrefabInstance: {fileID: 825052883}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &294514291
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,8 +588,8 @@ GameObject:
   m_Component:
   - component: {fileID: 294514292}
   - component: {fileID: 294514293}
-  - component: {fileID: 294514294}
   - component: {fileID: 294514295}
+  - component: {fileID: 294514294}
   m_Layer: 0
   m_Name: Heart
   m_TagString: Untagged
@@ -579,7 +607,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.15, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1930827579}
@@ -629,7 +657,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 5800527296688802399, guid: f54030f5f8abc2c4db56c9834f0d03e9, type: 3}
-  m_Color: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
+  m_Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5842,6 +5870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1308466448}
   - component: {fileID: 1308466452}
+  - component: {fileID: 1308466453}
   - component: {fileID: 1308466449}
   - component: {fileID: 1308466451}
   m_Layer: 0
@@ -5913,8 +5942,10 @@ PlayableDirector:
     value: {fileID: 1924819234}
   - key: {fileID: 4596689881757789099, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
     value: {fileID: 638017727}
-  - key: {fileID: -3796706532752971702, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
-    value: {fileID: 1723781834}
+  - key: {fileID: 5569455573830808144, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
+    value: {fileID: 70214637}
+  - key: {fileID: -3733381054218072959, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
+    value: {fileID: 1308466451}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &1308466451
@@ -5930,8 +5961,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Events:
-    m_Signals: []
-    m_Events: []
+    m_Signals:
+    - {fileID: 11400000, guid: 12fb2d3820130ee4f992819d09defbf3, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1308466452}
+          m_TargetAssemblyTypeName: DebuggingModeManager, Assembly-CSharp
+          m_MethodName: WhenTimelineEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &1308466452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5946,6 +5992,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageFilePath: 
   _brokenBlock: {fileID: 1930827583}
+--- !u!114 &1308466453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308466446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3abbd447e322c0409d7e20b96e0a620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1310882146
 GameObject:
   m_ObjectHideFlags: 0
@@ -6150,6 +6208,14 @@ PrefabInstance:
       propertyPath: _canvasTransform
       value: 
       objectReference: {fileID: 825052884}
+    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
+      propertyPath: pauseGameDuringDialogue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
+      propertyPath: playerDialogueBubblePrefab
+      value: 
+      objectReference: {fileID: 5682641207033410957, guid: ac6ded9aa0d97254696c453c9f619fea, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6781,7 +6847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _glitchAni: {fileID: 0}
+  _glitchAni: {fileID: 265337248}
 --- !u!95 &1924819234
 Animator:
   serializedVersion: 7
@@ -6852,6 +6918,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 526667f5b9c75314985b7d52ce980cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  block: {fileID: 2017380809}
+  heart: {fileID: 294514293}
+  grayColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  redColor: {r: 1, g: 0.19607843, b: 0.19607843, a: 1}
+  intensity: 0.3
+  speed: 10
 --- !u!61 &1930827582
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6927,7 +6999,7 @@ GameObject:
   - component: {fileID: 2017380811}
   - component: {fileID: 2017380810}
   m_Layer: 6
-  m_Name: Model
+  m_Name: Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7219,18 +7291,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &829972531567906411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7788404758759564896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78b61e85bd359024b9fac1efbe665c7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &1350411259386145176
 Rigidbody2D:
   serializedVersion: 5
@@ -7485,23 +7545,6 @@ Transform:
   - {fileID: 312011147}
   m_Father: {fileID: 1075701030}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5331147170512727795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7788404758759564896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ab2ad55fffdb8142b02fb4965e62f75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultMat: {fileID: 2100000, guid: 39429fab258bbbc4bac5790ab4e1547c, type: 2}
-  glitchMat: {fileID: 2100000, guid: a02c11baeba97904f8f475fac37fe6ad, type: 2}
-  isGlitchVision: 0
-  glitchValueUpdateSpeed: 1
-  glitchChangeInterval: 0.2
 --- !u!70 &5632743942015901867
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -7684,8 +7727,6 @@ GameObject:
   - component: {fileID: 1611355415351931310}
   - component: {fileID: 2844166699738060582}
   - component: {fileID: 5632743942015901867}
-  - component: {fileID: 829972531567906411}
-  - component: {fileID: 5331147170512727795}
   - component: {fileID: 6320769621952476468}
   - component: {fileID: 4077910206683498985}
   - component: {fileID: 2422851899555070881}
