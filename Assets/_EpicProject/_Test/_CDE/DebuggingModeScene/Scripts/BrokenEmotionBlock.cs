@@ -9,8 +9,8 @@ public class BrokenEmotionBlock : MonoBehaviour
     [SerializeField] private Color redColor;
 
     private Vector3 _originalHeartPos;
-    private float _intensity = 0.3f;
-    private readonly float _speed = 10f;
+    private float _noiseIntensity = 0.3f;
+    private readonly float _noiseSpeed = 10f;
     
     private LightHandler _lightHandler;
     private readonly float _minLight = 0f;
@@ -20,7 +20,7 @@ public class BrokenEmotionBlock : MonoBehaviour
     private ScaleHandler _scaleHandler;
     private readonly float _minScale = 0.5f;
     private readonly float _maxScale = 1f;
-    private float _currentScale;
+    private float _currentScale = 0f;
     
     private SpeedHandler _speedHandler;
     private readonly int _defaultSpeed = 3;
@@ -42,13 +42,6 @@ public class BrokenEmotionBlock : MonoBehaviour
 
         _originalHeartPos = heart.transform.localPosition;
     }
-    
-    
-
-    private void ReturnToSlot()
-    {
-        
-    }
 
     private void ChangeLight(float value)
     {
@@ -57,22 +50,19 @@ public class BrokenEmotionBlock : MonoBehaviour
     
     private void ChangeScale(float value)
     {
-        Vector2 minScale = Vector2.one * _minScale;
-        Vector2 maxScale = Vector2.one * _maxScale;
-        
-        heart.transform.localScale = Vector2.Lerp(minScale, maxScale, value);
+        heart.transform.localScale = Vector2.one * value;
     }
     
     private void ChangeSpeed(int value)
     {
-        _intensity = value * 0.1f;
+        _noiseIntensity = value * 0.1f;
     }
 
     private void Update()
     {
-        float x = Mathf.PerlinNoise(Time.time * _speed, 0f) - 0.5f;
-        float y = Mathf.PerlinNoise(0f, Time.time * _speed) - 0.5f;
+        float x = Mathf.PerlinNoise(Time.time * _noiseSpeed, 0f) - 0.5f;
+        float y = Mathf.PerlinNoise(0f, Time.time * _noiseSpeed) - 0.5f;
 
-        heart.transform.localPosition = _originalHeartPos + new Vector3(x, y, 0) * _intensity;
+        heart.transform.localPosition = _originalHeartPos + new Vector3(x, y, 0) * _noiseIntensity;
     }
 }
