@@ -24,9 +24,7 @@ public class EngineUIController : MonoBehaviour
     private bool _isFold = true;
     private Image _baseImg;
 
-    [Header("Values")] 
-    private readonly float _activeDuration = 0.25f;
-    private readonly float _deactiveDuration = 0.25f;
+    [Header("Values")]
     private RectTransform _rectTransform;
 
     [SerializeField] private Button resetBtn;
@@ -140,7 +138,7 @@ public class EngineUIController : MonoBehaviour
         }
         else
         {
-            _sequence.Append(_rectTransform.DOAnchorPosY(endPos, _duration)).SetEase(Ease.InQuad);
+            _sequence.Append(_rectTransform.DOAnchorPosY(endPos, 1)).SetEase(Ease.InQuad);
         }
     }
 
