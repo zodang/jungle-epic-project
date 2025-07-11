@@ -1709,7 +1709,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 636732633}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -19930,6 +19930,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BrokenAxe_Handle
       objectReference: {fileID: 0}
+    - target: {fileID: 5300091647152214703, guid: 60ba94ea63070484795e577b61ff48a3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6870589856441149938, guid: 60ba94ea63070484795e577b61ff48a3, type: 3}
       propertyPath: DefaultBlockList.Array.size
       value: 1
@@ -19978,10 +19982,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -15
       objectReference: {fileID: 0}
-    - target: {fileID: 9015730747424748848, guid: 60ba94ea63070484795e577b61ff48a3, type: 3}
-      propertyPath: GroundTilemap
-      value: 
-      objectReference: {fileID: 45177005}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
