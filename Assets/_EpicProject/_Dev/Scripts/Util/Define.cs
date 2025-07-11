@@ -31,6 +31,7 @@ namespace Define
     public enum BgmType
     {
         None, // BGM이 없는 상태
+        Menu,
         Tutorial,
         Stage1,
         Stage2,
