@@ -4,9 +4,10 @@ using UnityEngine.Timeline;
 
 public class FinalMeetingStageManager : StageBaseManager
 {
-    private Daughter _daughter;
-    private SimpleSlot _simpleSlot;
-    
+    // [Header("컷신에 등장하는 배우 및 중요 오브젝트 목록")] // 헤더를 추가하면 에디터에서 보기 편합니다.
+    [SerializeField] private Daughter _daughter;
+    [SerializeField] private SimpleSlot _simpleSlot;
+
     private PlayableDirector _playableDirector;
     [SerializeField] TimelineAsset[] timelines;
     
@@ -16,8 +17,7 @@ public class FinalMeetingStageManager : StageBaseManager
         stageFilePath = "StageInfos/FinalMeetingStage";
         base.Awake();
 
-        _daughter = FindAnyObjectByType<Daughter>();
-        _simpleSlot = FindAnyObjectByType<SimpleSlot>();
+        
         
         _playableDirector = GetComponent<PlayableDirector>();
     }
