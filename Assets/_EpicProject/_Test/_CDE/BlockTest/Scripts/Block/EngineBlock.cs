@@ -118,9 +118,10 @@ public abstract class EngineBlock : MonoBehaviour
         _visual.RaiseVisual(false);
     }
 
-    public void SetInteraction(bool isAble)
+    public void SetInteraction(bool canClick, bool canHover, bool canDrag)
     {
-        _visual.ActivateHoverEvent(false);
-        _visual.ActivateDragEvent(isAble);
+        _visual.ActivateClickEvent(canClick);
+        _visual.ActivateHoverEvent(canHover);
+        _visual.ActivateDragEvent(canDrag);
     }
 }

@@ -1,3 +1,4 @@
+using Define;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,9 +9,9 @@ public class EngineSlot : MonoBehaviour, ISlot
 
     private Clickable _targetClickable;
     
-    public Define.SlotType GetSlotType()
+    public SlotType GetSlotType()
     {
-        return Define.SlotType.EngineSlot;
+        return SlotType.EngineSlot;
     }
 
     public Clickable GetTargetClickable()
