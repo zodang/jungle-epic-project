@@ -48,6 +48,11 @@ public class EngineManager : MonoBehaviour
         StageManager.Instance.InputManager.OnTabPressed -= DeactivateAllEngine;
     }
 
+    public void DisableEngineDeactivate()
+    {
+        StageManager.Instance.InputManager.OnTabPressed -= DeactivateAllEngine;
+    }
+
     public void ActivateEngineUI(Clickable clickable)
     {
         if (!_engineDictionary.TryGetValue(clickable, out EngineController engineController)) return;

@@ -5,9 +5,8 @@ namespace Define
         None,
         InventorySlot,
         EngineSlot,
-        SimpleSlot,
-        NumpadSlot,
-        Numpad
+        ToolBoxSlot,
+        SimpleSlot
     }
 
     public enum BlockType
@@ -23,9 +22,16 @@ namespace Define
         Mess,
     }
 
+    public enum EngineActivationType
+    {
+        LeftToRightType,
+        BottomToTopType,
+    }
+
     public enum BgmType
     {
         None, // BGM이 없는 상태
+        Menu,
         Tutorial,
         Stage1,
         Stage2,

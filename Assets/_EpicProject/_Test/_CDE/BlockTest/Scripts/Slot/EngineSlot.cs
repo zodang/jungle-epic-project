@@ -1,10 +1,9 @@
 using Define;
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EngineSlot : MonoBehaviour, ISlotType
+public class EngineSlot : MonoBehaviour, ISlot
 {
     #region ISlotType
 
@@ -18,6 +17,11 @@ public class EngineSlot : MonoBehaviour, ISlotType
     public Clickable GetTargetClickable()
     {
         return _targetClickable;
+    }
+    
+    public Transform GetTransform()
+    {
+        return transform;
     }
 
     public void SetTargetClickable(Clickable clickable)
@@ -47,11 +51,10 @@ public class EngineSlot : MonoBehaviour, ISlotType
         Index = index;
     }
 
-    public void SetBlock(EngineBlock block)
+    public void SetBlockPosition(EngineBlock block)
     {
         _currentBlock = block;
         SetBlockParent(_currentBlock);
-        // SetIcon(_currentBlock);
     }
 
     private void SetBlockParent(EngineBlock block)

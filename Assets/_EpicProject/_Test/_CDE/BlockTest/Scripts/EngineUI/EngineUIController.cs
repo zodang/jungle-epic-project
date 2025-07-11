@@ -1,13 +1,14 @@
+using Define;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using System.Collections.Generic;
 
 public class EngineUIController : MonoBehaviour
 {
     public Action OnResetBtnClicked;
+    public Action OnTabBtnClicked;
     public Action OnClearBtnClicked;
     public Action OnClickCloseBtn;
 
@@ -19,23 +20,16 @@ public class EngineUIController : MonoBehaviour
     [Header("Slot Group")] 
     [SerializeField] private GameObject engineSlotGroup;
 
-    [Header("Button")] 
-    [SerializeField] private Button closeBtn;
-    [SerializeField] private Button upBtn;
-
     [Header("Fold")] 
     private bool _isFold = true;
     private Image _baseImg;
 
-    [Header("Values")] 
-    private readonly float _activeDuration = 0.25f;
-    private readonly float _deactiveDuration = 0.25f;
+    [Header("Values")]
     private RectTransform _rectTransform;
 
-    [Header("*Deprecated")]
     [SerializeField] private Button resetBtn;
-    [SerializeField] private Button clearBtn;
-
+    [SerializeField] private Button tabBtn;
+    
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
@@ -46,10 +40,8 @@ public class EngineUIController : MonoBehaviour
     private void Start()
     {
         // Button 기능 연결
-        closeBtn.onClick.AddListener(WhenCloseBtnClicked);
         resetBtn.onClick.AddListener(WhenResetBtnClicked);
-        clearBtn.onClick.AddListener(WhenClearBtnClicked);
-        upBtn.onClick.AddListener(WhenUpBtnClicked);
+        tabBtn.onClick.AddListener(WhenTabBtnClicked);
     }
 
     private void OnDestroy()
@@ -69,6 +61,11 @@ public class EngineUIController : MonoBehaviour
     {
         // Reset Btn 클릭
         OnResetBtnClicked?.Invoke();
+    }
+
+    private void WhenTabBtnClicked()
+    {
+        OnTabBtnClicked?.Invoke();
     }
 
     private void WhenClearBtnClicked()
@@ -93,24 +90,57 @@ public class EngineUIController : MonoBehaviour
         profileName.text = profile.name;
         profileImg.sprite = profile.sprite;
     }
+    
+    public void DisableTabBtn()
+    {
+        tabBtn.gameObject.SetActive(false);
+    }
 
-    public void ActivateEffect()
+    #region Dotween
+
+    [Header("Dotween")] 
+    private float _outsidePos = 0;
+    private float _insidePos = -300;
+    private float _duration = 0.4f;
+    private Sequence _sequence;
+
+    public void ActivateEffect(EngineActivationType type)
     {
         transform.SetAsLastSibling();
         _rectTransform.DOKill();
-        _rectTransform.localScale = Vector3.zero;
-        _rectTransform.DOScale(Vector3.one, _activeDuration).SetEase(Ease.OutCubic);
-    }
 
-    public void DeactivateEffect(Clickable target)
-    {
-        Sequence sequence = DOTween.Sequence();
-
-        sequence.Append(_rectTransform.DOScale(Vector3.zero, _deactiveDuration));
-        sequence.OnComplete(() =>
+        if (type == EngineActivationType.LeftToRightType)
         {
-            _rectTransform.localScale = Vector3.one;
-            gameObject.SetActive(false);
-        });
+            _rectTransform.DOAnchorPosX(_insidePos, 0);
+        }
+        else
+        {
+            _rectTransform.DOAnchorPosY(_insidePos, 0);
+        }
+
+        ActivateSequence(true, type);
     }
+
+    public void DeactivateEffect(EngineActivationType type)
+    {
+        _rectTransform.DOKill();
+        ActivateSequence(false, type);
+    }
+
+    private void ActivateSequence(bool isActive, EngineActivationType type)
+    {
+        float endPos = isActive ? _outsidePos : _insidePos;
+
+        _sequence = DOTween.Sequence().SetAutoKill(false);
+        if (type == EngineActivationType.LeftToRightType)
+        {
+            _sequence.Append(_rectTransform.DOAnchorPosX(endPos, _duration)).SetEase(Ease.InQuad);
+        }
+        else
+        {
+            _sequence.Append(_rectTransform.DOAnchorPosY(endPos, 1)).SetEase(Ease.InQuad);
+        }
+    }
+
+    #endregion
 }

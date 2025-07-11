@@ -30,10 +30,6 @@ public class EvaporationHandler : MonoBehaviour
             gameObject.SetActive(false);
             OnEvaporate?.Invoke();
         }
-
-        
-        
-
     }
 
     IEnumerator EvaporateCoroutine(Tilemap tilemap)
