@@ -24,7 +24,6 @@ public class SimpleDialogueLoader : MonoBehaviour
 
         // 현재 언어 코드
         string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
-        Debug.Log(lang);
 
         var entry = _dialogueCollection.dialogues.FirstOrDefault(d => d.id == id);
         if (entry.lines[index].speaker.TryGetValue(lang, out var spk))

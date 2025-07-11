@@ -1,7 +1,12 @@
+using System;
 using UnityEngine;
 
 public class BrokenEmotionBlock : MonoBehaviour
 {
+    public Action OnLightCorrect;
+    public Action OnScaleCorrect;
+    public Action OnSpeedCorrect;
+
     [SerializeField] private SpriteRenderer block;
     [SerializeField] private SpriteRenderer heart;
 
@@ -28,6 +33,7 @@ public class BrokenEmotionBlock : MonoBehaviour
 
     private void Awake()
     {
+        // 기능 초기화
         ComponentHelper.TryGetOrAddComponent<LightHandler>(ref _lightHandler, gameObject);
         _lightHandler.Init(_minLight, _maxLight, _currentLight);
         _lightHandler.OnSetValue += ChangeLight;
@@ -45,17 +51,29 @@ public class BrokenEmotionBlock : MonoBehaviour
 
     private void ChangeLight(float value)
     {
+        // 색상 변경
         heart.color = Color.Lerp(grayColor, redColor, value);
+        
+        // 정답 판정
+        if (value >= _maxLight) OnLightCorrect?.Invoke();
     }
     
     private void ChangeScale(float value)
     {
+        // 크기 변경
         heart.transform.localScale = Vector2.one * value;
+        
+        // 정답 판정
+        if (value >= _maxScale) OnScaleCorrect?.Invoke();
     }
     
     private void ChangeSpeed(int value)
     {
+        // 이동 변경
         _noiseIntensity = value * 0.1f;
+        
+        // 정답 판정
+        if (value <= 0) OnSpeedCorrect?.Invoke();
     }
 
     private void Update()

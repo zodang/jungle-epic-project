@@ -202,6 +202,12 @@ public class EngineController : BlockContainerBase
         block.SetVisualState(SlotType.InventorySlot);
     }
 
+    public void DropToToolBoxSlot(EngineBlock block)
+    {
+        if (ToolBoxSlot == null) return;
+        WhenDroppedToolBox(block, ToolBoxSlot);
+    }
+
     public void DisableEngineDeactivate()
     {
         _engineUIController.OnTabBtnClicked -= Deactivate;

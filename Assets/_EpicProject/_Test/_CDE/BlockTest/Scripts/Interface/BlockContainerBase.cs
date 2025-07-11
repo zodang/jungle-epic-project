@@ -4,10 +4,12 @@ using UnityEngine;
 public abstract class BlockContainerBase : MonoBehaviour
 {
     protected InventorySlot InventorySlot;
+    protected ToolBoxSlot ToolBoxSlot;
 
     protected  void Awake()
     {
         InventorySlot = FindAnyObjectByType<InventorySlot>();
+        ToolBoxSlot = FindAnyObjectByType<ToolBoxSlot>();
     }
 
     protected abstract void RemoveBlock(int index);
@@ -133,7 +135,7 @@ public abstract class BlockContainerBase : MonoBehaviour
         block.ChangeTargetInfo(newTarget, newFeature, targetIndex, newTarget.EngineController.SlotList[targetIndex]);
     }
 
-    private void WhenDroppedToolBox(EngineBlock block, ISlot slot)
+    protected void WhenDroppedToolBox(EngineBlock block, ISlot slot)
     {
         // 이전 Target의 기능 비활성화
         if (block.PrevTarget != null && block. PrevFeature != null)

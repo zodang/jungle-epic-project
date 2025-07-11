@@ -1,5 +1,4 @@
 using Define;
-using Mono.Cecil.Cil;
 using System;
 using UnityEngine;
 
@@ -31,17 +30,15 @@ public class DebugSlot : MonoBehaviour, ISlot
 
     public void SetBlockPosition(EngineBlock block)
     {
-        OnBlockSet?.Invoke(block);
-        
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
         block.SetVisualState(SlotType.DebugSlot);
+        
+        OnBlockSet?.Invoke(block);
     }
 
     public void SetTargetClickable(Clickable clickable)
     {
         _targetClickable = clickable;
     }
-    
-    
 }

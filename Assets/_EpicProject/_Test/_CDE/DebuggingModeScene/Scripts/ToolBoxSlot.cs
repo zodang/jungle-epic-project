@@ -47,10 +47,11 @@ public class ToolBoxSlot : BlockContainerBase, ISlot
 
     public void SetBlockPosition(EngineBlock block)
     {
-        OnBlockSet?.Invoke(block);
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
         block.SetVisualState(SlotType.ToolBoxSlot);
+        
+        OnBlockSet?.Invoke(block);
     }
 
     public void SetTargetClickable(Clickable clickable)
