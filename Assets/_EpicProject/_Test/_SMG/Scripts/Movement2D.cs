@@ -25,6 +25,9 @@ public class Movement2D : MonoBehaviour
 
     //public Tilemap GroundTilemap;
     private List<Tilemap> _groundTilemaps = new List<Tilemap>();
+
+    public List<Transform> FootColliders = new List<Transform>();
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -44,6 +47,11 @@ public class Movement2D : MonoBehaviour
         }
 
         _speed = _baseSpeed;
+
+        if (FootColliders.Count < 1)
+        {
+            FootColliders.Add(transform);
+        }
     }
 
     private void FixedUpdate()
@@ -51,14 +59,23 @@ public class Movement2D : MonoBehaviour
         if (CheckGround)
         {
             testdist = _speed * Time.fixedDeltaTime;
-            MoveDir = CheckBridgePathBeforeMove(MoveDir, testdist);
+            //MoveDir = CheckBridgePathBeforeMove(MoveDir, testdist);
         }
         else
         {
-            if (!TilemapsHasTile(_groundTilemaps, transform.position))
+            bool isGround = false;
+            for (int i = 0; i < FootColliders.Count; i++)
+            {
+                if (TilemapsHasTile(_groundTilemaps, FootColliders[i].position))
+                {
+                    isGround = true;
+                    break;
+                }
+            }
+            if (!isGround)
             {
                 _fallDeltaTime += Time.deltaTime;
-                if (_fallDeltaTime > 0.18f)
+                if (_fallDeltaTime > 0.07f)
                 {
                     IsFalling = true;
                     Debug.Log(name + ": Falling");
