@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,7 +19,9 @@ public class TriggerArea : MonoBehaviour
     {
         _isTriggered = false;
         _isInRange = false;
-        target = StageBaseManager.Instance.PlayerManager.transform;
+
+        if (target.IsUnityNull())
+            target = StageBaseManager.Instance.PlayerManager.transform;
     }
 
     void Update()
