@@ -4,10 +4,12 @@ using UnityEngine;
 public abstract class BlockContainerBase : MonoBehaviour
 {
     protected InventorySlot InventorySlot;
+    protected ToolBoxSlot ToolBoxSlot;
 
     protected  void Awake()
     {
         InventorySlot = FindAnyObjectByType<InventorySlot>();
+        ToolBoxSlot = FindAnyObjectByType<ToolBoxSlot>();
     }
 
     protected abstract void RemoveBlock(int index);
@@ -42,6 +44,9 @@ public abstract class BlockContainerBase : MonoBehaviour
                 break;
             case SlotType.ToolBoxSlot:
                 WhenDroppedToolBox(block, slot);
+                break;
+            case SlotType.DebugSlot:
+                WhenDroppedDebugSlot(block, slot);
                 break;
             case SlotType.None:
                 WhenDroppedNone(block, slot);
@@ -88,8 +93,7 @@ public abstract class BlockContainerBase : MonoBehaviour
     
     private void WhenDroppedEngineSlot(EngineBlock block, ISlot slot)
     {
-        EngineSlot engineSlot = slot as EngineSlot;
-        int targetIndex = engineSlot.Index;
+        int targetIndex = slot.GetSlotIndex();
         
         // Prev Target의 기능 비활성화
         if (block.PrevTarget != null && block.PrevFeature != null)
@@ -103,7 +107,7 @@ public abstract class BlockContainerBase : MonoBehaviour
         object newFeature = newTarget.GetComponent(block.RequiredFeatureType);
         
         block.Activate(newFeature);
-        newTarget.EngineController.EngineSlotList[targetIndex].SetBlockPosition(block);
+        newTarget.EngineController.SlotList[targetIndex].SetBlockPosition(block);
         
         var (movedBlock, movedBlockIndex) = newTarget.EngineController.TryAddOrMoveOrReplaceBlock(targetIndex, block);
 
@@ -113,8 +117,8 @@ public abstract class BlockContainerBase : MonoBehaviour
             if (movedBlockIndex >= 0)
             {
                 // 빈 슬롯으로 이동
-                newTarget.EngineController.EngineSlotList[movedBlockIndex].SetBlockPosition(movedBlock);
-                movedBlock.ChangeTargetInfo(newTarget, newFeature, movedBlockIndex, newTarget.EngineController.EngineSlotList[movedBlockIndex]);
+                newTarget.EngineController.SlotList[movedBlockIndex].SetBlockPosition(movedBlock);
+                movedBlock.ChangeTargetInfo(newTarget, newFeature, movedBlockIndex, newTarget.EngineController.SlotList[movedBlockIndex]);
             }
             else
             {
@@ -128,10 +132,10 @@ public abstract class BlockContainerBase : MonoBehaviour
             }
         }
         
-        block.ChangeTargetInfo(newTarget, newFeature, targetIndex, newTarget.EngineController.EngineSlotList[targetIndex]);
+        block.ChangeTargetInfo(newTarget, newFeature, targetIndex, newTarget.EngineController.SlotList[targetIndex]);
     }
 
-    private void WhenDroppedToolBox(EngineBlock block, ISlot slot)
+    protected void WhenDroppedToolBox(EngineBlock block, ISlot slot)
     {
         // 이전 Target의 기능 비활성화
         if (block.PrevTarget != null && block. PrevFeature != null)
@@ -140,6 +144,23 @@ public abstract class BlockContainerBase : MonoBehaviour
             block.PrevTarget.BlockContainerBase.RemoveBlock(block.PrevSlotIndex);
         }
         
+        slot.SetBlockPosition(block);
+    }
+
+    private void WhenDroppedDebugSlot(EngineBlock block, ISlot slot)
+    {
+        // Prev Target의 기능 비활성화
+        if (block.PrevTarget != null && block.PrevFeature != null)
+        {
+            block.PrevTarget.BlockContainerBase.RemoveBlock(block.PrevSlotIndex);
+            block.Deactivate(block.PrevFeature);
+        }
+        
+        // New Target 기능 활성화
+        Clickable newTarget = slot.GetTargetClickable();
+        object newFeature = newTarget.GetComponent(block.RequiredFeatureType);
+        
+        block.Activate(newFeature);
         slot.SetBlockPosition(block);
     }
     

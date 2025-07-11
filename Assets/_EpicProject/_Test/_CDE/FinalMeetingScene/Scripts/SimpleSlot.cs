@@ -1,9 +1,12 @@
 using Define;
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class SimpleSlot : BlockContainerBase, ISlot
 {
+    public event Action<EngineBlock> OnBlockSet;
+    
     [SerializeField] private BlockType blockType;
     [SerializeField] private Clickable targetClickable;
 
@@ -38,6 +41,12 @@ public class SimpleSlot : BlockContainerBase, ISlot
         _block.SetVisualState(SlotType.SimpleSlot);
     }
 
+
+    public int GetSlotIndex()
+    {
+        return -1;
+    }
+
     public SlotType GetSlotType()
     {
         return SlotType.SimpleSlot;
@@ -45,6 +54,7 @@ public class SimpleSlot : BlockContainerBase, ISlot
 
     public void SetBlockPosition(EngineBlock block)
     {
+        OnBlockSet?.Invoke(block);
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
         block.SetVisualState(SlotType.SimpleSlot);
