@@ -7,7 +7,7 @@ public class FallMovement2DCheck : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Movement2D movement2D;
-        movement2D = collision.transform.root.GetComponentInChildren<Movement2D>();
+        movement2D = collision.GetComponentInParent<Movement2D>();
         if (!movement2D.IsUnityNull())
         {
             movement2D.Respawn(ReaspwanPoint.position);
