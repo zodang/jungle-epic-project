@@ -8,7 +8,14 @@ public class EngineSlot : MonoBehaviour, ISlot
     #region ISlotType
 
     private Clickable _targetClickable;
-    
+
+    public event Action<EngineBlock> OnBlockSet;
+
+    public int GetSlotIndex()
+    {
+        return _index;
+    }
+
     public SlotType GetSlotType()
     {
         return SlotType.EngineSlot;
@@ -35,7 +42,7 @@ public class EngineSlot : MonoBehaviour, ISlot
     private Image _slotIconImg;
     private Sprite _defaultSprite;
 
-    public int Index { get; private set; } = -1;
+    [SerializeField] private int _index = -1;
     private EngineBlock _currentBlock;
 
     // KMS 0708 / Todo : 블록 놔뒀을때 애니메이션 실행 구간
@@ -44,11 +51,7 @@ public class EngineSlot : MonoBehaviour, ISlot
     private void Awake()
     {
         _blockContainer = GetComponentInChildren<BlockContainer>();
-    }
-
-    public void Init(int index)
-    {
-        Index = index;
+        if (_index == -1) Debug.LogWarning("EngineSlot Index 설정 필요!");
     }
 
     public void SetBlockPosition(EngineBlock block)
@@ -59,6 +62,8 @@ public class EngineSlot : MonoBehaviour, ISlot
 
     private void SetBlockParent(EngineBlock block)
     {
+        OnBlockSet?.Invoke(block);
+        
         if (block == null) return;
         // 해당 block의 부모를 해당 Slot으로 변경
         block.transform.SetParent(_blockContainer.transform, false);

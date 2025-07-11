@@ -411,8 +411,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 36.309998, y: -25}
-  m_SizeDelta: {x: -28, y: -50}
+  m_AnchoredPosition: {x: 25, y: -25}
+  m_SizeDelta: {x: -50, y: -50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8072603070283259669
 CanvasRenderer:
@@ -541,7 +541,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrackedObjects:
   - rid: 518334543963619634
-  - rid: 4758862891604770834
   references:
     version: 2
     RefIds:
@@ -580,36 +579,6 @@ MonoBehaviour:
         - localeIdentifier:
             m_Code: zh-Hans
           value: {fileID: -7230928090764793273, guid: 3631377776b0d444db7f43e94e157ed0, type: 2}
-    - rid: 4758862891604770834
-      type: {class: TrackedRectTransform, ns: UnityEngine.Localization.PropertyVariants.TrackedObjects, asm: Unity.Localization}
-      data:
-        m_Target: {fileID: 285451425863458499}
-        m_TrackedProperties:
-          items:
-          - rid: 4758862891604770835
-          - rid: 4758862891604770836
-    - rid: 4758862891604770835
-      type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
-      data:
-        m_PropertyPath: m_AnchoredPosition.x
-        m_VariantData:
-        - localeIdentifier:
-            m_Code: en
-          value: 1.8
-        - localeIdentifier:
-            m_Code: zh-Hans
-          value: 0.35002
-    - rid: 4758862891604770836
-      type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
-      data:
-        m_PropertyPath: m_SizeDelta.x
-        m_VariantData:
-        - localeIdentifier:
-            m_Code: en
-          value: 390
-        - localeIdentifier:
-            m_Code: zh-Hans
-          value: 387.1
 --- !u!1 &5682641207033410957
 GameObject:
   m_ObjectHideFlags: 0

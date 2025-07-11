@@ -1,22 +1,22 @@
 using Define;
+using Mono.Cecil.Cil;
 using System;
 using UnityEngine;
 
-public class InventorySlot : MonoBehaviour, ISlot
+public class DebugSlot : MonoBehaviour, ISlot
 {
-    private Inventory _inventory;
-    private Clickable _targetClickable;
-
     public event Action<EngineBlock> OnBlockSet;
+    private Clickable _targetClickable;
+    [SerializeField] private int index;
 
     public int GetSlotIndex()
     {
-        return -1;
+        return index;
     }
 
     public SlotType GetSlotType()
     {
-        return SlotType.InventorySlot;
+        return SlotType.DebugSlot;
     }
 
     public Clickable GetTargetClickable()
@@ -32,31 +32,16 @@ public class InventorySlot : MonoBehaviour, ISlot
     public void SetBlockPosition(EngineBlock block)
     {
         OnBlockSet?.Invoke(block);
+        
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
-        block.SetVisualState(SlotType.InventorySlot);
-    }
-
-    public Inventory GetInventory()
-    {
-        return _inventory;
-    }
-
-    public void SetInventory(Inventory inventory)
-    {
-        _inventory = inventory;
-    }
-
-    public void SetBlockPositionToInventory(EngineBlock block)
-    {
-        block.transform.SetParent(transform);
+        block.SetVisualState(SlotType.DebugSlot);
     }
 
     public void SetTargetClickable(Clickable clickable)
     {
         _targetClickable = clickable;
     }
-
+    
     
 }
-

@@ -1,4 +1,5 @@
 using Define;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +20,14 @@ public class ToolBoxSlot : BlockContainerBase, ISlot
             block.SetInteraction(false, true, true);
         }
     }
-    
+
+
+    public event Action<EngineBlock> OnBlockSet;
+
+    public int GetSlotIndex()
+    {
+        return -1;
+    }
 
     public SlotType GetSlotType()
     {
@@ -39,6 +47,7 @@ public class ToolBoxSlot : BlockContainerBase, ISlot
 
     public void SetBlockPosition(EngineBlock block)
     {
+        OnBlockSet?.Invoke(block);
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
         block.SetVisualState(SlotType.ToolBoxSlot);

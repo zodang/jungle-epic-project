@@ -13,7 +13,7 @@ public abstract class StageBaseManager : MonoBehaviour
 
     public List<Clickable> ClickableList { get; private set; }
 
-    [SerializeField] protected string stageFilePath;
+    protected string stageFilePath;
     private string _profileDataPath;
     protected Dictionary<string, ClickableProfile> _profileDic = new();
 
