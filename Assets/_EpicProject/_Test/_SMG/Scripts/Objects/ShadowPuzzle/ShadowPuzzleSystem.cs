@@ -1,41 +1,41 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShadowPuzzleSystem : MonoBehaviour
 {
-    private List<TargetAlignmentChecker> _targetAlignmentCheckers = new List<TargetAlignmentChecker>();
+    private List<TargetAlignmentChecker> _targetAlignmentCheckers;
 
-    private bool _isOk;
-    private bool _prevIsOk;
+    private bool _init = false;
 
+    public bool IsAllAligned => _init ? _targetAlignmentCheckers.All(x => x.IsAligned) : false;
+    private bool _prevAllAligned;
+
+    public UnityEvent<bool> OnAlignmentChanged;
 
     private void Awake()
     {
+        _init = false;
         TargetAlignmentChecker[] targetAlignmentCheckers = GetComponentsInChildren<TargetAlignmentChecker>();
 
         for(int i = 0; i < targetAlignmentCheckers.Length; i++)
         {
             _targetAlignmentCheckers.Add(targetAlignmentCheckers[i]);
         }
+        _init = true;
+
     }
 
     private void Update()
     {
-        bool isAllCheck = true;
-        for(int i = 0; i < _targetAlignmentCheckers.Count; i++)
+        bool isAllAligned = IsAllAligned;
+        if(_prevAllAligned != isAllAligned)
         {
-            if (!_targetAlignmentCheckers[i].IsAligend)
-            {
-                isAllCheck = false;
-                break;
-            }
+            _prevAllAligned = isAllAligned;
+            OnAlignmentChanged?.Invoke(isAllAligned);
         }
-
-        if(isAllCheck != _prevIsOk)
-        {
-
-        }
-
+        
     }
 
 
