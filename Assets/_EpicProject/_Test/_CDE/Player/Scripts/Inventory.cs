@@ -8,15 +8,15 @@ public class Inventory : BlockContainerBase
     public List<EngineBlock> BlockList = new List<EngineBlock>();
     public List<BlockType> DefaultBlockList = new();
     
-    private InventorySlot _inventorySlot;
     private InventoryUIController _inventoryUI;
     private Clickable _target;
 
     public bool StartGetPlayerControl = true;
 
-    private void Awake()
+    protected void Awake()
     {
-        _inventorySlot = FindAnyObjectByType<InventorySlot>();
+        base.Awake();
+        
         _inventoryUI = FindAnyObjectByType<InventoryUIController>();
         
         if (StartGetPlayerControl)
@@ -28,8 +28,8 @@ public class Inventory : BlockContainerBase
     private void Start()
     {
         _target = StageBaseManager.Instance.PlayerManager.GetComponent<Clickable>();
-        _inventorySlot.SetInventory(this);
-        _inventorySlot.SetTargetClickable(_target);
+        InventorySlot.SetInventory(this);
+        InventorySlot.SetTargetClickable(_target);
 
         _inventoryUI.OnResetBtnClicked += ResetFeature;
 
@@ -53,7 +53,7 @@ public class Inventory : BlockContainerBase
         if (BlockList.Contains(block)) return;
         
         BlockList.Add(block);
-        block.InitDefaultBlock(_target, SlotType.InventorySlot);
+        block.InitDefaultBlock(_target, InventorySlot);
         
         // CheckBlockDictionary();
     }
@@ -70,7 +70,7 @@ public class Inventory : BlockContainerBase
     {
         var factory = StageManager.Instance.BlockFactory;
 
-        EngineBlock block = factory.CreateBlock(type, _inventorySlot.transform); 
+        EngineBlock block = factory.CreateBlock(type, InventorySlot.transform); 
         RegisterBlockEvents(block);
         
         AddBlock(block);
@@ -110,18 +110,18 @@ public class Inventory : BlockContainerBase
 
             if (Input.GetKeyDown(key))
             {
-                if (_inventorySlot.transform.childCount > idx)
+                if (InventorySlot.transform.childCount > idx)
                 {
-                    var block = _inventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
-                    block?.ActivateEngineBlock();
+                    var block = InventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
+                    block?.RaiseEngineBlock();
                 }
             }
             else if (Input.GetKeyUp(key))
             {
-                if (_inventorySlot.transform.childCount > idx)
+                if (InventorySlot.transform.childCount > idx)
                 {
-                    var block = _inventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
-                    block?.DeactivateEngineBlock();
+                    var block = InventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
+                    block?.DropEngineBlock();
                 }
             }
         }

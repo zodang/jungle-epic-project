@@ -5,9 +5,8 @@ namespace Define
         None,
         InventorySlot,
         EngineSlot,
-        SimpleSlot,
-        NumpadSlot,
-        Numpad
+        ToolBoxSlot,
+        SimpleSlot
     }
 
     public enum BlockType
