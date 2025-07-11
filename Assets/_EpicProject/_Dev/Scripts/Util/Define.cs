@@ -22,6 +22,12 @@ namespace Define
         Mess,
     }
 
+    public enum EngineActivationType
+    {
+        LeftToRightType,
+        BottomToTopType,
+    }
+
     public enum BgmType
     {
         None, // BGM이 없는 상태
