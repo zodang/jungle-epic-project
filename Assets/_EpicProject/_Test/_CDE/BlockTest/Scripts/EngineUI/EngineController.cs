@@ -7,6 +7,7 @@ using UnityEngine;
 public class EngineController : BlockContainerBase
 {
     public bool IsActivate { get; private set; } // 창 활성화 여부 체크
+    [SerializeField] private EngineActivationType activationType = EngineActivationType.LeftToRightType; 
     
     private Clickable _currentTarget;
     private EngineUIController _engineUIController;
@@ -101,7 +102,7 @@ public class EngineController : BlockContainerBase
         if (IsActivate) return;
         IsActivate = true;
 
-        _engineUIController.ActivateEffect();
+        _engineUIController.ActivateEffect(activationType);
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
     }
     
@@ -110,7 +111,7 @@ public class EngineController : BlockContainerBase
         IsActivate = false;
         if (!gameObject.activeSelf) return;
         
-        _engineUIController.DeactivateEffect(_currentTarget);
+        _engineUIController.DeactivateEffect(activationType);
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         ClearBlock();
 
@@ -121,7 +122,7 @@ public class EngineController : BlockContainerBase
         IsActivate = false;
         if (!gameObject.activeSelf) return;
         
-        _engineUIController.DeactivateEffect(_currentTarget);
+        _engineUIController.DeactivateEffect(activationType);
         ClearBlock();
     }
     

@@ -36,6 +36,7 @@ public class BlockVisual : MonoBehaviour,
 
     private bool _canHover = true;
     private bool _canDrag = true;
+    private bool _canClick = true;
 
     private void Awake()
     {
@@ -58,10 +59,15 @@ public class BlockVisual : MonoBehaviour,
     {
         _canDrag = canDrag;
     }
+
+    public void ActivateClickEvent(bool canClick)
+    {
+        _canClick = canClick;
+    }
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!_canHover) return;
+        if (!_canClick) return;
         
         if (_isDragged) return;
         
@@ -86,7 +92,7 @@ public class BlockVisual : MonoBehaviour,
             .OnComplete(() =>
             {
                 _isAnimating = false;
-                if (!_isPointerOver) OnPointerExit(null);
+               if (!_isPointerOver) OnPointerExit(null);
             });
     }
 
@@ -106,7 +112,7 @@ public class BlockVisual : MonoBehaviour,
             .OnComplete(() =>
             {
                 _isAnimating = false;
-                if (_isPointerOver) OnPointerEnter(null);
+                // if (_isPointerOver) OnPointerEnter(null);
             });
     }
 

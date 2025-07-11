@@ -28,13 +28,6 @@ public abstract class BlockContainerBase : MonoBehaviour
         block.OnBlockRightClick -= OnBlockRightClickHandler;
     }
 
-    protected void UnregisterClickEvents(EngineBlock block)
-    {
-        // 클릭 이벤트 제외
-        block.OnBlockLeftClick -= OnBlockLeftClickHandler;
-        block.OnBlockRightClick -= OnBlockRightClickHandler; 
-    }
-
     private void OnBlockDragEndHandler(EngineBlock block, ISlot slot)
     {
         SlotType slotType = slot?.GetSlotType() ?? SlotType.None;
