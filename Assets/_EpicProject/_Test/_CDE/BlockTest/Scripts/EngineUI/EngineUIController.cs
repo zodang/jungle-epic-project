@@ -1,3 +1,4 @@
+using Define;
 using System;
 using TMPro;
 using UnityEngine;
@@ -31,12 +32,6 @@ public class EngineUIController : MonoBehaviour
     [SerializeField] private Button resetBtn;
     [SerializeField] private Button tabBtn;
     
-    [Header("Dotween")] 
-    private float _outsidePos = 0;
-    private float _insidePos = -300;
-    private float _duration = 0.4f;
-    private Sequence _sequence;
-
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
@@ -97,32 +92,57 @@ public class EngineUIController : MonoBehaviour
         profileName.text = profile.name;
         profileImg.sprite = profile.sprite;
     }
+    
+    public void DisableTabBtn()
+    {
+        tabBtn.gameObject.SetActive(false);
+    }
 
-    public void ActivateEffect()
+    #region Dotween
+
+    [Header("Dotween")] 
+    private float _outsidePos = 0;
+    private float _insidePos = -300;
+    private float _duration = 0.4f;
+    private Sequence _sequence;
+
+    public void ActivateEffect(EngineActivationType type)
     {
         transform.SetAsLastSibling();
         _rectTransform.DOKill();
-        _rectTransform.DOAnchorPosX(_insidePos, 0);
-        ActivateSequence(true);
+
+        if (type == EngineActivationType.LeftToRightType)
+        {
+            _rectTransform.DOAnchorPosX(_insidePos, 0);
+        }
+        else
+        {
+            _rectTransform.DOAnchorPosY(_insidePos, 0);
+        }
+
+        ActivateSequence(true, type);
     }
 
-    public void DeactivateEffect(Clickable target)
+    public void DeactivateEffect(EngineActivationType type)
     {
         _rectTransform.DOKill();
-        ActivateSequence(false);
+        ActivateSequence(false, type);
     }
 
-    private void ActivateSequence(bool isActive)
+    private void ActivateSequence(bool isActive, EngineActivationType type)
     {
         float endPos = isActive ? _outsidePos : _insidePos;
 
         _sequence = DOTween.Sequence().SetAutoKill(false);
-        _sequence.Append(_rectTransform.DOAnchorPosX(endPos, _duration)).SetEase(Ease.InQuad);
+        if (type == EngineActivationType.LeftToRightType)
+        {
+            _sequence.Append(_rectTransform.DOAnchorPosX(endPos, _duration)).SetEase(Ease.InQuad);
+        }
+        else
+        {
+            _sequence.Append(_rectTransform.DOAnchorPosY(endPos, _duration)).SetEase(Ease.InQuad);
+        }
     }
 
-    public void DisableTabBtn()
-    {
-        tabBtn.enabled = false;
-        tabBtn.GetComponent<Image>().color = new Color(1,1,1,0.5f);
-    }
+    #endregion
 }

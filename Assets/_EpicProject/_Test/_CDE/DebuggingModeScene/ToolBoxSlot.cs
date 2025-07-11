@@ -16,6 +16,7 @@ public class ToolBoxSlot : BlockContainerBase, ISlot
             RegisterBlockEvents(block);
             
             block.InitDefaultBlock(null, this);
+            block.SetInteraction(false, true, true);
         }
     }
     

@@ -26,16 +26,16 @@ public class SimpleSlot : BlockContainerBase, ISlot
         _block.InitDefaultBlock(targetClickable, this);
         
         // 블록 상호작용 비활성화
-        _block.SetInteraction(false);
-        _block.SetVisualState(Define.SlotType.InventorySlot);
+        _block.SetInteraction(false,false, false);
+        _block.SetVisualState(SlotType.InventorySlot);
     }
 
     public void AddEvents()
     {
         // 블록 상호작용 활성화
-        _block.SetInteraction(true);
+        _block.SetInteraction(false,false,true);
         _block.AddComponent<BlockCanvasConverter>();
-        _block.SetVisualState(Define.SlotType.SimpleSlot);
+        _block.SetVisualState(SlotType.SimpleSlot);
     }
 
     public SlotType GetSlotType()

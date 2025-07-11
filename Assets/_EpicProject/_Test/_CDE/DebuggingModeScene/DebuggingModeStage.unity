@@ -371,7 +371,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 42.76, y: 1.99, z: -10}
+  m_LocalPosition: {x: 42.67, y: 1.99, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5322,6 +5322,7 @@ MonoBehaviour:
   triggerRangeX: 2.04
   triggerRangeY: 2.18
   target: {fileID: 1723781822}
+  OnlyOnce: 1
   OnTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -5429,6 +5430,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StageBaseCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 9066018236608244852, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+      propertyPath: engineUIPrefab
+      value: 
+      objectReference: {fileID: 5155206778162578544, guid: c18adedcf5c40774db25cda5e5e9c269, type: 3}
     - target: {fileID: 9145731873391032685, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
