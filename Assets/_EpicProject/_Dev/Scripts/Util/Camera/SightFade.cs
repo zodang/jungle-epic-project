@@ -44,7 +44,7 @@ public class SightFade : MonoBehaviour
     {
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Clickable")) return;
         
-        Transform target = collision.transform;
+        Transform target = collision.GetComponentInParent<Rigidbody2D>().transform;
         if (_cinemachineTargetGroup.FindMember(target) >= 0)
         {
             if(!_insider.Contains(target))
@@ -60,7 +60,7 @@ public class SightFade : MonoBehaviour
     {
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Clickable")) return;
 
-        Transform target = collision.transform;
+        Transform target = collision.GetComponentInParent<Rigidbody2D>().transform;
         if (_insider.Contains(target))
         {
             _insider.Remove(target);
