@@ -335,17 +335,46 @@ public class DialogueManager : MonoBehaviour
         }
         if (currentState == null || currentState == IdleState) return;
 
-        // 공통 입력 처리 (스페이스바 또는 Next 버튼 클릭)
-        if (Input.GetKeyDown(KeyCode.E)) // 또는 다른 키
-        {
-            ProcessNextActionInput();
-        }
+        // ======================= 새로운 입력 처리 로직 =======================
+        HandleKeyboardInput(); // 키보드 입력을 별도 함수로 관리
 
-        // 상태별 특수 입력 처리 또는 일반 업데이트는 상태의 UpdateState에 위임
-        currentState.UpdateState(this); // 예: 방향키, 시간 기반 로직 등
+        currentState.UpdateState(this); // 상태별 특수 입력 처리 (방향키 등)
 
         PositionActiveDialogueBubble();
         PositionChoiceBubble();
+    }
+
+    private void HandleKeyboardInput()
+    {
+        // E키 입력 처리 (대화가 활성화된 모든 상태에서 공통으로 적용될 수 있음)
+        if (currentState == ShowingLineState)
+        {
+            DialogueUI currentBubble = GetCurrentActiveDialogueBubble();
+            if (currentBubble != null)
+            {
+                TypeEffect currentTypeEffect = currentBubble.GetAttachedTypeEffect();
+                if (currentTypeEffect != null)
+                {
+                    // E키를 꾹 누르고 있을 때: 빨리 감기 모드 켜기
+                    if (Input.GetKey(KeyCode.E))
+                    {
+                        currentTypeEffect.SetFastForward(true);
+                    }
+                    // E키에서 손을 뗄 때: 빨리 감기 모드 끄기
+                    else if (Input.GetKeyUp(KeyCode.E))
+                    {
+                        currentTypeEffect.SetFastForward(false);
+                    }
+                }
+            }
+        }
+
+        // E키를 짧게 눌렀을 때의 공통 액션
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            // E키는 이제 스킵 기능 없이, 타이핑이 끝난 후에만 다음으로 넘어감
+            ProcessEKeyInputAction();
+        }
     }
 
     void PositionActiveDialogueBubble()
@@ -363,31 +392,55 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ProcessNextActionInput() // 버튼 클릭 또는 스페이스바 입력 시 호출
+    // ProcessNextActionInput 함수는 이제 키보드와 Next 버튼 모두에 의해 호출됨
+    // Next 버튼 클릭 시 호출되는 함수 (스킵 기능 포함)
+    public void ProcessNextActionInput()
     {
-        if (!IsDialogueActive() || justStartedDialogueInputLock || dialogueJustEndedInputLock) return; // 안전장치
+        if (!IsDialogueActive() || justStartedDialogueInputLock || dialogueJustEndedInputLock) return;
 
-        // 현재 상태에 따라 다른 행동
         if (currentState == ShowingLineState)
         {
             DialogueUI currentBubble = GetCurrentActiveDialogueBubble();
             if (currentBubble != null && currentBubble.IsTyping())
             {
+                // Next 버튼은 타이핑 중일 때 스킵(완료) 기능
                 currentBubble.CompleteTyping();
             }
             else
+            {
+                // 타이핑이 끝나면 다음 대사로
+                AdvanceDialogue();
+            }
+        }
+        else if (currentState == ShowingChoicesState)
+        {
+            // 선택지 화면에서 Next 버튼은 선택 확정 역할
+            if (CurrentChoices != null && CurrentSelectedChoiceIndex >= 0 && CurrentSelectedChoiceIndex < CurrentChoices.Count)
+            {
+                SelectCurrentChoice();
+            }
+        }
+    }
+
+    // E 키를 짧게 눌렀을 때의 처리
+    private void ProcessEKeyInputAction()
+    {
+        if (!IsDialogueActive() || justStartedDialogueInputLock || dialogueJustEndedInputLock) return;
+
+        if (currentState == ShowingLineState)
+        {
+            DialogueUI currentBubble = GetCurrentActiveDialogueBubble();
+            if (currentBubble != null && !currentBubble.IsTyping())
             {
                 AdvanceDialogue();
             }
         }
         else if (currentState == ShowingChoicesState)
         {
-            // 선택지 상태에서 스페이스바/Next버튼은 "선택 확정" 역할
             if (CurrentChoices != null && CurrentSelectedChoiceIndex >= 0 && CurrentSelectedChoiceIndex < CurrentChoices.Count)
             {
                 SelectCurrentChoice();
             }
         }
-        // 다른 상태에 대한 Next 액션이 있다면 추가
     }
 }

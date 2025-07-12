@@ -1,26 +1,38 @@
-// TypeEffect.cs (리치 텍스트 지원하도록 수정됨)
+// TypeEffect.cs (빨리 감기 기능 추가 버전)
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using System.Text; // StringBuilder를 사용하기 위해 추가
-using Define;
+using System.Text;
+using Define; // AudioManager에서 사용하는 enum이 있다면
 
 public class TypeEffect : MonoBehaviour
 {
-    public string targetMsg;
-    public float charPerSeconds = 15f;
-    TextMeshProUGUI msgText;
-    private AudioManager audioManager; // AudioManager 참조
+    [Header("Typing Speed")]
+    [Tooltip("초당 표시할 기본 글자 수")]
+    public float charsPerSecond = 15f;
+    [Tooltip("키를 꾹 누를 때의 초당 글자 수. 기본 속도보다 커야 합니다.")]
+    public float fastForwardSpeed = 50f;
+
+    [Header("Sound Settings")]
+    [Tooltip("빨리 감기 시 몇 글자마다 소리를 낼지 결정합니다. (0이면 매번, 3이면 3글자마다)")]
+    public int fastForwardSoundInterval = 3; // 3글자마다 한 번 소리
+
+    private TextMeshProUGUI msgText;
+    private AudioManager audioManager;
+    private string targetMsg;
+
     public bool IsPlaying { get; private set; }
+    private bool isFastForwarding = false; // 빨리 감기 상태 플래그
 
     private Coroutine typingCoroutine;
+
+    private int charCountForSound = 0; // 효과음 재생 간격 카운터
 
     private void Awake()
     {
         msgText = GetComponent<TextMeshProUGUI>();
         if (msgText == null) { enabled = false; Debug.LogError($"TypeEffect CRITICAL ERROR: TextMeshProUGUI not found on '{gameObject.name}'.", gameObject); }
 
-        // 리치 텍스트를 사용하려면 반드시 true여야 합니다.
         if (msgText != null)
         {
             msgText.richText = true;
@@ -29,9 +41,16 @@ public class TypeEffect : MonoBehaviour
 
     private void Start()
     {
-        // GameManager 인스턴스가 생성된 이후에 AudioManager를 참조하도록 변경할 수 있습니다.
-        // 만약 Start 시점에 GameManager.Instance가 아직 null일 수 있다면, EffectStart에서 참조를 가져오는 것이 더 안정적일 수 있습니다.
-        audioManager = GameManager.Instance.AudioManager;
+        // GameManager가 싱글톤이고 AudioManager를 가지고 있다고 가정
+        if (GameManager.Instance != null && GameManager.Instance.AudioManager != null)
+        {
+            audioManager = GameManager.Instance.AudioManager;
+        }
+        else
+        {
+            // AudioManager를 못 찾았을 경우 경고. (필수는 아니므로)
+            // Debug.LogWarning($"TypeEffect on {gameObject.name}: AudioManager not found. Typing sound will not play.");
+        }
     }
 
     public void SetMsg(string msg)
@@ -42,85 +61,116 @@ public class TypeEffect : MonoBehaviour
         EffectStart();
     }
 
-    void EffectStart()
+    private void EffectStart()
     {
         msgText.text = "";
         IsPlaying = true;
-        if (charPerSeconds <= 0 || string.IsNullOrEmpty(targetMsg))
+        isFastForwarding = false; // 효과 시작 시 빨리 감기 모드 해제
+        if (charsPerSecond <= 0 || string.IsNullOrEmpty(targetMsg))
         {
             msgText.text = targetMsg;
-            EffectEnd();
+            CompleteEffect();
             return;
         }
         typingCoroutine = StartCoroutine(EffectRoutine());
     }
 
-    // ==================================================================
-    // 여기가 수정된 핵심 로직입니다.
-    // ==================================================================
-    IEnumerator EffectRoutine()
+    private IEnumerator EffectRoutine()
     {
         StringBuilder stringBuilder = new StringBuilder();
         int currentIndex = 0;
 
         while (currentIndex < targetMsg.Length)
         {
-            // 리치 텍스트 태그 '<'를 만났는지 확인
             if (targetMsg[currentIndex] == '<')
             {
                 int endIndex = targetMsg.IndexOf('>', currentIndex);
                 if (endIndex != -1)
                 {
-                    // 태그 전체(<...>)를 한 번에 추가 (소리, 딜레이 없음)
                     string tag = targetMsg.Substring(currentIndex, endIndex - currentIndex + 1);
                     stringBuilder.Append(tag);
-
-                    // 인덱스를 태그 끝 다음으로 점프
                     currentIndex = endIndex + 1;
-
-                    // 화면 텍스트 업데이트 후 다음 루프로 바로 넘어감
                     msgText.text = stringBuilder.ToString();
                     continue;
                 }
             }
 
-            // 일반 문자인 경우, 한 글자씩 추가
             stringBuilder.Append(targetMsg[currentIndex]);
             msgText.text = stringBuilder.ToString();
 
-            // ========== 효과음 재생 (태그가 아닐 때만 재생됨) ==========
             if (audioManager != null && targetMsg[currentIndex] != ' ')
             {
-                audioManager.PlaySfx(SfxType.Text);
+                bool shouldPlaySound = false;
+                if (!isFastForwarding) // 빨리 감기가 아니면 항상 소리 재생
+                {
+                    shouldPlaySound = true;
+                }
+                else // 빨리 감기 중일 때
+                {
+                    charCountForSound++;
+                    // fastForwardSoundInterval 값마다 소리를 재생 (0이면 매번 재생)
+                    if (fastForwardSoundInterval <= 0 || charCountForSound % fastForwardSoundInterval == 0)
+                    {
+                        shouldPlaySound = true;
+                    }
+                }
+
+                if (shouldPlaySound)
+                {
+                    audioManager.PlaySfx(SfxType.Text);
+                }
             }
-            // =====================================================
 
             currentIndex++;
-            if (charPerSeconds > 0)
+
+            // 현재 속도 결정
+            float currentSpeed = isFastForwarding ? fastForwardSpeed : charsPerSecond;
+            if (currentSpeed > 0)
             {
-                yield return new WaitForSecondsRealtime(1.0f / charPerSeconds);
+                yield return new WaitForSecondsRealtime(1.0f / currentSpeed);
             }
             else
             {
-                yield return null;
+                yield return null; // 0 이하일 경우 한 프레임에 한 글자씩
             }
         }
-        EffectEnd();
+        CompleteEffect();
     }
 
-    void EffectEnd()
+    private void CompleteEffect()
     {
         IsPlaying = false;
-        typingCoroutine = null;
+        isFastForwarding = false; // 효과 종료 시 확실하게 해제
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
     }
 
+    /// <summary>
+    /// 타이핑 효과를 강제로 즉시 완료합니다. (Next 버튼 등에 사용)
+    /// </summary>
     public void FinishEffect()
     {
         if (!enabled || msgText == null) return;
-        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
 
-        // FinishEffect가 호출될 때도 리치 텍스트가 적용된 최종본이 보여야 하므로 targetMsg를 그대로 사용
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
         msgText.text = targetMsg;
-        EffectEnd();
+        CompleteEffect(); // IsPlaying = false 및 기타 정리 작업
+    }
+
+
+
+    /// <summary>
+    /// 타이핑 속도를 빨리 감기 모드로 전환하거나 해제합니다.
+    /// </summary>
+    public void SetFastForward(bool fastForward)
+    {
+        isFastForwarding = fastForward;
     }
 }
