@@ -31,6 +31,10 @@ public class BrokenEmotionBlock : MonoBehaviour
     private readonly int _defaultSpeed = 3;
     private int _currentSpeed;
 
+    private bool _isLightCorrect;
+    private bool _isScaleCorrect;
+    private bool _isSpeedCorrect;
+
     private void Awake()
     {
         // 기능 초기화
@@ -51,29 +55,47 @@ public class BrokenEmotionBlock : MonoBehaviour
 
     private void ChangeLight(float value)
     {
+        if (_isLightCorrect) return;
+        
         // 색상 변경
         heart.color = Color.Lerp(grayColor, redColor, value);
         
         // 정답 판정
-        if (value >= _maxLight) OnLightCorrect?.Invoke();
+        if (value >= _maxLight)
+        {
+            OnLightCorrect?.Invoke();
+            _isLightCorrect = true;
+        }
     }
     
     private void ChangeScale(float value)
     {
+        if (_isScaleCorrect) return;
+        
         // 크기 변경
         heart.transform.localScale = Vector2.one * value;
         
         // 정답 판정
-        if (value >= _maxScale) OnScaleCorrect?.Invoke();
+        if (value >= _maxScale)
+        {
+            OnScaleCorrect?.Invoke();
+            _isScaleCorrect = true;
+        }
     }
     
     private void ChangeSpeed(int value)
     {
+        if (_isSpeedCorrect) return;
+        
         // 이동 변경
         _noiseIntensity = value * 0.1f;
         
         // 정답 판정
-        if (value <= 0) OnSpeedCorrect?.Invoke();
+        if (value <= 0)
+        {
+            OnSpeedCorrect?.Invoke();
+            _isSpeedCorrect = true;
+        }
     }
 
     private void Update()

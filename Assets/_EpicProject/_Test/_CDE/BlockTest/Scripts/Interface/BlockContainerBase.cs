@@ -149,6 +149,13 @@ public abstract class BlockContainerBase : MonoBehaviour
 
     private void WhenDroppedDebugSlot(EngineBlock block, ISlot slot)
     {
+        DebugSlot debugSlot = slot as DebugSlot;
+        if (debugSlot?.GetCurrentBlock() != null)
+        {
+            WhenDroppedNone(block, null);
+            return;
+        }
+        
         // Prev Target의 기능 비활성화
         if (block.PrevTarget != null && block.PrevFeature != null)
         {
