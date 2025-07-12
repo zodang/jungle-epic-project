@@ -82,6 +82,9 @@ public class PuzzleFSM : MonoBehaviour
             case 2:
                 _fsm.ChangeState(new SpeedStepState(this, _fsm, _target));
                 break;
+            case 3:
+                GameManager.Instance.FadeManager.LoadNextScene();
+                break;
         }
     }
 
