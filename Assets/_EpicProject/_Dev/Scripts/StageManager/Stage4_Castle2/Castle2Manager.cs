@@ -25,6 +25,6 @@ public class Castle2Manager : StageBaseManager
 
     private void OnGoalTriggered()
     {
-        // GameManager.Instance.FadeManager.LoadNextScene();
+        GameManager.Instance.FadeManager.LoadNextScene();
     }
 }
