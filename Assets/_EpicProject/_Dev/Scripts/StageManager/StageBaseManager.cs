@@ -45,9 +45,10 @@ public abstract class StageBaseManager : MonoBehaviour
         ClickableList = new List<Clickable>(FindObjectsByType<Clickable>(FindObjectsSortMode.None));
         LoadClickableProfile();
 
-        // 씬 전환 시 time scale 초기화
+        // 씬 전환 시 초기화
         Time.timeScale = 1;
         StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        GameManager.Instance.SettingManager.CloseSetting();
     }
     
     private void LoadClickableProfile()

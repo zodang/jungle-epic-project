@@ -18,8 +18,8 @@ public class GameBtnGroup : MonoBehaviour
 
     private void OnClickRestartBtn()
     {
+        GameManager.Instance.SettingManager.CloseSetting();
         GameManager.Instance.FadeManager.LoadCurrentScene();
-        GameManager.Instance.SettingManager.OpenSetting();
     }
 
     private void OnClickMenuBtn()
@@ -35,8 +35,8 @@ public class GameBtnGroup : MonoBehaviour
             message,
             onOk: () =>
             {
+                GameManager.Instance.SettingManager.CloseSetting();
                 GameManager.Instance.FadeManager.LoadScene(1);
-                GameManager.Instance.SettingManager.OpenSetting();
             },
             onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
             okLabel,
@@ -57,6 +57,7 @@ public class GameBtnGroup : MonoBehaviour
             message,
             onOk: () =>
             {
+                GameManager.Instance.SettingManager.CloseSetting();
 #if UNITY_EDITOR
                 EditorApplication.isPlaying = false;
 #else
