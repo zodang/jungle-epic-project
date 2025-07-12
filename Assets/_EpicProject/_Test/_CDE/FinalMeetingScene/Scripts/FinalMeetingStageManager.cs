@@ -4,8 +4,8 @@ using UnityEngine.Timeline;
 
 public class FinalMeetingStageManager : StageBaseManager
 {
-    // [Header("컷신에 등장하는 배우 및 중요 오브젝트 목록")] // 헤더를 추가하면 에디터에서 보기 편합니다.
     [SerializeField] private Daughter _daughter;
+    [SerializeField] private SpriteRenderer _daughterSpriteRenderer;
     [SerializeField] private SimpleSlot _simpleSlot;
 
     private PlayableDirector _playableDirector;
@@ -17,8 +17,6 @@ public class FinalMeetingStageManager : StageBaseManager
         stageFilePath = "StageInfos/FinalMeetingStage";
         base.Awake();
 
-        
-        
         _playableDirector = GetComponent<PlayableDirector>();
     }
 
@@ -46,6 +44,8 @@ public class FinalMeetingStageManager : StageBaseManager
     {
         // 딸 엔진 창 비활성화
         _daughter.GetComponent<Clickable>().EngineController.DeactivateSilently();
+        _daughterSpriteRenderer.enabled = false;    
+        
         PlayTimeline(1);
     }
 
