@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OffEngine",
+                    "name": "ToggleSetting",
                     "type": "Button",
                     "id": "c94fcf4e-8e01-41b6-8f61-04e88a6576f1",
                     "expectedControlType": "",
@@ -54,6 +54,15 @@
                     "name": "ToggleInventory",
                     "type": "Button",
                     "id": "ec4aebee-cb1f-4e49-a379-792ffce48b5b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GlitchVision",
+                    "type": "Button",
+                    "id": "74c018e4-41ad-4786-8875-d515ca2ed266",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -233,7 +242,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "OffEngine",
+                    "action": "ToggleSetting",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -245,6 +254,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "ToggleInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f930088e-a1cf-4934-bae8-a1d23875f135",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "GlitchVision",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

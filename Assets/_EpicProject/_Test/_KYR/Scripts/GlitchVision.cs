@@ -64,13 +64,9 @@ public class GlitchVision : MonoBehaviour
         lowPassFilter = FindFirstObjectByType<AudioLowPassFilter>();
         if (lowPassFilter != null)
             normalCutoff = lowPassFilter.cutoffFrequency;
-    }
-
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-            StartGlitch();
+        
+        // InputManager에서 Q 입력 관리
+        StageManager.Instance.InputManager.OnQPressed += StartGlitch;
     }
 
     public void StartGlitch()
