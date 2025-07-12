@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -60,6 +61,6 @@ public class FinalMeetingStageManager : StageBaseManager
     
     public void HandleSecondTimelineEnd()
     {
-        GameManager.Instance.FadeManager.LoadNextScene();
+        GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
     }
 }

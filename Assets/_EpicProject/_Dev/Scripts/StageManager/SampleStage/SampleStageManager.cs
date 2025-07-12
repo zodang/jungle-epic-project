@@ -1,3 +1,5 @@
+using Define;
+
 public class SampleStageManager : StageBaseManager
 {
     protected override void Awake()
@@ -11,5 +13,6 @@ public class SampleStageManager : StageBaseManager
     {
         // 대화 불러오기
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
+        GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
     }
 }
