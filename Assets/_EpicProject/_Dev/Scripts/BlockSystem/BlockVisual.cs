@@ -155,7 +155,7 @@ public class BlockVisual : MonoBehaviour,
         }
         
         _detectedSlot = slot;
-        ChangeBlockVisual(_detectedSlot);
+        ChangeBlockVisual(_detectedSlot.GetSlotType());
     }
     
     public void OnEndDrag(PointerEventData eventData)
@@ -197,18 +197,11 @@ public class BlockVisual : MonoBehaviour,
 
         return false;
     }
-    
-    private void ChangeBlockVisual(ISlot slot)
-    {
-        SlotType slotType = slot.GetSlotType();
-        InventoryBlock.SetActive(slotType == SlotType.InventorySlot || slotType == SlotType.ToolBoxSlot);
-        EngineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot);
-    }
 
     public void ChangeBlockVisual(SlotType slotType)
     {
         InventoryBlock.SetActive(slotType == SlotType.InventorySlot || slotType == SlotType.ToolBoxSlot);
-        EngineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot);
+        EngineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot || slotType == SlotType.DebugSlot);
     }
     
     public void RaiseVisual(bool raise)

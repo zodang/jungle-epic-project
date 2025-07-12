@@ -6,6 +6,7 @@ namespace Define
         InventorySlot,
         EngineSlot,
         ToolBoxSlot,
+        DebugSlot,
         SimpleSlot
     }
 
