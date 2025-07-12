@@ -1507,6 +1507,7 @@ GameObject:
   - component: {fileID: 645770010}
   - component: {fileID: 645770012}
   - component: {fileID: 645770013}
+  - component: {fileID: 645770014}
   m_Layer: 0
   m_Name: BrokenBlock
   m_TagString: Untagged
@@ -1704,6 +1705,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &645770014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645770009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 526667f5b9c75314985b7d52ce980cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  block: {fileID: 7503295621025128505}
+  heart: {fileID: 5012928004692272220}
+  grayColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  redColor: {r: 1, g: 0.19607843, b: 0.19607843, a: 1}
 --- !u!1 &662316101
 GameObject:
   m_ObjectHideFlags: 0
@@ -3852,7 +3869,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2095450479544018367}
   - component: {fileID: 5012928004692272220}
-  - component: {fileID: 3972515318451102345}
   - component: {fileID: 3006591131670934134}
   m_Layer: 0
   m_Name: Heart
@@ -4126,23 +4142,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3972515318451102345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 452776955361961419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ab2ad55fffdb8142b02fb4965e62f75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultMat: {fileID: 2100000, guid: 39429fab258bbbc4bac5790ab4e1547c, type: 2}
-  glitchMat: {fileID: 2100000, guid: a02c11baeba97904f8f475fac37fe6ad, type: 2}
-  isGlitchVision: 0
-  glitchValueUpdateSpeed: 1
-  glitchChangeInterval: 0.2
 --- !u!114 &4077910206683498985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4156,43 +4155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSkinData: []
---- !u!70 &4093107646264544582
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5540022471606977214}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 10, y: 10}
-  m_Direction: 0
 --- !u!1 &4133875417308309693
 GameObject:
   m_ObjectHideFlags: 0
@@ -4326,9 +4288,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6836015967923465182}
   - component: {fileID: 7503295621025128505}
-  - component: {fileID: 4093107646264544582}
-  - component: {fileID: 5853382544037753074}
-  - component: {fileID: 8096401863182808644}
   - component: {fileID: 9065184776945658816}
   m_Layer: 6
   m_Name: Block
@@ -4420,18 +4379,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.35, y: 0.2}
   m_EdgeRadius: 0
---- !u!114 &5853382544037753074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5540022471606977214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78b61e85bd359024b9fac1efbe665c7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6068633633394686007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4612,23 +4559,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8096401863182808644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5540022471606977214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ab2ad55fffdb8142b02fb4965e62f75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultMat: {fileID: 2100000, guid: 39429fab258bbbc4bac5790ab4e1547c, type: 2}
-  glitchMat: {fileID: 2100000, guid: a02c11baeba97904f8f475fac37fe6ad, type: 2}
-  isGlitchVision: 0
-  glitchValueUpdateSpeed: 1
-  glitchChangeInterval: 0.2
 --- !u!114 &8193647378930119906
 MonoBehaviour:
   m_ObjectHideFlags: 0
