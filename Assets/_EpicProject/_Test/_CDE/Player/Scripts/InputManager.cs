@@ -95,8 +95,6 @@ public class InputManager : MonoBehaviour
     
     private void OnToggleSettingPerformed(InputAction.CallbackContext context)
     {
-        if (!_isPlayerInputActive) return;
-        
         OnEscPressed?.Invoke();
     }
 

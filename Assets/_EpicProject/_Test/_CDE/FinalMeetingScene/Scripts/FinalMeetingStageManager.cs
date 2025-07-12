@@ -34,8 +34,9 @@ public class FinalMeetingStageManager : StageBaseManager
 
     private void PlayTimeline(int index)
     {
-        // 딸 클릭 비활성화
-        _daughter.GetComponentInChildren<CapsuleCollider2D>().enabled = false;
+        // 플레이어 Input 비활성화
+        StageManager.Instance.InputManager.ActivatePlayerInput(false);
+        _daughterSpriteRenderer.GetComponent<Collider2D>().enabled = false;
         
         _playableDirector.playableAsset = timelines[index]; 
         _playableDirector.Play();
@@ -52,8 +53,9 @@ public class FinalMeetingStageManager : StageBaseManager
 
     public void HandleFirstTimelineEnd()
     {
-        // 딸 클릭 활성화
-        _daughter.GetComponentInChildren<CapsuleCollider2D>().enabled = true;
+        // 플레이어 Input 활성화
+        StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        _daughterSpriteRenderer.GetComponent<Collider2D>().enabled = true;
         
         // 블록 드래그 활성화
         _simpleSlot.AddEvents();
@@ -61,6 +63,10 @@ public class FinalMeetingStageManager : StageBaseManager
     
     public void HandleSecondTimelineEnd()
     {
+        // 플레이어 Input 활성화
+        StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        
+        // 씬 전환
         GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
     }
 }

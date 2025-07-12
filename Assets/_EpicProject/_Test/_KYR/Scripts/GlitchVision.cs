@@ -65,6 +65,7 @@ public class GlitchVision : MonoBehaviour
         if (lowPassFilter != null)
             normalCutoff = lowPassFilter.cutoffFrequency;
         
+        // InputManager에서 Q 입력 관리
         StageManager.Instance.InputManager.OnQPressed += StartGlitch;
     }
 
