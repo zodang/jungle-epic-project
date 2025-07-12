@@ -31,6 +31,7 @@ public class BlockVisual : MonoBehaviour,
     public bool IsRaised;
     private float _yRaisedPos = 150;
 
+    private bool _isDragInitialized;
     private bool _isDragged;
     private bool _isDragging;
 
@@ -68,7 +69,6 @@ public class BlockVisual : MonoBehaviour,
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!_canClick) return;
-        
         if (_isDragged) return;
         
         // 해당 블록에 대한 우클릭 검사
@@ -118,8 +118,13 @@ public class BlockVisual : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!_canDrag) return;
-        
+        if (!_canDrag)
+        {
+            _isDragInitialized = false;
+            return;
+        }
+
+        _isDragInitialized = true;
         _isDragged = false;
         _isDragging = true;
         
@@ -132,7 +137,7 @@ public class BlockVisual : MonoBehaviour,
     
     public void OnDrag(PointerEventData eventData)
     {
-        if (!_canDrag) return;
+        if (!_canDrag || !_isDragInitialized) return;
         
         _isDragged = true;
         
@@ -155,12 +160,11 @@ public class BlockVisual : MonoBehaviour,
         }
         
         _detectedSlot = slot;
-        ChangeBlockVisual(_detectedSlot.GetSlotType());
     }
     
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!_canDrag) return;
+        if (!_canDrag || !_isDragInitialized) return;
         
         _isDragged = false;
         _isDragging = false;

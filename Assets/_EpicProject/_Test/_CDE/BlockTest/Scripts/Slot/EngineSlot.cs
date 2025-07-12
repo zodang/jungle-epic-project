@@ -72,6 +72,9 @@ public class EngineSlot : MonoBehaviour, ISlot
         rectTransform.anchorMin = Vector2.one * 0.5f;
         rectTransform.anchorMax = Vector2.one * 0.5f;
         rectTransform.anchoredPosition = Vector2.zero;
+        
+        block.SetVisualState(SlotType.EngineSlot);
+        
         // KMS 0708 / Todo : 블록 놔뒀을때 애니메이션 실행 구간 
         OnBlockPlaced?.Invoke();
         print("애니메이션 실행"); // 디버그용

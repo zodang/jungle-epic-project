@@ -3,6 +3,7 @@ using UnityEngine.Playables;
 
 public class DebuggingModeManager : StageBaseManager
 {
+    [SerializeField] private Movement2D playerMovement2D;
     [SerializeField] private Clickable _brokenBlock;
     
     private PlayableDirector _playableDirector;
@@ -40,6 +41,9 @@ public class DebuggingModeManager : StageBaseManager
         
         // 오브젝트 클릭 이벤트 제거
         _brokenBlock.OnClickAction -= WhenBlockClicked;
+        
+        // 플레이어 이동 제한
+        playerMovement2D.enabled = false;
         
         _playableDirector.Play();
     }

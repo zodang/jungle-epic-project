@@ -62,6 +62,7 @@ public class PlayerAnimation : MonoBehaviour
     private void Update()
     {
         if (!_isAnimationActive) return;
+        if (!_movement2D.enabled) return;
 
         Vector2 move = _movement2D.MoveDir;
         bool isMoving = _movement2D.MoveDir.sqrMagnitude > 0.1f;
