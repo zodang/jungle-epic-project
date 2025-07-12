@@ -1,3 +1,4 @@
+using Define;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -25,21 +26,21 @@ public class FadeManager : MonoBehaviour
         StartCoroutine(LoadSceneCo(currentIndex));
     }
 
-    public void LoadNextScene()
+    public void LoadNextScene(TransitionType transitionType = TransitionType.LoadingType)
     {
         // 다음 Scene으로 이동
         int currentIndex = SceneManager.GetActiveScene().buildIndex;
         StageManager.Instance.SaveSceneIndex(currentIndex);
 
-        StartCoroutine(LoadSceneCo(currentIndex + 1));
+        StartCoroutine(LoadSceneCo(currentIndex + 1, transitionType));
     }
 
-    private IEnumerator LoadSceneCo(int index)
+    private IEnumerator LoadSceneCo(int index, TransitionType transitionType = TransitionType.LoadingType)
     {
         // 마지막 씬을 넘어갈 시 마지막 index 씬 호출
         int targetIndex = Mathf.Min(index, SceneManager.sceneCountInBuildSettings - 1);
         
-        yield return _transitionManager.TurnOnAni();
+        yield return _transitionManager.TurnOnAni(transitionType);
 
         if (targetIndex < SceneManager.sceneCountInBuildSettings)
         {

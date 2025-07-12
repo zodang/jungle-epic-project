@@ -1,3 +1,5 @@
+using Unity.Loading;
+
 namespace Define
 {
     public enum SlotType
@@ -46,6 +48,13 @@ namespace Define
     {
         Open, Close, Text, Clear, Dial, Grass, CaveButton
     }
+    
+    public enum TransitionType
+    {
+        LoadingType,
+        FadeType,
+    }
+
 
     public enum PlayerSkinType
     {
@@ -68,7 +77,7 @@ namespace Define
         Return,
         None,
     }
-
+    
     public static class Tags
     {
         public const string Player = "Player";
