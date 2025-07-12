@@ -60,6 +60,6 @@ public class FinalMeetingStageManager : StageBaseManager
     
     public void HandleSecondTimelineEnd()
     {
-        Debug.Log("@@DE ---> 디버그 모드 씬 전환");
+        GameManager.Instance.FadeManager.LoadNextScene();
     }
 }
