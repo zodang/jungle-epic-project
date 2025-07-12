@@ -62,6 +62,7 @@ public class InputManager : MonoBehaviour
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
         if (!_isPlayerInputActive) return;
+        if (Time.timeScale <= 0) return;
         
         var input = context.ReadValue<Vector2>();
         MoveInput = input;
@@ -75,6 +76,7 @@ public class InputManager : MonoBehaviour
     private void OnInteractionPerformed(InputAction.CallbackContext context)
     {
         if (!_isPlayerInputActive) return;
+        if (Time.timeScale <= 0) return;
         
         OnInteract?.Invoke();
     }
@@ -82,18 +84,24 @@ public class InputManager : MonoBehaviour
     private void OnCLickPerformed(InputAction.CallbackContext context)
     {
         if (!_isPlayerInputActive) return;
+        if (Time.timeScale <= 0) return;
+        
         _isClicked = true;
     }
     
     private void OnOffEnginePerformed(InputAction.CallbackContext context)
     {
         if (!_isPlayerInputActive) return;
+        if (Time.timeScale <= 0) return;
+        
         OnEscPressed?.Invoke();
     }
 
     private void OnToggleInventoryPerformed(InputAction.CallbackContext context)
     {
         if (!_isPlayerInputActive) return;
+        if (Time.timeScale <= 0) return;
+        
         OnTabPressed?.Invoke();
     }
 
@@ -170,17 +178,6 @@ public class InputManager : MonoBehaviour
                     break;
                 }
             }
-            //RaycastHit2D hit = hits.OrderBy(h => h.transform.position.z).FirstOrDefault();
-
-            //var clickable = hit.collider != null
-            //    ? hit.collider.GetComponentInParent<IClickable>()
-            //    : null;
-
-            //if (clickable != null)
-            //{
-            //    // Clickable 오브젝트 클릭 시 작동
-            //    clickable.OnClicked();
-            //}
         }
         
         // BlockTest();
