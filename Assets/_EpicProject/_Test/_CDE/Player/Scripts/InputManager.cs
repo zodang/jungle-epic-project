@@ -180,8 +180,20 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        
+
+        StageTest();
         // BlockTest();
+    }
+
+    private void StageTest()
+    {
+        bool condition1 = Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Tab);
+        bool condition2 = Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKey(KeyCode.Tab);
+        
+        if (condition1 || condition2)
+        {
+            FindAnyObjectByType<TestModeUI>().ActivateStageCommandUI();
+        }
     }
 
     private void BlockTest()
