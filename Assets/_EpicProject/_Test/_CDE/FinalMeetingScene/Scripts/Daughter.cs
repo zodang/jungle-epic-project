@@ -7,7 +7,6 @@ public class Daughter : MonoBehaviour, IEmotionAvailable
     
     public void EnableEmotion()
     {
-        Debug.Log("감정블록 장착");
         OnEmotionEnabled?.Invoke();
     }
 

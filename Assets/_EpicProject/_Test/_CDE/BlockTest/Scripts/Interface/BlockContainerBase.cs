@@ -56,12 +56,13 @@ public abstract class BlockContainerBase : MonoBehaviour
 
     private void OnBlockLeftClickHandler(EngineBlock block)
     {
+        if (block.CurrentSlot.GetSlotType() == SlotType.EngineSlot) return;
         block.ToggleEngineBlock();
     }
 
     private void OnBlockRightClickHandler(EngineBlock block)
     {
-        if (block.PrevTarget.EngineController == null) return;
+        if (block.CurrentSlot.GetSlotType() != SlotType.EngineSlot) return;
         block.PrevTarget.EngineController.DropToInventorySlot(block);
     }
     

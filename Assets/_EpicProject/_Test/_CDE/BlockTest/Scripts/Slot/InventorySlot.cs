@@ -32,8 +32,10 @@ public class InventorySlot : MonoBehaviour, ISlot
     public void SetBlockPosition(EngineBlock block)
     {
         OnBlockSet?.Invoke(block);
+        
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
+        
         block.SetVisualState(SlotType.InventorySlot);
     }
 
