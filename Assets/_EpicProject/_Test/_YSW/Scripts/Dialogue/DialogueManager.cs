@@ -19,6 +19,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private string dialogueFileName = "dialogues";
     [SerializeField] private bool pauseGameDuringDialogue = true;
 
+    [Header("Interaction Settings")] // 쿨타임 설정을 위한 헤더 추가
+    [SerializeField] private float dialogueEndCooldown = 0.5f; // 대화 종료 후 재시작까지의 쿨타임 (초)
+
     public const string PLAYER_TAG = "Player";
     private const string PLAYER_SPEECH_ANCHOR_NAME = "PlayerSpeechAnchor";
     private static readonly Dictionary<string, string> PLAYER_DISPLAY_NAMES = new Dictionary<string, string>
@@ -54,11 +57,12 @@ public class DialogueManager : MonoBehaviour
     public Transform CurrentChoiceBubbleTargetAnchor { get; set; }
 
     private bool justStartedDialogueInputLock = false;
-    private bool dialogueJustEndedInputLock = false;
+    // private bool dialogueJustEndedInputLock = false; // 이 변수를 아래 float 변수로 대체
+    private float dialogueEndTime = -1f; // 대화가 종료된 시간을 기록 (-1은 아직 종료되지 않았음을 의미)
     public int CurrentSelectedChoiceIndex { get; set; } = 0;
 
     public bool IsDialogueActive() => currentState != null && currentState != IdleState;
-    public bool WasDialogueJustEndedThisFrame() => dialogueJustEndedInputLock;
+    //public bool WasDialogueJustEndedThisFrame() => dialogueJustEndedInputLock;
 
     // 상태 클래스에서 현재 활성화된 일반 대화 UI에 접근하기 위한 헬퍼
     public DialogueUI GetCurrentActiveDialogueBubble() => activeDialogueBubbleUI;
@@ -311,7 +315,8 @@ public class DialogueManager : MonoBehaviour
         if (playerDialogueBubbleInstance != null) playerDialogueBubbleInstance.Show(false);
         if (CurrentChoiceBubbleUI != null) CurrentChoiceBubbleUI.Show(false);
 
-        dialogueJustEndedInputLock = true;
+        // dialogueJustEndedInputLock = true; // 이 줄 대신 아래 줄 사용
+        dialogueEndTime = Time.unscaledTime; // <<== 대화 종료 시점의 실제 시간 기록
         if (pauseGameDuringDialogue) Time.timeScale = 1f;
 
         currentNpcSpeakerAnchor = null;
@@ -325,9 +330,22 @@ public class DialogueManager : MonoBehaviour
         TransitionToState(IdleState);
     }
 
+    // WasDialogueJustEndedThisFrame() 함수를 새로운 쿨타임 확인 함수로 변경
+    public bool IsInDialogueCooldown()
+    {
+        // dialogueEndTime이 기록되어 있고 (즉, 대화가 끝난 적이 있고),
+        // 현재 시간과 대화 종료 시간의 차이가 쿨타임보다 작다면
+        // 아직 쿨타임 중입니다.
+        if (dialogueEndTime > 0 && Time.unscaledTime < dialogueEndTime + dialogueEndCooldown)
+        {
+            return true;
+        }
+        return false;
+    }
+
     void Update()
     {
-        if (dialogueJustEndedInputLock) { dialogueJustEndedInputLock = false; }
+        //if (dialogueJustEndedInputLock) { dialogueJustEndedInputLock = false; }
         if (justStartedDialogueInputLock && currentState != null && currentState != IdleState)
         {
             justStartedDialogueInputLock = false;
@@ -396,7 +414,7 @@ public class DialogueManager : MonoBehaviour
     // Next 버튼 클릭 시 호출되는 함수 (스킵 기능 포함)
     public void ProcessNextActionInput()
     {
-        if (!IsDialogueActive() || justStartedDialogueInputLock || dialogueJustEndedInputLock) return;
+        if (!IsDialogueActive() || justStartedDialogueInputLock || IsInDialogueCooldown()) return;
 
         if (currentState == ShowingLineState)
         {
@@ -425,7 +443,7 @@ public class DialogueManager : MonoBehaviour
     // E 키를 짧게 눌렀을 때의 처리
     private void ProcessEKeyInputAction()
     {
-        if (!IsDialogueActive() || justStartedDialogueInputLock || dialogueJustEndedInputLock) return;
+        if (!IsDialogueActive() || justStartedDialogueInputLock || IsInDialogueCooldown()) return;
 
         if (currentState == ShowingLineState)
         {

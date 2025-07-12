@@ -118,7 +118,7 @@ public class NPCInteraction : MonoBehaviour
             if (StageBaseManager.Instance.DialogueManager != null)
             {
                 if (!StageBaseManager.Instance.DialogueManager.IsDialogueActive() &&
-                    !StageBaseManager.Instance.DialogueManager.WasDialogueJustEndedThisFrame())
+                    !StageBaseManager.Instance.DialogueManager.IsInDialogueCooldown())
                 {
                     InteractWithNPC();
                 }
