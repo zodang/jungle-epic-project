@@ -8,22 +8,20 @@ public class BlockVisual : MonoBehaviour,
     IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, 
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Action<ISlotType> OnDragEnd;
+    public Action<ISlot> OnDragEnd;
     public Action OnLeftClicked;
     public Action OnRightClicked;
     
     public static event Action OnAnyBlockBeginDrag;
     public static event Action OnAnyBlockEndDrag;
     
-    private ISlotType _detectedSlot;
+    private ISlot _detectedSlot;
     
     public GameObject EngineBlock;
     public GameObject InventoryBlock;
-    public GameObject NumpadBlock;
     
     private Canvas _canvas;
     private RectTransform _rectTransform;
-    private Vector2 _dragOffset;
 
     public RectTransform _visualObject;
     private bool _isAnimating = false;
@@ -31,10 +29,14 @@ public class BlockVisual : MonoBehaviour,
     private Tween _hoverTween;
 
     public bool IsRaised;
-    private float _yRaisedPos = 130;
+    private float _yRaisedPos = 150;
 
     private bool _isDragged;
     private bool _isDragging;
+
+    private bool _canHover = true;
+    private bool _canDrag = true;
+    private bool _canClick = true;
 
     private void Awake()
     {
@@ -47,9 +49,26 @@ public class BlockVisual : MonoBehaviour,
         _canvas = GetComponentInParent<Canvas>();
         _rectTransform = GetComponent<RectTransform>();
     }
+
+    public void ActivateHoverEvent(bool canHover)
+    {
+        _canHover = canHover;
+    }
+
+    public void ActivateDragEvent(bool canDrag)
+    {
+        _canDrag = canDrag;
+    }
+
+    public void ActivateClickEvent(bool canClick)
+    {
+        _canClick = canClick;
+    }
     
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!_canClick) return;
+        
         if (_isDragged) return;
         
         // 해당 블록에 대한 우클릭 검사
@@ -59,6 +78,8 @@ public class BlockVisual : MonoBehaviour,
     
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!_canHover) return;
+        
         if (!InventoryBlock.activeSelf) return;
         
         _isPointerOver = true;
@@ -71,12 +92,14 @@ public class BlockVisual : MonoBehaviour,
             .OnComplete(() =>
             {
                 _isAnimating = false;
-                if (!_isPointerOver) OnPointerExit(null);
+               if (!_isPointerOver) OnPointerExit(null);
             });
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!_canHover) return;
+        
         if (!InventoryBlock.activeSelf) return;
         
         _isPointerOver = false;
@@ -89,12 +112,14 @@ public class BlockVisual : MonoBehaviour,
             .OnComplete(() =>
             {
                 _isAnimating = false;
-                if (_isPointerOver) OnPointerEnter(null);
+                // if (_isPointerOver) OnPointerEnter(null);
             });
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!_canDrag) return;
+        
         _isDragged = false;
         _isDragging = true;
         
@@ -103,19 +128,12 @@ public class BlockVisual : MonoBehaviour,
         transform.SetParent(_canvas.transform);
         transform.SetAsLastSibling();
         ChangeBlockVisual(SlotType.InventorySlot);
-
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                _rectTransform,
-                eventData.position,
-                eventData.pressEventCamera,
-                out Vector3 globalMousePos))
-        {
-            _dragOffset = _rectTransform.position - globalMousePos;
-        }
     }
     
     public void OnDrag(PointerEventData eventData)
     {
+        if (!_canDrag) return;
+        
         _isDragged = true;
         
         // UI 중앙을 마우스 위치로 이동
@@ -129,7 +147,7 @@ public class BlockVisual : MonoBehaviour,
         }
 
         // Slot 감지
-        if (!TryGetSlotUnderMouse(out ISlotType slot))
+        if (!TryGetSlotUnderMouse(out ISlot slot))
         {
             ChangeBlockVisual(SlotType.InventorySlot);
             _detectedSlot = null;
@@ -137,11 +155,13 @@ public class BlockVisual : MonoBehaviour,
         }
         
         _detectedSlot = slot;
-        ChangeBlockVisual(_detectedSlot);
+        ChangeBlockVisual(_detectedSlot.GetSlotType());
     }
     
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!_canDrag) return;
+        
         _isDragged = false;
         _isDragging = false;
         
@@ -153,7 +173,7 @@ public class BlockVisual : MonoBehaviour,
         OnAnyBlockEndDrag?.Invoke();
     }
     
-    private bool TryGetSlotUnderMouse(out ISlotType slot)
+    private bool TryGetSlotUnderMouse(out ISlot slot)
     {
         slot = null;
 
@@ -167,7 +187,7 @@ public class BlockVisual : MonoBehaviour,
 
         foreach (var result in raycastResults)
         {
-            var slotInterface = result.gameObject.GetComponent<ISlotType>();
+            var slotInterface = result.gameObject.GetComponent<ISlot>();
             if (slotInterface != null)
             {
                 slot = slotInterface;
@@ -177,20 +197,11 @@ public class BlockVisual : MonoBehaviour,
 
         return false;
     }
-    
-    private void ChangeBlockVisual(ISlotType slot)
-    {
-        SlotType slotType = slot.GetSlotType();
-        InventoryBlock.SetActive(slotType == SlotType.InventorySlot);
-        EngineBlock.SetActive(slotType == SlotType.EngineSlot);
-        NumpadBlock.SetActive(slotType == SlotType.NumpadSlot || slotType == SlotType.Numpad);
-    }
 
     public void ChangeBlockVisual(SlotType slotType)
     {
-        InventoryBlock.SetActive(slotType == SlotType.InventorySlot);
-        EngineBlock.SetActive(slotType == SlotType.EngineSlot);
-        NumpadBlock.SetActive(slotType == SlotType.NumpadSlot || slotType == SlotType.Numpad);
+        InventoryBlock.SetActive(slotType == SlotType.InventorySlot || slotType == SlotType.ToolBoxSlot);
+        EngineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot || slotType == SlotType.DebugSlot);
     }
     
     public void RaiseVisual(bool raise)

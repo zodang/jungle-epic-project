@@ -8,14 +8,17 @@ public class Inventory : BlockContainerBase
     public List<EngineBlock> BlockList = new List<EngineBlock>();
     public List<BlockType> DefaultBlockList = new();
     
-    private InventorySlot _inventorySlot;
+    private InventoryUIController _inventoryUI;
     private Clickable _target;
 
     public bool StartGetPlayerControl = true;
 
-    private void Awake()
+    protected void Awake()
     {
-        _inventorySlot = FindAnyObjectByType<InventorySlot>();
+        base.Awake();
+        
+        _inventoryUI = FindAnyObjectByType<InventoryUIController>();
+        
         if (StartGetPlayerControl)
         {
             DefaultBlockList.Add(BlockType.PlayerControl);
@@ -25,12 +28,19 @@ public class Inventory : BlockContainerBase
     private void Start()
     {
         _target = StageBaseManager.Instance.PlayerManager.GetComponent<Clickable>();
-        _inventorySlot.SetInventory(this);
-        _inventorySlot.SetTargetClickable(_target);
+        InventorySlot.SetInventory(this);
+        InventorySlot.SetTargetClickable(_target);
+
+        _inventoryUI.OnResetBtnClicked += ResetFeature;
 
         InitInventory();
     }
-    
+
+    private void OnDestroy()
+    {
+        _inventoryUI.OnResetBtnClicked -= ResetFeature;
+    }
+
     private void CheckBlockDictionary()
     {
         var entries = BlockList.Select(b => b.name);
@@ -43,7 +53,7 @@ public class Inventory : BlockContainerBase
         if (BlockList.Contains(block)) return;
         
         BlockList.Add(block);
-        block.InitDefaultBlock(_target, SlotType.InventorySlot);
+        block.InitDefaultBlock(_target, InventorySlot);
         
         // CheckBlockDictionary();
     }
@@ -60,7 +70,7 @@ public class Inventory : BlockContainerBase
     {
         var factory = StageManager.Instance.BlockFactory;
 
-        EngineBlock block = factory.CreateBlock(type, _inventorySlot.transform); 
+        EngineBlock block = factory.CreateBlock(type, InventorySlot.transform); 
         RegisterBlockEvents(block);
         
         AddBlock(block);
@@ -75,6 +85,22 @@ public class Inventory : BlockContainerBase
         }
     }
     
+    private void ResetFeature()
+    {
+        if (_target == null) return;
+
+        // Clickable의 기능 초기화
+        IFeatureResetable resettable = _target.GetComponent<IFeatureResetable>();
+        resettable?.ResetFeature();
+        
+        // Block의 UI 초기화
+        EngineBlock[] blocks = _inventoryUI.GetComponentsInChildren<EngineBlock>(includeInactive: true);
+        foreach (EngineBlock block in blocks)
+        {
+            block.ResetUI();
+        }
+    }
+    
     private void Update()
     {
         for (int i = 1; i <= 4; i++)
@@ -84,18 +110,18 @@ public class Inventory : BlockContainerBase
 
             if (Input.GetKeyDown(key))
             {
-                if (_inventorySlot.transform.childCount > idx)
+                if (InventorySlot.transform.childCount > idx)
                 {
-                    var block = _inventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
-                    block?.ActivateEngineBlock();
+                    var block = InventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
+                    block?.RaiseEngineBlock();
                 }
             }
             else if (Input.GetKeyUp(key))
             {
-                if (_inventorySlot.transform.childCount > idx)
+                if (InventorySlot.transform.childCount > idx)
                 {
-                    var block = _inventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
-                    block?.DeactivateEngineBlock();
+                    var block = InventorySlot.transform.GetChild(idx).GetComponent<EngineBlock>();
+                    block?.DropEngineBlock();
                 }
             }
         }

@@ -3,6 +3,15 @@ using UnityEngine;
 
 public abstract class BlockContainerBase : MonoBehaviour
 {
+    protected InventorySlot InventorySlot;
+    protected ToolBoxSlot ToolBoxSlot;
+
+    protected  void Awake()
+    {
+        InventorySlot = FindAnyObjectByType<InventorySlot>();
+        ToolBoxSlot = FindAnyObjectByType<ToolBoxSlot>();
+    }
+
     protected abstract void RemoveBlock(int index);
     
     protected void RegisterBlockEvents(EngineBlock block)
@@ -21,7 +30,7 @@ public abstract class BlockContainerBase : MonoBehaviour
         block.OnBlockRightClick -= OnBlockRightClickHandler;
     }
 
-    private void OnBlockDragEndHandler(EngineBlock block, ISlotType slot)
+    private void OnBlockDragEndHandler(EngineBlock block, ISlot slot)
     {
         SlotType slotType = slot?.GetSlotType() ?? SlotType.None;
 
@@ -33,8 +42,14 @@ public abstract class BlockContainerBase : MonoBehaviour
             case SlotType.EngineSlot:
                 WhenDroppedEngineSlot(block, slot);
                 break;
+            case SlotType.ToolBoxSlot:
+                WhenDroppedToolBox(block, slot);
+                break;
+            case SlotType.DebugSlot:
+                WhenDroppedDebugSlot(block, slot);
+                break;
             case SlotType.None:
-                WhenDroppedNone(block);
+                WhenDroppedNone(block, slot);
                 break;
         }
     }
@@ -50,7 +65,7 @@ public abstract class BlockContainerBase : MonoBehaviour
         block.PrevTarget.EngineController.DropToInventorySlot(block);
     }
     
-    protected void WhenDroppedInventorySlot(EngineBlock block,ISlotType slot)
+    protected void WhenDroppedInventorySlot(EngineBlock block, ISlot slot)
     {
         InventorySlot inventorySlot = slot as InventorySlot;
         Clickable newTarget = slot.GetTargetClickable();
@@ -73,13 +88,12 @@ public abstract class BlockContainerBase : MonoBehaviour
         block.Activate(newFeature);
         inventorySlot.SetBlockPositionToInventory(block);
 
-        block.ChangeTargetInfo(newTarget, newFeature, -1, SlotType.InventorySlot);
+        block.ChangeTargetInfo(newTarget, newFeature, -1, inventorySlot);
     }
     
-    private void WhenDroppedEngineSlot(EngineBlock block, ISlotType slot)
+    private void WhenDroppedEngineSlot(EngineBlock block, ISlot slot)
     {
-        EngineSlot engineSlot = slot as EngineSlot;
-        int targetIndex = engineSlot.Index;
+        int targetIndex = slot.GetSlotIndex();
         
         // Prev Target의 기능 비활성화
         if (block.PrevTarget != null && block.PrevFeature != null)
@@ -93,7 +107,7 @@ public abstract class BlockContainerBase : MonoBehaviour
         object newFeature = newTarget.GetComponent(block.RequiredFeatureType);
         
         block.Activate(newFeature);
-        newTarget.EngineController.EngineSlotList[targetIndex].SetBlock(block);
+        newTarget.EngineController.SlotList[targetIndex].SetBlockPosition(block);
         
         var (movedBlock, movedBlockIndex) = newTarget.EngineController.TryAddOrMoveOrReplaceBlock(targetIndex, block);
 
@@ -103,7 +117,8 @@ public abstract class BlockContainerBase : MonoBehaviour
             if (movedBlockIndex >= 0)
             {
                 // 빈 슬롯으로 이동
-                newTarget.EngineController.EngineSlotList[movedBlockIndex].SetBlock(movedBlock);
+                newTarget.EngineController.SlotList[movedBlockIndex].SetBlockPosition(movedBlock);
+                movedBlock.ChangeTargetInfo(newTarget, newFeature, movedBlockIndex, newTarget.EngineController.SlotList[movedBlockIndex]);
             }
             else
             {
@@ -112,27 +127,53 @@ public abstract class BlockContainerBase : MonoBehaviour
                 // 인벤토리로 이동
                 var inventory = StageBaseManager.Instance.PlayerManager.Inventory;
                 inventory.AddBlock(movedBlock);
-                movedBlock.InitDefaultBlock(FindAnyObjectByType<InventorySlot>().GetTargetClickable(), SlotType.InventorySlot, -1);
-                movedBlock.transform.SetParent(FindAnyObjectByType<InventorySlot>().transform, false);
+                movedBlock.InitDefaultBlock(InventorySlot.GetTargetClickable(), InventorySlot, -1);
+                movedBlock.transform.SetParent(InventorySlot.transform, false);
             }
-            movedBlock.ChangeTargetInfo(newTarget, newFeature, movedBlockIndex, SlotType.EngineSlot);
         }
-        block.ChangeTargetInfo(newTarget, newFeature, targetIndex, SlotType.EngineSlot);
+        
+        block.ChangeTargetInfo(newTarget, newFeature, targetIndex, newTarget.EngineController.SlotList[targetIndex]);
+    }
+
+    protected void WhenDroppedToolBox(EngineBlock block, ISlot slot)
+    {
+        // 이전 Target의 기능 비활성화
+        if (block.PrevTarget != null && block. PrevFeature != null)
+        {
+            block.Deactivate(block.PrevFeature);
+            block.PrevTarget.BlockContainerBase.RemoveBlock(block.PrevSlotIndex);
+        }
+        
+        slot.SetBlockPosition(block);
+    }
+
+    private void WhenDroppedDebugSlot(EngineBlock block, ISlot slot)
+    {
+        // Prev Target의 기능 비활성화
+        if (block.PrevTarget != null && block.PrevFeature != null)
+        {
+            block.PrevTarget.BlockContainerBase.RemoveBlock(block.PrevSlotIndex);
+            block.Deactivate(block.PrevFeature);
+        }
+        
+        // New Target 기능 활성화
+        Clickable newTarget = slot.GetTargetClickable();
+        object newFeature = newTarget.GetComponent(block.RequiredFeatureType);
+        
+        block.Activate(newFeature);
+        slot.SetBlockPosition(block);
     }
     
-    private void WhenDroppedNone(EngineBlock block)
+    private void WhenDroppedNone(EngineBlock block, ISlot slot)
     {
-        if (block.CurrentSlotType == SlotType.EngineSlot)
+        if (slot == null)
         {
-            var engineSlot = block.PrevTarget.EngineController.EngineSlotList[block.PrevSlotIndex];
-            engineSlot.SetBlock(block);
-            block.SetVisualState(SlotType.EngineSlot);
-        }
-        else
-        {
-            block.transform.SetParent(block.InventorySlot.transform, false);
+            block.transform.SetParent(block.CurrentSlot.GetTransform(), false);
             block.transform.localPosition = Vector3.zero;
-            block.SetVisualState(SlotType.InventorySlot);
+            block.SetVisualState(block.CurrentSlot.GetSlotType());
+            return;
         }
+        
+        slot.SetBlockPosition(block);
     }
 }

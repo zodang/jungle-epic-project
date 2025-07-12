@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,32 +9,42 @@ public class TriggerArea : MonoBehaviour
     public float triggerRangeY = 1f;
 
     public Transform target;
+    public bool OnlyOnce = true;
 
     public UnityEvent OnTrigger;
     bool _isTriggered;
+    bool _isInRange;
 
     void Start()
     {
         _isTriggered = false;
-        target = StageBaseManager.Instance.PlayerManager.transform;
+        _isInRange = false;
+
+        if (target.IsUnityNull())
+            target = StageBaseManager.Instance.PlayerManager.transform;
     }
 
     void Update()
     {
         if (target != null)
         {
-            if (_isTriggered) return;
+            if (_isTriggered && OnlyOnce) return;
 
             float distX = target.position.x - transform.position.x;
             float distY = target.position.y - transform.position.y;
 
-            if (distX < triggerRangeX && distX > -triggerRangeX
-                && distY < triggerRangeY && distY > -triggerRangeY
-                )
+            _isInRange = distX < triggerRangeX && distX > -triggerRangeX
+                && distY < triggerRangeY && distY > -triggerRangeY;
+
+            if(_isInRange && !_isTriggered)
             {
                 _isTriggered = true;
                 Debug.Log("Triggered: " + transform.name);
                 OnTrigger?.Invoke();
+            }
+            else if(!_isInRange && _isTriggered)
+            {
+                _isTriggered = false;
             }
         }
     }

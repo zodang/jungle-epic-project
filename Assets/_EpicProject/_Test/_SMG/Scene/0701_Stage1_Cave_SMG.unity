@@ -4933,6 +4933,7 @@ MonoBehaviour:
   triggerRangeX: 0.4
   triggerRangeY: 0.4
   target: {fileID: 1723781822}
+  OnlyOnce: 1
   OnTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -5161,7 +5162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &782912042
 Transform:
   m_ObjectHideFlags: 0
@@ -9998,7 +9999,6 @@ MonoBehaviour:
   _rangePosition: {x: 0.1, y: 0.1, z: 0.1}
   _rangeRotation: {x: 0, y: 0, z: 10}
   _rangeScale: {x: 0.13, y: 0.13, z: 0.13}
-  IsAligend: 0
   OnIsAligend:
     m_PersistentCalls:
       m_Calls:
@@ -10397,7 +10397,6 @@ MonoBehaviour:
   _rangePosition: {x: 0.1, y: 0.1, z: 0.1}
   _rangeRotation: {x: 0, y: 0, z: 360}
   _rangeScale: {x: 0.13, y: 0.13, z: 0.13}
-  IsAligend: 0
   OnIsAligend:
     m_PersistentCalls:
       m_Calls:
@@ -11726,7 +11725,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _glitchAni: {fileID: 0}
-  _originalAnchoredPos: {x: 0, y: 0}
 --- !u!1001 &1937957342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13388,7 +13386,6 @@ MonoBehaviour:
   _rangePosition: {x: 0.1, y: 0.1, z: 0.1}
   _rangeRotation: {x: 0, y: 0, z: 10}
   _rangeScale: {x: 0.13, y: 0.13, z: 0.13}
-  IsAligend: 0
   OnIsAligend:
     m_PersistentCalls:
       m_Calls:
@@ -13525,6 +13522,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7018723206032203617, guid: 3fb216d6949de1444920da73ede81fc2, type: 3}
   m_PrefabInstance: {fileID: 1378020699259937227}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1532287769053873742
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919393782116144884, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098780347823395558, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: m_Name
+      value: ShadowPuzzleSystemSample
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
 --- !u!4 &5033846803254949269
 Transform:
   m_ObjectHideFlags: 0
@@ -13710,3 +13764,4 @@ SceneRoots:
   - {fileID: 2103060151}
   - {fileID: 532827717}
   - {fileID: 782912042}
+  - {fileID: 1532287769053873742}

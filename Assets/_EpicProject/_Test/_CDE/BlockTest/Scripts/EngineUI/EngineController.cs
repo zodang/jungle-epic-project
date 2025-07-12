@@ -7,24 +7,22 @@ using UnityEngine;
 public class EngineController : BlockContainerBase
 {
     public bool IsActivate { get; private set; } // 창 활성화 여부 체크
+    [SerializeField] private EngineActivationType activationType = EngineActivationType.LeftToRightType; 
     
     private Clickable _currentTarget;
     private EngineUIController _engineUIController;
     private Dictionary<int, EngineBlock> _blockDictionary = new();
     private List<BlockType> _defaultBlockList;
-    public List<EngineSlot> EngineSlotList = new List<EngineSlot>();
+    public List<ISlot> SlotList = new List<ISlot>();
     
     public event Action OnBlockChanged;
     
-    private void Awake()
+    protected void Awake()
     {
+        base.Awake();
+        
         _engineUIController = GetComponent<EngineUIController>();
-        EngineSlotList = new List<EngineSlot>(GetComponentsInChildren<EngineSlot>());
-
-        for (int i = 0; i < EngineSlotList.Count; i++)
-        {
-            EngineSlotList[i].Init(i);
-        }
+        SlotList = new List<ISlot>(GetComponentsInChildren<ISlot>());
     }
 
     private void Start()
@@ -32,6 +30,7 @@ public class EngineController : BlockContainerBase
         // Button 기능 연결
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
+        _engineUIController.OnTabBtnClicked += Deactivate;
         _engineUIController.OnClearBtnClicked += ClearBlock;
         
         // OnBlockChanged += CheckBlockDictionary;
@@ -42,6 +41,7 @@ public class EngineController : BlockContainerBase
     {
         _engineUIController.OnClickCloseBtn -= Deactivate;
         _engineUIController.OnResetBtnClicked -= ResetFeature;
+        _engineUIController.OnTabBtnClicked -= Deactivate;
         _engineUIController.OnClearBtnClicked -= ClearBlock;
     }
     
@@ -57,9 +57,9 @@ public class EngineController : BlockContainerBase
         _currentTarget = target;
         _defaultBlockList = defaultBlockList;
         
+        
         // Slot의 Target Clickable 설정
-        List<ISlotType> slots = new(transform.GetComponentsInChildren<ISlotType>());
-        foreach (var slot in slots)
+        foreach (var slot in SlotList)
         {
             slot.SetTargetClickable(_currentTarget);
         }
@@ -81,8 +81,8 @@ public class EngineController : BlockContainerBase
             if (block == null) continue;
             
             // 블록 기능 활성화
-            block.InitDefaultBlock(_currentTarget, SlotType.EngineSlot, i);
-            EngineSlotList[i].SetBlock(block);
+            block.InitDefaultBlock(_currentTarget, SlotList[i], i);
+            SlotList[i].SetBlockPosition(block);
             
             // 블록 상태 갱신
             _blockDictionary[i] = block;
@@ -97,7 +97,7 @@ public class EngineController : BlockContainerBase
         if (IsActivate) return;
         IsActivate = true;
 
-        _engineUIController.ActivateEffect();
+        _engineUIController.ActivateEffect(activationType);
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
     }
     
@@ -106,7 +106,7 @@ public class EngineController : BlockContainerBase
         IsActivate = false;
         if (!gameObject.activeSelf) return;
         
-        _engineUIController.DeactivateEffect(_currentTarget);
+        _engineUIController.DeactivateEffect(activationType);
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         ClearBlock();
 
@@ -117,13 +117,13 @@ public class EngineController : BlockContainerBase
         IsActivate = false;
         if (!gameObject.activeSelf) return;
         
-        _engineUIController.DeactivateEffect(_currentTarget);
+        _engineUIController.DeactivateEffect(activationType);
         ClearBlock();
     }
     
     public (EngineBlock movedBlock, int movedBlockIndex) TryAddOrMoveOrReplaceBlock(int targetIndex, EngineBlock block)
     {
-        int slotCount = EngineSlotList.Count;
+        int slotCount = SlotList.Count;
 
         // Target Index에 Block 없을 때
         if (!_blockDictionary.TryGetValue(targetIndex, out var existingBlock))
@@ -167,7 +167,7 @@ public class EngineController : BlockContainerBase
     {
         if (!_blockDictionary.ContainsKey(index)) return;
         _blockDictionary.Remove(index);
-        EngineSlotList[index].SetBlock(null);
+        SlotList[index].SetBlockPosition(null);
         OnBlockChanged?.Invoke();
     }
     private void ResetFeature()
@@ -196,12 +196,21 @@ public class EngineController : BlockContainerBase
     
     public void DropToInventorySlot(EngineBlock block)
     {
-        if (block.CurrentSlotType is SlotType.InventorySlot) return;
-        
         // 인벤토리로 블록 이동
-        if (FindAnyObjectByType<InventorySlot>() == null) return;
-        WhenDroppedInventorySlot(block, FindAnyObjectByType<InventorySlot>());
-        
+        if (InventorySlot == null) return;
+        WhenDroppedInventorySlot(block, InventorySlot);
         block.SetVisualState(SlotType.InventorySlot);
+    }
+
+    public void DropToToolBoxSlot(EngineBlock block)
+    {
+        if (ToolBoxSlot == null) return;
+        WhenDroppedToolBox(block, ToolBoxSlot);
+    }
+
+    public void DisableEngineDeactivate()
+    {
+        _engineUIController.OnTabBtnClicked -= Deactivate;
+        _engineUIController.DisableTabBtn();
     }
 }

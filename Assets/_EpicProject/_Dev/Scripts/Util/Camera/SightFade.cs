@@ -2,18 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class SightFade : MonoBehaviour
 {
+    private enum FadeTargetType
+    {
+        SpriteType,
+        TilemapType,
+    }
+    [SerializeField] private FadeTargetType fadeTargetType;
+    
     private List<Transform> _insider = new List<Transform>();
     private CinemachineTargetGroup _cinemachineTargetGroup;
-    private SpriteRenderer _spriteRenderer;
     private bool _isHide;
+    
+    private SpriteRenderer _spriteRenderer;
+    private Tilemap _tilemap;
 
+    private Coroutine _fadeCo;
+    
     private void Awake()
     {
         _cinemachineTargetGroup = FindAnyObjectByType<CinemachineTargetGroup>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        switch (fadeTargetType)
+        {
+            case FadeTargetType.SpriteType:
+                _spriteRenderer = GetComponent<SpriteRenderer>();
+                break;
+            case FadeTargetType.TilemapType:
+                _tilemap = GetComponent<Tilemap>();
+                break;
+        }
 
         _insider.Clear();
         _isHide = false;
@@ -53,12 +74,23 @@ public class SightFade : MonoBehaviour
     {
         if (_isHide == isHide) return;
         _isHide = isHide;
-        StartCoroutine(SetFadeCoroutine(_isHide));
+
+        // 실행중인 Fade 코루틴 있으면 중단 후 실행
+        if (_fadeCo != null) StopCoroutine(_fadeCo);
+        
+        StartCoroutine(fadeTargetType == FadeTargetType.SpriteType
+            ? SetSpriteFadeCoroutine(_isHide)
+            : SetTilemapFadeCoroutine(_isHide));
     }
 
-    IEnumerator SetFadeCoroutine(bool isHide)
+    IEnumerator SetSpriteFadeCoroutine(bool isHide)
     {
-        yield return null;
+        if (_spriteRenderer == null)
+        {
+            Debug.Log("Sprite가 없습니다.");
+            yield break;
+        }
+        
         Color color = _spriteRenderer.color;
         for (int i = 1; i <= 4; i++)
         {
@@ -69,6 +101,27 @@ public class SightFade : MonoBehaviour
                 color.a = 1f - color.a;
             }
             _spriteRenderer.color = color;
+        }
+    }
+
+    IEnumerator SetTilemapFadeCoroutine(bool isHide)
+    {
+        if (_tilemap == null)
+        {
+            Debug.Log("Tilemap이 없습니다.");
+            yield break;
+        }
+        
+        Color color = _tilemap.color;
+        for (int i = 1; i <= 4; i++)
+        {
+            yield return new WaitForSeconds(0.05f);
+            color.a = i * 0.25f;
+            if(_isHide)
+            {
+                color.a = 1f - color.a;
+            }
+            _tilemap.color = color;
         }
     }
 }
