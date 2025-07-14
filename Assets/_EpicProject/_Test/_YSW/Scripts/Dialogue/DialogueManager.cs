@@ -19,6 +19,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private string dialogueFileName = "dialogues";
     [SerializeField] private bool pauseGameDuringDialogue = true;
 
+    [Header("Interaction Settings")] // 쿨타임 설정을 위한 헤더 추가
+    [SerializeField] private float dialogueEndCooldown = 0.5f; // 대화 종료 후 재시작까지의 쿨타임 (초)
+
     public const string PLAYER_TAG = "Player";
     private const string PLAYER_SPEECH_ANCHOR_NAME = "PlayerSpeechAnchor";
     private static readonly Dictionary<string, string> PLAYER_DISPLAY_NAMES = new Dictionary<string, string>
@@ -54,11 +57,12 @@ public class DialogueManager : MonoBehaviour
     public Transform CurrentChoiceBubbleTargetAnchor { get; set; }
 
     private bool justStartedDialogueInputLock = false;
-    private bool dialogueJustEndedInputLock = false;
+    // private bool dialogueJustEndedInputLock = false; // 이 변수를 아래 float 변수로 대체
+    private float dialogueEndTime = -1f; // 대화가 종료된 시간을 기록 (-1은 아직 종료되지 않았음을 의미)
     public int CurrentSelectedChoiceIndex { get; set; } = 0;
 
     public bool IsDialogueActive() => currentState != null && currentState != IdleState;
-    public bool WasDialogueJustEndedThisFrame() => dialogueJustEndedInputLock;
+    //public bool WasDialogueJustEndedThisFrame() => dialogueJustEndedInputLock;
 
     // 상태 클래스에서 현재 활성화된 일반 대화 UI에 접근하기 위한 헬퍼
     public DialogueUI GetCurrentActiveDialogueBubble() => activeDialogueBubbleUI;
@@ -311,7 +315,8 @@ public class DialogueManager : MonoBehaviour
         if (playerDialogueBubbleInstance != null) playerDialogueBubbleInstance.Show(false);
         if (CurrentChoiceBubbleUI != null) CurrentChoiceBubbleUI.Show(false);
 
-        dialogueJustEndedInputLock = true;
+        // dialogueJustEndedInputLock = true; // 이 줄 대신 아래 줄 사용
+        dialogueEndTime = Time.unscaledTime; // <<== 대화 종료 시점의 실제 시간 기록
         if (pauseGameDuringDialogue) Time.timeScale = 1f;
 
         currentNpcSpeakerAnchor = null;
@@ -325,9 +330,22 @@ public class DialogueManager : MonoBehaviour
         TransitionToState(IdleState);
     }
 
+    // WasDialogueJustEndedThisFrame() 함수를 새로운 쿨타임 확인 함수로 변경
+    public bool IsInDialogueCooldown()
+    {
+        // dialogueEndTime이 기록되어 있고 (즉, 대화가 끝난 적이 있고),
+        // 현재 시간과 대화 종료 시간의 차이가 쿨타임보다 작다면
+        // 아직 쿨타임 중입니다.
+        if (dialogueEndTime > 0 && Time.unscaledTime < dialogueEndTime + dialogueEndCooldown)
+        {
+            return true;
+        }
+        return false;
+    }
+
     void Update()
     {
-        if (dialogueJustEndedInputLock) { dialogueJustEndedInputLock = false; }
+        //if (dialogueJustEndedInputLock) { dialogueJustEndedInputLock = false; }
         if (justStartedDialogueInputLock && currentState != null && currentState != IdleState)
         {
             justStartedDialogueInputLock = false;
@@ -335,17 +353,46 @@ public class DialogueManager : MonoBehaviour
         }
         if (currentState == null || currentState == IdleState) return;
 
-        // 공통 입력 처리 (스페이스바 또는 Next 버튼 클릭)
-        if (Input.GetKeyDown(KeyCode.E)) // 또는 다른 키
-        {
-            ProcessNextActionInput();
-        }
+        // ======================= 새로운 입력 처리 로직 =======================
+        HandleKeyboardInput(); // 키보드 입력을 별도 함수로 관리
 
-        // 상태별 특수 입력 처리 또는 일반 업데이트는 상태의 UpdateState에 위임
-        currentState.UpdateState(this); // 예: 방향키, 시간 기반 로직 등
+        currentState.UpdateState(this); // 상태별 특수 입력 처리 (방향키 등)
 
         PositionActiveDialogueBubble();
         PositionChoiceBubble();
+    }
+
+    private void HandleKeyboardInput()
+    {
+        // E키 입력 처리 (대화가 활성화된 모든 상태에서 공통으로 적용될 수 있음)
+        if (currentState == ShowingLineState)
+        {
+            DialogueUI currentBubble = GetCurrentActiveDialogueBubble();
+            if (currentBubble != null)
+            {
+                TypeEffect currentTypeEffect = currentBubble.GetAttachedTypeEffect();
+                if (currentTypeEffect != null)
+                {
+                    // E키를 꾹 누르고 있을 때: 빨리 감기 모드 켜기
+                    if (Input.GetKey(KeyCode.E))
+                    {
+                        currentTypeEffect.SetFastForward(true);
+                    }
+                    // E키에서 손을 뗄 때: 빨리 감기 모드 끄기
+                    else if (Input.GetKeyUp(KeyCode.E))
+                    {
+                        currentTypeEffect.SetFastForward(false);
+                    }
+                }
+            }
+        }
+
+        // E키를 짧게 눌렀을 때의 공통 액션
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            // E키는 이제 스킵 기능 없이, 타이핑이 끝난 후에만 다음으로 넘어감
+            ProcessEKeyInputAction();
+        }
     }
 
     void PositionActiveDialogueBubble()
@@ -363,31 +410,55 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ProcessNextActionInput() // 버튼 클릭 또는 스페이스바 입력 시 호출
+    // ProcessNextActionInput 함수는 이제 키보드와 Next 버튼 모두에 의해 호출됨
+    // Next 버튼 클릭 시 호출되는 함수 (스킵 기능 포함)
+    public void ProcessNextActionInput()
     {
-        if (!IsDialogueActive() || justStartedDialogueInputLock || dialogueJustEndedInputLock) return; // 안전장치
+        if (!IsDialogueActive() || justStartedDialogueInputLock || IsInDialogueCooldown()) return;
 
-        // 현재 상태에 따라 다른 행동
         if (currentState == ShowingLineState)
         {
             DialogueUI currentBubble = GetCurrentActiveDialogueBubble();
             if (currentBubble != null && currentBubble.IsTyping())
             {
+                // Next 버튼은 타이핑 중일 때 스킵(완료) 기능
                 currentBubble.CompleteTyping();
             }
             else
+            {
+                // 타이핑이 끝나면 다음 대사로
+                AdvanceDialogue();
+            }
+        }
+        else if (currentState == ShowingChoicesState)
+        {
+            // 선택지 화면에서 Next 버튼은 선택 확정 역할
+            if (CurrentChoices != null && CurrentSelectedChoiceIndex >= 0 && CurrentSelectedChoiceIndex < CurrentChoices.Count)
+            {
+                SelectCurrentChoice();
+            }
+        }
+    }
+
+    // E 키를 짧게 눌렀을 때의 처리
+    private void ProcessEKeyInputAction()
+    {
+        if (!IsDialogueActive() || justStartedDialogueInputLock || IsInDialogueCooldown()) return;
+
+        if (currentState == ShowingLineState)
+        {
+            DialogueUI currentBubble = GetCurrentActiveDialogueBubble();
+            if (currentBubble != null && !currentBubble.IsTyping())
             {
                 AdvanceDialogue();
             }
         }
         else if (currentState == ShowingChoicesState)
         {
-            // 선택지 상태에서 스페이스바/Next버튼은 "선택 확정" 역할
             if (CurrentChoices != null && CurrentSelectedChoiceIndex >= 0 && CurrentSelectedChoiceIndex < CurrentChoices.Count)
             {
                 SelectCurrentChoice();
             }
         }
-        // 다른 상태에 대한 Next 액션이 있다면 추가
     }
 }

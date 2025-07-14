@@ -3248,6 +3248,7 @@ MonoBehaviour:
   triggerRangeX: 0.3
   triggerRangeY: 0.3
   target: {fileID: 1723781822}
+  OnlyOnce: 1
   OnTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -5211,7 +5212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3730ff5ec07b6f641be5ada135d271a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageFilePath: 
 --- !u!1 &1310882146
 GameObject:
   m_ObjectHideFlags: 0
@@ -6130,6 +6130,10 @@ PrefabInstance:
       propertyPath: _canvasTransform
       value: 
       objectReference: {fileID: 420110227}
+    - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
+      propertyPath: dialogueEndCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9115847241839283720, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
       propertyPath: OnDialogueEnd.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: 
@@ -7631,6 +7635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _glitchAni: {fileID: 0}
 --- !u!1001 &1937957342
 PrefabInstance:
   m_ObjectHideFlags: 0

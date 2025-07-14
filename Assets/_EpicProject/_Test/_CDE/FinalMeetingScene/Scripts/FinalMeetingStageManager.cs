@@ -1,11 +1,12 @@
+using Define;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 public class FinalMeetingStageManager : StageBaseManager
 {
-    // [Header("컷신에 등장하는 배우 및 중요 오브젝트 목록")] // 헤더를 추가하면 에디터에서 보기 편합니다.
     [SerializeField] private Daughter _daughter;
+    [SerializeField] private SpriteRenderer _daughterSpriteRenderer;
     [SerializeField] private SimpleSlot _simpleSlot;
 
     private PlayableDirector _playableDirector;
@@ -17,8 +18,6 @@ public class FinalMeetingStageManager : StageBaseManager
         stageFilePath = "StageInfos/FinalMeetingStage";
         base.Awake();
 
-        
-        
         _playableDirector = GetComponent<PlayableDirector>();
     }
 
@@ -35,8 +34,9 @@ public class FinalMeetingStageManager : StageBaseManager
 
     private void PlayTimeline(int index)
     {
-        // 딸 클릭 비활성화
-        _daughter.GetComponentInChildren<CapsuleCollider2D>().enabled = false;
+        // 플레이어 Input 비활성화
+        StageManager.Instance.InputManager.ActivatePlayerInput(false);
+        _daughterSpriteRenderer.GetComponent<Collider2D>().enabled = false;
         
         _playableDirector.playableAsset = timelines[index]; 
         _playableDirector.Play();
@@ -46,13 +46,16 @@ public class FinalMeetingStageManager : StageBaseManager
     {
         // 딸 엔진 창 비활성화
         _daughter.GetComponent<Clickable>().EngineController.DeactivateSilently();
+        _daughterSpriteRenderer.enabled = false;    
+        
         PlayTimeline(1);
     }
 
     public void HandleFirstTimelineEnd()
     {
-        // 딸 클릭 활성화
-        _daughter.GetComponentInChildren<CapsuleCollider2D>().enabled = true;
+        // 플레이어 Input 활성화
+        StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        _daughterSpriteRenderer.GetComponent<Collider2D>().enabled = true;
         
         // 블록 드래그 활성화
         _simpleSlot.AddEvents();
@@ -60,6 +63,10 @@ public class FinalMeetingStageManager : StageBaseManager
     
     public void HandleSecondTimelineEnd()
     {
-        Debug.Log("@@DE ---> 디버그 모드 씬 전환");
+        // 플레이어 Input 활성화
+        StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        
+        // 씬 전환
+        GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
     }
 }

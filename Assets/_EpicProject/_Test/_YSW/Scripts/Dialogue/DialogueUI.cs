@@ -239,6 +239,10 @@ public class DialogueUI : MonoBehaviour
             CompleteTyping();
         }
     }
+    public TypeEffect GetAttachedTypeEffect()
+    {
+        return mainTextTypeEffect;
+    }
 
     /// <summary>
     /// 선택지 표시 중에는 Next 버튼을 숨길지 여부 등을 결정하는 함수

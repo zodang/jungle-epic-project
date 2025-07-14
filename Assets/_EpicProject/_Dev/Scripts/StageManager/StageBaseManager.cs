@@ -35,6 +35,7 @@ public abstract class StageBaseManager : MonoBehaviour
         PlayerManager = FindAnyObjectByType<PlayerManager>();
         DialogueManager = FindAnyObjectByType<DialogueManager>();
         FlagManager = FindAnyObjectByType<FlagManager>();
+        
         if(FlagManager.IsUnityNull())
         {
             FlagManager = transform.AddComponent<FlagManager>();
@@ -43,6 +44,11 @@ public abstract class StageBaseManager : MonoBehaviour
         // Clickable의 프로필 데이터 로드
         ClickableList = new List<Clickable>(FindObjectsByType<Clickable>(FindObjectsSortMode.None));
         LoadClickableProfile();
+
+        // 씬 전환 시 초기화
+        Time.timeScale = 1;
+        StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        GameManager.Instance.SettingManager.CloseSetting();
     }
     
     private void LoadClickableProfile()

@@ -16,7 +16,7 @@ public class ESCManager : MonoBehaviour
 
     private void Start()
     {
-        _button.onClick.AddListener(GameManager.Instance.SettingManager.OpenSetting);
+        _button.onClick.AddListener(GameManager.Instance.SettingManager.ToggleSetting);
 
     }
 }

@@ -9,7 +9,7 @@ public class AudioSetting : MonoBehaviour
     [SerializeField] private Slider BgmSlider;
     [SerializeField] private Slider SfxSlider;
 
-    private void Start()
+    private void Awake()
     {
         BgmSlider.minValue = 0f;
         BgmSlider.maxValue = GetOptimalBgmVolume() * 2f;
