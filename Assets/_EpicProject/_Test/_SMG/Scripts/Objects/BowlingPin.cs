@@ -18,8 +18,8 @@ public class BowlingPin : MonoBehaviour, IFeatureResetable, IControllable
     private RotateHandler _rotateHandler;
 
     [Header("Setting/Scale")]
-    public float DefaultScale = 1f;
-    public float MinScale = 1f;
+    public float DefaultScale = 3f;
+    public float MinScale = 0.5f;
     public float MaxScale = 4;
     private ScaleHandler _scaleHandler;
 
@@ -64,7 +64,7 @@ public class BowlingPin : MonoBehaviour, IFeatureResetable, IControllable
     {
         _enableMove = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-        foot.enabled = true;
+        //foot.enabled = true;
         _movement2D.MoveDir = Vector3.zero;
     }
 
@@ -72,7 +72,7 @@ public class BowlingPin : MonoBehaviour, IFeatureResetable, IControllable
     {
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
-        foot.enabled = false;
+        //foot.enabled = false;
         _movement2D.MoveDir = Vector3.zero;
     }
 
