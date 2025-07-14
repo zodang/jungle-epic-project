@@ -18,7 +18,7 @@ public class TestModeUI : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < _totalSceneCount; i++)
+        for (int i = 0; i < _totalSceneCount - 2; i++)
         {
             int index = i;
 
