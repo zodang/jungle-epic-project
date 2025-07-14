@@ -405,7 +405,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.290606, y: 0.41234374, z: -10}
+  m_LocalPosition: {x: -9.298103, y: 0.41234374, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2794,6 +2794,14 @@ PrefabInstance:
     - target: {fileID: 8218167193114042189, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
       propertyPath: m_Name
       value: StageBaseCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 9145731873391032685, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1924819232}
+    - target: {fileID: 9145731873391032685, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGlitch
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
