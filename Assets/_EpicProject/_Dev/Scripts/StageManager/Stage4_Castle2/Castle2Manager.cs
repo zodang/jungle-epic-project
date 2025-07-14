@@ -20,7 +20,7 @@ public class Castle2Manager : StageBaseManager
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
 
-        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage3);
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_2);
     }
 
     private void OnGoalTriggered()

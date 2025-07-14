@@ -39,7 +39,6 @@ public class TriggerArea : MonoBehaviour
             if(_isInRange && !_isTriggered)
             {
                 _isTriggered = true;
-                Debug.Log("Triggered: " + transform.name);
                 OnTrigger?.Invoke();
             }
             else if(!_isInRange && _isTriggered)
