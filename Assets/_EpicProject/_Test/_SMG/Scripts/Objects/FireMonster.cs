@@ -1,13 +1,18 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FireMonster : MonoBehaviour
 {
-    public GameObject model;
-    public GameObject modelBaby;
-    public GameObject DetectionRange;
+    public GameObject BabyObject;
 
-    float _firePowerBase = 86f;
+    public GameObject model;
+    //public GameObject modelBaby;
+    //public GameObject DetectionRange;
+
+    [SerializeField] float _firePowerBase = 86f;
     float _firePower;
+
+    public UnityEvent OnDefeated;
 
     private void Start()
     {
@@ -20,11 +25,14 @@ public class FireMonster : MonoBehaviour
     {
         if (_firePower < 0)
         {
-            if (model.activeSelf)
+            if (gameObject.activeSelf)
             {
-                model.SetActive(false);
-                modelBaby.SetActive(true);
-                DetectionRange.SetActive(false);
+                gameObject.SetActive(false);
+                BabyObject.SetActive(true);
+                //model.SetActive(false);
+                //modelBaby.SetActive(true);
+                //DetectionRange.SetActive(false);
+                OnDefeated?.Invoke();
             }
 
         }
