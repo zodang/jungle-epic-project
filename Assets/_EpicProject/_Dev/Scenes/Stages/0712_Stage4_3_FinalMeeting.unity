@@ -3404,6 +3404,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e0aa960ebbf61a4e8dc6992345b375d, type: 3}
+--- !u!95 &1821672104 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4933739621265889110, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+  m_PrefabInstance: {fileID: 825052883}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1924819227
 GameObject:
   m_ObjectHideFlags: 0
@@ -3557,7 +3562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _glitchAni: {fileID: 0}
+  _glitchAni: {fileID: 1821672104}
 --- !u!95 &1924819234
 Animator:
   serializedVersion: 7
@@ -4289,6 +4294,7 @@ GameObject:
   - component: {fileID: 6836015967923465182}
   - component: {fileID: 7503295621025128505}
   - component: {fileID: 9065184776945658816}
+  - component: {fileID: 9065184776945658817}
   m_Layer: 6
   m_Name: Block
   m_TagString: Untagged
@@ -4476,7 +4482,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.16055, y: 0.15614, z: 1}
+  m_LocalScale: {x: 0.49, y: 0.4765407, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5079588251756454846}
@@ -4738,6 +4744,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingOrderBias: 0
   forceToBottom: 0
+--- !u!114 &9065184776945658817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5540022471606977214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f55fcc3768689a4f9cf863b8c11c618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LocalizedAssetReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:9c3d0e54189f5fd478f283ebabf97beb
+    m_TableEntryReference:
+      m_KeyId: 6189127274291200
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+  m_UpdateAsset:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7503295621025128505}
+        m_TargetAssemblyTypeName: UnityEngine.SpriteRenderer, UnityEngine
+        m_MethodName: set_sprite
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
