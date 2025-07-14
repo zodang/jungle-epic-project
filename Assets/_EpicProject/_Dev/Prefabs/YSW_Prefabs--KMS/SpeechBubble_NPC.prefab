@@ -271,8 +271,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2d5248551ad3c4fbd8907a204cf52e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetMsg: ' '
-  charPerSeconds: 10
+  charsPerSecond: 15
+  fastForwardSpeed: 50
+  fastForwardSoundInterval: 3
 --- !u!114 &1932963734676091850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,7 +555,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -179.35004, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
