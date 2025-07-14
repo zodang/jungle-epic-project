@@ -20,7 +20,7 @@ public class GameUIManager : MonoBehaviour
         }
         else
         {
-            SettingUI.OpenSettingUI(!SettingUI.IsActive());
+            GameManager.Instance.SettingManager.ToggleSetting();
         }
     }
 }

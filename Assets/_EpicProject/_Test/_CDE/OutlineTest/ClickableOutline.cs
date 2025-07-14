@@ -77,7 +77,7 @@ public class ClickableOutline : MonoBehaviour
         }
     }
 
-    private void SetOutline(bool active)
+    public void SetOutline(bool active)
     {
         _visualRenderer.GetPropertyBlock(_mpb);
         _mpb.SetFloat(_outlineProperty, active ? 1 : 0);

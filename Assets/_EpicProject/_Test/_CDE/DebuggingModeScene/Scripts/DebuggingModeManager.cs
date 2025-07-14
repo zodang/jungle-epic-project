@@ -4,6 +4,7 @@ using UnityEngine.Playables;
 public class DebuggingModeManager : StageBaseManager
 {
     [SerializeField] private Clickable _brokenBlock;
+    private ClickableOutline _brokenBlockOutline;
     
     private PlayableDirector _playableDirector;
     private PuzzleFSM _puzzleFSM;
@@ -16,30 +17,30 @@ public class DebuggingModeManager : StageBaseManager
         
         _playableDirector = GetComponent<PlayableDirector>();
         _puzzleFSM = GetComponent<PuzzleFSM>();
+        _brokenBlockOutline = _brokenBlock.GetComponentInChildren<ClickableOutline>();
     }
 
     private void Start()
     {
-        // 대화 불러오기
-        // DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
-
         _brokenBlock.OnClickAction += WhenBlockClicked;
     }
 
     protected override void OnDestroy()
     {
+        StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        
         _brokenBlock.OnClickAction -= WhenBlockClicked;
         base.Awake();
     }
 
     private void WhenBlockClicked()
     {
-        // 엔진창 비활성화 기능 제거
-        FindAnyObjectByType<EngineManager>().DisableEngineDeactivate();
-        _brokenBlock.EngineController.DisableEngineDeactivate();
+        // 플레이어 Input 비활성화
+        StageManager.Instance.InputManager.ActivatePlayerInput(false);
         
-        // 오브젝트 클릭 이벤트 제거
-        _brokenBlock.OnClickAction -= WhenBlockClicked;
+        // 감정블록 아웃라인 비활성화
+        _brokenBlockOutline.SetOutline(false);
+        _brokenBlockOutline.enabled = false;
         
         _playableDirector.Play();
     }

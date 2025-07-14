@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Define;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,6 +11,7 @@ public class InputManager : MonoBehaviour
     public event Action OnInteract;
     public event Action OnEscPressed;
     public event Action OnTabPressed;
+    public event Action OnQPressed;
     
     public Vector2 MoveInput { get; private set; }
 
@@ -22,9 +22,10 @@ public class InputManager : MonoBehaviour
     private InputAction _interactionAction;
     private InputAction _talkAction;
     private InputAction _clickAction;
-    private InputAction _OffEngineAction;
+    private InputAction _toggleSettingAction;
     private InputAction _toggleInventoryAction;
-
+    private InputAction _glitchVisionAction;
+    
     private bool _isClicked;
     
     private bool _isPlayerInputActive = true;
@@ -40,15 +41,18 @@ public class InputManager : MonoBehaviour
         _interactionAction = _actionMap.FindAction("Interact");
         _talkAction = _actionMap.FindAction("Talk");
         _clickAction = _actionMap.FindAction("Click");
-        _OffEngineAction = _actionMap.FindAction("OffEngine");
+        _toggleSettingAction = _actionMap.FindAction("ToggleSetting");
         _toggleInventoryAction = _actionMap.FindAction("ToggleInventory");
+        _glitchVisionAction = _actionMap.FindAction("GlitchVision");
+        
 
         _moveAction.performed += OnMovePerformed;
         _moveAction.canceled += OnMoveCanceled;
         _interactionAction.performed += OnInteractionPerformed;
-        _clickAction.performed += OnCLickPerformed;
-        _OffEngineAction.performed += OnOffEnginePerformed;
+        _clickAction.performed += OnClickPerformed;
+        _toggleSettingAction.performed += OnToggleSettingPerformed;
         _toggleInventoryAction.performed += OnToggleInventoryPerformed;
+        _glitchVisionAction.performed += OnGlitchVisioPerformed;
 
         _actionMap.Enable();
     }
@@ -81,7 +85,7 @@ public class InputManager : MonoBehaviour
         OnInteract?.Invoke();
     }
     
-    private void OnCLickPerformed(InputAction.CallbackContext context)
+    private void OnClickPerformed(InputAction.CallbackContext context)
     {
         if (!_isPlayerInputActive) return;
         if (Time.timeScale <= 0) return;
@@ -89,11 +93,8 @@ public class InputManager : MonoBehaviour
         _isClicked = true;
     }
     
-    private void OnOffEnginePerformed(InputAction.CallbackContext context)
+    private void OnToggleSettingPerformed(InputAction.CallbackContext context)
     {
-        if (!_isPlayerInputActive) return;
-        if (Time.timeScale <= 0) return;
-        
         OnEscPressed?.Invoke();
     }
 
@@ -105,13 +106,12 @@ public class InputManager : MonoBehaviour
         OnTabPressed?.Invoke();
     }
 
-    private bool IsInputFieldFocused()
+    private void OnGlitchVisioPerformed(InputAction.CallbackContext context)
     {
-        // InputField 입력 중 여부 반환
-        GameObject selectedObj = EventSystem.current.currentSelectedGameObject;
-        if (selectedObj == null) return false;
+        if (!_isPlayerInputActive) return;
+        if (Time.timeScale <= 0) return;
         
-        return selectedObj.GetComponent<TMP_InputField>() != null;
+        OnQPressed?.Invoke();
     }
     
     public void OnDestroy()
@@ -122,11 +122,12 @@ public class InputManager : MonoBehaviour
         _moveAction.performed -= OnMovePerformed;
         _moveAction.canceled -= OnMoveCanceled;
         _interactionAction.performed -= OnInteractionPerformed;
-        _clickAction.performed -= OnCLickPerformed;
+        _clickAction.performed -= OnClickPerformed;
 
         OnInteract = null;
         OnEscPressed = null;
         OnTabPressed = null;
+        OnQPressed = null;
         
         _inputActionAsset = null;
         _actionMap = null;
@@ -179,8 +180,20 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
-        
+
+        StageTest();
         // BlockTest();
+    }
+
+    private void StageTest()
+    {
+        bool condition1 = Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Tab);
+        bool condition2 = Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKey(KeyCode.Tab);
+        
+        if (condition1 || condition2)
+        {
+            FindAnyObjectByType<TestModeUI>().ActivateStageCommandUI();
+        }
     }
 
     private void BlockTest()

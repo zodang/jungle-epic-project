@@ -24,11 +24,6 @@ public class SettingUI : MonoBehaviour
         closeBtn.onClick.AddListener(OnClickCloseBtn);
     }
 
-    private void Start()
-    {
-        OpenSettingUI(false);
-    }
-
     private void OnClickCloseBtn()
     {
         OnCloseBtnClicked?.Invoke();

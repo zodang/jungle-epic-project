@@ -59,6 +59,7 @@ public class PuzzleFSM : MonoBehaviour
         
         // 정답 블록 시
         OnBlockCorrect?.Invoke();
+        _currentBlock.SetInteraction(false, false, false);
     }
 
     public void ChangeToNextStep()
@@ -104,10 +105,15 @@ public class PuzzleFSM : MonoBehaviour
         // 오답 대사로 변경
         _simpleDialogueUI.ChangeSpeechBubbleUI("step_retry_player");
         _engineRectTransform.DOShakePosition(1f, new Vector2(10f, 10f));
+        
+        _currentBlock.SetInteraction(false, false, false);
+        block.SetVisualState(SlotType.ToolBoxSlot);
         yield return new WaitForSeconds(1f);
         
         // 기존 Slot으로 이동
         _engineController.DropToToolBoxSlot(block);
+        _debugSlot.SetCurrentBlock(null);
+        _currentBlock.SetInteraction(false, true, true);
         yield return new WaitForSeconds(3.0f);
         
         // 유도 대사로 변경
@@ -119,6 +125,10 @@ public class PuzzleFSM : MonoBehaviour
         yield return new WaitForSeconds(3f);
         
         _engineController.DropToToolBoxSlot(block);
+        _debugSlot.SetCurrentBlock(null);
+        _currentBlock.SetInteraction(false, true, true);
+        _currentBlock = null;
+        
         ChangeStep();
     }
 }

@@ -9,7 +9,7 @@ public class SettingManager : MonoBehaviour
     public AudioSetting AudioSetting { get; private set; }
     
     private SettingUI _settingUI;
-    private bool _isSettingUIOpen = false;
+    private bool _isSettingUIOpen = true;
     
     private SettingData _currentSetting = new SettingData();
     
@@ -24,7 +24,7 @@ public class SettingManager : MonoBehaviour
 
     private void Start()
     {
-        _settingUI.OnCloseBtnClicked += OpenSetting;
+        _settingUI.OnCloseBtnClicked += ToggleSetting;
         
         // 저장된 설정값 불러오기
         _currentSetting = GameManager.Instance.SaveManager.LoadSettingData();
@@ -32,11 +32,32 @@ public class SettingManager : MonoBehaviour
         StartCoroutine(ApplyLocalization());
         ApplyResolutionSetting();
         ApplyAudioSetting();
+        
+        _isSettingUIOpen = false;
+        _settingUI.OpenSettingUI(_isSettingUIOpen);
     }
     
-    public void OpenSetting()
+    public void ToggleSetting()
     {
         _isSettingUIOpen = !_isSettingUIOpen;
+        _settingUI.OpenSettingUI(_isSettingUIOpen);
+        
+        if (!_isSettingUIOpen)
+        {
+            // Setting UI 닫을 때 설정 데이터 저장
+            SaveSetting();
+        }
+    }
+
+    public void OpenSetting()
+    {
+        _isSettingUIOpen = true;
+        _settingUI.OpenSettingUI(_isSettingUIOpen);
+    }
+
+    public void CloseSetting()
+    {
+        _isSettingUIOpen = false;
         _settingUI.OpenSettingUI(_isSettingUIOpen);
         
         if (!_isSettingUIOpen)

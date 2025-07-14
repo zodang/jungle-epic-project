@@ -8,6 +8,8 @@ public class DebugSlot : MonoBehaviour, ISlot
     private Clickable _targetClickable;
     [SerializeField] private int index;
 
+    private EngineBlock _currentBlock;
+
     public int GetSlotIndex()
     {
         return index;
@@ -30,6 +32,8 @@ public class DebugSlot : MonoBehaviour, ISlot
 
     public void SetBlockPosition(EngineBlock block)
     {
+        SetCurrentBlock(block);
+        
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
         block.SetVisualState(SlotType.DebugSlot);
@@ -40,5 +44,15 @@ public class DebugSlot : MonoBehaviour, ISlot
     public void SetTargetClickable(Clickable clickable)
     {
         _targetClickable = clickable;
+    }
+
+    public EngineBlock GetCurrentBlock()
+    {
+        return _currentBlock;
+    }
+
+    public void SetCurrentBlock(EngineBlock block)
+    {
+        _currentBlock = block;
     }
 }
