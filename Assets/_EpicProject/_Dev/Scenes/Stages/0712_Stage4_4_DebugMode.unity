@@ -948,11 +948,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6875, y: 1}
   m_EdgeRadius: 0
---- !u!95 &265337248 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4933739621265889110, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
-  m_PrefabInstance: {fileID: 825052883}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &301793643
 GameObject:
   m_ObjectHideFlags: 0
@@ -2713,13 +2708,13 @@ PlayableDirector:
   - key: {fileID: -4769943945280166753, guid: 5000ef1cb9a5c8d42b8deeb53013d512, type: 2}
     value: {fileID: 638017727}
   - key: {fileID: 1149419601226891869, guid: 8b73e1f8961429f4a88c7227ac35dd0f, type: 2}
-    value: {fileID: 1924819234}
+    value: {fileID: 0}
   - key: {fileID: 1718658820783460064, guid: 5000ef1cb9a5c8d42b8deeb53013d512, type: 2}
     value: {fileID: 1308466451}
   - key: {fileID: -2629867085488446151, guid: 8b73e1f8961429f4a88c7227ac35dd0f, type: 2}
     value: {fileID: 1308466451}
   - key: {fileID: 7372134233833452457, guid: 5000ef1cb9a5c8d42b8deeb53013d512, type: 2}
-    value: {fileID: 1924819234}
+    value: {fileID: 0}
   - key: {fileID: 4596689881757789099, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
     value: {fileID: 638017727}
   - key: {fileID: 5569455573830808144, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
@@ -2731,7 +2726,7 @@ PlayableDirector:
   - key: {fileID: 3439484536494251868, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
     value: {fileID: 1641372123}
   - key: {fileID: 5264037885641113690, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
-    value: {fileID: 1924819234}
+    value: {fileID: 0}
   - key: {fileID: 6911463291434538240, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
     value: {fileID: 1399396108}
   - key: {fileID: -5848019863977431518, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
@@ -3768,8 +3763,6 @@ GameObject:
   - component: {fileID: 1924819229}
   - component: {fileID: 1924819228}
   - component: {fileID: 1924819232}
-  - component: {fileID: 1924819233}
-  - component: {fileID: 1924819234}
   m_Layer: 0
   m_Name: CinemachineGlitchVision
   m_TagString: Untagged
@@ -3896,41 +3889,6 @@ MonoBehaviour:
   glitchCamOrtho: 6.5
   normalCutoff: 5000
   glitchCutoff: 400
---- !u!114 &1924819233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924819227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _glitchAni: {fileID: 265337248}
---- !u!95 &1924819234
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924819227}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1930697449
 GameObject:
   m_ObjectHideFlags: 0

@@ -2010,7 +2010,7 @@ PlayableDirector:
   - key: {fileID: 9207470380292532360, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
     value: {fileID: 806595596}
   - key: {fileID: -1843898606844864681, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
-    value: {fileID: 1924819234}
+    value: {fileID: 0}
   - key: {fileID: -2731943039894551523, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
     value: {fileID: 1717036590}
   m_ExposedReferences:
@@ -2898,11 +2898,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!95 &1744882581 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4933739621265889110, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
-  m_PrefabInstance: {fileID: 1311545349}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1755429525
 GameObject:
   m_ObjectHideFlags: 0
@@ -3131,8 +3126,6 @@ GameObject:
   - component: {fileID: 1924819229}
   - component: {fileID: 1924819228}
   - component: {fileID: 1924819232}
-  - component: {fileID: 1924819233}
-  - component: {fileID: 1924819234}
   m_Layer: 0
   m_Name: CinemachineGlitchVision
   m_TagString: Untagged
@@ -3259,41 +3252,6 @@ MonoBehaviour:
   glitchCamOrtho: 6.5
   normalCutoff: 5000
   glitchCutoff: 400
---- !u!114 &1924819233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924819227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _glitchAni: {fileID: 1744882581}
---- !u!95 &1924819234
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924819227}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1957279659
 PrefabInstance:
   m_ObjectHideFlags: 0

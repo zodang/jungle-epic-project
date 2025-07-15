@@ -70178,7 +70178,6 @@ GameObject:
   - component: {fileID: 1768954287}
   - component: {fileID: 1768954286}
   - component: {fileID: 1768954285}
-  - component: {fileID: 1768954289}
   m_Layer: 0
   m_Name: CinemachineGlitchVision
   m_TagString: Untagged
@@ -70305,19 +70304,6 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &1768954289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1768954283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5682fd9bdcd67d43819e5c3b55fdd19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _glitchAni: {fileID: 1904411922}
 --- !u!1 &1771561750
 GameObject:
   m_ObjectHideFlags: 0
@@ -70886,11 +70872,6 @@ PrefabInstance:
 --- !u!224 &1904411921 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5631596540919983347, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
-  m_PrefabInstance: {fileID: 1904411920}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1904411922 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4933739621265889110, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
   m_PrefabInstance: {fileID: 1904411920}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1906490007
