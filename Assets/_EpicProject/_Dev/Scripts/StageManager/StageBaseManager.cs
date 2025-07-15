@@ -16,7 +16,7 @@ public abstract class StageBaseManager : MonoBehaviour
     protected string stageFilePath;
     private string _profileDataPath;
     protected Dictionary<string, ClickableProfile> _profileDic = new();
-
+    
     protected virtual void Awake()
     {
         if (Instance != null && Instance != this)
@@ -86,12 +86,39 @@ public abstract class StageBaseManager : MonoBehaviour
             }
         }
     }
-
+    
     protected virtual void OnDestroy()
     {
         if (Instance == this)
             Instance = null;
     }
+
+
+    #region LogSystem
+    public string StageId { get; private set; }
+    public string SectionId { get; private set; } = "stage_start";
+    public float StageStartTime { get; private set; }
+
+    protected void ChangeStageId(string stageId)
+    {
+        StageId = stageId;
+    }
+    
+    public void ChangeStageSection(string sectionId)
+    {
+        // 현재 구간 변경
+        SectionId = sectionId;
+        
+        // 로그 시스템
+        string stage = Instance.StageId;
+        string section = Instance.SectionId;
+        float elapsed = Time.realtimeSinceStartup - Instance.StageStartTime;
+        GameManager.Instance.LogManager.LogSectionEnter(stage, section, elapsed);
+    }
+
+    #endregion
+
+    
 }
 
 
