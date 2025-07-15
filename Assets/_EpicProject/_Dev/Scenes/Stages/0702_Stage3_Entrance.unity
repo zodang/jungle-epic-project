@@ -416,6 +416,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 898480178}
     m_Modifications:
+    - target: {fileID: 92862361304056589, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 1679724373}
     - target: {fileID: 4118026918698963776, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8
@@ -559,6 +563,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -7.8
       objectReference: {fileID: 0}
+    - target: {fileID: 6367575149218070314, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 755066351}
     - target: {fileID: 6450619684729429769, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
       propertyPath: m_Name
       value: Entrance_PatrolGuard (3)
@@ -1415,6 +1423,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1633253394416912569, guid: 8eaaf468140627149994db49216f5843, type: 3}
   m_PrefabInstance: {fileID: 1723781821}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &755066351 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8202946228881631246, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
+  m_PrefabInstance: {fileID: 282461893}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &782472108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1993,7 +2006,7 @@ PlayableDirector:
   - key: {fileID: -2905312199393679294, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
     value: {fileID: 1723781836}
   - key: {fileID: 2973510375784801865, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
-    value: {fileID: 1723781835}
+    value: {fileID: 1723781848}
   - key: {fileID: 9207470380292532360, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
     value: {fileID: 806595596}
   - key: {fileID: -1843898606844864681, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
@@ -2472,6 +2485,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc84e60ec34923d4cb44b59ba3c76d89, type: 3}
+--- !u!95 &1591929609 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2422851899125411780, guid: c23e8946cc7447149a303774255ef7ed, type: 3}
+  m_PrefabInstance: {fileID: 2626163095056800241}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1626188703
 GameObject:
   m_ObjectHideFlags: 0
@@ -2589,6 +2607,11 @@ Transform:
   - {fileID: 1755429526}
   m_Father: {fileID: 1987367546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1679724373 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8244072747585318358, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
+  m_PrefabInstance: {fileID: 187057516}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1713534451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2649,6 +2672,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 7.8
       objectReference: {fileID: 0}
+    - target: {fileID: 6367575149218070314, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 2114005956}
     - target: {fileID: 6450619684729429769, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
       propertyPath: m_Name
       value: Entrance_PatrolGuard (2)
@@ -2706,6 +2733,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2709387765077418503, guid: 8eaaf468140627149994db49216f5843, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 806595596}
     - target: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9
@@ -2791,7 +2822,7 @@ PrefabInstance:
       addedObject: {fileID: 1723781834}
     - targetCorrespondingSourceObject: {fileID: 1633253394416912569, guid: 8eaaf468140627149994db49216f5843, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1723781835}
+      addedObject: {fileID: 1723781848}
     - targetCorrespondingSourceObject: {fileID: 6616660777416801082, guid: 8eaaf468140627149994db49216f5843, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2047038140}
@@ -2815,28 +2846,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - intro_player
---- !u!95 &1723781835
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 674424104}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1723781836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2867,6 +2876,28 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!95 &1723781848
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674424104}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!95 &1744882581 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 4933739621265889110, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
@@ -3640,6 +3671,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b66257589f3de84299154c2665f079a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2114005956 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8202946228881631246, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}
+  m_PrefabInstance: {fileID: 1713534451}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2114426939
 GameObject:
   m_ObjectHideFlags: 0
@@ -3877,6 +3913,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Entrance_Beauty
       objectReference: {fileID: 0}
+    - target: {fileID: 4870341957969389200, guid: c23e8946cc7447149a303774255ef7ed, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 1591929609}
     - target: {fileID: 4907416864709225088, guid: c23e8946cc7447149a303774255ef7ed, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.23
@@ -4032,6 +4072,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7268280306216627132, guid: ff79427fca3a668479ab7a6e632590ac, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 1717036590}
     - target: {fileID: 8597814232346478352, guid: ff79427fca3a668479ab7a6e632590ac, type: 3}
       propertyPath: m_Name
       value: Entrance_WantedPoster
