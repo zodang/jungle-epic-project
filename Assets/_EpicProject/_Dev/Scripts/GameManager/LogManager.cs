@@ -6,11 +6,38 @@ public class LogManager : MonoBehaviour
 {
     private bool _isInitialized = false;
 
+    private string _lastStageId = "";
+    private string _lastSectionIndex = "stage_start";
+    private float _gameStartTime;
+
     private async void Awake()
     {
         await UnityServices.InitializeAsync();
         AnalyticsService.Instance.StartDataCollection();
         _isInitialized = true;
+        
+        _gameStartTime = Time.realtimeSinceStartup;
+    }
+
+    private void OnApplicationQuit()
+    {
+        LogGameExit(_lastStageId, _lastSectionIndex, Time.realtimeSinceStartup - _gameStartTime);
+    }
+
+    private void LogGameExit(string stageId, string sectionId, float totalTime)
+    {
+        if (!_isInitialized) return;
+
+        CustomEvent customEvent = new CustomEvent("game_exit")
+        {
+            { "stage_id", stageId },
+            { "section_id", sectionId },
+            { "total_time", totalTime }
+        };
+        AnalyticsService.Instance.RecordEvent(customEvent);
+        AnalyticsService.Instance.Flush();
+
+        Debug.Log($"LOG SYSTEM: game_exit");
     }
 
     public void LogStageEnter(string stageId)
@@ -22,8 +49,8 @@ public class LogManager : MonoBehaviour
             { "stage_id", stageId }
         };
         AnalyticsService.Instance.RecordEvent(customEvent);
-        AnalyticsService.Instance.Flush();
 
+        _lastStageId = stageId;
         Debug.Log($"LOG SYSTEM: stage_enter");
     }
 
@@ -38,8 +65,8 @@ public class LogManager : MonoBehaviour
             { "elapsed_time", elapsedTime }
         };
         AnalyticsService.Instance.RecordEvent(customEvent);
-        AnalyticsService.Instance.Flush();
 
+        _lastStageId = stageId;
         Debug.Log($"LOG SYSTEM: stage_exit");
     }
 
@@ -54,8 +81,8 @@ public class LogManager : MonoBehaviour
             { "elapsed_time", elapsedTime }
         };
         AnalyticsService.Instance.RecordEvent(customEvent);
-        AnalyticsService.Instance.Flush();
 
+        _lastSectionIndex = sectionId;
         Debug.Log($"LOG SYSTEM: section_enter");
     }
     
@@ -71,7 +98,6 @@ public class LogManager : MonoBehaviour
             { "block", blockType}
         };
         AnalyticsService.Instance.RecordEvent(customEvent);
-        AnalyticsService.Instance.Flush();
 
         Debug.Log($"LOG SYSTEM: block_control");
     }

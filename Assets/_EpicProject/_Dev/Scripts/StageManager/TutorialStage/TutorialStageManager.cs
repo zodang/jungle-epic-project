@@ -9,7 +9,7 @@ public class TutorialStageManager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/TutorialStage";
-        ChangeStageId("Tutorial_1");
+        ChangeStageId("tutorial_1");
         
         base.Awake();
     }
@@ -25,6 +25,7 @@ public class TutorialStageManager : StageBaseManager
                 
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
+        ChangeStageSection("stage_enter");
     }
 
     private void OnGoalTriggered()

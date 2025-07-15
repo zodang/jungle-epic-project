@@ -75,15 +75,32 @@ public class PuzzleFSM : MonoBehaviour
         switch (_currentStep)
         {
             case 0:
+                // 로그 시스템
+                StageBaseManager.Instance.ChangeStageSection("puzzle_1");
+                // fsm 변경
                 _fsm.ChangeState(new LightStepState(this, _fsm, _target));
                 break;
+            
             case 1:
+                // 로그 시스템
+                StageBaseManager.Instance.ChangeStageSection("puzzle_2");
+                // fsm 변경
                 _fsm.ChangeState(new ScaleStepState(this, _fsm, _target));
                 break;
+            
             case 2:
+                // 로그 시스템
+                StageBaseManager.Instance.ChangeStageSection("puzzle_3");
+                // fsm 변경
                 _fsm.ChangeState(new SpeedStepState(this, _fsm, _target));
                 break;
+            
             case 3:
+                // 로그 시스템
+                string stageId = StageBaseManager.Instance.StageId;
+                float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
+                GameManager.Instance.LogManager.LogStageExit(stageId, "clear", elapsedTime);
+                // 씬 변경
                 GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
                 break;
         }

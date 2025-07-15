@@ -88,6 +88,9 @@ public class CheckTutorial : MonoBehaviour
                         _updateTimeDelta = 0f;
                         _tutorialStep = 5;
                         StartTutorial(_tutorialStep);
+                        
+                        // 로그 시스템
+                        StageBaseManager.Instance.ChangeStageSection("player_control");
                         return;
                     }
                 }
@@ -150,6 +153,8 @@ public class CheckTutorial : MonoBehaviour
                 case 8:
                     if (_isRockMoveEnable)
                     {
+                        // 로그 시스템
+                        StageBaseManager.Instance.ChangeStageSection("rock_control");
                         StartTutorial(_tutorialStep);
                     }
                     break;

@@ -14,6 +14,8 @@ public class DebuggingModeManager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/DebuggingModeStage";
+        ChangeStageId("ending_2");
+        
         base.Awake();
         
         _playableDirector = GetComponent<PlayableDirector>();
@@ -24,6 +26,10 @@ public class DebuggingModeManager : StageBaseManager
     private void Start()
     {
         _brokenBlock.OnClickAction += WhenBlockClicked;
+        
+        // 로그 시스템
+        GameManager.Instance.LogManager.LogStageEnter(StageId);
+        ChangeStageSection("stage_enter");
     }
 
     protected override void OnDestroy()

@@ -23,6 +23,9 @@ public class EvaporationHandler : MonoBehaviour
             StartCoroutine(EvaporateCoroutine(tilemap));
             StageBaseManager.Instance.FlagManager.SetFlag("npc_after_puzzle_A", true);
             
+            // 로그 시스템
+            StageBaseManager.Instance.ChangeStageSection("evaporate_water");
+            
             Debug.Log("플래그 셋");
         }
         else
