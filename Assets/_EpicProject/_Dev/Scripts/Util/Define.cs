@@ -40,7 +40,8 @@ namespace Define
         Stage2,
         Stage3,
         Stage4,
-        Stage4_2,
+        Stage4_cutscene,
+        Stage4_debug,
         Ending,
     }
 
