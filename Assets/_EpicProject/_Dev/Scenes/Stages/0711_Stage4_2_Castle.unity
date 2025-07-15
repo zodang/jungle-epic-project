@@ -406,7 +406,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.298103, y: 0.41234374, z: -10}
+  m_LocalPosition: {x: -12.000008, y: 0.41234398, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3169,7 +3169,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 19.187958, y: 2.8606336}
+  m_Offset: {x: 7.1398964, y: 2.8606339}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3179,7 +3179,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 78.30544, y: 16.89658}
+  m_Size: {x: 54.209305, y: 16.89658}
   m_EdgeRadius: 0
 --- !u!4 &2074164710 stripped
 Transform:
@@ -3587,6 +3587,10 @@ PrefabInstance:
     - target: {fileID: 4646059681486352402, guid: aa03e418d649ccd45a54daf43b8847c1, type: 3}
       propertyPath: m_Name
       value: GridS4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8192326697508503159, guid: aa03e418d649ccd45a54daf43b8847c1, type: 3}
+      propertyPath: m_CompositePaths.m_Paths.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
