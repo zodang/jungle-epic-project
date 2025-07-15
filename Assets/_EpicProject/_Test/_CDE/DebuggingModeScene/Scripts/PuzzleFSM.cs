@@ -98,8 +98,10 @@ public class PuzzleFSM : MonoBehaviour
             case 3:
                 // 로그 시스템
                 string stageId = StageBaseManager.Instance.StageId;
+                string sectionId = StageBaseManager.Instance.SectionId;
                 float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
-                GameManager.Instance.LogManager.LogStageExit(stageId, "clear", elapsedTime);
+                
+                GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"clear", elapsedTime);
                 // 씬 변경
                 GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
                 break;

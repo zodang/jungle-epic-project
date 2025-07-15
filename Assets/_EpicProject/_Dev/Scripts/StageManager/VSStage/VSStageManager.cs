@@ -37,7 +37,7 @@ public class VSStageManager : StageBaseManager
     private void OnGoalTriggered()
     {
         // 로그 시스템
-        GameManager.Instance.LogManager.LogStageExit(StageId, "clear", Time.realtimeSinceStartup - StageStartTime);
+        GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
 
         GameManager.Instance.FadeManager.LoadNextScene();
     }

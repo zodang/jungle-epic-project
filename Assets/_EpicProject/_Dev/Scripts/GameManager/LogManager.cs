@@ -7,7 +7,7 @@ public class LogManager : MonoBehaviour
     private bool _isInitialized = false;
 
     private string _lastStageId = "";
-    private string _lastSectionIndex = "stage_start";
+    private string _lastSectionIndex = "";
     private float _gameStartTime;
 
     private async void Awake()
@@ -54,13 +54,14 @@ public class LogManager : MonoBehaviour
         Debug.Log($"LOG SYSTEM: stage_enter");
     }
 
-    public void LogStageExit(string stageId, string exitType, float elapsedTime)
+    public void LogStageExit(string stageId, string sectionId, string exitType, float elapsedTime)
     {
         if (!_isInitialized) return;
 
         CustomEvent customEvent = new CustomEvent("stage_exit")
         {
             { "stage_id", stageId }, 
+            { "section_id", sectionId },
             { "exit_type", exitType }, 
             { "elapsed_time", elapsedTime }
         };

@@ -19,8 +19,6 @@ public class GuardBarricade : MonoBehaviour
     {
         if (isAllHit)
         {
-            // 로그 시스템
-            StageBaseManager.Instance.ChangeStageSection("pass_guard");
             return;
         }
         
@@ -31,5 +29,7 @@ public class GuardBarricade : MonoBehaviour
         isAllHit = true;
         _detectionRange.gameObject.SetActive(false);
 
+        // 로그 시스템
+        StageBaseManager.Instance.ChangeStageSection("pass_guard");
     }
 }

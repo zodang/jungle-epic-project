@@ -20,8 +20,9 @@ public class GameBtnGroup : MonoBehaviour
     {
         // 로그 시스템
         string stageId = StageBaseManager.Instance.StageId;
+        string sectionId = StageBaseManager.Instance.SectionId;
         float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
-        GameManager.Instance.LogManager.LogStageExit(stageId, "retry", elapsedTime);
+        GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"retry", elapsedTime);
 
         GameManager.Instance.SettingManager.CloseSetting();
         GameManager.Instance.FadeManager.LoadCurrentScene();
@@ -42,8 +43,9 @@ public class GameBtnGroup : MonoBehaviour
             {
                 // 로그 시스템
                 string stageId = StageBaseManager.Instance.StageId;
+                string sectionId = StageBaseManager.Instance.SectionId;
                 float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
-                GameManager.Instance.LogManager.LogStageExit(stageId, "menu", elapsedTime);
+                GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"menu", elapsedTime);
                 
                 GameManager.Instance.SettingManager.CloseSetting();
                 GameManager.Instance.FadeManager.LoadScene(1);
@@ -69,8 +71,9 @@ public class GameBtnGroup : MonoBehaviour
             {
                 // 로그 시스템
                 string stageId = StageBaseManager.Instance.StageId;
+                string sectionId = StageBaseManager.Instance.SectionId;
                 float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
-                GameManager.Instance.LogManager.LogStageExit(stageId, "quit", elapsedTime);
+                GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"quit", elapsedTime);
                 
                 GameManager.Instance.SettingManager.CloseSetting();
 #if UNITY_EDITOR
