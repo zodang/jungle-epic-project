@@ -31,6 +31,7 @@ public class TutorialStageManager : StageBaseManager
     private void OnGoalTriggered()
     {
         // 로그 시스템
+        ChangeStageSection("stage_exit");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
         
         GameManager.Instance.FadeManager.LoadNextScene();

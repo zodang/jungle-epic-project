@@ -75,6 +75,7 @@ public class FinalMeetingStageManager : StageBaseManager
     public void HandleSecondTimelineEnd()
     {
         // 로그 시스템
+        ChangeStageSection("stage_exit");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
         
         // 플레이어 Input 활성화

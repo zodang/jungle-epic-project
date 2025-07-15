@@ -101,6 +101,7 @@ public class PuzzleFSM : MonoBehaviour
                 string sectionId = StageBaseManager.Instance.SectionId;
                 float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
                 
+                StageBaseManager.Instance.ChangeStageSection("stage_exit");
                 GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"clear", elapsedTime);
                 // 씬 변경
                 GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
