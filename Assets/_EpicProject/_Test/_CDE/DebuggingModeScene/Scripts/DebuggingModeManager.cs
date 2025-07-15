@@ -1,3 +1,4 @@
+using Define;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -43,6 +44,8 @@ public class DebuggingModeManager : StageBaseManager
         _brokenBlockOutline.enabled = false;
         
         _playableDirector.Play();
+
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_debug);
     }
 
     public void WhenTimelineEnd()
