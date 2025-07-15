@@ -87,13 +87,16 @@ public class Movement2D : MonoBehaviour
             }
         }
 
-        if(IsFalling)
+        if(_rigidbody2D.bodyType != RigidbodyType2D.Static)
         {
-            _rigidbody2D.linearVelocity = Vector2.down * 20f;
-        }
-        else
-        {
-            _rigidbody2D.linearVelocity = MoveDir * _speed;
+            if (IsFalling)
+            {
+                _rigidbody2D.linearVelocity = Vector2.down * 20f;
+            }
+            else
+            {
+                _rigidbody2D.linearVelocity = MoveDir * _speed;
+            }
         }
             
         //_rigidbody2D.MovePosition((Vector2)transform.position + MoveDir * _speed * Time.fixedDeltaTime * Vector2.one);
