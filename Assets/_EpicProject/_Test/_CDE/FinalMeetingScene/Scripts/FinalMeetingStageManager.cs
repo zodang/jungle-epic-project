@@ -30,6 +30,8 @@ public class FinalMeetingStageManager : StageBaseManager
         _daughter.OnEmotionEnabled += WhenEmotionEnabled;
         
         PlayTimeline(0);
+
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_cutscene);
     }
 
     private void PlayTimeline(int index)
