@@ -182,7 +182,7 @@ public class InputManager : MonoBehaviour
         }
 
         StageTest();
-        // BlockTest();
+        BlockTest();
     }
 
     private void StageTest()
