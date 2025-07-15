@@ -1,3 +1,4 @@
+using Define;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class TitleSceneManager : MonoBehaviour
         {
             stageManagerPrefab = Resources.Load<StageManager>("Prefabs/StageManager");
         }
-
+        
         // 테스트용 코드 추가
         gameObject.AddComponent<BootstrapManager>();
         _uiManager = FindAnyObjectByType<TitleSceneUIManager>();
@@ -24,6 +25,8 @@ public class TitleSceneManager : MonoBehaviour
         // 이어하기 버튼 활성화
         _clearStageIndex = GameManager.Instance.SaveManager.LoadStageData().ClearStageIndex;
         _uiManager.SetContinueBtn(_clearStageIndex < 2);
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Menu);
+
     }
 
     public void StartNewGame()
