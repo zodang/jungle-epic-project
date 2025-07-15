@@ -27,5 +27,8 @@ public class DetectionGuard : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         _animator.enabled = true;
+        
+        // 로그 시스템
+        StageBaseManager.Instance.ChangeStageSection("pass_guard");
     }
 }

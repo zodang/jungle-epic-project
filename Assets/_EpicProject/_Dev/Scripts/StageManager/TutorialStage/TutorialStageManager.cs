@@ -4,11 +4,13 @@ using UnityEngine;
 public class TutorialStageManager : StageBaseManager
 {
     private TriggerArea _goalTrigger;
-    
+
     protected override void Awake()
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/TutorialStage";
+        ChangeStageId("tutorial_1");
+        
         base.Awake();
     }
 
@@ -20,10 +22,18 @@ public class TutorialStageManager : StageBaseManager
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Tutorial);
+                
+        // 로그 시스템
+        GameManager.Instance.LogManager.LogStageEnter(StageId);
+        ChangeStageSection("stage_enter");
     }
 
     private void OnGoalTriggered()
     {
+        // 로그 시스템
+        ChangeStageSection("stage_exit");
+        GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
+        
         GameManager.Instance.FadeManager.LoadNextScene();
     }
 }

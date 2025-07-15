@@ -9,6 +9,8 @@ public class FinalMeetingStage2Manager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/FinalMeetingStage2";
+        ChangeStageId("ending_3");
+        
         base.Awake();
         _playableDirector = GetComponent<PlayableDirector>();
     }
@@ -20,6 +22,10 @@ public class FinalMeetingStage2Manager : StageBaseManager
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Ending);
 
         //PlayTimeline();
+        
+        // 로그 시스템
+        GameManager.Instance.LogManager.LogStageEnter(StageId);
+        ChangeStageSection("stage_enter");
     }
 
     private void PlayTimeline()

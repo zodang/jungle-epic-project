@@ -18,6 +18,12 @@ public class GameBtnGroup : MonoBehaviour
 
     private void OnClickRestartBtn()
     {
+        // 로그 시스템
+        string stageId = StageBaseManager.Instance.StageId;
+        string sectionId = StageBaseManager.Instance.SectionId;
+        float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
+        GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"retry", elapsedTime);
+
         GameManager.Instance.SettingManager.CloseSetting();
         GameManager.Instance.FadeManager.LoadCurrentScene();
     }
@@ -35,6 +41,12 @@ public class GameBtnGroup : MonoBehaviour
             message,
             onOk: () =>
             {
+                // 로그 시스템
+                string stageId = StageBaseManager.Instance.StageId;
+                string sectionId = StageBaseManager.Instance.SectionId;
+                float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
+                GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"menu", elapsedTime);
+                
                 GameManager.Instance.SettingManager.CloseSetting();
                 GameManager.Instance.FadeManager.LoadScene(1);
             },
@@ -57,6 +69,12 @@ public class GameBtnGroup : MonoBehaviour
             message,
             onOk: () =>
             {
+                // 로그 시스템
+                string stageId = StageBaseManager.Instance.StageId;
+                string sectionId = StageBaseManager.Instance.SectionId;
+                float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
+                GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"quit", elapsedTime);
+                
                 GameManager.Instance.SettingManager.CloseSetting();
 #if UNITY_EDITOR
                 EditorApplication.isPlaying = false;

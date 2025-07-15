@@ -9,6 +9,8 @@ public class VSStageManager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/VSStage";
+        ChangeStageId("village_1");
+        
         base.Awake();
     }
 
@@ -26,10 +28,18 @@ public class VSStageManager : StageBaseManager
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage2);
+        
+        // 로그 시스템
+        GameManager.Instance.LogManager.LogStageEnter(StageId);
+        ChangeStageSection("stage_enter");
     }
 
     private void OnGoalTriggered()
     {
+        // 로그 시스템
+        ChangeStageSection("stage_exit");
+        GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
+
         GameManager.Instance.FadeManager.LoadNextScene();
     }
 }
