@@ -33,4 +33,9 @@ public class FinalMeetingStage2Manager : StageBaseManager
         
         _playableDirector.Play();
     }
+
+    public void LoadNextScene()
+    {
+        GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
+    }
 }

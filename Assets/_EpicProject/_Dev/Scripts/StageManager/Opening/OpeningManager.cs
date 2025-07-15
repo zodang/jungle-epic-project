@@ -12,10 +12,12 @@ public class OpeningManager : StageBaseManager
     void Start()
     {
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Menu);
+
+        FindAnyObjectByType<VisualNovelSystem>().OnFinish += LoadNextSccene;
     }
 
-    void Update()
+    void LoadNextSccene()
     {
-        
+        GameManager.Instance.FadeManager.LoadNextScene();
     }
 }

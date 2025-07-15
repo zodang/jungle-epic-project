@@ -15,6 +15,9 @@ public class TriggerArea : MonoBehaviour
     bool _isTriggered;
     bool _isInRange;
 
+    public float TriggerHoldTime = 0f;
+    float _deltaTriggerHoldTime;
+
     void Start()
     {
         _isTriggered = false;
@@ -22,6 +25,8 @@ public class TriggerArea : MonoBehaviour
 
         if (target.IsUnityNull())
             target = StageBaseManager.Instance.PlayerManager.transform;
+
+        _deltaTriggerHoldTime = 0f;
     }
 
     void Update()
@@ -38,12 +43,20 @@ public class TriggerArea : MonoBehaviour
 
             if(_isInRange && !_isTriggered)
             {
-                _isTriggered = true;
-                OnTrigger?.Invoke();
+                if (_deltaTriggerHoldTime > TriggerHoldTime)
+                {
+                    _isTriggered = true;
+                    OnTrigger?.Invoke();
+                }
+                _deltaTriggerHoldTime += Time.deltaTime;
             }
             else if(!_isInRange && _isTriggered)
             {
                 _isTriggered = false;
+            }
+            else
+            {
+                _deltaTriggerHoldTime = 0f;
             }
         }
     }

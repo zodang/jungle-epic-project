@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -34,6 +35,8 @@ public class VisualNovelSystem : MonoBehaviour
     private bool _isEndAll;
     private float _delayDeltaTime;
 
+    public Action OnFinish;
+
     void Start()
     {
         if (!ContentText.IsUnityNull())
@@ -69,6 +72,7 @@ public class VisualNovelSystem : MonoBehaviour
             {
                 _isEndAll = true;
                 StartCoroutine(FadeCoroutine(false, 20, 0.15f));
+                StartCoroutine(DelayFinishScene(3.5f));
             }
             else
             {
@@ -81,6 +85,11 @@ public class VisualNovelSystem : MonoBehaviour
                 {
                     StartDialogue(DialogueIds[_dialogueIdIdx]);
                     _dialogueIdIdx++;
+                }
+                else
+                {
+                    SpeakerText.text = "";
+                    _typeEffect.SetMsg("");
                 }
             }
         }
@@ -168,5 +177,11 @@ public class VisualNovelSystem : MonoBehaviour
             IllustrationImage.color = color;
             yield return new WaitForSeconds(stepDelay);
         }
+    }
+
+    IEnumerator DelayFinishScene(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        OnFinish?.Invoke();
     }
 }
