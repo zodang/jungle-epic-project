@@ -16,4 +16,9 @@ public class TimelineDialogue : MonoBehaviour
         StageBaseManager.Instance.DialogueManager.StartDialogue(dialogues[_index], _speechAnchor.transform);
         _index++;
     }
+
+    public void FinishDialogue()
+    {
+        StageBaseManager.Instance.DialogueManager.FinalizeDialogue();
+    }
 }

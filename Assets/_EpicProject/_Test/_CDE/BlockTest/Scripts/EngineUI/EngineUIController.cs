@@ -99,7 +99,7 @@ public class EngineUIController : MonoBehaviour
     #region Dotween
 
     [Header("Dotween")] 
-    private float _outsidePos = 0;
+    [SerializeField] private float _outsidePos = 0;
     private float _insidePos = -300;
     private float _duration = 0.4f;
     private Sequence _sequence;
