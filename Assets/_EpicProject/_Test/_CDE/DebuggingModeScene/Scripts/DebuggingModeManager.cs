@@ -42,6 +42,9 @@ public class DebuggingModeManager : StageBaseManager
         _brokenBlockOutline.SetOutline(false);
         _brokenBlockOutline.enabled = false;
         
+        // 감정블록 sorting layer 변경
+        _brokenBlock.GetComponent<BrokenEmotionBlock>().ChangeBlockRender();
+        
         _playableDirector.Play();
     }
 
