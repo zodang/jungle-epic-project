@@ -14,14 +14,14 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
 
     private bool _isAnimated;
     private SpriteRenderer _spriteRenderer;
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
 
     private GraphicType _currentGraphicType = GraphicType.Middle;
     
     private void Awake()
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _animator = GetComponentInChildren<Animator>();
+        //_animator = GetComponentInChildren<Animator>();
         _isAnimated = _animator != null;
     }
 
