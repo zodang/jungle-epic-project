@@ -105,4 +105,10 @@ public class BrokenEmotionBlock : MonoBehaviour
 
         heart.transform.localPosition = _originalHeartPos + new Vector3(x, y, 0) * _noiseIntensity;
     }
+
+    public void ChangeBlockRender()
+    {
+        block.sortingLayerName = "UI";
+        heart.sortingLayerName = "UI";
+    }
 }
