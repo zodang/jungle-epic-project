@@ -1,0 +1,172 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Localization.Settings;
+using UnityEngine.UI;
+
+public class VisualNovelSystem : MonoBehaviour
+{
+    [Header("Content")]
+    public List<string> DialogueIds = new List<string>();
+    private int _dialogueIdIdx;
+    private string _dialogueFileName = "StageInfos/Opening/Dialogues";
+    private DialogueLoader _dialogueLoader;
+    private DialogueCollection _dialogueCollection;
+    private string _language = "ko";
+
+    [Header("UI")]
+    public TextMeshProUGUI ContentText;
+    public TextMeshProUGUI SpeakerText;
+    private TypeEffect _typeEffect;
+
+    [Header("Fonts")]
+    public TMP_FontAsset Default_Font;
+    public TMP_FontAsset ZhHans_Font;
+
+    [Header("Illustration")]
+    public Image IllustrationImage;
+    public List<Sprite> Illustrations = new List<Sprite>();
+    private int _illustrationsIdx;
+
+    private bool _isUsing;
+    private bool _isEndAll;
+    private float _delayDeltaTime;
+
+    void Start()
+    {
+        if (!ContentText.IsUnityNull())
+        {
+            _typeEffect = ContentText.GetComponent<TypeEffect>();
+        }
+
+        ComponentHelper.TryGetOrAddComponent<DialogueLoader>(ref _dialogueLoader, gameObject);
+
+        LoadDialogue(_dialogueFileName);
+
+        _dialogueIdIdx = 0;
+        _illustrationsIdx = 0;
+
+        _isUsing = false;
+        _delayDeltaTime = 0f;
+        _isEndAll = false;
+        _language = LocalizationSettings.SelectedLocale.Identifier.Code;
+    }
+
+    void Update()
+    {
+        if (_isEndAll) return;
+
+        if (!_isUsing && _delayDeltaTime <= 0f)
+        {
+            _delayDeltaTime = 2f;
+
+            bool isEndIllustration = _illustrationsIdx >= Illustrations.Count;
+            bool isEndDialogueId = _dialogueIdIdx >= DialogueIds.Count;
+
+            if (isEndIllustration && isEndDialogueId)
+            {
+                _isEndAll = true;
+                StartCoroutine(FadeCoroutine(false, 20, 0.15f));
+            }
+            else
+            {
+                if (!isEndIllustration)
+                {
+                    SetImage(_illustrationsIdx);
+                    _illustrationsIdx++;
+                }
+                if (!isEndDialogueId)
+                {
+                    StartDialogue(DialogueIds[_dialogueIdIdx]);
+                    _dialogueIdIdx++;
+                }
+            }
+        }
+        if (_delayDeltaTime > 0f)
+        {
+            _delayDeltaTime -= Time.deltaTime;
+        }
+    }
+
+    public void LoadDialogue(string path)
+    {
+        _dialogueCollection = _dialogueLoader.LoadDialogueDataFromFile(path);
+        if (_dialogueCollection == null)
+        {
+            Debug.LogError("DM: Failed to load dialogue collection. System disabled.");
+            enabled = false; return;
+        }
+    }
+
+    public void StartDialogue(string dialogueId)
+    {
+        if (_dialogueCollection == null) { Debug.LogError("DM: Dialogue collection not loaded."); return; }
+        DialogueEntry entry = _dialogueLoader.GetDialogueEntryById(_dialogueCollection, dialogueId);
+        if (entry == null) { Debug.LogWarning($"DM: Dialogue ID '{dialogueId}' not found."); return; }
+
+        StartCoroutine(DialogueCoroutine(entry));
+    }
+
+    IEnumerator DialogueCoroutine(DialogueEntry entry)
+    {
+        float initialDelay = 0.1f;
+        float postEffectDelay = 2f;
+        int cnt = entry.lines.Count;
+
+        _isUsing = true;
+        for (int i = 0; i < cnt; i++)
+        {
+            _language = LocalizationSettings.SelectedLocale.Identifier.Code;
+            switch (_language)
+            {
+                case "zh-Hans":
+                    SpeakerText.font = ZhHans_Font;
+                    ContentText.font = ZhHans_Font;
+                    break;
+                default:
+                    SpeakerText.font = Default_Font;
+                    ContentText.font = Default_Font;
+                    break;
+            }
+
+            string speaker;
+            if (entry.lines[i].speaker.TryGetValue(_language, out speaker))
+            {
+                SpeakerText.text = speaker;
+            }
+
+            string text;
+            if (entry.lines[i].text.TryGetValue(_language, out text))
+            {
+                _typeEffect.SetMsg(text);
+            }
+
+            yield return new WaitForSeconds(initialDelay);
+            while (_typeEffect.IsPlaying) yield return null;
+            yield return new WaitForSeconds(postEffectDelay);
+        }
+        _isUsing = false;
+    }
+
+    void SetImage(int idx)
+    {
+        IllustrationImage.sprite = Illustrations[idx];
+    }
+
+    IEnumerator FadeCoroutine(bool isFadeIn, int fadeSteps, float stepDelay)
+    {
+        Color color = IllustrationImage.color;
+        for (int i = 1; i <= fadeSteps; i++)
+        {
+            color.a = 1f / fadeSteps * i;
+            if (!isFadeIn)
+            {
+                color.a = 1f - color.a;
+            }
+            IllustrationImage.color = color;
+            yield return new WaitForSeconds(stepDelay);
+        }
+    }
+}
