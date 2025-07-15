@@ -28,16 +28,17 @@ public class PuzzleFSM : MonoBehaviour
     private void Start()
     {
         _simpleDialogueUI = FindAnyObjectByType<SimpleDialogueUI>();
-        _engineController = FindAnyObjectByType<EngineController>();
-        _engineRectTransform = _engineController.GetComponent<RectTransform>();
+        _target = FindAnyObjectByType<BrokenEmotionBlock>();
         
         _fsm = new FSM<FSMState>();
     }
 
     public void StartPuzzle()
     {
+        _engineController = FindAnyObjectByType<EngineController>();
+        _engineRectTransform = _engineController.GetComponent<RectTransform>();
+        
         _consoleBox = FindAnyObjectByType<ConsoleBox>();
-        _target = FindAnyObjectByType<BrokenEmotionBlock>();
         _debugSlot = FindAnyObjectByType<DebugSlot>();
         
         _debugSlot.OnBlockSet += CheckAnswer;

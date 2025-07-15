@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEditor.Recorder.OutputPath;
 
 public class BowlingPin : MonoBehaviour, IFeatureResetable, IControllable
 {
