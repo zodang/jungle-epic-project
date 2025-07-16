@@ -406,7 +406,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.317814, y: 1.8597606, z: -10}
+  m_LocalPosition: {x: 17.769997, y: 1.8597606, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1153,7 +1153,7 @@ Transform:
   m_GameObject: {fileID: 638017720}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: 0, z: -10}
+  m_LocalPosition: {x: 17.77, y: 0.37, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2122,7 +2122,7 @@ Transform:
   m_GameObject: {fileID: 1035707497}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.01, y: 4.45, z: 0}
+  m_LocalPosition: {x: 18.01, y: 4.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2143,12 +2143,12 @@ MonoBehaviour:
   triggerAreaGizmoColor: {r: 0, g: 0.7, b: 0, a: 0.2}
   triggerRangeX: 2
   triggerRangeY: 1.5
-  target: {fileID: 0}
+  target: {fileID: 1723781822}
   OnlyOnce: 0
   OnTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1823783631}
         m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
         m_MethodName: TriggerDialogue
         m_Mode: 5
@@ -3119,7 +3119,7 @@ Transform:
   m_GameObject: {fileID: 1365295977}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: 0, z: 0}
+  m_LocalPosition: {x: 17.77, y: 0.37, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3587,11 +3587,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12
+      value: 17.77
       objectReference: {fileID: 0}
     - target: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.37
       objectReference: {fileID: 0}
     - target: {fileID: 3102259547665352990, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4304,7 +4304,7 @@ Transform:
   m_GameObject: {fileID: 1924819227}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: 0, z: -10}
+  m_LocalPosition: {x: 17.77, y: 0.37, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6174,11 +6174,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3996606887855381755, guid: 68173765b80adb244b1d05ee008f1ab7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.66
+      value: 25.76
       objectReference: {fileID: 0}
     - target: {fileID: 3996606887855381755, guid: 68173765b80adb244b1d05ee008f1ab7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3996606887855381755, guid: 68173765b80adb244b1d05ee008f1ab7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6210,6 +6210,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3996606887855381755, guid: 68173765b80adb244b1d05ee008f1ab7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4793050974363881018, guid: 68173765b80adb244b1d05ee008f1ab7, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5756539211024575313, guid: 68173765b80adb244b1d05ee008f1ab7, type: 3}
