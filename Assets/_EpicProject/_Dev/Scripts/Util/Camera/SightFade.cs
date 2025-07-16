@@ -21,9 +21,14 @@ public class SightFade : MonoBehaviour
     private Tilemap _tilemap;
 
     private Coroutine _fadeCo;
-    
+
+    private ClickableMask _clickableMask;
+    private bool _isClickableMask;
+
     private void Awake()
     {
+        _isClickableMask = TryGetComponent<ClickableMask>(out _clickableMask);
+
         _cinemachineTargetGroup = FindAnyObjectByType<CinemachineTargetGroup>();
 
         switch (fadeTargetType)
@@ -74,6 +79,8 @@ public class SightFade : MonoBehaviour
     {
         if (_isHide == isHide) return;
         _isHide = isHide;
+
+        if (_isClickableMask) gameObject.layer = (_isHide) ? 0 : 6;
 
         // 실행중인 Fade 코루틴 있으면 중단 후 실행
         if (_fadeCo != null) StopCoroutine(_fadeCo);

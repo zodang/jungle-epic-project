@@ -29,6 +29,7 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
 
     // Fan
     [SerializeField] float FanPower;
+    [SerializeField] float _fanSpeed;
     float FanLv1Threshold = 0.3f;
     float FanLv2Threshold = 12f;
     float FanLv3Threshold = 20f;
@@ -73,18 +74,30 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
             _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput;
         }
 
-        if(_decayDelay > 0)
+        if (_fanSpeed > 6f * _visualRoot.localScale.x)
+        {
+            _fanSpeed = 6f * _visualRoot.localScale.x;
+        }
+        else if (_fanSpeed < -6f * _visualRoot.localScale.x)
+        {
+            _fanSpeed = -6f * _visualRoot.localScale.x;
+        }
+
+        
+
+        if (_decayDelay > 0)
         {
             _decayDelay -= Time.deltaTime;
-
-            FanPower -= 1f * Time.deltaTime;
+            _fanSpeed -= ((_fanSpeed > 0) ? 1f : -1f) * Time.deltaTime;
+            //FanPower -= 1f * Time.deltaTime;
         }
         else
         {
-            FanPower -= 10f * Time.deltaTime;
+            _fanSpeed -= ((_fanSpeed > 0) ? 10f : -10f) * Time.deltaTime;
+            //FanPower -= 10f * Time.deltaTime;
         }
-        
-        FanPower = Mathf.Clamp(FanPower, 0f, 6f * _visualRoot.localScale.x);
+
+        FanPower = Mathf.Abs(_fanSpeed);
 
         int lv = 0;
         GameObject windZone;
@@ -142,9 +155,6 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
             color.a = Mathf.Clamp01(FanPower / (FanLv1Threshold*2f));
             spriteRenderers[i].color = color;
         }
-
-
-
     }
 
     public void ResetFeature()
@@ -177,7 +187,7 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
         float deltaAngle = Mathf.DeltaAngle(_prevRotate, rotate);
         _decayDelay = 1f;
 
-        FanPower += deltaAngle * 0.002f * _visualRoot.localScale.x;
+        _fanSpeed += deltaAngle * 0.002f * _visualRoot.localScale.x;
         _fan.localEulerAngles = new Vector3(0, 0, -rotate);
         _prevRotate = rotate;
     }
