@@ -8,7 +8,7 @@ public class ClickableMask : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, _zPos);
         
         // 6: Clickable
-        if (gameObject.layer != 6)
-            gameObject.layer = 6;
+        if (gameObject.layer != Define.Layers.Clickable)
+            gameObject.layer = Define.Layers.Clickable;
     }
 }

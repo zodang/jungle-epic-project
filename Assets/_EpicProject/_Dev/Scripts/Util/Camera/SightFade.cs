@@ -48,6 +48,8 @@ public class SightFade : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Clickable")) return;
+
+        if (!collision.TryGetComponent<FootTag>(out FootTag footTag)) return;
         
         Transform target = collision.GetComponentInParent<Rigidbody2D>().transform;
         if (_cinemachineTargetGroup.FindMember(target) >= 0)
@@ -65,6 +67,8 @@ public class SightFade : MonoBehaviour
     {
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Clickable")) return;
 
+        if (!collision.TryGetComponent<FootTag>(out FootTag footTag)) return;
+
         Transform target = collision.GetComponentInParent<Rigidbody2D>().transform;
         if (_insider.Contains(target))
         {
@@ -80,7 +84,7 @@ public class SightFade : MonoBehaviour
         if (_isHide == isHide) return;
         _isHide = isHide;
 
-        if (_isClickableMask) gameObject.layer = (_isHide) ? 0 : 6;
+        if (_isClickableMask) gameObject.layer = (_isHide) ? 0 : Define.Layers.Clickable;
 
         // 실행중인 Fade 코루틴 있으면 중단 후 실행
         if (_fadeCo != null) StopCoroutine(_fadeCo);
