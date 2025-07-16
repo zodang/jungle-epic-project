@@ -6,5 +6,9 @@ public class ClickableMask : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(transform.position.x, transform.position.y, _zPos);
+        
+        // 6: Clickable
+        if (gameObject.layer != 6)
+            gameObject.layer = 6;
     }
 }
