@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: 9198520053703797751}
   - component: {fileID: 8977727897933712211}
   - component: {fileID: 2709387765077418503}
+  - component: {fileID: 5958657914544726143}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -188,6 +189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlockList: []
+  DefaultBlockList: 
+  StartGetPlayerControl: 1
 --- !u!114 &2278239420035226639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +237,7 @@ MonoBehaviour:
   nextIsGround: 0
   testdist: 0
   IsFalling: 0
+  FootColliders: []
 --- !u!210 &9198520053703797751
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -278,6 +282,19 @@ MonoBehaviour:
   - {fileID: 6199394094818965791, guid: d245e4c53f3f90f409edd8d779030901, type: 3}
   - {fileID: -7396006396426483725, guid: 7aa9faf312dec1d4eb40fb0595f0f93c, type: 3}
   - {fileID: 3791337662528356676, guid: be24c081afdc5cc408b398b991f9d8dd, type: 3}
+  _animator: {fileID: 0}
+--- !u!114 &5958657914544726143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633253394416912569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e6154fc345e2e40b53bbf3ff666951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3519687253771917961
 GameObject:
   m_ObjectHideFlags: 0

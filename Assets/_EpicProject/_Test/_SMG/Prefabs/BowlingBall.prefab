@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5686403209459077714}
   - component: {fileID: 3180464722824959662}
+  - component: {fileID: 8120335577512758235}
   m_Layer: 0
   m_Name: Visual Root
   m_TagString: Hit
@@ -70,6 +71,18 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.35
+--- !u!114 &8120335577512758235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243341013019048800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e6154fc345e2e40b53bbf3ff666951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2601846077022537590
 GameObject:
   m_ObjectHideFlags: 0
