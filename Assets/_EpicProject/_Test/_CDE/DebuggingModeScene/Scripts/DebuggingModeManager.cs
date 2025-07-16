@@ -30,6 +30,8 @@ public class DebuggingModeManager : StageBaseManager
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
         ChangeStageSection("stage_enter");
+
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_cutscene);
     }
 
     protected override void OnDestroy()
