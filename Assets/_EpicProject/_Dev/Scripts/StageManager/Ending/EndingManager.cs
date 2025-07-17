@@ -9,8 +9,10 @@ public class EndingManager : StageBaseManager
         base.Awake();
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Ending);
 
         FindAnyObjectByType<VisualNovelSystem>().OnFinish += LoadMenuSccene;

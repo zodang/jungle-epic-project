@@ -36,8 +36,8 @@ public class Axe : MonoBehaviour, IFeatureResetable, IControllable
     {
         _model = transform.GetChild(0);
         _foot = _model.GetChild(1).gameObject;
-        _TwinkleLv1 = _model.GetChild(2).gameObject;
-        _TwinkleLv2 = _model.GetChild(3).gameObject;
+        _TwinkleLv1 = _model.GetChild(3).gameObject;
+        _TwinkleLv2 = _model.GetChild(4).gameObject;
 
         _movement2D = GetComponent<Movement2D>();
 

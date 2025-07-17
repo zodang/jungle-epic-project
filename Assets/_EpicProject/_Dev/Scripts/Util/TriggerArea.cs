@@ -12,6 +12,7 @@ public class TriggerArea : MonoBehaviour
     public bool OnlyOnce = true;
 
     public UnityEvent OnTrigger;
+    public UnityEvent OnTriggerExit;
     bool _isTriggered;
     bool _isInRange;
 
@@ -53,6 +54,7 @@ public class TriggerArea : MonoBehaviour
             else if(!_isInRange && _isTriggered)
             {
                 _isTriggered = false;
+                OnTriggerExit?.Invoke();
             }
             else
             {

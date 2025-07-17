@@ -46,7 +46,7 @@ public abstract class StageBaseManager : MonoBehaviour
         LoadClickableProfile();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         // 씬 전환 시 초기화
         StageManager.Instance.InputManager.ActivatePlayerInput(true);

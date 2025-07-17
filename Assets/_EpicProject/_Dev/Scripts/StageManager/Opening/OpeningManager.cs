@@ -11,8 +11,10 @@ public class OpeningManager : StageBaseManager
         base.Awake();
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Menu);
 
         FindAnyObjectByType<VisualNovelSystem>().OnFinish += LoadNextScene;

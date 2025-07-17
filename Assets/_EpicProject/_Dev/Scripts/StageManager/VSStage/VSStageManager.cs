@@ -14,8 +14,10 @@ public class VSStageManager : StageBaseManager
         base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         // 대화 불러오기
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
 
