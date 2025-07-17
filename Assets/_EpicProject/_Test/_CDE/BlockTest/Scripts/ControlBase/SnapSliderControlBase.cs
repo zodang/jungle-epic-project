@@ -9,6 +9,16 @@ public abstract class SnapSliderControlBase<TFeature> : EngineBlock where TFeatu
     [SerializeField] private Slider _slider;
     [SerializeField] private TMP_Text _speedText;
     
+    private SliderInteractionDetector _sliderDetector;
+    public bool IsControlStarted { get; private set; }
+    
+    protected override void Awake()
+    {
+        base.Awake();
+        _sliderDetector = _slider.GetComponent<SliderInteractionDetector>();
+        _sliderDetector.OnControlStarted += WhenControlStarted;
+    }
+    
     public override void Activate(object feature)
     {
         Feature = feature as TFeature;
@@ -43,6 +53,11 @@ public abstract class SnapSliderControlBase<TFeature> : EngineBlock where TFeatu
     {
         if (_speedText == null || _slider == null) return;
         _speedText.text = $"{value + 1} km/s";
+    }
+    
+    private void WhenControlStarted(bool isControl)
+    {
+        IsControlStarted = isControl;
     }
     
     protected abstract float GetCurrentValue();
