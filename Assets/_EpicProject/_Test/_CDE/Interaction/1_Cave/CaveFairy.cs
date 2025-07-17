@@ -88,4 +88,15 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
         _lightHandler.SetValue(DefaultLight);
     }
     #endregion FeatureSetting
+
+    public void SetDialogueFlag(string flag)
+    {
+        StageBaseManager.Instance.FlagManager.SetFlag(flag);
+    }
+
+    public void ClearDialogueFlag(string flag)
+    {
+        //StageBaseManager.Instance.FlagManager.SetFlag(flag, false);
+        StageBaseManager.Instance.FlagManager.ClearFlag(flag);
+    }
 }
