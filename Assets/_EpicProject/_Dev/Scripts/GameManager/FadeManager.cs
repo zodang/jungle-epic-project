@@ -1,11 +1,13 @@
 using Define;
-using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 public class FadeManager : MonoBehaviour
 {
+    public bool IsLoading { get; private set; }
+
     private TransitionManager _transitionManager;
 
     private void Awake()
@@ -37,25 +39,29 @@ public class FadeManager : MonoBehaviour
 
     private IEnumerator LoadSceneCo(int index, TransitionType transitionType = TransitionType.LoadingType)
     {
-        // 마지막 씬을 넘어갈 시 마지막 index 씬 호출
-        int targetIndex = Mathf.Min(index, SceneManager.sceneCountInBuildSettings - 1);
-        
-        yield return _transitionManager.TurnOnAni(transitionType);
+        IsLoading = true;
 
-        if (targetIndex < SceneManager.sceneCountInBuildSettings)
-        {
-            // 씬 비동기 로드
-            AsyncOperation loadOp = SceneManager.LoadSceneAsync(targetIndex);
-            while (!loadOp.isDone)
-            {
-                yield return null;
-            }
-            
-            yield return _transitionManager.TurnOffAni();
-        }
-        else
+        FindAnyObjectByType<PlayableDirector>()?.Stop();
+        GameManager.Instance.AudioManager.FadeBgmAndSfx(0, 1.0f);
+        GameManager.Instance.TimeScaleManager.ResumeGame();
+
+        int targetIndex = Mathf.Min(index, SceneManager.sceneCountInBuildSettings - 1);
+        if (targetIndex >= SceneManager.sceneCountInBuildSettings)
         {
             Debug.LogWarning(" 해당 인덱스의 씬이 존재하지 않습니다.");
+            yield break;
         }
+
+        yield return _transitionManager.TurnOnAni(transitionType);
+            
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(targetIndex);
+        while (!loadOp.isDone)
+        {
+            yield return null;
+        }
+        GameManager.Instance.AudioManager.RestoreBgmAndSfxVolume(0f);
+            
+        IsLoading = false;
+        yield return _transitionManager.TurnOffAni();
     }
 }

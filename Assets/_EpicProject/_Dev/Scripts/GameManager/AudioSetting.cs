@@ -9,30 +9,17 @@ public class AudioSetting : MonoBehaviour
     [SerializeField] private Slider BgmSlider;
     [SerializeField] private Slider SfxSlider;
 
-    private void Awake()
+    private void Start()
     {
-        //[MOD] KMS 기능수정 환경설정 오디오 초기 값 중간 값으로 설정
-        // 1) 슬라이더 범위 세팅
-        float optimalBgm = GetOptimalBgmVolume();
-        float optimalSfx = GetOptimalSfxVolume();
         BgmSlider.minValue = 0f;
-        BgmSlider.maxValue = optimalBgm * 2f;
-        SfxSlider.minValue = 0f;
-        SfxSlider.maxValue = optimalSfx * 2f;
-
-        // 2) 리스너 등록 (이후 value 변경 시 Change... 호출)
+        BgmSlider.maxValue = GetOptimalBgmVolume() * 2f;
+        // BgmSlider.value = GetOptimalBgmVolume();
         BgmSlider.onValueChanged.AddListener(OnBgmValueChanged);
+        
+        SfxSlider.minValue = 0f;
+        SfxSlider.maxValue = GetOptimalSfxVolume() * 2f;
+        // SfxSlider.value = GetOptimalSfxVolume();
         SfxSlider.onValueChanged.AddListener(OnSfxValueChanged);
-
-        // 3) 중간값 계산 & 슬라이더에 할당
-        float midBgm = (BgmSlider.minValue + BgmSlider.maxValue) / 2f;
-        float midSfx = (SfxSlider.minValue + SfxSlider.maxValue) / 2f;
-        BgmSlider.value = midBgm;
-        SfxSlider.value = midSfx;
-
-        // 4) 초기값을 실제 볼륨에도 즉시 적용
-        OnBgmValueChanged(midBgm);
-        OnSfxValueChanged(midSfx);
     }
 
     public void ChangeBgmVolume(float volume)

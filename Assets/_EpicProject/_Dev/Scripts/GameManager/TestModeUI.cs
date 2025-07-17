@@ -32,7 +32,7 @@ public class TestModeUI : MonoBehaviour
 
     private void LoadScene(int index)
     {
-        SceneManager.LoadScene(index + 2);
+        GameManager.Instance.FadeManager.LoadScene(index + 2);
         _canvas.enabled = false;
     }
 

@@ -18,6 +18,11 @@ public class TypeEffect : MonoBehaviour
     public bool IsPlaying { get; private set; }
     private Coroutine typingCoroutine;
 
+
+    private int charCountForSound = 0; // 효과음 재생 간격 카운터
+
+    private bool _isPaused = false;
+
     private void Awake()
     {
         msgText = GetComponent<TextMeshProUGUI>();
@@ -65,6 +70,9 @@ public class TypeEffect : MonoBehaviour
 
         while (currentIndex < targetMsg.Length)
         {
+            // 일시 정지 기능
+            while (_isPaused) yield return null;
+            
             if (targetMsg[currentIndex] == '<')
             {
                 int endIndex = targetMsg.IndexOf('>', currentIndex);
@@ -119,5 +127,27 @@ public class TypeEffect : MonoBehaviour
 
         msgText.text = targetMsg;
         CompleteEffect();
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.SettingManager.OnSettingOpen += Pause;
+        GameManager.Instance.SettingManager.OnSettingClose += Resume;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.SettingManager.OnSettingOpen -= Pause;
+        GameManager.Instance.SettingManager.OnSettingClose -= Resume;
+    }
+
+    private void Pause()
+    {
+        _isPaused = true;
+    }
+
+    private void Resume()
+    {
+        _isPaused = false;
     }
 }

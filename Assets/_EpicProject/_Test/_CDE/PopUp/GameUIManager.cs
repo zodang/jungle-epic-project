@@ -20,6 +20,9 @@ public class GameUIManager : MonoBehaviour
         }
         else
         {
+            // Loading 시 ESC 비활성화
+            if (GameManager.Instance.FadeManager.IsLoading) return;
+            
             GameManager.Instance.SettingManager.ToggleSetting();
         }
     }

@@ -5,6 +5,27 @@ using UnityEngine.UI;
 
 public class ResolutionSetting : MonoBehaviour
 {
+    private static readonly List<Vector2Int> SupportedResolutions = new()
+    {
+        // 16:9, 16:10
+        new Vector2Int(1280, 720),  // HD
+        new Vector2Int(1280, 800),  // WXGA
+
+        new Vector2Int(1600, 900),  // HD+
+        new Vector2Int(1440, 900),  // WXGA+
+
+        new Vector2Int(1920, 1080), // Full HD
+        new Vector2Int(1920, 1200), // WUXGA
+
+        new Vector2Int(2560, 1440), // QHD
+        new Vector2Int(2560, 1600), // WQXGA
+
+        new Vector2Int(3200, 1800), // QHD+
+        new Vector2Int(3840, 2400),  // WQUXGA
+
+        new Vector2Int(3840, 2160), // 4K UHD
+    };
+    
     public int CurrentIndex { get; private set; }
     public bool IsFullScreen { get; private set; } = true;
     
@@ -59,7 +80,6 @@ public class ResolutionSetting : MonoBehaviour
     public int GetOptimalResolutionIndex()
     {
         _resolutions.Clear();
-        HashSet<string> added = new();
         Resolution[] allRes = Screen.resolutions;
 
         var current = Screen.currentResolution;
@@ -67,27 +87,28 @@ public class ResolutionSetting : MonoBehaviour
         int minDiff = int.MaxValue;
         int idx = 0;
 
-        for (int i = 0; i < allRes.Length; i++)
+        foreach (var resVec in SupportedResolutions)
         {
-            Resolution res = allRes[i];
-            float aspect = (float)res.width / res.height;
-            bool is16by9 = Mathf.Approximately(aspect, 16f / 9f);
-            bool is16by10 = Mathf.Approximately(aspect, 16f / 10f);
-            if (!is16by9 && !is16by10) continue;
+            // 실제 모니터에서 지원하는 해상도만 포함
+            Resolution? match = null;
+            foreach (var res in allRes)
+            {
+                if (res.width == resVec.x && res.height == resVec.y)
+                {
+                    match = res;
+                    break;
+                }
+            }
 
-            string key = $"{res.width}x{res.height}";
-            if (added.Contains(key)) continue;
-            added.Add(key);
+            if (!match.HasValue) continue;
 
-            _resolutions.Add(res);
-
-            int diff = Mathf.Abs(res.width - current.width) + Mathf.Abs(res.height - current.height);
+            _resolutions.Add(match.Value);
+            int diff = Mathf.Abs(match.Value.width - current.width) + Mathf.Abs(match.Value.height - current.height);
             if (diff < minDiff)
             {
                 minDiff = diff;
                 closestIndex = idx;
             }
-
             idx++;
         }
         return closestIndex;
