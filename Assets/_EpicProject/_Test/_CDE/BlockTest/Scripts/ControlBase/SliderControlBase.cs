@@ -8,6 +8,16 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
     
     [SerializeField] private Slider _slider;
     [SerializeField] private TMP_Text _percentText;
+    
+    private SliderInteractionDetector _sliderDetector;
+    public bool IsControlStarted { get; private set; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _sliderDetector = _slider.GetComponent<SliderInteractionDetector>();
+        _sliderDetector.OnControlStarted += WhenControlStarted;
+    }
 
     public override void Activate(object feature)
     {
@@ -50,6 +60,11 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
         _percentText.text = $"{Mathf.RoundToInt(percent * 100)}%";
         
         Debug.Log($"{value} / {Mathf.RoundToInt(percent * 100)}");
+    }
+
+    private void WhenControlStarted(bool isControl)
+    {
+        IsControlStarted = isControl;
     }
 
     protected abstract float GetMinValue();
