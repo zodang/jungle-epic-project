@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables; // PlayableDirector를 사용하기 위해 필요
-using UnityEngine.Events;   // UnityEvent를 사용하기 위해 필요
+using UnityEngine.Events;
+using UnityEngine.UI;   // UnityEvent를 사용하기 위해 필요
 // using UnityEngine.UI;    // UI.Image를 사용하려면 이 줄의 주석을 해제하세요.
 
 /// <summary>
@@ -17,7 +18,7 @@ public class CutsceneSkipManager : MonoBehaviour
     [Tooltip("컷신이 스킵되거나 정상 종료되었을 때 실행할 함수들을 여기에 연결하세요.")]
     public UnityEvent OnCutsceneFinished;
 
-    /*
+
     // [UI 연결 - 선택 사항]
     // 스킵 안내 UI를 사용하고 싶을 때, 아래 변수들의 주석을 해제하고 인스펙터에서 연결하세요.
     [Header("UI 요소 (선택 사항)")]
@@ -25,7 +26,7 @@ public class CutsceneSkipManager : MonoBehaviour
     public GameObject skipPromptUI;
     [Tooltip("진행 상태를 보여줄 채워지는(Filled) 이미지입니다.")]
     public Image skipProgressImage;
-    */
+
 
     [Header("스킵 설정")]
     public KeyCode skipKey = KeyCode.Escape;
@@ -39,10 +40,10 @@ public class CutsceneSkipManager : MonoBehaviour
     void Start()
     {
         // UI가 연결되어 있다면, 시작 시 숨깁니다.
-        /*
+
         if (skipPromptUI != null)
             skipPromptUI.SetActive(false);
-        */
+
 
         // 필수 컴포넌트 확인
         if (cutsceneTimeline == null)
@@ -57,10 +58,10 @@ public class CutsceneSkipManager : MonoBehaviour
         // 스킵이 이미 완료되었거나, 타임라인이 재생 중이 아닐 때는 아무것도 하지 않습니다.
         if (isSkipped || (cutsceneTimeline != null && cutsceneTimeline.state != PlayState.Playing))
         {
-            /*
+
             if (skipPromptUI != null && skipPromptUI.activeInHierarchy)
                 skipPromptUI.SetActive(false);
-            */
+
             return;
         }
 
@@ -70,14 +71,14 @@ public class CutsceneSkipManager : MonoBehaviour
             // Time.timeScale이 0이어도 시간을 측정하기 위해 unscaledDeltaTime 사용
             skipTimer += Time.unscaledDeltaTime;
 
-            // UI 로직: 스킵 안내 UI를 보여주고 진행 바를 채웁니다.
-            /*
+            //UI 로직: 스킵 안내 UI를 보여주고 진행 바를 채웁니다.
+
             if (skipPromptUI != null && !skipPromptUI.activeInHierarchy)
                 skipPromptUI.SetActive(true);
-            
+
             if (skipProgressImage != null)
                 skipProgressImage.fillAmount = skipTimer / timeToSkip;
-            */
+
 
             // 타이머가 목표 시간을 채우면 스킵을 실행합니다.
             if (skipTimer >= timeToSkip)
@@ -93,13 +94,13 @@ public class CutsceneSkipManager : MonoBehaviour
             skipTimer = 0f;
 
             // UI 로직: 진행 바를 초기화하고 스킵 안내 UI를 숨깁니다.
-            /*
+
             if (skipProgressImage != null)
                 skipProgressImage.fillAmount = 0f;
-            
+
             if (skipPromptUI != null)
                 skipPromptUI.SetActive(false);
-            */
+
         }
     }
 
@@ -123,12 +124,12 @@ public class CutsceneSkipManager : MonoBehaviour
         OnCutsceneFinished.Invoke();
 
         // 스킵 UI를 비활성화합니다.
-        /*
+
         if (skipPromptUI != null)
         {
             skipPromptUI.SetActive(false);
         }
-        */
+
 
         // 이 스크립트의 역할은 끝났으므로 비활성화합니다.
         this.enabled = false;
