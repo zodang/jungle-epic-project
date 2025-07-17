@@ -25,8 +25,6 @@ public class EvaporationHandler : MonoBehaviour
             
             // 로그 시스템
             StageBaseManager.Instance.ChangeStageSection("evaporate_water");
-            
-            Debug.Log("플래그 셋");
         }
         else
         {
