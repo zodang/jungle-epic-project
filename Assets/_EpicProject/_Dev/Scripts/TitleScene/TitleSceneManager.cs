@@ -40,6 +40,14 @@ public class TitleSceneManager : MonoBehaviour
     {
         Instantiate(stageManagerPrefab, Vector3.zero, Quaternion.identity);
         int targetIndex = Mathf.Max(2, _clearStageIndex + 1);
+        
+        // 게임 클리어 시 FinalMeeting부터 이어서 시작
+        int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
+        if (targetIndex >= sceneCount - 1)
+        {
+            targetIndex -= 3;
+        }
+        
         GameManager.Instance.FadeManager.LoadScene(targetIndex);
     }
 
