@@ -2564,6 +2564,7 @@ GameObject:
   - component: {fileID: 8912254095857357096}
   - component: {fileID: 1940698873455275539}
   - component: {fileID: 6202023330871068903}
+  - component: {fileID: 2736911795328751971}
   m_Layer: 0
   m_Name: House_Top1_0 (1)
   m_TagString: Untagged
@@ -2653,6 +2654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b949d0e9fbbe16b44bdc31f10b1201e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeTargetType: 0
 --- !u!61 &6202023330871068903
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2699,6 +2701,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.961565, y: 5.0300274}
   m_EdgeRadius: 0
+--- !u!114 &2736911795328751971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129187297134196314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2040f1ab83b3be54abae87922062bf09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2569635277990740795
 GameObject:
   m_ObjectHideFlags: 0

@@ -371,7 +371,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9, y: -6, z: -10}
+  m_LocalPosition: {x: -2, y: -1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1851,6 +1851,7 @@ MonoBehaviour:
   OnTrigger:
     m_PersistentCalls:
       m_Calls: []
+  TriggerHoldTime: 0
 --- !u!1 &1165873148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2010,7 +2011,7 @@ PlayableDirector:
   - key: {fileID: 9207470380292532360, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
     value: {fileID: 806595596}
   - key: {fileID: -1843898606844864681, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1924819233}
   - key: {fileID: -2731943039894551523, guid: 63da0305220d5b947b9770d5f5594a98, type: 2}
     value: {fileID: 1717036590}
   m_ExposedReferences:
@@ -3126,6 +3127,7 @@ GameObject:
   - component: {fileID: 1924819229}
   - component: {fileID: 1924819228}
   - component: {fileID: 1924819232}
+  - component: {fileID: 1924819233}
   m_Layer: 0
   m_Name: CinemachineGlitchVision
   m_TagString: Untagged
@@ -3252,6 +3254,28 @@ MonoBehaviour:
   glitchCamOrtho: 6.5
   normalCutoff: 5000
   glitchCutoff: 400
+--- !u!95 &1924819233
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924819227}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1957279659
 PrefabInstance:
   m_ObjectHideFlags: 0
