@@ -182,7 +182,7 @@ public class DialogueManager : MonoBehaviour
         this.currentNpcSpeakerAnchor = npcSpeechAnchor;
         // CurrentActiveDialogueBubbleTargetAnchor는 DisplayCurrentLineOnActiveBubble에서 설정
         justStartedDialogueInputLock = true;
-        if (pauseGameDuringDialogue) Time.timeScale = 0f;
+        if (pauseGameDuringDialogue) GameManager.Instance.TimeScaleManager.RequestPauseGame();
 
         currentDialogueLines.Clear();
         foreach (var line in entry.lines) { currentDialogueLines.Enqueue(line); }
@@ -317,7 +317,7 @@ public class DialogueManager : MonoBehaviour
 
         // dialogueJustEndedInputLock = true; // 이 줄 대신 아래 줄 사용
         dialogueEndTime = Time.unscaledTime; // <<== 대화 종료 시점의 실제 시간 기록
-        if (pauseGameDuringDialogue) Time.timeScale = 1f;
+        if (pauseGameDuringDialogue) GameManager.Instance.TimeScaleManager.RequestResumeGame();
 
         currentNpcSpeakerAnchor = null;
         CurrentActiveDialogueBubbleTargetAnchor = null;

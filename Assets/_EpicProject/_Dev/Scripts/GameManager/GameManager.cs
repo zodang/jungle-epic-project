@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public FadeManager FadeManager { get; private set; }
     public GameUIManager UIManager { get; private set; }
     public LogManager LogManager { get; private set; }
+    public TimeScaleManager TimeScaleManager { get; private set; }
 
     public void Awake()
     {
@@ -26,5 +27,7 @@ public class GameManager : MonoBehaviour
         FadeManager = GetComponentInChildren<FadeManager>();
         UIManager = GetComponentInChildren<GameUIManager>();
         LogManager = GetComponentInChildren<LogManager>();
+        TimeScaleManager = GetComponentInChildren<TimeScaleManager>();
     }
+    
 }
