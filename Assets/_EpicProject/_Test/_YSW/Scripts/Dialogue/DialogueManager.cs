@@ -168,6 +168,12 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string dialogueId, Transform npcSpeechAnchor)
     {
+        // ProgressManager가 있다면, 시작되는 이 '대화 ID'를 "봤음"으로 기록
+        if (ProgressManager.Instance != null)
+        {
+            ProgressManager.Instance.MarkDialogueAsSeen(dialogueId);
+        }
+
         if (dialogueCollection == null) { Debug.LogError("DM: Dialogue collection not loaded."); return; }
         DialogueEntry entry = dialogueLoader.GetDialogueEntryById(dialogueCollection, dialogueId);
         if (entry == null) { Debug.LogWarning($"DM: Dialogue ID '{dialogueId}' not found."); TransitionToState(EndingState); return; }

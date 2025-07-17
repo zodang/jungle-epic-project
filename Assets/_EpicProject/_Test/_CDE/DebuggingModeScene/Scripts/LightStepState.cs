@@ -4,13 +4,11 @@ public class LightStepState : FSMState
     private string[] _consoleIdList = new[] { "console_light_broken", "console_light_solved"};
     
     private PuzzleFSM _puzzleFsm;
-    private FSM<FSMState> _fsm;
     private BrokenEmotionBlock _target;
 
-    public LightStepState(PuzzleFSM puzzleFsm, FSM<FSMState> fsm, BrokenEmotionBlock targetObj)
+    public LightStepState(PuzzleFSM puzzleFsm, BrokenEmotionBlock targetObj)
     {
         _puzzleFsm = puzzleFsm;
-        _fsm = fsm;
         _target = targetObj;
     }
     
@@ -20,7 +18,6 @@ public class LightStepState : FSMState
 
         _target.OnLightCorrect += _puzzleFsm.ChangeToNextStep;
         _target.OnLightCorrect += ChangeToCorrectDialogue;
-        
         
         _puzzleFsm.ChangeDialogueText(_dialogueIdList[0]);
         _puzzleFsm.ChangeConsoleText(_consoleIdList[0]);

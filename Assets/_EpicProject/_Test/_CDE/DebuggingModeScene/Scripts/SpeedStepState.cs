@@ -4,13 +4,11 @@ public class SpeedStepState : FSMState
     private string[] _consoleIdList = new[] { "console_speed_broken", "console_speed_solved"};
     
     private PuzzleFSM _puzzleFsm;
-    private FSM<FSMState> _fsm;
     private BrokenEmotionBlock _target;
 
-    public SpeedStepState(PuzzleFSM puzzleFsm, FSM<FSMState> fsm, BrokenEmotionBlock targetObj)
+    public SpeedStepState(PuzzleFSM puzzleFsm,  BrokenEmotionBlock targetObj)
     {
         _puzzleFsm = puzzleFsm;
-        _fsm = fsm;
         _target = targetObj;
     }
     
