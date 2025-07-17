@@ -28,6 +28,7 @@ public class TypeEffect : MonoBehaviour
 
     private int charCountForSound = 0; // 효과음 재생 간격 카운터
 
+    private bool _isPaused = false;
 
     private void Awake()
     {
