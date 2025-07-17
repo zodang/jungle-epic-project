@@ -48,6 +48,8 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
             ? 0f
             : (value - _slider.minValue) / (_slider.maxValue - _slider.minValue);
         _percentText.text = $"{Mathf.RoundToInt(percent * 100)}%";
+        
+        Debug.Log($"{value} / {Mathf.RoundToInt(percent * 100)}");
     }
 
     protected abstract float GetMinValue();
