@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 1109046069172024022}
   - component: {fileID: 1465040830915685049}
   - component: {fileID: 836413433127798322}
+  - component: {fileID: 1430803374038511468}
   m_Layer: 0
   m_Name: BrokenEmotionBlock
   m_TagString: Untagged
@@ -232,6 +233,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   DefaultBlockList: 
+--- !u!114 &1430803374038511468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4133875417820947921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7794f1473522efe4dad8af1bd6c74568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _btnGraphicSprites: []
+  highGraphicSprites: []
+  _animator: {fileID: 0}
 --- !u!1 &5540022469955325906
 GameObject:
   m_ObjectHideFlags: 0
