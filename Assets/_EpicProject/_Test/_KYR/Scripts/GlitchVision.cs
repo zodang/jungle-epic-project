@@ -48,6 +48,7 @@ public class GlitchVision : MonoBehaviour
     {
         Debug.Log($"[GlitchVision] OnEnable() subscribing  InstanceID={GetInstanceID()}");
         StageManager.Instance.InputManager.OnQPressed += StartGlitch;
+        Debug.Log($"[GlitchVision] Total Instances: {FindObjectsOfType<GlitchVision>().Length}");
     }
 
     private void OnDisable()
