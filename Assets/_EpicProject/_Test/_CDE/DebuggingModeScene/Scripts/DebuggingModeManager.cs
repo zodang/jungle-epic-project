@@ -23,8 +23,10 @@ public class DebuggingModeManager : StageBaseManager
         _brokenBlockOutline = _brokenBlock.GetComponentInChildren<ClickableOutline>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         _brokenBlock.OnClickAction += WhenBlockClicked;
         
         // 로그 시스템
