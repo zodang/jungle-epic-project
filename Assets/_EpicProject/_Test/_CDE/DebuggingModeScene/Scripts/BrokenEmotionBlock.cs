@@ -35,7 +35,7 @@ public class BrokenEmotionBlock : MonoBehaviour
     
     private SpeedHandler _speedHandler;
     private readonly int _defaultSpeed = 3;
-    private readonly int _optimalSpeed = 1;
+    private readonly int _optimalSpeed = 0;
     private int _currentSpeed;
 
     private bool _isLightCorrect;
