@@ -41,7 +41,7 @@ public class NPCInteraction : MonoBehaviour
         }
 
         // 우선순위에 따라 정렬 (선택 사항, Inspector에서 직접 순서 조정도 가능)
-         conditionalDialogues.Sort((a, b) => a.priority.CompareTo(b.priority));
+        conditionalDialogues.Sort((a, b) => a.priority.CompareTo(b.priority));
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -96,7 +96,7 @@ public class NPCInteraction : MonoBehaviour
 
     public void InteractWithNPC()
     {
-        string dialogueIdToStart = GetCurrentDialogueId();
+        string dialogueIdToStart = GetDialogueIdBasedOnConditions();
 
         if (StageBaseManager.Instance.DialogueManager != null && !string.IsNullOrEmpty(dialogueIdToStart) && speechBubbleAnchor != null)
         {
@@ -109,32 +109,6 @@ public class NPCInteraction : MonoBehaviour
             if (StageBaseManager.Instance.DialogueManager == null) Debug.LogError($"NPCInteraction on '{gameObject.name}': StageBaseManager.Instance.DialogueManager is null.");
             if (speechBubbleAnchor == null) Debug.LogWarning($"NPCInteraction on '{gameObject.name}': SpeechBubbleAnchor is null.");
         }
-    }
-
-    // 이 함수를 public으로 변경하여 NpcInteractionUI에서 호출할 수 있도록 함
-    public string GetCurrentDialogueId() // private -> public, 이름 변경
-    {
-        if (StageBaseManager.Instance?.FlagManager == null)
-        {
-            Debug.LogWarning($"<NPCInteraction> FlagManager not found. Returning default dialogue: {defaultDialogueId}");
-            return defaultDialogueId;
-        }
-
-        foreach (var conditionEntry in conditionalDialogues)
-        {
-            if (string.IsNullOrEmpty(conditionEntry.requiredFlagName) || string.IsNullOrEmpty(conditionEntry.dialogueId))
-            {
-                continue;
-            }
-
-            bool flagState = StageBaseManager.Instance.FlagManager.IsFlagSet(conditionEntry.requiredFlagName);
-
-            if (flagState == conditionEntry.requiredFlagValue)
-            {
-                return conditionEntry.dialogueId;
-            }
-        }
-        return defaultDialogueId;
     }
 
     void Update()
