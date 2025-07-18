@@ -406,7 +406,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.2779694, y: 1.8597606, z: -10}
+  m_LocalPosition: {x: -9.298092, y: 1.8597606, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1946,6 +1946,9 @@ MonoBehaviour:
   OnTrigger:
     m_PersistentCalls:
       m_Calls: []
+  OnTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
   TriggerHoldTime: 0
 --- !u!1001 &818305058
 PrefabInstance:
@@ -2684,6 +2687,9 @@ MonoBehaviour:
           m_StringArgument: Player_01
           m_BoolArgument: 0
         m_CallState: 2
+  OnTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
   TriggerHoldTime: 0.3
 --- !u!1 &1127707085 stripped
 GameObject:
@@ -6244,14 +6250,6 @@ PrefabInstance:
     - target: {fileID: 4646059681486352402, guid: aa03e418d649ccd45a54daf43b8847c1, type: 3}
       propertyPath: m_Name
       value: GridS4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8192326697508503159, guid: aa03e418d649ccd45a54daf43b8847c1, type: 3}
-      propertyPath: m_ColliderPaths.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8192326697508503159, guid: aa03e418d649ccd45a54daf43b8847c1, type: 3}
-      propertyPath: m_CompositePaths.m_Paths.Array.size
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
