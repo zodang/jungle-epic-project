@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement; // ← 추가
 using System.Collections;
 using UnityEngine.Localization.Components;
+using UnityEngine.Localization.Settings;
 
 public class StartManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class StartManager : MonoBehaviour
     private SpriteRenderer[] _spriteRenderers;
     private ArrowWaveSmooth _arrowWaveSmooth;
 
+    private bool _isStarted;
+
     private void Awake()
     {
         _keyLocalization = FindAnyObjectByType<LocalizeSpriteEvent>();
@@ -40,11 +43,14 @@ public class StartManager : MonoBehaviour
 
     private void Start()
     {
-        _keyLocalization.OnUpdateAsset.AddListener(WhenSpriteUpdate);
+        StartCoroutine(LocalizationCo());
     }
-
-    private void WhenSpriteUpdate(Sprite sprite)
+    
+    private IEnumerator LocalizationCo()
     {
+        yield return LocalizationSettings.InitializationOperation;
+        yield return new WaitForSeconds(0.5f);
+        
         // Localization 적용 후 UI 정상화
         _arrowWaveSmooth.ChangeAlpha(0.5f, 1.0f);
         foreach (var spriteRenderer in _spriteRenderers)
@@ -55,6 +61,9 @@ public class StartManager : MonoBehaviour
 
     void Update()
     {
+        // Start Key 재드래그 제한
+        if (_isStarted) return;
+        
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -79,6 +88,8 @@ public class StartManager : MonoBehaviour
                 var dropHit = Physics2D.Raycast(wp, Vector2.zero, Mathf.Infinity, dropZoneLayer);
                 if (dropHit.collider != null)
                 {
+                    _isStarted = true;
+                    
                     _dragging.position = dropHit.collider.transform.position;
                     // 애니메이션 재생
                     _startAni.Play("Start Ani");
