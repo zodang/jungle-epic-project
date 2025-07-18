@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
+using UnityEngine.SceneManagement;
 
 public class SettingManager : MonoBehaviour
 {
@@ -44,19 +45,15 @@ public class SettingManager : MonoBehaviour
     public void ToggleSetting()
     {
         _isSettingUIOpen = !_isSettingUIOpen;
-        _settingUI.OpenSettingUI(_isSettingUIOpen);
-
+        
         if (_isSettingUIOpen)
         {
-            OnSettingOpen?.Invoke();
-            GameManager.Instance.TimeScaleManager.RequestPauseGame();
+            if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 1) return;
+            OpenSetting();
         }
         else if (!_isSettingUIOpen)
         {
-            // Setting UI 닫을 때 설정 데이터 저장
-            SaveSetting();
-            OnSettingClose?.Invoke();
-            GameManager.Instance.TimeScaleManager.RequestResumeGame();
+            CloseSetting();
         }
     }
 
