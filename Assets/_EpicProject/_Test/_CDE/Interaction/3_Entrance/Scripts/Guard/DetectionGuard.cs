@@ -1,10 +1,9 @@
 using System.Collections;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class DetectionGuard : MonoBehaviour
 {
-    [SerializeField] private AnimatorController RightIdleController; 
+    [SerializeField] private RuntimeAnimatorController RightIdleController; 
     [SerializeField] private AnimatorOverrideController IdleController; 
     
     private GuardDetectionHandler _detectionHandler;
