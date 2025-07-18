@@ -619,6 +619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7d72548e9964f24a922d43836d86ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tempTarget: {fileID: 1930827583}
   defaultBlockList: 010000000200000003000000040000000500000006000000
 --- !u!95 &70214637
 Animator:
@@ -1901,6 +1902,9 @@ MonoBehaviour:
   target: {fileID: 1723781822}
   OnlyOnce: 1
   OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerExit:
     m_PersistentCalls:
       m_Calls: []
   TriggerHoldTime: 0

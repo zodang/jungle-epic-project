@@ -61,6 +61,7 @@ public class BrokenEmotionBlock : MonoBehaviour
         ComponentHelper.TryGetOrAddComponent<SpeedHandler>(ref _speedHandler, gameObject);
         _speedHandler.Init(_defaultSpeed);
         _speedHandler.OnSetValue += ChangeSpeed;
+        _currentSpeed = _defaultSpeed;
 
         _originalHeartPos = heart.transform.localPosition;
     }

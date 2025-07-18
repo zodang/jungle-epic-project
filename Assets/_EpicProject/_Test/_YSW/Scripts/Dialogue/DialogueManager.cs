@@ -76,7 +76,7 @@ public class DialogueManager : MonoBehaviour
             dialogueLoader = loaderObject.AddComponent<DialogueLoader>();
             Debug.LogWarning("DM: DialogueLoader not found, created automatically.");
         }
-        
+
         /*
         // 씬 메니저에서 LoadDialogue 호출
         dialogueCollection = dialogueLoader.LoadDialogueDataFromFile(dialogueFileName);
@@ -85,7 +85,7 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("DM: Failed to load dialogue collection. System disabled.");
             enabled = false; return;
         }*/
-        
+
         FindPlayerAnchorByName();
         TransitionToState(IdleState);
     }
@@ -93,7 +93,7 @@ public class DialogueManager : MonoBehaviour
     public void LoadDialogue(string path)
     {
         dialogueFileName = path;
-        
+
         dialogueCollection = dialogueLoader.LoadDialogueDataFromFile(dialogueFileName);
         if (dialogueCollection == null)
         {
@@ -168,12 +168,6 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string dialogueId, Transform npcSpeechAnchor)
     {
-        // ProgressManager가 있다면, 시작되는 이 '대화 ID'를 "봤음"으로 기록
-        if (ProgressManager.Instance != null)
-        {
-            ProgressManager.Instance.MarkDialogueAsSeen(dialogueId);
-        }
-
         if (dialogueCollection == null) { Debug.LogError("DM: Dialogue collection not loaded."); return; }
         DialogueEntry entry = dialogueLoader.GetDialogueEntryById(dialogueCollection, dialogueId);
         if (entry == null) { Debug.LogWarning($"DM: Dialogue ID '{dialogueId}' not found."); TransitionToState(EndingState); return; }
@@ -208,21 +202,21 @@ public class DialogueManager : MonoBehaviour
             AdvanceDialogue();
             return;
         }
-        
+
         // Localization: 현재 언어 설정에 따른 DialogueLine의 speaker와 text 데이터 추출
         string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
         string speaker = "";
         string text = "";
-        
+
         // [2] speaker와 text 안전하게 꺼내기 (딕셔너리에 해당 언어 없으면 빈 문자열 fallback)
         if (CurrentLineToShow.speaker != null && CurrentLineToShow.speaker.TryGetValue(lang, out var spk))
             speaker = spk;
         if (CurrentLineToShow.text != null && CurrentLineToShow.text.TryGetValue(lang, out var txt))
             text = txt;
-        
+
         string playerDisplayName = PLAYER_DISPLAY_NAMES.ContainsKey(lang) ? PLAYER_DISPLAY_NAMES[lang] : "Player";
         bool isPlayerSpeaking = speaker.Equals(playerDisplayName, System.StringComparison.OrdinalIgnoreCase);
-        
+
         DialogueUI targetUI = null;
 
         // 이전에 활성화된 말풍선이 현재 화자와 다른 타입이면 숨김
@@ -264,12 +258,12 @@ public class DialogueManager : MonoBehaviour
         CurrentChoiceBubbleUI = InitializeSpecificDialogueUI(CurrentChoiceBubbleUI, choiceBubblePrefab, "ChoiceBubble");
         if (CurrentChoiceBubbleUI == null) { Debug.LogError("DM: Failed to initialize ChoiceBubbleUI."); TransitionToState(EndingState); return; }
         if (CurrentChoices == null || CurrentChoices.Count == 0) { Debug.LogWarning("DM: No choices for ChoiceBubble."); TransitionToState(EndingState); return; }
-        
+
         // Localization: 화자 이름 비교
         string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
         string playerDisplayName = PLAYER_DISPLAY_NAMES.ContainsKey(lang) ? PLAYER_DISPLAY_NAMES[lang] : "Player";
         CurrentChoiceBubbleUI.SetSpeakerName(playerDisplayName);
-        
+
         CurrentChoiceBubbleUI.DisplayChoicesInMainText(CurrentChoices, CurrentSelectedChoiceIndex); // 선택지는 즉시 표시
         CurrentChoiceBubbleTargetAnchor = PlayerSpeechAnchor;
         CurrentChoiceBubbleUI.Show(true);

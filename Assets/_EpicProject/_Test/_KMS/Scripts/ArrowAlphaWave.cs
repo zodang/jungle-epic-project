@@ -26,6 +26,12 @@ public class ArrowWaveSmooth : MonoBehaviour
         StartCoroutine(WaveSmooth());
     }
 
+    public void ChangeAlpha(float baseA, float highlightA)
+    {
+        baseAlpha = baseA;
+        highlightAlpha = highlightA;
+    }
+
     private IEnumerator WaveSmooth()
     {
         int idx = 0;

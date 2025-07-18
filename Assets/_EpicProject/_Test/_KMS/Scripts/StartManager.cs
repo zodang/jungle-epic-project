@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement; // ← 추가
 using System.Collections;
+using UnityEngine.Localization.Components;
 
 public class StartManager : MonoBehaviour
 {
@@ -19,8 +20,37 @@ public class StartManager : MonoBehaviour
     private Transform _dragging;
     private Vector3 _dragOffset;
 
-    void Start()
+    private LocalizeSpriteEvent _keyLocalization;
+    private SpriteRenderer[] _spriteRenderers;
+    private ArrowWaveSmooth _arrowWaveSmooth;
+
+    private void Awake()
     {
+        _keyLocalization = FindAnyObjectByType<LocalizeSpriteEvent>();
+        _arrowWaveSmooth = FindAnyObjectByType<ArrowWaveSmooth>();
+        _spriteRenderers = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
+
+        // Localization 적용 전 UI 투명화
+        _arrowWaveSmooth.ChangeAlpha(0, 0);
+        foreach (var spriteRenderer in _spriteRenderers)
+        {
+            spriteRenderer.color = Color.clear;
+        }
+    }
+
+    private void Start()
+    {
+        _keyLocalization.OnUpdateAsset.AddListener(WhenSpriteUpdate);
+    }
+
+    private void WhenSpriteUpdate(Sprite sprite)
+    {
+        // Localization 적용 후 UI 정상화
+        _arrowWaveSmooth.ChangeAlpha(0.5f, 1.0f);
+        foreach (var spriteRenderer in _spriteRenderers)
+        {
+            spriteRenderer.color = Color.white;
+        }
     }
 
     void Update()
