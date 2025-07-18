@@ -49,7 +49,7 @@ public class TitleSceneUIManager : MonoBehaviour
         else
         {
             continueGameBtn.enabled = true;
-            _continueImg.color = new Color(_continueImg.color.r, _continueImg.color.g, _continueImg.color.b, 1.0f);
+            _continueImg.color = new Color(_continueImg.color.r, _continueImg.color.g, _continueImg.color.b, 0f);
             _continueText.color = new Color(0, 0, 0, 1.0f);
             _continueRawImage.color = new Color(0, 0, 0, 1f);
         }
