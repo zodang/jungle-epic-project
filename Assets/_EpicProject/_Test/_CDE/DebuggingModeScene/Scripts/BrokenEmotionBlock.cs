@@ -24,13 +24,13 @@ public class BrokenEmotionBlock : MonoBehaviour
     private LightHandler _lightHandler;
     private readonly float _minLight = 0f;
     private readonly float _maxLight = 1f;
-    private readonly Vector2 _optimalLightRange = new Vector2(0.64f, 0.75f);
+    private readonly Vector2 _optimalLightRange = new Vector2(0.65f, 0.75f);
     private float _currentLight;
     
     private ScaleHandler _scaleHandler;
     private readonly float _minScale = 0.5f;
     private readonly float _maxScale = 1.5f;
-    private readonly Vector2 _optimalScaleRange = new Vector2(0.9f, 1.1f);
+    private readonly Vector2 _optimalScaleRange = new Vector2(0.95f, 1.05f);
     private float _currentScale = 0f;
     
     private SpeedHandler _speedHandler;
