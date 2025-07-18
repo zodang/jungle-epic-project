@@ -18,6 +18,7 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
 
     // IGraphicChangeable
     private GraphicType _defaultGraphicType = GraphicType.Middle;
+    private GraphicType _currentGraphicType;
 
     private PlayerAnimation _animation;
     
@@ -34,6 +35,7 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
 
         _graphicHandler.Init(_defaultGraphicType);
         _graphicHandler.OnSetValue += ChangeGraphic;
+        _currentGraphicType = _defaultGraphicType;
 
         _animation = GetComponentInChildren<PlayerAnimation>();
 
@@ -77,6 +79,7 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _movement2D.MoveDir = Vector3.zero;
+        _graphicHandler.SetValue(_currentGraphicType);
         
         OnControlDisabled?.Invoke();
     }
@@ -92,6 +95,7 @@ public class Horse : MonoBehaviour, IControllable, IFeatureResetable
     {
         // 그림자 비활성화
         shadow.SetActive(type == 1);
+        _currentGraphicType = (GraphicType)type;
     }
     
     public void SetMoveDirection(Vector2 dir)
