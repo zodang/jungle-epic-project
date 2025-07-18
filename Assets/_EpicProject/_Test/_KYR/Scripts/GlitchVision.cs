@@ -44,6 +44,19 @@ public class GlitchVision : MonoBehaviour
         _glitchObjects = new List<GlitchObject>(FindObjectsByType<GlitchObject>(FindObjectsSortMode.None));
     }
 
+    private void OnEnable()
+    {
+        Debug.Log($"[GlitchVision] OnEnable() subscribing  InstanceID={GetInstanceID()}");
+        StageManager.Instance.InputManager.OnQPressed += StartGlitch;
+        Debug.Log($"[GlitchVision] Total Instances: {FindObjectsOfType<GlitchVision>().Length}");
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log($"[GlitchVision] OnDisable() unsubscribing  InstanceID={GetInstanceID()}");
+        StageManager.Instance.InputManager.OnQPressed -= StartGlitch;
+    }
+
     private void Start()
     {
         // mainCam의 ortho 저장, glitchCam, glitchCam Group Framing의 ortho 설정
@@ -64,9 +77,6 @@ public class GlitchVision : MonoBehaviour
         lowPassFilter = FindFirstObjectByType<AudioLowPassFilter>();
         if (lowPassFilter != null)
             normalCutoff = lowPassFilter.cutoffFrequency;
-        
-        // InputManager에서 Q 입력 관리
-        StageManager.Instance.InputManager.OnQPressed += StartGlitch;
     }
 
     public void StartGlitch()
