@@ -25,6 +25,8 @@ public class StartManager : MonoBehaviour
     private SpriteRenderer[] _spriteRenderers;
     private ArrowWaveSmooth _arrowWaveSmooth;
 
+    private bool _isStarted;
+
     private void Awake()
     {
         _keyLocalization = FindAnyObjectByType<LocalizeSpriteEvent>();
@@ -59,6 +61,9 @@ public class StartManager : MonoBehaviour
 
     void Update()
     {
+        // Start Key 재드래그 제한
+        if (_isStarted) return;
+        
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -83,6 +88,8 @@ public class StartManager : MonoBehaviour
                 var dropHit = Physics2D.Raycast(wp, Vector2.zero, Mathf.Infinity, dropZoneLayer);
                 if (dropHit.collider != null)
                 {
+                    _isStarted = true;
+                    
                     _dragging.position = dropHit.collider.transform.position;
                     // 애니메이션 재생
                     _startAni.Play("Start Ani");
