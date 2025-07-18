@@ -11,8 +11,11 @@ public class TypeEffect : MonoBehaviour
     [Tooltip("초당 표시할 기본 글자 수")]
     public float charsPerSecond = 15f;
 
-    private TextMeshProUGUI msgText;
+    [SerializeField] private bool isSoundPlay = true;
     private AudioManager audioManager;
+
+
+    private TextMeshProUGUI msgText;
     private string targetMsg;
 
     public bool IsPlaying { get; private set; }
@@ -89,9 +92,13 @@ public class TypeEffect : MonoBehaviour
             stringBuilder.Append(targetMsg[currentIndex]);
             msgText.text = stringBuilder.ToString();
 
-            if (audioManager != null && targetMsg[currentIndex] != ' ')
+            // 사운드 플레이 여부 추가
+            if (isSoundPlay)
             {
-                audioManager.PlaySfx(SfxType.Text);
+                if (audioManager != null && targetMsg[currentIndex] != ' ')
+                {
+                    audioManager.PlaySfx(SfxType.Text);
+                }
             }
 
             currentIndex++;
