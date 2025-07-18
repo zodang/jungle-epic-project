@@ -6,6 +6,8 @@ public class EndingManager : StageBaseManager
     private void Awake()
     {
         stageFilePath = "StageInfos/Ending";
+        ChangeStageId("ending_4");
+        
         base.Awake();
     }
 
@@ -15,11 +17,19 @@ public class EndingManager : StageBaseManager
 
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Ending);
 
-        FindAnyObjectByType<VisualNovelSystem>().OnFinish += LoadMenuSccene;
+        FindAnyObjectByType<VisualNovelSystem>().OnFinish += LoadMenuScene;
+        
+        // 로그 시스템
+        GameManager.Instance.LogManager.LogStageEnter(StageId);
+        ChangeStageSection("stage_enter");
     }
 
-    void LoadMenuSccene()
+    void LoadMenuScene()
     {
+        // 로그 시스템
+        ChangeStageSection("stage_exit");
+        GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
+
         GameManager.Instance.FadeManager.LoadScene(1);
     }
 }

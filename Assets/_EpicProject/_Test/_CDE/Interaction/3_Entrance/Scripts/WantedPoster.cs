@@ -5,8 +5,8 @@ public class WantedPoster : MonoBehaviour, IFeatureResetable, IControllable
 {
     // IControllable
     private bool _enableMove;
-    private readonly float _minPosX = 0.2f;
-    private readonly float _maxPosX = 2.5f;
+    private readonly float _minPosX = 0.5f;//0.2f;
+    private readonly float _maxPosX = 2.22f;//2.5f;
     
     // ISpeedChangeable
     private SpeedHandler _speedHandler;
