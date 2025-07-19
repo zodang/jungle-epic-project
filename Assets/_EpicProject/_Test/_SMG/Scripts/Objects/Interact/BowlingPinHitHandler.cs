@@ -27,6 +27,49 @@ public class BowlingPinHitHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //if (collision.CompareTag("Hit"))
+        //{
+        //    if (IsHit) return;
+
+        //    ScaleHandler scaleHandler = collision.GetComponentInParent<ScaleHandler>();
+        //    if (scaleHandler.IsUnityNull() || scaleHandler.CurrentScale < 2f) return;
+
+        //    IsHit = true;
+
+        //    LaunchAway(_rigidbody2D, collision.transform);
+
+        //    //Invoke("leafSetActiveFalse", 5f);
+        //}
+
+        TriggerEnter2D(collision);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //if (collision.collider.CompareTag("Hit"))
+        //{
+        //    if (IsHit) return;
+
+        //    ScaleHandler scaleHandler = collision.collider.GetComponentInParent<ScaleHandler>();
+        //    if (scaleHandler.IsUnityNull() || scaleHandler.CurrentScale < 2f) return;
+
+        //    IsHit = true;
+
+        //    LaunchAway(_rigidbody2D, collision.transform);
+
+        //    Invoke("SetActiveFalse", 5f);
+        //}
+
+        TriggerEnter2D(collision.collider);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        TriggerEnter2D(collision.collider);
+    }
+
+    void TriggerEnter2D(Collider2D collision)
+    {
         if (collision.CompareTag("Hit"))
         {
             if (IsHit) return;
@@ -37,27 +80,11 @@ public class BowlingPinHitHandler : MonoBehaviour
             IsHit = true;
 
             LaunchAway(_rigidbody2D, collision.transform);
-            
-            //Invoke("leafSetActiveFalse", 5f);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Hit"))
-        {
-            if (IsHit) return;
-
-            ScaleHandler scaleHandler = collision.collider.GetComponentInParent<ScaleHandler>();
-            if (scaleHandler.IsUnityNull() || scaleHandler.CurrentScale < 2f) return;
-
-            IsHit = true;
-
-            LaunchAway(_rigidbody2D, collision.transform);
 
             Invoke("SetActiveFalse", 5f);
         }
     }
+
 
     void LaunchAway(Rigidbody2D pin, Transform ball)
     {
