@@ -18,7 +18,7 @@ public class TestModeUI : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < _totalSceneCount; i++)
+        for (int i = 0; i < _totalSceneCount - 2; i++)
         {
             int index = i;
 
@@ -32,7 +32,7 @@ public class TestModeUI : MonoBehaviour
 
     private void LoadScene(int index)
     {
-        SceneManager.LoadScene(index + 2);
+        GameManager.Instance.FadeManager.LoadScene(index + 2);
         _canvas.enabled = false;
     }
 

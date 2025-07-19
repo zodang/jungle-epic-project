@@ -45,7 +45,7 @@
           },
           "text": {
             "ko": "영주님께서 내리신 수배서의 몽타주와 정확히 일치한다! 이놈을 당장 체포해!",
-            "en": "This person is an exact match for the wanted poster from the Lord! Arrest them immediately!",
+            "en": "This person is an exact match for the wanted poster from the Lord! Arrest him immediately!",
             "zh-Hans": "和领主发布的通缉令上的画像完全一致！立刻逮捕这家伙！"
           }
         }
@@ -61,9 +61,9 @@
             "zh-Hans": "守卫"
           },
           "text": {
-            "ko": "수배서보다는 피부가 좋지만.. 이녀석이 틀림없어 체포해!",
-            "en": "Their skin is better than in the wanted poster... but it's definitely them. Arrest them!",
-            "zh-Hans": "虽然皮肤比通缉令上的好…但肯定就是这家伙，逮捕他！"
+            "ko": "수배서보다는 실물이 더 낫지만.. 이녀석이 틀림없어 체포해!",
+            "en": "Looks better in person than on the poster... but it's definitely them. Arrest him!",
+            "zh-Hans": "真人比通缉令上的画像好看多了……但肯定就是这家伙，逮捕他！"
           }
         }
       ]
@@ -79,7 +79,7 @@
           },
           "text": {
             "ko": "사진으로 사기를 치다니!... 못 알아볼 뻔했다, 이 녀석아! 당장 체포해!",
-            "en": "Trying to fool us with that picture!... I almost didn't recognize you, you scoundrel! Arrest them now!",
+            "en": "Trying to fool us with that picture!... I almost didn't recognize you, you scoundrel! Arrest him now!",
             "zh-Hans": "竟然用照片骗人！…差点没认出来，你这家伙！立刻逮捕！"
           }
         }
@@ -130,7 +130,7 @@
           },
           "text": {
             "ko": "너도 그 소식 들었어? 저기 아래 있는 집에 엄청난 미인이 산다는 소문!",
-            "en": "Have you heard the news? They say a great beauty lives in that house down there!",
+            "en": "Have you heard the news? It says a great beauty lives in that house down there!",
             "zh-Hans": "你也听到那个消息了吗？听说下面那栋房子里住着一位大美人！"
           }
         },
@@ -141,9 +141,9 @@
             "zh-Hans": "村民"
           },
           "text": {
-            "ko": "소문에 따르면 피부가 엄청나게 좋다는군!",
-            "en": "According to the rumors, her skin is unbelievably clear!",
-            "zh-Hans": "听说她的皮肤非常好！"
+            "ko": "정말 '차원'이 다르다는군!",
+            "en": "They say she's on a whole other 'dimension'!",
+            "zh-Hans": "听说她简直是另一个‘次元’的人！"
           }
         }
       ]
@@ -158,9 +158,9 @@
             "zh-Hans": "美女"
           },
           "text": {
-            "ko": "후훗.. 그쪽도 제 눈부신 미모를 보러 오신건가요? 모두들 제 피부를 보면 깜짝 놀라더군요..",
-            "en": "Hehe... have you also come to gaze upon my dazzling beauty? Everyone is so shocked when they see my skin..",
-            "zh-Hans": "呵呵…您也是来看我这耀眼的美貌的吗？大家看到我的皮肤都会大吃一惊呢…"
+            "ko": "후훗.. 그쪽도 제 눈부신 미모를 보러 오신 건가요?",
+            "en": "Hehe... have you also come to gaze upon my dazzling beauty?",
+            "zh-Hans": "呵呵……您也是来看我这耀眼的美貌吗？"
           }
         }
       ]
@@ -176,8 +176,66 @@
           },
           "text": {
             "ko": "안돼! 내 아름다운 미모가! 내 미모를 돌려줘!",
-            "en": "No! My beautiful appearance! Give me back my beauty!",
+            "en": "No way! My gorgeous looks! Give me back my beauty!",
             "zh-Hans": "不！我美丽的容貌！把我的美貌还给我！"
+          }
+        }
+      ]
+    },
+    {
+      "id": "intro_guard",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "경비병",
+            "en": "Guard",
+            "zh-Hans": "守卫"
+          },
+          "text": {
+            "ko": "이 몽타주에 그려진 녀석이, 영주님께서 직접 체포하라 명하신 놈이다.",
+            "en": "The person in this wanted poster is the one the Lord himself ordered us to arrest.",
+            "zh-Hans": "这张通缉令上画的家伙，就是领主大人亲自下令要逮捕的人。"
+          }
+        },
+        {
+          "speaker": {
+            "ko": "경비병",
+            "en": "Guard",
+            "zh-Hans": "守卫"
+          },
+          "text": {
+            "ko": "눈 똑바로 뜨고 순찰하고, 보이는 즉시 체포해!",
+            "en": "Keep your eyes peeled on patrol, and arrest him on sight!",
+            "zh-Hans": "巡逻时都把眼睛睁大点，一旦发现，立即逮捕！"
+          }
+        }
+      ]
+    },
+    {
+      "id": "intro_player",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "내 얼굴이 여기까지 소문이 퍼졌군... 딸을 구하려면 어떻게든 저길 지나가야 하는데,",
+            "en": "The rumors about my face have spread this far... I have to get past them to save my daughter.",
+            "zh-Hans": "我的脸的传闻都传到这里来了……为了救女儿，我必须想办法通过那里。"
+          }
+        },
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "우선 저 수배서부터 어떻게 해야겠어.",
+            "en": "First, I need to do something about that wanted poster.",
+            "zh-Hans": "首先，得处理掉那张通缉令才行。"
           }
         }
       ]

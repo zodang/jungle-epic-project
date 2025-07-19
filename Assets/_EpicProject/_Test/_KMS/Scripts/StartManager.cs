@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement; // ← 추가
 using System.Collections;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.Settings;
 
 public class StartManager : MonoBehaviour
 {
@@ -19,12 +21,49 @@ public class StartManager : MonoBehaviour
     private Transform _dragging;
     private Vector3 _dragOffset;
 
-    void Start()
+    private LocalizeSpriteEvent _keyLocalization;
+    private SpriteRenderer[] _spriteRenderers;
+    private ArrowWaveSmooth _arrowWaveSmooth;
+
+    private bool _isStarted;
+
+    private void Awake()
     {
+        _keyLocalization = FindAnyObjectByType<LocalizeSpriteEvent>();
+        _arrowWaveSmooth = FindAnyObjectByType<ArrowWaveSmooth>();
+        _spriteRenderers = FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
+
+        // Localization 적용 전 UI 투명화
+        _arrowWaveSmooth.ChangeAlpha(0, 0);
+        foreach (var spriteRenderer in _spriteRenderers)
+        {
+            spriteRenderer.color = Color.clear;
+        }
+    }
+
+    private void Start()
+    {
+        StartCoroutine(LocalizationCo());
+    }
+    
+    private IEnumerator LocalizationCo()
+    {
+        yield return LocalizationSettings.InitializationOperation;
+        yield return new WaitForSeconds(0.5f);
+        
+        // Localization 적용 후 UI 정상화
+        _arrowWaveSmooth.ChangeAlpha(0.5f, 1.0f);
+        foreach (var spriteRenderer in _spriteRenderers)
+        {
+            spriteRenderer.color = Color.white;
+        }
     }
 
     void Update()
     {
+        // Start Key 재드래그 제한
+        if (_isStarted) return;
+        
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -49,6 +88,8 @@ public class StartManager : MonoBehaviour
                 var dropHit = Physics2D.Raycast(wp, Vector2.zero, Mathf.Infinity, dropZoneLayer);
                 if (dropHit.collider != null)
                 {
+                    _isStarted = true;
+                    
                     _dragging.position = dropHit.collider.transform.position;
                     // 애니메이션 재생
                     _startAni.Play("Start Ani");

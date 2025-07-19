@@ -482,6 +482,7 @@ GameObject:
   - component: {fileID: 3476927054069692726}
   - component: {fileID: 5074764965182787089}
   - component: {fileID: 2499908370988122685}
+  - component: {fileID: 8412069297333549521}
   m_Layer: 0
   m_Name: Entrance_PatrolGuard
   m_TagString: Untagged
@@ -612,6 +613,7 @@ MonoBehaviour:
   nextIsGround: 0
   testdist: 0
   IsFalling: 0
+  FootColliders: []
 --- !u!114 &3277296209861326746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,6 +661,7 @@ MonoBehaviour:
   - {fileID: -5395030710113770483, guid: 19effba52c9bbef4c91bfc79c5cc03c0, type: 3}
   - {fileID: 2255893351823180136, guid: 43d255dc20308a94bad410e0679b95d7, type: 3}
   - {fileID: -8850817902391210655, guid: d4cda893b4b03a54c92c26aed6fbc4cc, type: 3}
+  _animator: {fileID: 0}
 --- !u!114 &3476927054069692726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,6 +711,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 1
+--- !u!114 &8412069297333549521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450619684729429769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e6154fc345e2e40b53bbf3ff666951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8281728183320429830
 GameObject:
   m_ObjectHideFlags: 0

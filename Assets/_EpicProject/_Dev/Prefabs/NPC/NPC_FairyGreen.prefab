@@ -788,8 +788,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8513299271637467563}
-  - {fileID: 1706322970404834957}
-  - {fileID: 7480011147762895184}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &4806951890774270588
@@ -946,6 +944,7 @@ MonoBehaviour:
   nextIsGround: 0
   testdist: 0
   IsFalling: 0
+  FootColliders: []
 --- !u!1 &5543752999582694576
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,7 +1056,7 @@ RectTransform:
   m_Children:
   - {fileID: 1899161587733568605}
   - {fileID: 1805762396195173486}
-  m_Father: {fileID: 7996107856185881127}
+  m_Father: {fileID: 8513299271637467563}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1160,6 +1159,8 @@ Transform:
   - {fileID: 104797873576022437}
   - {fileID: 3135261430408982917}
   - {fileID: 6664032940642052747}
+  - {fileID: 1706322970404834957}
+  - {fileID: 7480011147762895184}
   m_Father: {fileID: 7996107856185881127}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6588184031692230815
@@ -1191,7 +1192,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7996107856185881127}
+  m_Father: {fileID: 8513299271637467563}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6649698659493378510
 GameObject:

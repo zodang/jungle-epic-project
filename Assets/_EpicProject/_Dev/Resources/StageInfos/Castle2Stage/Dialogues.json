@@ -1,30 +1,59 @@
 {
   "dialogues": [
     {
-      "id": "stage_intro",
+      "id": "stage_intro_Lord",
       "lines": [
         {
           "speaker": {
             "ko": "영주",
             "en": "Lord",
-            "zh-Hans": ""
+            "zh-Hans": "领主"
           },
           "text": {
-            "ko": "너무 늦었다 창조주여!",
-            "en": "",
-            "zh-Hans": ""
+            "ko": "너무 늦었다, 창조주여!",
+            "en": "You're too late, Creator!",
+            "zh-Hans": "太迟了，创造主！"
           }
         },
         {
           "speaker": {
             "ko": "영주",
             "en": "Lord",
-            "zh-Hans": ""
+            "zh-Hans": "领主"
           },
           "text": {
             "ko": "이제 내 딸은 완전한 감정을 되찾을 것이다!",
-            "en": "",
-            "zh-Hans": ""
+            "en": "Now, my daughter will finally regain her complete emotions!",
+            "zh-Hans": "现在，我的女儿将重获完整的情感！"
+          }
+        }
+      ]
+    },
+    {
+      "id": "stage_intro_Player",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "아직 늦지 않았어... 아니, 어떻게든 막아야 해.",
+            "en": "There’s still some time left, but I’m not just relying on hope — I’m determined to stop this.",
+            "zh-Hans": "还不晚……不，无论如何都要阻止。"
+          }
+        },
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "어떻게든 알현실 끝까지 뚫고 지나가야 해!",
+            "en": "I have to break through to the end of the throne room, no matter what!",
+            "zh-Hans": "无论如何都要突破到觐见室的尽头！"
           }
         }
       ]
@@ -40,8 +69,8 @@
           },
           "text": {
             "ko": "여기서 멈춰라. 영주님의 명에 따라, 이 앞으로는 한 발자국도 들일 수 없다!",
-            "en": "Halt! Who goes there, trying to enter the Lord's castle without permission!",
-            "zh-Hans": "站住！是谁胆敢擅自闯入领主的城堡！"
+            "en": "Halt! By order of the Lord, you may not take a single step further!",
+            "zh-Hans": "站住！奉领主之命，任何人不得再前进一步！"
           }
         }
       ]
@@ -53,12 +82,12 @@
           "speaker": {
             "ko": "화염 괴물",
             "en": "Flame Monster",
-            "zh-Hans": ""
+            "zh-Hans": "火焰怪物"
           },
           "text": {
             "ko": "영주의... 분노가... 너를 태울 것이다...!",
-            "en": "Halt! Who goes there, trying to enter the Lord's castle without permission!",
-            "zh-Hans": "站住！是谁胆敢擅自闯入领主的城堡！"
+            "en": "The Lord's... wrath... will burn you...!",
+            "zh-Hans": "领主的……愤怒……将把你焚烧殆尽……！"
           }
         }
       ]
@@ -70,7 +99,7 @@
           "speaker": {
             "ko": "화염 괴물",
             "en": "Flame Monster",
-            "zh-Hans": ""
+            "zh-Hans": "火焰怪物"
           },
           "text": {
             "ko": "...아",
@@ -82,7 +111,7 @@
           "speaker": {
             "ko": "화염 괴물",
             "en": "Flame Monster",
-            "zh-Hans": ""
+            "zh-Hans": "火焰怪物"
           },
           "text": {
             "ko": "...나의 불꽃이...",
@@ -94,7 +123,7 @@
           "speaker": {
             "ko": "화염 괴물",
             "en": "Flame Monster",
-            "zh-Hans": ""
+            "zh-Hans": "火焰怪物"
           },
           "text": {
             "ko": "(ﾟдﾟ　)",
@@ -111,7 +140,7 @@
           "speaker": {
             "ko": "화염 괴물",
             "en": "Flame Monster",
-            "zh-Hans": "守卫"
+            "zh-Hans": "火焰怪物"
           },
           "text": {
             "ko": "(ﾟдﾟ　)",
@@ -127,13 +156,25 @@
         {
           "speaker": {
             "ko": "고블린",
-            "en": "Flame Monster",
-            "zh-Hans": "守卫"
+            "en": "Goblin",
+            "zh-Hans": "哥布林"
           },
           "text": {
-            "ko": "이게 다 저 빌어먹을 핀 때문이야... 도저히 쓰러지질 않는군! 킥킥!",
-            "en": "(ﾟдﾟ　)",
-            "zh-Hans": "(ﾟдﾟ　)"
+            "ko": "볼링 치는데 방해하지 말라고!",
+            "en": "Stop bothering me, I'm bowling!",
+            "zh-Hans": "别来烦我打保龄球！"
+          }
+        },
+        {
+          "speaker": {
+            "ko": "고블린",
+            "en": "Goblin",
+            "zh-Hans": "哥布林"
+          },
+          "text": {
+            "ko": "저 엄청나게 큰 볼링핀을 넘어뜨리고야 말겠어..",
+            "en": "I'm going to knock down that giant bowling pin...",
+            "zh-Hans": "我一定要把那个巨大的保龄球瓶给打倒……"
           }
         }
       ]
@@ -144,25 +185,66 @@
         {
           "speaker": {
             "ko": "당신",
-            "en": "Flame Monster",
-            "zh-Hans": "守卫"
+            "en": "You",
+            "zh-Hans": "你"
           },
           "text": {
-            "ko": "이건 누구의 방이지..? 영주에게 딸이 있었나..? 그랬던 것 같기도하고 기억이 잘 안나네..",
-            "en": "(ﾟдﾟ　)",
-            "zh-Hans": "(ﾟдﾟ　)"
+            "ko": "이건 누구의 방이지..?",
+            "en": "Hmm... whose room was this...?",
+            "zh-Hans": "嗯……这房间是谁的？"
           }
         },
         {
           "speaker": {
             "ko": "당신",
-            "en": "Flame Monster",
-            "zh-Hans": "守卫"
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "영주에게 딸이 있었나..?",
+            "en": "The lord had a daughter... didn’t he...?",
+            "zh-Hans": "好像领主有个女儿……是吧？"
+          }
+        },
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "그랬던 것 같기도하고 기억이 잘 안나네..",
+            "en": "I think so... but I don’t quite remember.",
+            "zh-Hans": "记不太清了，时间太久了……"
+          }
+        },
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
           },
           "text": {
             "ko": "그나저나.. 쓸만한게 없나?",
-            "en": "(ﾟдﾟ　)",
-            "zh-Hans": "(ﾟдﾟ　)"
+            "en": "Anyway... is there anything useful here?",
+            "zh-Hans": "话说回来……有什么能用的吗？"
+          }
+        }
+      ]
+    },
+    {
+      "id": "FlameMonster_DestroyBall",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "화염 괴물",
+            "en": "Flame Monster",
+            "zh-Hans": "火焰怪物"
+          },
+          "text": {
+            "ko": "이런걸로 나를 어찌해볼 수 있는 줄 알았냐!!",
+            "en": "You really thought that could stop me?!",
+            "zh-Hans": "你以为这种东西就能对付我？！"
           }
         }
       ]

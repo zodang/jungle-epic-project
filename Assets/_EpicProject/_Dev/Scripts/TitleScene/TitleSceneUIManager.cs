@@ -16,12 +16,15 @@ public class TitleSceneUIManager : MonoBehaviour
     private Image _continueImg;
     private TMP_Text _continueText;
     
+    private RawImage _continueRawImage;
+    
     private void Awake()
     {
         _titleSceneManager = FindAnyObjectByType<TitleSceneManager>();
         
         _continueImg = continueGameBtn.GetComponent<Image>();
         _continueText = continueGameBtn.GetComponentInChildren<TMP_Text>();
+        _continueRawImage = continueGameBtn.GetComponentInChildren<RawImage>();
     }
 
     private void Start()
@@ -39,14 +42,16 @@ public class TitleSceneUIManager : MonoBehaviour
         if (isNew)
         {
             continueGameBtn.enabled = false;
-            _continueImg.color = new Color(_continueImg.color.r, _continueImg.color.g, _continueImg.color.b, 0.5f);
+            _continueImg.color = new Color(_continueImg.color.r, _continueImg.color.g, _continueImg.color.b, 0f);
             _continueText.color = new Color(0, 0, 0, 0.5f);
+            _continueRawImage.color = new Color(0, 0, 0, 0.5f);
         }
         else
         {
             continueGameBtn.enabled = true;
-            _continueImg.color = new Color(_continueImg.color.r, _continueImg.color.g, _continueImg.color.b, 1.0f);
+            _continueImg.color = new Color(_continueImg.color.r, _continueImg.color.g, _continueImg.color.b, 0f);
             _continueText.color = new Color(0, 0, 0, 1.0f);
+            _continueRawImage.color = new Color(0, 0, 0, 1f);
         }
     }
 

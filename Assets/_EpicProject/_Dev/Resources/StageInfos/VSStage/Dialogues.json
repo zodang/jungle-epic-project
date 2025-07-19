@@ -14,29 +14,7 @@
             "en": "Would you listen to my story?",
             "zh-Hans": "可以听我说几句吗？"
           }
-        }
-      ],
-      "choices": [
-        {
-          "text": {
-            "ko": "네 무슨일 있으신가요?",
-            "en": "Yes, is there something wrong?",
-            "zh-Hans": "好的，有什么事吗？"
-          },
-          "nextDialogueId": "npc1_info_town"
         },
-        {
-          "text": {
-            "ko": "아니요 지금은 좀 바빠서..",
-            "en": "Sorry, I'm a bit busy now...",
-            "zh-Hans": "不好意思，我现在有点忙……"
-          }
-        }
-      ]
-    },
-    {
-      "id": "npc1_info_town",
-      "lines": [
         {
           "speaker": {
             "ko": "나무꾼",
@@ -75,7 +53,6 @@
         }
       ]
     },
-   
     {
       "id": "baldHead",
       "lines": [
@@ -145,7 +122,7 @@
           },
           "text": {
             "ko": "괜찮네! 나에겐 도끼가 없어도 독기는 있으니.. 후후",
-            "en": "It's fine! Even if I don't have an axe, I still have my spirit... Hehe.",
+            "en": "Alright! I may not have an axe, but I’ve got the guts to hack it… heh!",
             "zh-Hans": "没关系！即使没有斧头，我还有气势……呵呵。"
           }
         }
@@ -174,7 +151,7 @@
           },
           "text": {
             "ko": "<b><color=red>커다란 걸</color></b> 다리 중간에 놓을 수 있다면 건널 수 있을지도?",
-            "en": "If we could put <b><color=red>something big</color></b> in the middle of the bridge, maybe we could cross?",
+            "en": "If I could put <b><color=red>something big</color></b> in the middle of the bridge, maybe I could cross?",
             "zh-Hans": "如果能在桥中间放<b><color=red>个大东西</color></b>，说不定就能过去了？"
           }
         }
@@ -193,6 +170,47 @@
             "ko": "다리가 생겼잖아? 이제 집으로 돌아갈 수 있겠어!!",
             "en": "Look, a bridge has been made! Now I can go back home!!",
             "zh-Hans": "桥搭好了！这下可以回家了！！"
+          }
+        }
+      ]
+    },
+    {
+      "id": "intro_Player",
+      "lines": [
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "마침내 밖으로 나왔군. 그런데 여긴... 성으로 가는 절벽길인가.",
+            "en": "I'm finally outside. But this place... is this the cliff path to the castle?",
+            "zh-Hans": "终于出来了。不过这里……是通往城堡的悬崖路吗？"
+          }
+        },
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "저 다리... 영주가 버그를 일으켜 부서뜨려 놓은 게 틀림없어!",
+            "en": "That bridge... The Lord must have caused a bug and destroyed it!",
+            "zh-Hans": "那座桥……肯定是领主引发BUG弄断的！"
+          }
+        },
+        {
+          "speaker": {
+            "ko": "당신",
+            "en": "You",
+            "zh-Hans": "你"
+          },
+          "text": {
+            "ko": "상관없어. 어떻게든 건너갈 방법을 찾고 말겠어.",
+            "en": "No big deal. I’ll figure out how to cross one way or another.",
+            "zh-Hans": "没关系。无论如何我都会找到过桥的方法。"
           }
         }
       ]

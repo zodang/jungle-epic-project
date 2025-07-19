@@ -9,11 +9,15 @@ public class EntranceSceneManager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/EntranceStage";
+        ChangeStageId("village_1");
+        
         base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         // 대화 불러오기
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
         
@@ -21,10 +25,18 @@ public class EntranceSceneManager : StageBaseManager
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
 
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage3);
+        
+        // 로그 시스템
+        GameManager.Instance.LogManager.LogStageEnter(StageId);
+        ChangeStageSection("stage_enter");
     }
     
     private void OnGoalTriggered()
     {
+        // 로그 시스템
+        ChangeStageSection("stage_exit");
+        GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
+
         GameManager.Instance.FadeManager.LoadNextScene();
     }
 }

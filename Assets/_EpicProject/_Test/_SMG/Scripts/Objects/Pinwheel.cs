@@ -29,13 +29,16 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
 
     // Fan
     [SerializeField] float FanPower;
-    float FanLv1Threshold = 3.6f;
+    [SerializeField] float _fanSpeed;
+    float FanLv1Threshold = 0.3f;
     float FanLv2Threshold = 12f;
     float FanLv3Threshold = 20f;
     [SerializeField] GameObject WindZoneLv1;
     [SerializeField] GameObject WindZoneLv2;
     [SerializeField] GameObject WindZoneLv3;
     private float _prevRotate;
+
+    private float _decayDelay;
 
 
     private void Awake()
@@ -71,7 +74,30 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
             _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput;
         }
 
-        FanPower = Mathf.Clamp(FanPower - 3f * Time.deltaTime, 0f, 6f * _visualRoot.localScale.x);
+        if (_fanSpeed > 6f * _visualRoot.localScale.x)
+        {
+            _fanSpeed = 6f * _visualRoot.localScale.x;
+        }
+        else if (_fanSpeed < -6f * _visualRoot.localScale.x)
+        {
+            _fanSpeed = -6f * _visualRoot.localScale.x;
+        }
+
+        
+
+        if (_decayDelay > 0)
+        {
+            _decayDelay -= Time.deltaTime;
+            _fanSpeed -= ((_fanSpeed > 0) ? 1f : -1f) * Time.deltaTime;
+            //FanPower -= 1f * Time.deltaTime;
+        }
+        else
+        {
+            _fanSpeed -= ((_fanSpeed > 0) ? 10f : -10f) * Time.deltaTime;
+            //FanPower -= 10f * Time.deltaTime;
+        }
+
+        FanPower = Mathf.Abs(_fanSpeed);
 
         int lv = 0;
         GameObject windZone;
@@ -119,19 +145,16 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
         Animator[] animators = windZone.GetComponentsInChildren<Animator>();
         for (int i = 0; i < animators.Length; i++)
         {
-            animators[i].speed = FanPower / 18f;
+            animators[i].speed = Mathf.Clamp(FanPower/10f, 0.5f, 3f);
         }
 
         SpriteRenderer[] spriteRenderers = windZone.GetComponentsInChildren<SpriteRenderer>();
         for (int i = 0; i < spriteRenderers.Length; i++)
         {
             Color color = spriteRenderers[i].color;
-            color.a = Mathf.Clamp01((FanPower - 3f) / 9f);
+            color.a = Mathf.Clamp01(FanPower / (FanLv1Threshold*2f));
             spriteRenderers[i].color = color;
         }
-
-
-
     }
 
     public void ResetFeature()
@@ -161,7 +184,10 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
 
     void SetRotate(float rotate)
     {
-        FanPower += Mathf.DeltaAngle(_prevRotate, rotate) * 0.002f * _visualRoot.localScale.x;
+        float deltaAngle = Mathf.DeltaAngle(_prevRotate, rotate);
+        _decayDelay = 1f;
+
+        _fanSpeed += deltaAngle * 0.002f * _visualRoot.localScale.x;
         _fan.localEulerAngles = new Vector3(0, 0, -rotate);
         _prevRotate = rotate;
     }

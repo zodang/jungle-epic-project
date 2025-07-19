@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public abstract class ButtonControlBase<TFeature> : EngineBlock where TFeature : class
 {
     protected TFeature Feature;
+    
     [SerializeField] private List<Button> _btnList;
     
     public override void Activate(object feature)
@@ -34,4 +35,5 @@ public abstract class ButtonControlBase<TFeature> : EngineBlock where TFeature :
     }
 
     protected abstract void OnButtonClicked(int buttonIndex);
+    protected abstract int GetCurrentValue();
 }

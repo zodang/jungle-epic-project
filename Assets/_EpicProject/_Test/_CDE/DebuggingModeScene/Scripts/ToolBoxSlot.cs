@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ToolBoxSlot : BlockContainerBase, ISlot
 {
+    [SerializeField] private Clickable tempTarget;
     [SerializeField] private List<BlockType> defaultBlockList;
 
     private void Start()
@@ -16,7 +17,7 @@ public class ToolBoxSlot : BlockContainerBase, ISlot
             EngineBlock block = StageManager.Instance.BlockFactory.CreateBlock(type, transform);
             RegisterBlockEvents(block);
             
-            block.InitDefaultBlock(null, this);
+            block.InitDefaultBlock(tempTarget, this);
             block.SetInteraction(false, true, true);
         }
     }

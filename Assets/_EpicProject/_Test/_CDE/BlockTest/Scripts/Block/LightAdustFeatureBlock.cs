@@ -1,5 +1,6 @@
 using System;
 using Define;
+using UnityEngine;
 
 public class LightAdustFeatureBlock : SliderControlBase<ILightAdjustable>
 {
@@ -11,7 +12,10 @@ public class LightAdustFeatureBlock : SliderControlBase<ILightAdjustable>
     protected override float GetCurrentValue() => _feature.GetCurrentValue();
     protected override void OnSliderChanged(float value)
     {
-        _feature.SetValue(value);   
-        UpdatePercentText(value);
+        // slider 값 snap 후 전달
+        float step = (_feature.GetMaxValue() - GetMinValue()) / 100f;
+        float snappedValue = Mathf.Round((value - GetMinValue()) / step) * step + GetMinValue();
+        _feature.SetValue(snappedValue);   
+        UpdatePercentText(snappedValue);
     }
 }

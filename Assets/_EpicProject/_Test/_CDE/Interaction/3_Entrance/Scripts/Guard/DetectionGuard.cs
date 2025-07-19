@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class DetectionGuard : MonoBehaviour
 {
-    private Animator _animator;
+    [SerializeField] private RuntimeAnimatorController RightIdleController; 
+    [SerializeField] private AnimatorOverrideController IdleController; 
+    
     private GuardDetectionHandler _detectionHandler;
+    private Animator _animator;
 
     private void Awake()
     {
@@ -14,7 +17,8 @@ public class DetectionGuard : MonoBehaviour
 
     private void Start()
     {
-        _animator.enabled = false;
+        _animator.enabled = true;
+        _animator.runtimeAnimatorController = RightIdleController;
         _detectionHandler.OnPlayerPass += EndDetect;
     }
 
@@ -26,6 +30,9 @@ public class DetectionGuard : MonoBehaviour
     private IEnumerator EndDetectCo()
     {
         yield return new WaitForSeconds(0.1f);
-        _animator.enabled = true;
+        _animator.runtimeAnimatorController = IdleController;
+        
+        // 로그 시스템
+        StageBaseManager.Instance.ChangeStageSection("pass_guard");
     }
 }

@@ -57,7 +57,7 @@ public class DialogueManager : MonoBehaviour
     public Transform CurrentChoiceBubbleTargetAnchor { get; set; }
 
     private bool justStartedDialogueInputLock = false;
-    // private bool dialogueJustEndedInputLock = false; // 이 변수를 아래 float 변수로 대체
+    private bool dialogueJustEndedInputLock = false; // 이 변수를 아래 float 변수로 대체
     private float dialogueEndTime = -1f; // 대화가 종료된 시간을 기록 (-1은 아직 종료되지 않았음을 의미)
     public int CurrentSelectedChoiceIndex { get; set; } = 0;
 
@@ -76,7 +76,7 @@ public class DialogueManager : MonoBehaviour
             dialogueLoader = loaderObject.AddComponent<DialogueLoader>();
             Debug.LogWarning("DM: DialogueLoader not found, created automatically.");
         }
-        
+
         /*
         // 씬 메니저에서 LoadDialogue 호출
         dialogueCollection = dialogueLoader.LoadDialogueDataFromFile(dialogueFileName);
@@ -85,7 +85,7 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("DM: Failed to load dialogue collection. System disabled.");
             enabled = false; return;
         }*/
-        
+
         FindPlayerAnchorByName();
         TransitionToState(IdleState);
     }
@@ -93,7 +93,7 @@ public class DialogueManager : MonoBehaviour
     public void LoadDialogue(string path)
     {
         dialogueFileName = path;
-        
+
         dialogueCollection = dialogueLoader.LoadDialogueDataFromFile(dialogueFileName);
         if (dialogueCollection == null)
         {
@@ -182,7 +182,7 @@ public class DialogueManager : MonoBehaviour
         this.currentNpcSpeakerAnchor = npcSpeechAnchor;
         // CurrentActiveDialogueBubbleTargetAnchor는 DisplayCurrentLineOnActiveBubble에서 설정
         justStartedDialogueInputLock = true;
-        if (pauseGameDuringDialogue) Time.timeScale = 0f;
+        if (pauseGameDuringDialogue) GameManager.Instance.TimeScaleManager.RequestPauseGame();
 
         currentDialogueLines.Clear();
         foreach (var line in entry.lines) { currentDialogueLines.Enqueue(line); }
@@ -202,21 +202,21 @@ public class DialogueManager : MonoBehaviour
             AdvanceDialogue();
             return;
         }
-        
+
         // Localization: 현재 언어 설정에 따른 DialogueLine의 speaker와 text 데이터 추출
         string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
         string speaker = "";
         string text = "";
-        
+
         // [2] speaker와 text 안전하게 꺼내기 (딕셔너리에 해당 언어 없으면 빈 문자열 fallback)
         if (CurrentLineToShow.speaker != null && CurrentLineToShow.speaker.TryGetValue(lang, out var spk))
             speaker = spk;
         if (CurrentLineToShow.text != null && CurrentLineToShow.text.TryGetValue(lang, out var txt))
             text = txt;
-        
+
         string playerDisplayName = PLAYER_DISPLAY_NAMES.ContainsKey(lang) ? PLAYER_DISPLAY_NAMES[lang] : "Player";
         bool isPlayerSpeaking = speaker.Equals(playerDisplayName, System.StringComparison.OrdinalIgnoreCase);
-        
+
         DialogueUI targetUI = null;
 
         // 이전에 활성화된 말풍선이 현재 화자와 다른 타입이면 숨김
@@ -258,12 +258,12 @@ public class DialogueManager : MonoBehaviour
         CurrentChoiceBubbleUI = InitializeSpecificDialogueUI(CurrentChoiceBubbleUI, choiceBubblePrefab, "ChoiceBubble");
         if (CurrentChoiceBubbleUI == null) { Debug.LogError("DM: Failed to initialize ChoiceBubbleUI."); TransitionToState(EndingState); return; }
         if (CurrentChoices == null || CurrentChoices.Count == 0) { Debug.LogWarning("DM: No choices for ChoiceBubble."); TransitionToState(EndingState); return; }
-        
+
         // Localization: 화자 이름 비교
         string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
         string playerDisplayName = PLAYER_DISPLAY_NAMES.ContainsKey(lang) ? PLAYER_DISPLAY_NAMES[lang] : "Player";
         CurrentChoiceBubbleUI.SetSpeakerName(playerDisplayName);
-        
+
         CurrentChoiceBubbleUI.DisplayChoicesInMainText(CurrentChoices, CurrentSelectedChoiceIndex); // 선택지는 즉시 표시
         CurrentChoiceBubbleTargetAnchor = PlayerSpeechAnchor;
         CurrentChoiceBubbleUI.Show(true);
@@ -317,7 +317,7 @@ public class DialogueManager : MonoBehaviour
 
         // dialogueJustEndedInputLock = true; // 이 줄 대신 아래 줄 사용
         dialogueEndTime = Time.unscaledTime; // <<== 대화 종료 시점의 실제 시간 기록
-        if (pauseGameDuringDialogue) Time.timeScale = 1f;
+        if (pauseGameDuringDialogue) GameManager.Instance.TimeScaleManager.RequestResumeGame();
 
         currentNpcSpeakerAnchor = null;
         CurrentActiveDialogueBubbleTargetAnchor = null;
@@ -345,7 +345,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        //if (dialogueJustEndedInputLock) { dialogueJustEndedInputLock = false; }
+        if (dialogueJustEndedInputLock) { dialogueJustEndedInputLock = false; }
         if (justStartedDialogueInputLock && currentState != null && currentState != IdleState)
         {
             justStartedDialogueInputLock = false;
@@ -353,8 +353,11 @@ public class DialogueManager : MonoBehaviour
         }
         if (currentState == null || currentState == IdleState) return;
 
-        // ======================= 새로운 입력 처리 로직 =======================
-        HandleKeyboardInput(); // 키보드 입력을 별도 함수로 관리
+        // E키 또는 스페이스바 입력을 감지하여 공통 입력 처리 함수 호출
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space))
+        {
+            ProcessNextActionInput();
+        }
 
         currentState.UpdateState(this); // 상태별 특수 입력 처리 (방향키 등)
 
@@ -362,38 +365,7 @@ public class DialogueManager : MonoBehaviour
         PositionChoiceBubble();
     }
 
-    private void HandleKeyboardInput()
-    {
-        // E키 입력 처리 (대화가 활성화된 모든 상태에서 공통으로 적용될 수 있음)
-        if (currentState == ShowingLineState)
-        {
-            DialogueUI currentBubble = GetCurrentActiveDialogueBubble();
-            if (currentBubble != null)
-            {
-                TypeEffect currentTypeEffect = currentBubble.GetAttachedTypeEffect();
-                if (currentTypeEffect != null)
-                {
-                    // E키를 꾹 누르고 있을 때: 빨리 감기 모드 켜기
-                    if (Input.GetKey(KeyCode.E))
-                    {
-                        currentTypeEffect.SetFastForward(true);
-                    }
-                    // E키에서 손을 뗄 때: 빨리 감기 모드 끄기
-                    else if (Input.GetKeyUp(KeyCode.E))
-                    {
-                        currentTypeEffect.SetFastForward(false);
-                    }
-                }
-            }
-        }
 
-        // E키를 짧게 눌렀을 때의 공통 액션
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            // E키는 이제 스킵 기능 없이, 타이핑이 끝난 후에만 다음으로 넘어감
-            ProcessEKeyInputAction();
-        }
-    }
 
     void PositionActiveDialogueBubble()
     {
@@ -410,18 +382,17 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    // ProcessNextActionInput 함수는 이제 키보드와 Next 버튼 모두에 의해 호출됨
-    // Next 버튼 클릭 시 호출되는 함수 (스킵 기능 포함)
+    // 스페이스바, E키, Next 버튼 클릭 시 모두 호출되는 공통 함수
     public void ProcessNextActionInput()
     {
-        if (!IsDialogueActive() || justStartedDialogueInputLock || IsInDialogueCooldown()) return;
+        if (!IsDialogueActive() || justStartedDialogueInputLock || dialogueJustEndedInputLock) return;
 
         if (currentState == ShowingLineState)
         {
             DialogueUI currentBubble = GetCurrentActiveDialogueBubble();
             if (currentBubble != null && currentBubble.IsTyping())
             {
-                // Next 버튼은 타이핑 중일 때 스킵(완료) 기능
+                // 타이핑 중일 때 누르면 효과 스킵(완료)
                 currentBubble.CompleteTyping();
             }
             else
@@ -432,7 +403,7 @@ public class DialogueManager : MonoBehaviour
         }
         else if (currentState == ShowingChoicesState)
         {
-            // 선택지 화면에서 Next 버튼은 선택 확정 역할
+            // 선택지 화면에서는 선택 확정 역할
             if (CurrentChoices != null && CurrentSelectedChoiceIndex >= 0 && CurrentSelectedChoiceIndex < CurrentChoices.Count)
             {
                 SelectCurrentChoice();

@@ -28,16 +28,17 @@ public class PuzzleFSM : MonoBehaviour
     private void Start()
     {
         _simpleDialogueUI = FindAnyObjectByType<SimpleDialogueUI>();
-        _engineController = FindAnyObjectByType<EngineController>();
-        _engineRectTransform = _engineController.GetComponent<RectTransform>();
+        _target = FindAnyObjectByType<BrokenEmotionBlock>();
         
         _fsm = new FSM<FSMState>();
     }
 
     public void StartPuzzle()
     {
+        _engineController = FindAnyObjectByType<EngineController>();
+        _engineRectTransform = _engineController.GetComponent<RectTransform>();
+        
         _consoleBox = FindAnyObjectByType<ConsoleBox>();
-        _target = FindAnyObjectByType<BrokenEmotionBlock>();
         _debugSlot = FindAnyObjectByType<DebugSlot>();
         
         _debugSlot.OnBlockSet += CheckAnswer;
@@ -59,6 +60,7 @@ public class PuzzleFSM : MonoBehaviour
         
         // 정답 블록 시
         OnBlockCorrect?.Invoke();
+        _target.OnBlockChanged?.Invoke(_currentBlock);
         _currentBlock.SetInteraction(false, false, false);
     }
 
@@ -75,15 +77,36 @@ public class PuzzleFSM : MonoBehaviour
         switch (_currentStep)
         {
             case 0:
-                _fsm.ChangeState(new LightStepState(this, _fsm, _target));
+                // 로그 시스템
+                StageBaseManager.Instance.ChangeStageSection("puzzle_1");
+                // fsm 변경
+                _fsm.ChangeState(new LightStepState(this, _target));
                 break;
+            
             case 1:
-                _fsm.ChangeState(new ScaleStepState(this, _fsm, _target));
+                // 로그 시스템
+                StageBaseManager.Instance.ChangeStageSection("puzzle_2");
+                // fsm 변경
+                _fsm.ChangeState(new ScaleStepState(this, _target));
                 break;
+            
             case 2:
-                _fsm.ChangeState(new SpeedStepState(this, _fsm, _target));
+                // 로그 시스템
+                StageBaseManager.Instance.ChangeStageSection("puzzle_3");
+                // fsm 변경
+                _fsm.ChangeState(new SpeedStepState(this, _target));
                 break;
+            
             case 3:
+                // 로그 시스템
+                string stageId = StageBaseManager.Instance.StageId;
+                string sectionId = StageBaseManager.Instance.SectionId;
+                float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
+                
+                StageBaseManager.Instance.ChangeStageSection("stage_exit");
+                GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"clear", elapsedTime);
+                
+                // 씬 변경
                 GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
                 break;
         }

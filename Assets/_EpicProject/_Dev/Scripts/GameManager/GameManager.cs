@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     private string steamUserName = "Unknown";
     private CSteamID steamUserID;
 #endif
+    public LogManager LogManager { get; private set; }
+    public TimeScaleManager TimeScaleManager { get; private set; }
 
     public void Awake()
     {
@@ -31,6 +33,9 @@ public class GameManager : MonoBehaviour
         SaveManager = GetComponentInChildren<SaveManager>();
         FadeManager = GetComponentInChildren<FadeManager>();
         UIManager = GetComponentInChildren<GameUIManager>();
+
+        LogManager = GetComponentInChildren<LogManager>();
+        TimeScaleManager = GetComponentInChildren<TimeScaleManager>();
 
 #if STEAMWORKS_NET && ReleaseSteam
         if (SteamAPI.Init())

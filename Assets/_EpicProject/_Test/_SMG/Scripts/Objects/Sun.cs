@@ -109,7 +109,8 @@ public class Sun : MonoBehaviour, IFeatureResetable, IControllable//, ILightAdju
         if(_currentPosX > -3f && _currentPosX < 6f)
         {
             float currentAngle = _rotateHandler.CurrentRotate;
-            if(currentAngle > 120 && currentAngle <= 210 && currentAngle > 1.6f)
+            float currentLight = _lightHandler.CurrentBright;
+            if(currentAngle > 120 && currentAngle <= 210 && currentAngle > 1.6f && currentLight > 1.645f)
             {
                 EvaporationHandler[] evaporations = FindObjectsByType<EvaporationHandler>(FindObjectsSortMode.None);
                 for (int i = 0; i < evaporations.Length; i++)

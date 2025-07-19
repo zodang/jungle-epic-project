@@ -41,7 +41,7 @@ public class NPCInteraction : MonoBehaviour
         }
 
         // 우선순위에 따라 정렬 (선택 사항, Inspector에서 직접 순서 조정도 가능)
-         conditionalDialogues.Sort((a, b) => a.priority.CompareTo(b.priority));
+        conditionalDialogues.Sort((a, b) => a.priority.CompareTo(b.priority));
     }
 
     void OnTriggerEnter2D(Collider2D other)
