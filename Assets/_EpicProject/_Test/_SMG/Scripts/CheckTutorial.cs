@@ -64,8 +64,9 @@ public class CheckTutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TestDebug();
+        //TestDebug();
         if (!_isInit) return;
+        if (StageBaseManager.Instance.DialogueManager.IsDialogueActive()) return;
 
         _isPlayerUIOpen = TutorialStageManager.Instance.EngineManager.GetActivateEngineUI(Player);
         _isRockUIOpen = TutorialStageManager.Instance.EngineManager.GetActivateEngineUI(Rock);
@@ -191,41 +192,41 @@ public class CheckTutorial : MonoBehaviour
         _tutorialStep++;
     }
 
-    [Header("Test")]
-    public bool TestIsPlayerUIOpen;
-    public bool TestIsRockUIOpen;
-    public bool TestIsPlayerMoveEnable;
-    public bool TestIsRockMoveEnable;
-    public bool TestIsGlitchVision;
-    void TestDebug()
-    {
-        TestIsPlayerUIOpen = TutorialStageManager.Instance.EngineManager.GetActivateEngineUI(Player);
-        TestIsRockUIOpen = TutorialStageManager.Instance.EngineManager.GetActivateEngineUI(Rock);
-        TestIsPlayerMoveEnable = Player.GetComponent<PlayerManager>().Feature._enableMove;
-        TestIsRockMoveEnable = Rock.GetComponent<Rock>().EnableMove;
-        TestIsGlitchVision = FindAnyObjectByType<GlitchVision>().IsGlitchVisionActive;
-    }
+    //[Header("Test")]
+    //public bool TestIsPlayerUIOpen;
+    //public bool TestIsRockUIOpen;
+    //public bool TestIsPlayerMoveEnable;
+    //public bool TestIsRockMoveEnable;
+    //public bool TestIsGlitchVision;
+    //void TestDebug()
+    //{
+    //    TestIsPlayerUIOpen = TutorialStageManager.Instance.EngineManager.GetActivateEngineUI(Player);
+    //    TestIsRockUIOpen = TutorialStageManager.Instance.EngineManager.GetActivateEngineUI(Rock);
+    //    TestIsPlayerMoveEnable = Player.GetComponent<PlayerManager>().Feature._enableMove;
+    //    TestIsRockMoveEnable = Rock.GetComponent<Rock>().EnableMove;
+    //    TestIsGlitchVision = FindAnyObjectByType<GlitchVision>().IsGlitchVisionActive;
+    //}
 
-    public Action<Clickable> CreateCheckAction(Clickable target, Action onMatch)
-    {
-        return (Clickable input) =>
-        {
-            if (IsSameClickable(input, target))
-            {
-                onMatch?.Invoke();
-            }
-        };
-    }
+    //public Action<Clickable> CreateCheckAction(Clickable target, Action onMatch)
+    //{
+    //    return (Clickable input) =>
+    //    {
+    //        if (IsSameClickable(input, target))
+    //        {
+    //            onMatch?.Invoke();
+    //        }
+    //    };
+    //}
 
-    public bool IsSameClickable(Clickable a, Clickable b)
-    {
-        return a == b;
-    }
+    //public bool IsSameClickable(Clickable a, Clickable b)
+    //{
+    //    return a == b;
+    //}
 
-    public int TestTurorialID;
-    [ContextMenu("TestTurorialID(TestTurorialID)")]
-    void StartTutorial()
-    {
-        StartTutorial(TestTurorialID);
-    }
+    //public int TestTurorialID;
+    //[ContextMenu("TestTurorialID(TestTurorialID)")]
+    //void StartTutorial()
+    //{
+    //    StartTutorial(TestTurorialID);
+    //}
 }
