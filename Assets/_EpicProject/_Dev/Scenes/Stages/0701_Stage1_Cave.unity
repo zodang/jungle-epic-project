@@ -37651,6 +37651,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC_FairyGreen
       objectReference: {fileID: 0}
+    - target: {fileID: 6780428592906111673, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
+      propertyPath: conditionalDialogues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780428592906111673, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].dialogueId
+      value: npc_02_flag01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780428592906111673, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].requiredFlagName
+      value: npc_02_flag01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780428592906111673, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
+      propertyPath: conditionalDialogues.Array.data[0].requiredFlagValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7996107856185881127, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.255
