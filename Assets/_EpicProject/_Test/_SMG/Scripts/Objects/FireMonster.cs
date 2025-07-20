@@ -35,7 +35,7 @@ public class FireMonster : MonoBehaviour
                 OnDefeated?.Invoke();
                 
                 // 로그 시스템
-                StageBaseManager.Instance.ChangeStageSection("pass_monster");
+                StageBaseManager.Instance.ChangeStageSection("51_2_pass_monster");
             }
 
         }

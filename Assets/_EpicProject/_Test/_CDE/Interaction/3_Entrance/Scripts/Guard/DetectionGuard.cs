@@ -33,6 +33,6 @@ public class DetectionGuard : MonoBehaviour
         _animator.runtimeAnimatorController = IdleController;
         
         // 로그 시스템
-        StageBaseManager.Instance.ChangeStageSection("pass_guard");
+        StageBaseManager.Instance.ChangeStageSection("40_1_pass_guard");
     }
 }

@@ -24,7 +24,7 @@ public class EvaporationHandler : MonoBehaviour
             StageBaseManager.Instance.FlagManager.SetFlag("npc_after_puzzle_A", true);
             
             // 로그 시스템
-            StageBaseManager.Instance.ChangeStageSection("evaporate_water");
+            StageBaseManager.Instance.ChangeStageSection("30_1_evaporate_water");
         }
         else
         {

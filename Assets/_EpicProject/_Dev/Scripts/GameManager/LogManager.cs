@@ -35,7 +35,6 @@ public class LogManager : MonoBehaviour
             { "total_time", totalTime }
         };
         AnalyticsService.Instance.RecordEvent(customEvent);
-        AnalyticsService.Instance.Flush();
 
         Debug.Log($"LOG SYSTEM: game_exit");
     }
@@ -85,6 +84,22 @@ public class LogManager : MonoBehaviour
 
         _lastSectionIndex = sectionId;
         Debug.Log($"LOG SYSTEM: section_enter");
+    }
+
+    public void LogGlitchUse(string stageId, string sectionId)
+    {
+        if (!_isInitialized) return;
+
+        CustomEvent customEvent = new CustomEvent("glitch_use")
+        {
+            { "stage_id", stageId }, 
+            { "section_id", sectionId }
+        };
+        AnalyticsService.Instance.RecordEvent(customEvent);
+        AnalyticsService.Instance.Flush();
+
+        _lastSectionIndex = sectionId;
+        Debug.Log($"LOG SYSTEM: glitch_use");
     }
     
     public void LogBlockControl(string stageId, string sectionId, string targetName, string blockType)

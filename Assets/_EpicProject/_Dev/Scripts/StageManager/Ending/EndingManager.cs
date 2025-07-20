@@ -6,7 +6,7 @@ public class EndingManager : StageBaseManager
     private void Awake()
     {
         stageFilePath = "StageInfos/Ending";
-        ChangeStageId("ending_4");
+        ChangeStageId("60_ending");
         
         base.Awake();
     }
@@ -21,13 +21,13 @@ public class EndingManager : StageBaseManager
         
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
-        ChangeStageSection("stage_enter");
+        ChangeStageSection("60_0_enter_ending");
     }
 
     void LoadMenuScene()
     {
         // 로그 시스템
-        ChangeStageSection("stage_exit");
+        ChangeStageSection("60_1_exit_ending");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
 
         GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
