@@ -25,14 +25,16 @@ public class TitleSceneManager : MonoBehaviour
         // 이어하기 버튼 활성화
         _clearStageIndex = GameManager.Instance.SaveManager.LoadStageData().ClearStageIndex;
         _uiManager.SetContinueBtn(_clearStageIndex < 2);
+        
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Menu);
-
     }
 
     public void StartNewGame()
     {
         GameManager.Instance.SaveManager.DeleteStageData();
         Instantiate(stageManagerPrefab, Vector3.zero, Quaternion.identity);
+        
+        GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadScene(2);
     }
 
@@ -48,6 +50,7 @@ public class TitleSceneManager : MonoBehaviour
             targetIndex -= 3;
         }
         
+        GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadScene(targetIndex);
     }
 

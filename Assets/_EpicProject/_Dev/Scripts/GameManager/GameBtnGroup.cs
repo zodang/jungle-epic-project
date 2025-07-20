@@ -24,7 +24,8 @@ public class GameBtnGroup : MonoBehaviour
         float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
         GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"retry", elapsedTime);
 
-        GameManager.Instance.SettingManager.CloseSetting();
+        GameManager.Instance.SettingManager.CloseSetting(true);
+        GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadCurrentScene();
     }
 
@@ -47,7 +48,8 @@ public class GameBtnGroup : MonoBehaviour
                 float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
                 GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"menu", elapsedTime);
                 
-                GameManager.Instance.SettingManager.CloseSetting();
+                GameManager.Instance.SettingManager.CloseSetting(true);
+                GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
                 GameManager.Instance.FadeManager.LoadScene(1);
             },
             onCancel: GameManager.Instance.UIManager.PopupUI.HidePopup,
@@ -75,7 +77,7 @@ public class GameBtnGroup : MonoBehaviour
                 float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
                 GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"quit", elapsedTime);
                 
-                GameManager.Instance.SettingManager.CloseSetting();
+                GameManager.Instance.SettingManager.CloseSetting(true);
 #if UNITY_EDITOR
                 EditorApplication.isPlaying = false;
 #else

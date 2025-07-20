@@ -50,7 +50,7 @@ public abstract class StageBaseManager : MonoBehaviour
     {
         // 씬 전환 시 초기화
         StageManager.Instance.InputManager.ActivatePlayerInput(true);
-        GameManager.Instance.SettingManager.CloseSetting();
+        GameManager.Instance.SettingManager.CloseSetting(false);
 
         StageStartTime = Time.realtimeSinceStartup;
     }
