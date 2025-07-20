@@ -15,7 +15,7 @@ public class EndingManager : StageBaseManager
     {
         base.Start();
 
-        GameManager.Instance.AudioManager.PlayBgm(BgmType.Ending);
+        GameManager.Instance.AudioManager.ContinueBgm(BgmType.Ending);
 
         FindAnyObjectByType<VisualNovelSystem>().OnFinish += LoadMenuScene;
         
@@ -30,6 +30,7 @@ public class EndingManager : StageBaseManager
         ChangeStageSection("stage_exit");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
 
+        GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadScene(1);
     }
 }

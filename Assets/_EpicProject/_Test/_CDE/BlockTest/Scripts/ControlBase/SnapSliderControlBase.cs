@@ -52,7 +52,7 @@ public abstract class SnapSliderControlBase<TFeature> : EngineBlock where TFeatu
     protected void UpdatePercentText(float value)
     {
         if (_speedText == null || _slider == null) return;
-        _speedText.text = $"{value + 1} km/s";
+        _speedText.text = $"{(value + 1) * 10}km/h";
     }
     
     private void WhenControlStarted(bool isControl)
