@@ -14,7 +14,7 @@ public class DebuggingModeManager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/DebuggingModeStage";
-        ChangeStageId("ending_2");
+        ChangeStageId("53_debug");
         
         base.Awake();
         
@@ -31,7 +31,7 @@ public class DebuggingModeManager : StageBaseManager
         
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
-        ChangeStageSection("stage_enter");
+        ChangeStageSection("53_0_enter_debug");
 
         GameManager.Instance.AudioManager.ContinueBgm(BgmType.Stage4_cutscene);
     }

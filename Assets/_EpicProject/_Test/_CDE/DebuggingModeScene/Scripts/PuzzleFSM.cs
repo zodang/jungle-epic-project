@@ -78,21 +78,21 @@ public class PuzzleFSM : MonoBehaviour
         {
             case 0:
                 // 로그 시스템
-                StageBaseManager.Instance.ChangeStageSection("puzzle_1");
+                StageBaseManager.Instance.ChangeStageSection("53_1_puzzle1");
                 // fsm 변경
                 _fsm.ChangeState(new LightStepState(this, _target));
                 break;
             
             case 1:
                 // 로그 시스템
-                StageBaseManager.Instance.ChangeStageSection("puzzle_2");
+                StageBaseManager.Instance.ChangeStageSection("53_2_puzzle2");
                 // fsm 변경
                 _fsm.ChangeState(new ScaleStepState(this, _target));
                 break;
             
             case 2:
                 // 로그 시스템
-                StageBaseManager.Instance.ChangeStageSection("puzzle_3");
+                StageBaseManager.Instance.ChangeStageSection("53_3_puzzle3");
                 // fsm 변경
                 _fsm.ChangeState(new SpeedStepState(this, _target));
                 break;
@@ -103,7 +103,7 @@ public class PuzzleFSM : MonoBehaviour
                 string sectionId = StageBaseManager.Instance.SectionId;
                 float elapsedTime = Time.realtimeSinceStartup - StageBaseManager.Instance.StageStartTime;
                 
-                StageBaseManager.Instance.ChangeStageSection("stage_exit");
+                StageBaseManager.Instance.ChangeStageSection("53_4_exit_debug");
                 GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"clear", elapsedTime);
                 
                 // 씬 변경
