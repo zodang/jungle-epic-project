@@ -37,6 +37,7 @@ public class EntranceSceneManager : StageBaseManager
         ChangeStageSection("stage_exit");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
 
+        GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadNextScene();
     }
 }

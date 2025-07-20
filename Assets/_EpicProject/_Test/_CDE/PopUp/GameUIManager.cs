@@ -23,7 +23,7 @@ public class GameUIManager : MonoBehaviour
         }
         else if (SettingUI.IsActive())
         {
-            GameManager.Instance.SettingManager.CloseSetting();
+            GameManager.Instance.SettingManager.CloseSetting(true);
         }
         else if (!SettingUI.IsActive())
         {

@@ -29,6 +29,7 @@ public class VSStageManager : StageBaseManager
         
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
+        
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage2);
         
         // 로그 시스템
@@ -42,6 +43,7 @@ public class VSStageManager : StageBaseManager
         ChangeStageSection("stage_exit");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
 
+        GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadNextScene();
     }
 }

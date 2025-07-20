@@ -21,6 +21,7 @@ public class FinalMeetingStage2Manager : StageBaseManager
 
         // 대화 불러오기
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
+        
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Ending);
 
         //PlayTimeline();
