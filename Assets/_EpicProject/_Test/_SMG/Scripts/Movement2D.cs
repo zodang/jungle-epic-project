@@ -2,6 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Define;
+public enum AxisLock
+{
+    /// <summary>None</summary>
+    None = 0,
+    /// <summary> X: Right, Y: Up </summary>
+    Positive = 1,
+    /// <summary> X: Left, Y: Down </summary>
+    Negative = -1 
+}
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement2D : MonoBehaviour
@@ -27,6 +36,12 @@ public class Movement2D : MonoBehaviour
     private List<Tilemap> _groundTilemaps = new List<Tilemap>();
 
     public List<Transform> FootColliders = new List<Transform>();
+
+    public AxisLock YLock { get; private set; }
+    public AxisLock XLock { get; private set; }
+
+    private int _YLock; // 1: Up, -1: down
+    private int _XLock; // 1: right, -1: left;
 
     private void Awake()
     {
@@ -95,7 +110,17 @@ public class Movement2D : MonoBehaviour
             }
             else
             {
-                _rigidbody2D.linearVelocity = MoveDir * _speed;
+                float xDir = MoveDir.x;
+                float yDir = MoveDir.y;
+
+                if ((XLock == AxisLock.Positive && xDir > 0f) || (XLock == AxisLock.Negative && xDir < 0f))
+                    xDir = 0;
+                if ((YLock == AxisLock.Positive && yDir > 0f) || (YLock == AxisLock.Negative && yDir < 0f))
+                    yDir = 0;
+
+                Vector2 moveDir = new Vector2(xDir, yDir);
+
+                _rigidbody2D.linearVelocity = moveDir * _speed;
             }
         }
             
@@ -198,5 +223,13 @@ public class Movement2D : MonoBehaviour
     public void MultiplySpeed(float multiple)
     {
         _speed = _baseSpeed * multiple;
+    }
+
+    /// <summary>
+    /// Y축 이동을 제한합니다
+    /// </summary>
+    public void MoveLockY(AxisLock yLock)
+    {
+        YLock = yLock;
     }
 }
