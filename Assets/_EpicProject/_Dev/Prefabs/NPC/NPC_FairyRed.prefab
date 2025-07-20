@@ -757,7 +757,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultDialogueId: npc_01
-  conditionalDialogues: []
+  conditionalDialogues:
+  - dialogueId: npc_01_flag01
+    requiredFlagName: npc_01_flag01
+    requiredFlagValue: 1
+    priority: 0
   speechBubbleAnchor: {fileID: 1282190860933515059}
 --- !u!114 &4720779580638883806
 MonoBehaviour:
@@ -790,6 +794,7 @@ MonoBehaviour:
   nextIsGround: 0
   testdist: 0
   IsFalling: 0
+  FootColliders: []
 --- !u!1 &3851295131004111376
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,7 +1231,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2579527741582096812}
-  - component: {fileID: 1508426925611099478}
+  - component: {fileID: 4565630891020636789}
+  - component: {fileID: 932929094421891345}
   m_Layer: 6
   m_Name: Foot
   m_TagString: Untagged
@@ -1249,8 +1255,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1106293718050938561}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1508426925611099478
-BoxCollider2D:
+--- !u!70 &4565630891020636789
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1284,17 +1290,20 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   m_Size: {x: 0.35, y: 0.2}
-  m_EdgeRadius: 0
+  m_Direction: 1
+--- !u!114 &932929094421891345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7688626577543194527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e6154fc345e2e40b53bbf3ff666951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3861007849522686843
 PrefabInstance:
   m_ObjectHideFlags: 0

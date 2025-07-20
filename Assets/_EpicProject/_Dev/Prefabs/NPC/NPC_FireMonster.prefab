@@ -633,6 +633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8284869414064516527}
   - component: {fileID: 250926119265147190}
+  - component: {fileID: 3325941952533483791}
   m_Layer: 0
   m_Name: DetectionBowlingBall
   m_TagString: Untagged
@@ -697,6 +698,54 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
+  TriggerHoldTime: 0
+--- !u!114 &3325941952533483791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7666623917128408903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e42ed26693374a4b860bf2af1e0d753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerAreaGizmoColor: {r: 0, g: 0.7, b: 0, a: 0.2}
+  triggerRangeX: 3
+  triggerRangeY: 2.9
+  target: {fileID: 0}
+  OnlyOnce: 1
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: 
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8151639780091712648}
+        m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
+        m_MethodName: TriggerDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: FlameMonster_DestroyBall
           m_BoolArgument: 0
         m_CallState: 2
   OnTriggerExit:
