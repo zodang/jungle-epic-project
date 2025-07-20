@@ -69,9 +69,10 @@ public class FinalMeetingStageManager : StageBaseManager
         if (_skipPromptUI != null)
             _skipPromptUI.SetActive(false);
 
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_cutscene);
+        
         PlayTimeline(0);
 
-        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_cutscene);
 
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
@@ -203,6 +204,7 @@ public class FinalMeetingStageManager : StageBaseManager
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId, "clear", Time.realtimeSinceStartup - StageStartTime);
 
         StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        
         GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
     }
 }

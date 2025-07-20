@@ -107,6 +107,7 @@ public class PuzzleFSM : MonoBehaviour
                 GameManager.Instance.LogManager.LogStageExit(stageId, sectionId,"clear", elapsedTime);
                 
                 // 씬 변경
+                GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
                 GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
                 break;
         }

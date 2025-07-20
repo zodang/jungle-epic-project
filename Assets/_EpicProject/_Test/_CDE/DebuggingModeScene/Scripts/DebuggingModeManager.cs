@@ -33,7 +33,7 @@ public class DebuggingModeManager : StageBaseManager
         GameManager.Instance.LogManager.LogStageEnter(StageId);
         ChangeStageSection("stage_enter");
 
-        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_cutscene);
+        GameManager.Instance.AudioManager.ContinueBgm(BgmType.Stage4_cutscene);
     }
 
     protected override void OnDestroy()

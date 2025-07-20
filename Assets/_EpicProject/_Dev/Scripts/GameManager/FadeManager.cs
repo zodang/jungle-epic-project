@@ -42,7 +42,6 @@ public class FadeManager : MonoBehaviour
         IsLoading = true;
 
         FindAnyObjectByType<PlayableDirector>()?.Stop();
-        GameManager.Instance.AudioManager.FadeBgmAndSfx(0, 1.0f);
         GameManager.Instance.TimeScaleManager.ResumeGame();
 
         int targetIndex = Mathf.Min(index, SceneManager.sceneCountInBuildSettings - 1);
@@ -59,9 +58,10 @@ public class FadeManager : MonoBehaviour
         {
             yield return null;
         }
-        GameManager.Instance.AudioManager.RestoreBgmAndSfxVolume(0f);
-            
+        
         IsLoading = false;
+        GameManager.Instance.AudioManager.FadeInAudio(0f);
+
         yield return _transitionManager.TurnOffAni();
     }
 }
