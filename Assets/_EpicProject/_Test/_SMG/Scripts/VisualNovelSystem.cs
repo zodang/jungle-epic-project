@@ -198,6 +198,13 @@ public class VisualNovelSystem : MonoBehaviour
         // 1) 페이드 아웃이 끝날 때까지 대기
         yield return StartCoroutine(FadeCoroutine(false, 20, 0.15f));
 
+        if (CreditRoot.IsUnityNull())
+        {
+            StartCoroutine(DelayFinishScene(1f));
+            yield break;
+        }
+            
+
         // 2) 에디터에서 false로 꺼둔 크레딧 오브젝트 활성화
         CreditRoot.gameObject.SetActive(true);
 
