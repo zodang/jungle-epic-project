@@ -911,7 +911,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultDialogueId: npc_02
-  conditionalDialogues: []
+  conditionalDialogues:
+  - dialogueId: npc_02_flag01
+    requiredFlagName: npc_02_flag01
+    requiredFlagValue: 1
+    priority: 0
   speechBubbleAnchor: {fileID: 1706322970404834957}
 --- !u!114 &6103745550252793830
 MonoBehaviour:

@@ -757,7 +757,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultDialogueId: npc_01
-  conditionalDialogues: []
+  conditionalDialogues:
+  - dialogueId: npc_01_flag01
+    requiredFlagName: npc_01_flag01
+    requiredFlagValue: 1
+    priority: 0
   speechBubbleAnchor: {fileID: 1282190860933515059}
 --- !u!114 &4720779580638883806
 MonoBehaviour:
@@ -790,6 +794,7 @@ MonoBehaviour:
   nextIsGround: 0
   testdist: 0
   IsFalling: 0
+  FootColliders: []
 --- !u!1 &3851295131004111376
 GameObject:
   m_ObjectHideFlags: 0
