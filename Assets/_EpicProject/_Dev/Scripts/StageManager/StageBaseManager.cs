@@ -53,6 +53,7 @@ public abstract class StageBaseManager : MonoBehaviour
         GameManager.Instance.SettingManager.CloseSetting(false);
 
         StageStartTime = Time.realtimeSinceStartup;
+        SectionStartTime = Time.realtimeSinceStartup;
     }
 
     private void LoadClickableProfile()
@@ -102,6 +103,7 @@ public abstract class StageBaseManager : MonoBehaviour
     public string StageId { get; private set; }
     public string SectionId { get; private set; }
     public float StageStartTime { get; private set; }
+    public float SectionStartTime { get; private set; }
 
     protected void ChangeStageId(string stageId)
     {
@@ -116,8 +118,11 @@ public abstract class StageBaseManager : MonoBehaviour
         // 로그 시스템
         string stage = StageId;
         string section = SectionId;
-        float elapsed = Time.realtimeSinceStartup - StageStartTime;
+        float elapsed = Time.realtimeSinceStartup - SectionStartTime;
         GameManager.Instance.LogManager.LogSectionEnter(stage, section, elapsed);
+
+        // 구간 시작 시간 갱신
+        SectionStartTime = Time.realtimeSinceStartup;
     }
     #endregion
 }
