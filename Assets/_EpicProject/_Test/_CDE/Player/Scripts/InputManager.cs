@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Define;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -133,14 +134,37 @@ public class InputManager : MonoBehaviour
         _actionMap = null;
     }
 
+    private bool IsPointOverPassUI()
+    {
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Mouse.current.position.ReadValue()
+        };
+
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+
+        if (results.Count == 0) return false;
+
+        // 가장 위에 있는(리스트 첫번째) UI가 tagName인지 확인
+        var topUI = results[0].gameObject;
+        return topUI.CompareTag("ClickPassUI");
+    }
+
     private void Update()
     {
         if (_isClicked)
         {
             _isClicked = false;
             
-            // UI 감지 시 return
-            if (EventSystem.current.IsPointerOverGameObject()) return;
+            // UI 감지 시 Click Pass UI인지 검사 후 return
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                if (!IsPointOverPassUI())
+                {
+                    return;
+                }
+            }
             
             Vector2 screenPos = Mouse.current.position.ReadValue();
             Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
