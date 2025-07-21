@@ -12,7 +12,7 @@ public class DialHandle : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
     private Vector2 _centerScreenPos;
 
     private float _totalRotation;
-    private int _snapDivision = 12;
+    private int _snapDivision = 24;
     private int _lastSnapIndex = -1;
 
     private void Awake()
@@ -59,7 +59,7 @@ public class DialHandle : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
 
         _rectTransform.localEulerAngles = new Vector3(0, 0, snappedAngle);
 
-        float normalized = ((-visualAngle % 360f) + 360f) % 360f / 360f;
+        float normalized = visualAngle / 360f;
         OnValueChanged?.Invoke(normalized);
     }
 
@@ -75,6 +75,9 @@ public class DialHandle : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
 
         float angle = Mathf.Lerp(0, 360, normalized);
         _rectTransform.localEulerAngles = new Vector3(0, 0, angle);
+
+        _totalRotation = angle;
+        _lastSnapIndex = Mathf.RoundToInt(angle / (360f / _snapDivision));
     }
 
     
