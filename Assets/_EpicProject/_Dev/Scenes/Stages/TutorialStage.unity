@@ -561,6 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9360a060de13447ade7a8a9292fc68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sortingOrderBias: 0
 --- !u!210 &392761479
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -808,10 +809,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1766074781}
     m_Modifications:
-    - target: {fileID: 2180258362920195495, guid: 53971cae37f4fcc4ea0b6d8f4544f5ff, type: 3}
-      propertyPath: sortingOrderBias
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2228015717505144418, guid: 53971cae37f4fcc4ea0b6d8f4544f5ff, type: 3}
       propertyPath: m_BodyType
       value: 2
@@ -1864,6 +1861,10 @@ PrefabInstance:
     - target: {fileID: 7833763572700565480, guid: 8eaaf468140627149994db49216f5843, type: 3}
       propertyPath: StartGetPlayerControl
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8977727897933712211, guid: 8eaaf468140627149994db49216f5843, type: 3}
+      propertyPath: sortingOrderBias
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

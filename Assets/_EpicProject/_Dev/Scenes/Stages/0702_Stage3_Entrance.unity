@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 35853008}
   - component: {fileID: 35853007}
   - component: {fileID: 35853012}
+  - component: {fileID: 35853013}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -403,6 +404,48 @@ AudioLowPassFilter:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &35853013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35853006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69beb381e244f92449b8c4cf954630e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TrackedObjects:
+  - rid: 6568114614816735232
+  references:
+    version: 2
+    RefIds:
+    - rid: 6568114614816735232
+      type: {class: TrackedMonoBehaviourObject, ns: UnityEngine.Localization.PropertyVariants.TrackedObjects, asm: Unity.Localization}
+      data:
+        m_Target: {fileID: 35853008}
+        m_TrackedProperties:
+          items:
+          - rid: 6568114614816735233
+        m_UpdateType: 0
+        m_Changed:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 6568114614816735233
+      type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_PropertyPath: DefaultBlend.Time
+        m_VariantData:
+        - localeIdentifier:
+            m_Code: en
+          value: 0.5
+        - localeIdentifier:
+            m_Code: ko
+          value: 0.5
+        - localeIdentifier:
+            m_Code: zh-Hans
+          value: 0.5
 --- !u!4 &102740443 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2542745724445604171, guid: c73cd28984c0f1b4eb5f6f41c3f9feb7, type: 3}

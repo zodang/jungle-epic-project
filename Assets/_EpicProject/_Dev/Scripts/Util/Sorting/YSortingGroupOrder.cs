@@ -4,6 +4,8 @@ using UnityEngine.Rendering;
 
 public class YSortingGroupOrder : MonoBehaviour
 {
+    public int sortingOrderBias = 0;
+
     private SortingGroup _sortingGroup;
     private int _yPos;
 
@@ -31,6 +33,6 @@ public class YSortingGroupOrder : MonoBehaviour
         if (_yPos == newYPos) return;
 
         _yPos = newYPos;
-        _sortingGroup.sortingOrder = -_yPos;
+        _sortingGroup.sortingOrder = -_yPos + sortingOrderBias;
     }
 }

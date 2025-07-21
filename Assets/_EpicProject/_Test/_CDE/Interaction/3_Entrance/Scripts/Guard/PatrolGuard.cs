@@ -17,6 +17,7 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
     // IGraphicChangeable
     private GraphicHandler _graphicHandler;
     private readonly GraphicType _defaultGraphicType = GraphicType.Middle;
+    private GraphicType _currentGraphicType;
     
     private PlayerAnimation[] _animations;
     
@@ -32,6 +33,7 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
         _speedHandler.OnSetValue += ChangeSpeed;
         
         _graphicHandler.Init(_defaultGraphicType);
+        _graphicHandler.OnSetValue += ChangeGraphic;
         
         _movement2D = GetComponent<Movement2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -80,8 +82,14 @@ public class PatrolGuard : MonoBehaviour, IFeatureResetable, IControllable
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _movement2D.MoveDir = Vector3.zero;
+        _graphicHandler.SetValue(_currentGraphicType);
         
         OnControlDisabled?.Invoke();
+    }
+
+    private void ChangeGraphic(int type)
+    {
+        _currentGraphicType = (GraphicType)type;
     }
 
     private void ChangeSpeed(int step)
