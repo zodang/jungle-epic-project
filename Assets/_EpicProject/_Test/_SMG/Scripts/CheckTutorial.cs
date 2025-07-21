@@ -91,7 +91,7 @@ public class CheckTutorial : MonoBehaviour
                         StartTutorial(_tutorialStep);
                         
                         // 로그 시스템
-                        StageBaseManager.Instance.ChangeStageSection("player_control");
+                        StageBaseManager.Instance.ChangeStageSection("10_1_player_control");
                         return;
                     }
                 }
@@ -155,7 +155,7 @@ public class CheckTutorial : MonoBehaviour
                     if (_isRockMoveEnable)
                     {
                         // 로그 시스템
-                        StageBaseManager.Instance.ChangeStageSection("rock_control");
+                        StageBaseManager.Instance.ChangeStageSection("10_2_rock_control");
                         StartTutorial(_tutorialStep);
                     }
                     break;

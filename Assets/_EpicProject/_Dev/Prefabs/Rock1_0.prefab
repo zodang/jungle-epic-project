@@ -66,7 +66,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.014027953, y: 0.60320663}
+  m_Offset: {x: 0, y: 0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,7 +76,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.7388113, y: 1.9258516}
+  m_Size: {x: 1.75, y: 1.35}
   m_EdgeRadius: 0
 --- !u!1 &3547841417460952772
 GameObject:
@@ -496,6 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a774fe63cfbc04a9dfc83a5c2eccc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultScale: 3
   model: {fileID: 5080359684592327162}
   foot: {fileID: 8956125864491270148}
   twinkleLv1: {fileID: 3547841417460952772}
@@ -513,7 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1
-  defaultBlockTypes: 
+  DefaultBlockList: 
 --- !u!114 &7672360369343275020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,7 +531,8 @@ MonoBehaviour:
   nextIsBirdge: 0
   nextIsGround: 0
   testdist: 0
-  GroundTilemap: {fileID: 0}
+  IsFalling: 0
+  FootColliders: []
 --- !u!61 &7833968560684598418
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -565,7 +567,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.028056204, y: 0.12625259}
+  m_Offset: {x: 0, y: 0.12625259}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -575,7 +577,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.7668678, y: 0.9906478}
+  m_Size: {x: 1.75, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &7346771152771821700
 GameObject:

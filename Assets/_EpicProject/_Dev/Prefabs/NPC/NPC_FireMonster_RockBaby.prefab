@@ -688,6 +688,7 @@ GameObject:
   - component: {fileID: 8387542127058338910}
   - component: {fileID: 2053161722016548037}
   - component: {fileID: 240496227214988043}
+  - component: {fileID: 9062022917014548632}
   m_Layer: 0
   m_Name: NPC_FireMonster_RockBaby
   m_TagString: Untagged
@@ -792,6 +793,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionPromptCanvas: {fileID: 255107689841715609}
   dialogueIndicator: {fileID: 6750399670370493906}
+--- !u!114 &9062022917014548632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5756539211024575313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9900f6df502bea4ca71b34f4fb994fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigidbody2D: {fileID: 0}
 --- !u!1 &6750399670370493906
 GameObject:
   m_ObjectHideFlags: 0

@@ -70,7 +70,7 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
     {
         _enableMove = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-        foot.SetActive(true);
+        //foot.SetActive(true);
         _movement2D.MoveDir = Vector3.zero;
     }
 
@@ -78,7 +78,7 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
     {
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
-        foot.SetActive(false);
+        //foot.SetActive(false);
         _movement2D.MoveDir = Vector3.zero;
     }
     
