@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEmitter
 {
     private Transform _visualRoot;
+    private Collider2D foot;
     private Transform _fan;
 
     [SerializeField] private RotateHandler _rotateHandler;
@@ -28,8 +29,8 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
     public event Action<bool> OnControlEnabled;
 
     // Fan
-    [SerializeField] float FanPower;
-    [SerializeField] float _fanSpeed;
+    float FanPower;
+    float _fanSpeed;
     float FanLv1Threshold = 0.3f;
     float FanLv2Threshold = 12f;
     float FanLv3Threshold = 20f;
@@ -39,6 +40,7 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
     private float _prevRotate;
 
     private float _decayDelay;
+    private bool _prevWindEnable;
 
 
     private void Awake()
@@ -53,6 +55,7 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
         _rigidbody2D.gravityScale = 0f;
 
         _visualRoot = transform.GetChild(0);
+        foot = GetComponentInChildren<FootTag>().GetComponent<Collider2D>();
         _fan = _visualRoot.GetChild(0).GetChild(0);
 
         ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
@@ -65,6 +68,8 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
 
         ResetFeature();
         DisableControl();
+
+        _prevWindEnable = !(transform.position.y < 2.4f);
     }
 
     void Update()
@@ -72,6 +77,21 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
         if (_enableMove)
         {
             _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput;
+        }
+
+        bool windEnable = transform.position.y < 2.4f;
+        if (_prevWindEnable != windEnable)
+        {
+            _prevWindEnable = windEnable;
+            WindZoneLv1.GetComponent<Collider2D>().enabled = windEnable;
+            WindZoneLv2.GetComponent<Collider2D>().enabled = windEnable;
+            WindZoneLv3.GetComponent<Collider2D>().enabled = windEnable;
+        }
+
+        if (Mathf.Abs(_fanSpeed) < 0.02f)
+        {
+            _fanSpeed = 0f;
+            return;
         }
 
         if (_fanSpeed > 6f * _visualRoot.localScale.x)
@@ -82,8 +102,6 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
         {
             _fanSpeed = -6f * _visualRoot.localScale.x;
         }
-
-        
 
         if (_decayDelay > 0)
         {
@@ -96,7 +114,7 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
             _fanSpeed -= ((_fanSpeed > 0) ? 10f : -10f) * Time.deltaTime;
             //FanPower -= 10f * Time.deltaTime;
         }
-
+        
         FanPower = Mathf.Abs(_fanSpeed);
 
         int lv = 0;
@@ -178,6 +196,7 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
         _enableMove = enable;
         _movement2D.MoveDir = Vector2.zero;
         _rigidbody2D.bodyType = enable ? RigidbodyType2D.Dynamic : RigidbodyType2D.Kinematic;
+        foot.enabled = enable;
         OnControlEnabled?.Invoke(enable);
     }
 

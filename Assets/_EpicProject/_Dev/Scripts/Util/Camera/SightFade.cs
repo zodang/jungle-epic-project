@@ -34,10 +34,10 @@ public class SightFade : MonoBehaviour
         switch (fadeTargetType)
         {
             case FadeTargetType.SpriteType:
-                _spriteRenderer = GetComponent<SpriteRenderer>();
+                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
                 break;
             case FadeTargetType.TilemapType:
-                _tilemap = GetComponent<Tilemap>();
+                _tilemap = GetComponentInChildren<Tilemap>();
                 break;
         }
 
