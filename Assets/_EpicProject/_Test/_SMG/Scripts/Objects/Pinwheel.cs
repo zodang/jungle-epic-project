@@ -188,7 +188,7 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
         _decayDelay = 1f;
 
         _fanSpeed += deltaAngle * 0.002f * _visualRoot.localScale.x;
-        _fan.localEulerAngles = new Vector3(0, 0, -rotate);
+        _fan.localEulerAngles = new Vector3(0, 0, rotate);
         _prevRotate = rotate;
     }
 
