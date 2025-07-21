@@ -96,7 +96,7 @@ public class SettingManager : MonoBehaviour
     private IEnumerator ApplyLocalization()
     {
         yield return LocalizationSettings.InitializationOperation;
-        LanguageSetting .ChangeLanguage(_currentSetting.LanguageIndex);
+        LanguageSetting.ChangeLanguage(_currentSetting.LanguageIndex);
     }
 
     private void ApplyResolutionSetting()
