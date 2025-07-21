@@ -7,6 +7,7 @@ public class TitleSceneUIManager : MonoBehaviour
 {
     private TitleSceneManager _titleSceneManager;
     
+    [SerializeField] private Button privacyPolicyBtn;
     [SerializeField] private Button newGameBtn;
     [SerializeField] private Button continueGameBtn;
     [SerializeField] private Button settingBtn;
@@ -29,10 +30,16 @@ public class TitleSceneUIManager : MonoBehaviour
 
     private void Start()
     {
+        privacyPolicyBtn.onClick.AddListener(OnClickPrivacyPolicyBtn);
         newGameBtn.onClick.AddListener(OnClickNewGameBtn);
         continueGameBtn.onClick.AddListener(OnClickContinueGameBtn);
         settingBtn.onClick.AddListener(OnClickSettingBtn);
         exitGameBtn.onClick.AddListener(OnClickExitGameBtn);
+    }
+
+    private void OnClickPrivacyPolicyBtn()
+    {
+        Application.OpenURL("https://marked-ocicat-59a.notion.site/Privacy-Policy-2377fce732a680b287f6e418581ccea4?source=copy_link");
     }
     
     public void SetContinueBtn(bool isNew)
