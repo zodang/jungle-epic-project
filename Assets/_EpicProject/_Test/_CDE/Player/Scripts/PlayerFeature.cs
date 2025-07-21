@@ -85,7 +85,7 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
 
     void Rotate(float angle)
     {
-        _model.localEulerAngles = new Vector3(0, 0, -angle);
+        _model.localEulerAngles = new Vector3(0, 0, angle);
     }
 
     void Scale(float scale)

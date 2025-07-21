@@ -75,7 +75,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IControllable
 
     void Rotate(float angle)
     {
-        _model.localEulerAngles = new Vector3(0f, 0, -angle);
+        _model.localEulerAngles = new Vector3(0f, 0, angle);
     }
 
     void Twinkle(float bright)
@@ -103,7 +103,7 @@ public class Axe : MonoBehaviour, IFeatureResetable, IControllable
     // IFeatureResetable
     public void ResetFeature()
     {
-        _rotateHandler.SetValue(15f);
+        _rotateHandler.SetValue(345f);
         _scaleHandler.SetValue(1f);
         _lightHandler.SetValue(1f);
 

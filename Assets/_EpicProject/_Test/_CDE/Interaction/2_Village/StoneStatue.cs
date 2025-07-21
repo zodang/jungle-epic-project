@@ -9,7 +9,7 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, IControllable
 
     // IFeatureResetable
     private float _defaultLight = 0f;
-    private float _defaultRotation = 110f;
+    private float _defaultRotation = 250f;
     private float _defaultScale = 1f;
         
     // ILightAdjustable
@@ -91,7 +91,7 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, IControllable
     
     void SetRotate(float angle)
     {
-        model.localEulerAngles = new Vector3(0, 0, -angle);
+        model.localEulerAngles = new Vector3(0, 0, angle);
     }
     
     void SetScale(float scale)

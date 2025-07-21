@@ -82,6 +82,6 @@ public class BowlingPin : MonoBehaviour, IFeatureResetable, IControllable
 
     void SetRotate(float rotate)
     {
-        _visualRoot.localEulerAngles = new Vector3(0, 0, -rotate);
+        _visualRoot.localEulerAngles = new Vector3(0, 0, rotate);
     }
 }
