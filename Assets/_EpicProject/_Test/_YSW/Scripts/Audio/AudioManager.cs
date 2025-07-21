@@ -25,6 +25,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private List<BgmSound> bgmClips; // Inspector에서 설정할 BGM 리스트
     private Dictionary<BgmType, AudioClip> _bgmClipDict; // 실제 게임에서 사용할 BGM 데이터
+    private BgmType _currentBgmType = BgmType.None;
 
     [Header("#SFX")]
     public AudioClip[] sfxClips;
@@ -114,13 +115,27 @@ public class AudioManager : MonoBehaviour
         }
 
         AudioClip clipToPlay = _bgmClipDict[bgmType];
-
-        // 현재 재생 중인 클립과 같은 클립이면 아무것도 하지 않습니다.
-        if (bgmPlayer.isPlaying && bgmPlayer.clip == clipToPlay)
+        _currentBgmType = bgmType;
+        
+        bgmPlayer.clip = clipToPlay;
+        bgmPlayer.Play();
+    }
+    
+    public void ContinueBgm(BgmType bgmType)
+    {
+        // 요청한 BGM 타입이 Dictionary에 있는지 확인합니다.
+        if (!_bgmClipDict.ContainsKey(bgmType))
         {
+            Debug.LogError($"BgmType '{bgmType}' not found in dictionary.");
             return;
         }
 
+        AudioClip clipToPlay = _bgmClipDict[bgmType];
+        
+        // 재생 중인 BGM 있다면 그대로 사용
+        if (bgmType == _currentBgmType) return;
+        
+        //  재생 중인 BGM 없다면 새로 재생
         bgmPlayer.clip = clipToPlay;
         bgmPlayer.Play();
     }
@@ -200,94 +215,48 @@ public class AudioManager : MonoBehaviour
 
     #region Fade Audio
 
-     private Coroutine bgmFadeCoroutine;
-    private float _originalBgmVol;
-    private float[] _originalSfxVol;
-
-    // BGM과 SFX를 같이 Fade (원본 볼륨 저장)
-    public void FadeBgmAndSfx(float targetVolume, float duration)
+    private Coroutine _bgmFadeCoroutine;
+    
+    public void FadeOutAudio(float duration)
     {
-        if (bgmFadeCoroutine != null) StopCoroutine(bgmFadeCoroutine);
-
-        _originalBgmVol = bgmPlayer.volume;
-
-        // SFX 볼륨 복원을 위해 현재 값 저장
-        _originalSfxVol = new float[sfxPlayers.Length];
-        for (int i = 0; i < sfxPlayers.Length; i++)
-            _originalSfxVol[i] = sfxPlayers[i].volume;
-
-        bgmFadeCoroutine = StartCoroutine(FadeBgmAndSfxRoutine(targetVolume, duration));
+        if (_bgmFadeCoroutine != null) StopCoroutine(_bgmFadeCoroutine);
+        _bgmFadeCoroutine = StartCoroutine(FadeAudioCo(duration, 0, 0));
     }
 
-    private IEnumerator FadeBgmAndSfxRoutine(float targetVolume, float duration)
+    public void FadeInAudio(float duration)
+    {
+        if (_bgmFadeCoroutine != null) StopCoroutine(_bgmFadeCoroutine);
+        _bgmFadeCoroutine = StartCoroutine(FadeAudioCo(duration, bgmVolume, sfxVolume));
+    }
+
+    private IEnumerator FadeAudioCo(float duration, float targetBgm, float targetSfx)
     {
         float startBgmVol = bgmPlayer.volume;
-        float[] startSfxVol = new float[sfxPlayers.Length];
-        for (int i = 0; i < sfxPlayers.Length; i++)
-            startSfxVol[i] = sfxPlayers[i].volume;
+        float targetBgmVol = targetBgm;
+
+        float startSfxVol = sfxPlayers[0].volume;
+        float targetSfxVol = targetSfx;
 
         float elapsed = 0f;
         while (elapsed < duration)
         {
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
-
-            // BGM Fade
-            float newBgmVol = Mathf.Lerp(startBgmVol, targetVolume, t);
-            SetBgmVolume(newBgmVol);
-
-            // SFX Fade (각각 독립적으로)
-            for (int i = 0; i < sfxPlayers.Length; i++)
+            
+            bgmPlayer.volume = Mathf.Lerp(startBgmVol, targetBgmVol, t);
+            foreach (var sfxPlayer in sfxPlayers)
             {
-                float newSfxVol = Mathf.Lerp(startSfxVol[i], targetVolume, t);
-                sfxPlayers[i].volume = newSfxVol;
+                sfxPlayer.volume = Mathf.Lerp(startSfxVol, targetSfxVol, t);
             }
 
             yield return null;
         }
-
-        SetBgmVolume(targetVolume);
-        for (int i = 0; i < sfxPlayers.Length; i++)
-            sfxPlayers[i].volume = targetVolume;
-    }
-
-    public void RestoreBgmAndSfxVolume(float duration)
-    {
-        if (bgmFadeCoroutine != null) StopCoroutine(bgmFadeCoroutine);
-        bgmFadeCoroutine = StartCoroutine(RestoreBgmAndSfxRoutine(duration));
-    }
-
-    private IEnumerator RestoreBgmAndSfxRoutine(float duration)
-    {
-        float startBgmVol = bgmPlayer.volume;
-        float[] startSfxVol = new float[sfxPlayers.Length];
-        for (int i = 0; i < sfxPlayers.Length; i++)
-            startSfxVol[i] = sfxPlayers[i].volume;
-
-        float elapsed = 0f;
-        while (elapsed < duration)
+        
+        bgmPlayer.volume = targetBgmVol;
+        foreach (var sfxPlayer in sfxPlayers)
         {
-            elapsed += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(elapsed / duration);
-
-            // BGM 복원
-            float newBgmVol = Mathf.Lerp(startBgmVol, _originalBgmVol, t);
-            SetBgmVolume(newBgmVol);
-
-            // SFX 복원 (각각)
-            for (int i = 0; i < sfxPlayers.Length; i++)
-            {
-                float newSfxVol = Mathf.Lerp(startSfxVol[i], _originalSfxVol[i], t);
-                sfxPlayers[i].volume = newSfxVol;
-            }
-
-            yield return null;
+            sfxPlayer.volume = targetSfxVol;
         }
-
-        SetBgmVolume(_originalBgmVol);
-        for (int i = 0; i < sfxPlayers.Length; i++)
-            sfxPlayers[i].volume = _originalSfxVol[i];
     }
-
     #endregion
 }

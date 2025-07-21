@@ -53,7 +53,7 @@ public class SettingManager : MonoBehaviour
         }
         else if (!_isSettingUIOpen)
         {
-            CloseSetting();
+            CloseSetting(true);
         }
     }
 
@@ -67,12 +67,12 @@ public class SettingManager : MonoBehaviour
         GameManager.Instance.TimeScaleManager.RequestPauseGame();
     }
 
-    public void CloseSetting()
+    public void CloseSetting(bool isSave)
     {
         _isSettingUIOpen = false;
         _settingUI.OpenSettingUI(_isSettingUIOpen);
         
-        SaveSetting();
+        if (isSave) SaveSetting();
         
         OnSettingClose?.Invoke();
         GameManager.Instance.TimeScaleManager.RequestResumeGame();

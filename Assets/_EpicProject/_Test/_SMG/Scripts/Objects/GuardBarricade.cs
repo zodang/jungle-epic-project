@@ -30,6 +30,6 @@ public class GuardBarricade : MonoBehaviour
         _detectionRange.gameObject.SetActive(false);
 
         // 로그 시스템
-        StageBaseManager.Instance.ChangeStageSection("pass_guard");
+        StageBaseManager.Instance.ChangeStageSection("51_1_pass_guard");
     }
 }

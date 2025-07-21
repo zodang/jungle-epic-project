@@ -10,7 +10,7 @@ public class Stage1Manager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/CaveStage";
-        ChangeStageId("cave_1");
+        ChangeStageId("20_cave_1");
         
         base.Awake();
     }
@@ -32,22 +32,23 @@ public class Stage1Manager : StageBaseManager
         
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
-        ChangeStageSection("stage_enter");
+        ChangeStageSection("20_0_enter_cave");
     }
 
     private void OnGoalTriggered()
     {
         // 로그 시스템
-        ChangeStageSection("stage_exit");
+        ChangeStageSection("20_2_exit_cave");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
 
+        GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadNextScene();
     }
 
     private void CheckPassCrack()
     {
         // 로그 시스템
-        ChangeStageSection("pass_crack");
+        ChangeStageSection("20_1_pass_crack");
     }
 
     protected override void OnDestroy()

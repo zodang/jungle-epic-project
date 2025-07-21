@@ -87,6 +87,11 @@ public class GlitchVision : MonoBehaviour
             BeginGlitch?.Invoke();
             // Q 키를 눌렀을 때 GlitchVision 활성화
             ActivateGlitchVision();
+            
+            // 로그 시스템
+            string stageId = StageBaseManager.Instance.StageId;
+            string sectionId = StageBaseManager.Instance.SectionId;
+            GameManager.Instance.LogManager.LogGlitchUse(stageId, sectionId);
 
             // glitchVolume 코루틴이 이미 실행 중이면 중지하고 새로 시작
             if (glitchCoroutine != null)

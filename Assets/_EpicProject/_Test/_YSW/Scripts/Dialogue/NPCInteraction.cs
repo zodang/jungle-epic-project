@@ -4,6 +4,7 @@ using System.Collections.Generic; // List 사용을 위해 추가
 
 public class NPCInteraction : MonoBehaviour
 {
+    public bool CanProcessInput { get; set; } = true;
     [Header("Default Dialogue")]
     [Tooltip("조건에 해당하지 않을 때 사용될 기본 대화 ID")]
     public string defaultDialogueId;
@@ -113,7 +114,7 @@ public class NPCInteraction : MonoBehaviour
 
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E)) // 또는 다른 상호작용 키
+        if (CanProcessInput && playerInRange && Input.GetKeyDown(KeyCode.E)) // 또는 다른 상호작용 키
         {
             if (StageBaseManager.Instance.DialogueManager != null)
             {

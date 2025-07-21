@@ -9,7 +9,7 @@ public class TutorialStageManager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/TutorialStage";
-        ChangeStageId("tutorial_1");
+        ChangeStageId("10_tutorial_1");
         
         base.Awake();
     }
@@ -23,19 +23,21 @@ public class TutorialStageManager : StageBaseManager
      
         _goalTrigger = GameObject.FindWithTag(Tags.Goal)?.GetComponent<TriggerArea>();
         _goalTrigger.OnTrigger.AddListener(OnGoalTriggered);
+        
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Tutorial);
                 
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
-        ChangeStageSection("stage_enter");
+        ChangeStageSection("10_0_enter_tutorial");
     }
 
     private void OnGoalTriggered()
     {
         // 로그 시스템
-        ChangeStageSection("stage_exit");
+        ChangeStageSection("10_3_exit_tutorial");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
         
+        GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadNextScene();
     }
 }

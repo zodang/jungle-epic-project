@@ -9,7 +9,7 @@ public class FinalMeetingStage2Manager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/FinalMeetingStage2";
-        ChangeStageId("ending_3");
+        ChangeStageId("54_meeting_2");
         
         base.Awake();
         _playableDirector = GetComponent<PlayableDirector>();
@@ -21,13 +21,14 @@ public class FinalMeetingStage2Manager : StageBaseManager
 
         // 대화 불러오기
         DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
+        
         GameManager.Instance.AudioManager.PlayBgm(BgmType.Ending);
 
         //PlayTimeline();
         
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
-        ChangeStageSection("stage_enter");
+        ChangeStageSection("54_0_enter_meeting2");
     }
 
     private void PlayTimeline()
@@ -38,6 +39,10 @@ public class FinalMeetingStage2Manager : StageBaseManager
 
     public void LoadNextScene()
     {
+        // 로그 시스템
+        ChangeStageSection("54_1_exit_meeting2");
+        GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
+        
         GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
     }
 }

@@ -504,6 +504,7 @@ Transform:
   - {fileID: 6708071695100624788}
   - {fileID: 167588964667070438}
   - {fileID: 8284869414064516527}
+  - {fileID: 9072764717743862548}
   - {fileID: 9198850809872558072}
   - {fileID: 7329203859972722749}
   m_Father: {fileID: 0}
@@ -633,6 +634,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8284869414064516527}
   - component: {fileID: 250926119265147190}
+  - component: {fileID: 232294408177494478}
   m_Layer: 0
   m_Name: DetectionBowlingBall
   m_TagString: Untagged
@@ -675,22 +677,10 @@ MonoBehaviour:
   OnTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: 
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 8151639780091712648}
-        m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
-        m_MethodName: TriggerDialogue
-        m_Mode: 5
+      - m_Target: {fileID: 232294408177494478}
+        m_TargetAssemblyTypeName: DeltaDelayInvoker, Assembly-CSharp
+        m_MethodName: StartSequence
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -703,6 +693,197 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   TriggerHoldTime: 0
+--- !u!114 &232294408177494478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7666623917128408903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce62a87b5937b6142aa9fb5c5b39d187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DelayUnityEvents:
+  - myEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.SpriteRenderer, UnityEngine
+          m_MethodName: 
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 781054780456456099, guid: e4c5009f1c675b048a31eb1789e241ad, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: FlameMonster_DestroyBall
+            m_BoolArgument: 0
+          m_CallState: 2
+    Delay: 0
+  - myEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8151639780091712648}
+          m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
+          m_MethodName: TriggerDialogue
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: FlameMonster_DestroyBall
+            m_BoolArgument: 0
+          m_CallState: 2
+    Delay: 0.05
+  - myEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: 
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: FlameMonster_DestroyBall
+            m_BoolArgument: 0
+          m_CallState: 2
+    Delay: 0.1
+--- !u!1 &8445691643902710233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9072764717743862548}
+  - component: {fileID: 3370752820607716684}
+  - component: {fileID: 7733220886800821313}
+  m_Layer: 0
+  m_Name: DetectionBowlingPin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9072764717743862548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445691643902710233}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 206130453503313504}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3370752820607716684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445691643902710233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e42ed26693374a4b860bf2af1e0d753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerAreaGizmoColor: {r: 0, g: 0.7, b: 0, a: 0.2}
+  triggerRangeX: 3
+  triggerRangeY: 2.9
+  target: {fileID: 0}
+  OnlyOnce: 1
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7733220886800821313}
+        m_TargetAssemblyTypeName: DeltaDelayInvoker, Assembly-CSharp
+        m_MethodName: StartSequence
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
+  TriggerHoldTime: 0
+--- !u!114 &7733220886800821313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445691643902710233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce62a87b5937b6142aa9fb5c5b39d187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DelayUnityEvents:
+  - myEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.SpriteRenderer, UnityEngine
+          m_MethodName: set_sprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: -4365489947345491555, guid: a0c12f5376626ee40bc35e36abc81a5b, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    Delay: 0
+  - myEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8151639780091712648}
+          m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
+          m_MethodName: TriggerDialogue
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: FlameMonster_DestroyBall
+            m_BoolArgument: 0
+          m_CallState: 2
+    Delay: 0.05
+  - myEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: FlameMonster_DestroyBall
+            m_BoolArgument: 0
+          m_CallState: 2
+    Delay: 0.1
 --- !u!1001 &3498161515543265289
 PrefabInstance:
   m_ObjectHideFlags: 0

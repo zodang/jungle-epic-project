@@ -48,7 +48,7 @@ public class FinalMeetingStageManager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/FinalMeetingStage";
-        ChangeStageId("ending_1");
+        ChangeStageId("52_meeting_1");
 
         base.Awake();
 
@@ -69,13 +69,14 @@ public class FinalMeetingStageManager : StageBaseManager
         if (_skipPromptUI != null)
             _skipPromptUI.SetActive(false);
 
+        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_cutscene);
+        
         PlayTimeline(0);
 
-        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_cutscene);
 
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
-        ChangeStageSection("stage_enter");
+        ChangeStageSection("52_0_enter_meeting1");
     }
 
     private void Update()
@@ -143,7 +144,7 @@ public class FinalMeetingStageManager : StageBaseManager
         _daughterSpriteRenderer.enabled = false;
 
         // 로그 시스템
-        ChangeStageSection("add_emotion");
+        ChangeStageSection("52_1_set_emotion");
 
         PlayTimeline(1); // 두 번째 타임라인 재생
     }
@@ -199,10 +200,11 @@ public class FinalMeetingStageManager : StageBaseManager
     public void HandleSecondTimelineEnd()
     {
         // 로그 시스템
-        ChangeStageSection("stage_exit");
+        ChangeStageSection("52_2_exit_meeting1");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId, "clear", Time.realtimeSinceStartup - StageStartTime);
 
         StageManager.Instance.InputManager.ActivatePlayerInput(true);
+        
         GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
     }
 }

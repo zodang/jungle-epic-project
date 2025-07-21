@@ -50,6 +50,17 @@ public class BowlingBall : MonoBehaviour, IFeatureResetable, IControllable
         {
             _movement2D.MoveDir = StageManager.Instance.InputManager.MoveInput;
         }
+        else
+        {
+            if(_dynamicDelta > 0f)
+            {
+                _dynamicDelta -= Time.deltaTime;
+            }
+            else
+            {
+                _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+            }
+        }
     }
 
     public void ResetFeature()
@@ -74,9 +85,13 @@ public class BowlingBall : MonoBehaviour, IFeatureResetable, IControllable
         _movement2D.MoveDir = Vector3.zero;
     }
 
+    float _dynamicDelta;
+
     void SetScale(float scale)
     {
         _visualRoot.localScale = new Vector3(scale, scale, 1f);
+        _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+        _dynamicDelta = 0.3f;
     }
 
     void SetRotate(float rotate)

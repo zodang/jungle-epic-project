@@ -9,7 +9,7 @@ public class Castle2Manager : StageBaseManager
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/Castle2Stage";
-        ChangeStageId("castle_2");
+        ChangeStageId("51_castle_2");
         
         base.Awake();
     }
@@ -28,15 +28,16 @@ public class Castle2Manager : StageBaseManager
         
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
-        ChangeStageSection("stage_enter");
+        ChangeStageSection("51_0_enter_castle2");
     }
 
     private void OnGoalTriggered()
     {
         // 로그 시스템
-        ChangeStageSection("stage_exit");
+        ChangeStageSection("51_3_exit_castle2");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
 
+        GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadNextScene();
     }
 }

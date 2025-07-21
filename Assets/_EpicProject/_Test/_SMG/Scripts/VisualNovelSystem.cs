@@ -31,6 +31,13 @@ public class VisualNovelSystem : MonoBehaviour
     public List<Sprite> Illustrations = new List<Sprite>();
     private int _illustrationsIdx;
 
+    [Header("Credits Scroll")]
+    public RectTransform CreditRoot;   // 에디터에서 Credit 오브젝트의 RectTransform 연결
+    public float scrollSpeed = 5f;     // 기본 스크롤 속도
+    public float fastMultiplier = 3f;  // 마우스 누를 때 배수
+    public float targetY = 3400f;      // 최종 Y 위치
+
+
     private bool _isUsing;
     private bool _isEndAll;
     private float _delayDeltaTime;
@@ -71,9 +78,9 @@ public class VisualNovelSystem : MonoBehaviour
             if (isEndIllustration && isEndDialogueId)
             {
                 _isEndAll = true;
-                StartCoroutine(FadeCoroutine(false, 20, 0.15f));
-                StartCoroutine(DelayFinishScene(3.5f));
+                StartCoroutine(FadeThenCredits());
             }
+
             else
             {
                 if (!isEndIllustration)
@@ -184,4 +191,46 @@ public class VisualNovelSystem : MonoBehaviour
         yield return new WaitForSeconds(delay);
         OnFinish?.Invoke();
     }
+
+
+    IEnumerator FadeThenCredits()
+    {
+        // 1) 페이드 아웃이 끝날 때까지 대기
+        yield return StartCoroutine(FadeCoroutine(false, 20, 0.15f));
+
+        if (CreditRoot.IsUnityNull())
+        {
+            StartCoroutine(DelayFinishScene(1f));
+            yield break;
+        }
+            
+
+        // 2) 에디터에서 false로 꺼둔 크레딧 오브젝트 활성화
+        CreditRoot.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+
+        // 3) 활성화된 크레딧을 스크롤
+        yield return StartCoroutine(CreditScrollCoroutine());
+    }
+
+
+    IEnumerator CreditScrollCoroutine()
+    {
+        // 크레딧 루트가 시작 Y = 0 이라고 가정
+        Vector2 pos = CreditRoot.anchoredPosition;
+
+        while (pos.y < targetY)
+        {
+            // 마우스(왼쪽 버튼) 누르고 있으면 속도 3배
+            float speed = scrollSpeed * (Input.GetMouseButton(0) ? fastMultiplier : 1f);
+            pos.y += speed * Time.deltaTime;
+            CreditRoot.anchoredPosition = pos;
+            yield return null;
+        }
+
+        // 목표 도달하면 즉시 씬 종료 콜
+        StartCoroutine(DelayFinishScene(0f));
+    }
+
 }

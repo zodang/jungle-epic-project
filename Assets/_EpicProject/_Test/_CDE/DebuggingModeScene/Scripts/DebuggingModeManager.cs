@@ -1,4 +1,5 @@
 using Define;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -9,12 +10,16 @@ public class DebuggingModeManager : StageBaseManager
     
     private PlayableDirector _playableDirector;
     private PuzzleFSM _puzzleFSM;
+
     
+    [Header("제어할 대상")]
+    [SerializeField] private List<NPCInteraction> _npcsToBlock = new List<NPCInteraction>();
+
     protected override void Awake()
     {
         // 스테이지 정보 불러오기
         stageFilePath = "StageInfos/DebuggingModeStage";
-        ChangeStageId("ending_2");
+        ChangeStageId("53_debug");
         
         base.Awake();
         
@@ -25,15 +30,17 @@ public class DebuggingModeManager : StageBaseManager
 
     protected override void Start()
     {
+        // 대화 불러오기
+        DialogueManager.LoadDialogue(stageFilePath + "/Dialogues");
         base.Start();
 
         _brokenBlock.OnClickAction += WhenBlockClicked;
         
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
-        ChangeStageSection("stage_enter");
+        ChangeStageSection("53_0_enter_debug");
 
-        GameManager.Instance.AudioManager.PlayBgm(BgmType.Stage4_cutscene);
+        GameManager.Instance.AudioManager.ContinueBgm(BgmType.Stage4_cutscene);
     }
 
     protected override void OnDestroy()
@@ -45,7 +52,20 @@ public class DebuggingModeManager : StageBaseManager
     }
 
     private void WhenBlockClicked()
-    {
+    {   
+        // 대화 종료
+        StageBaseManager.Instance.DialogueManager.FinalizeDialogue();
+        if (_npcsToBlock != null && _npcsToBlock.Count > 0)
+        {
+            foreach (NPCInteraction npc in _npcsToBlock)
+            {
+                if (npc != null)
+                {
+                    npc.CanProcessInput = false;
+                }
+            }
+        }
+
         // 플레이어 Input 비활성화
         StageManager.Instance.InputManager.ActivatePlayerInput(false);
         
