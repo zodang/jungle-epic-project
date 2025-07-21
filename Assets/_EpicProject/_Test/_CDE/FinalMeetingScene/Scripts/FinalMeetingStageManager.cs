@@ -207,4 +207,8 @@ public class FinalMeetingStageManager : StageBaseManager
         
         GameManager.Instance.FadeManager.LoadNextScene(TransitionType.FadeType);
     }
+    public void BlockSpawnSFX()
+    {
+        GameManager.Instance.AudioManager.PlaySfx(SfxType.BlockSpawn);
+    }
 }

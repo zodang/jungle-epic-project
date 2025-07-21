@@ -47,7 +47,7 @@ namespace Define
 
     public enum SfxType
     {
-        Open, Close, Text, Clear, Dial, Grass, CaveButton
+        Open, Close, Text, Clear, Dial, Grass, CaveButton, BlockSpawn,
     }
     
     public enum TransitionType
