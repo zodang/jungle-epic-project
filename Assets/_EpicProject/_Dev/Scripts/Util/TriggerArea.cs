@@ -34,6 +34,7 @@ public class TriggerArea : MonoBehaviour
     {
         if (target != null)
         {
+            if (!target.gameObject.activeSelf) return;
             if (_isTriggered && OnlyOnce) return;
 
             float distX = target.position.x - transform.position.x;

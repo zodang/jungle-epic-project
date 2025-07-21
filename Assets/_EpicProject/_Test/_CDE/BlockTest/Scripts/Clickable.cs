@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Define;
 using System;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class Clickable : MonoBehaviour, IClickable
 {
@@ -42,5 +43,13 @@ public class Clickable : MonoBehaviour, IClickable
     {
         EngineController = engineController;
         EngineController.InitEngineController(this, DefaultBlockList);
+    }
+
+    private void OnDisable()
+    {
+        if(!EngineController.IsUnityNull() && EngineController.IsActivate)
+        {
+            EngineController.Deactivate();
+        }
     }
 }
