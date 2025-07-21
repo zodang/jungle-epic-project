@@ -406,7 +406,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: 0, z: -10}
+  m_LocalPosition: {x: -9.298092, y: 1.859757, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1652,6 +1652,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1633253394416912569, guid: 8eaaf468140627149994db49216f5843, type: 3}
   m_PrefabInstance: {fileID: 1723781821}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1146299760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 232294408177494478, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+  m_PrefabInstance: {fileID: 1520513526553599201}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce62a87b5937b6142aa9fb5c5b39d187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1162531099
 GameObject:
   m_ObjectHideFlags: 0
@@ -2473,7 +2484,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9900f6df502bea4ca71b34f4fb994fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody2D: {fileID: 0}
 --- !u!1 &1508910184
 GameObject:
   m_ObjectHideFlags: 0
@@ -2508,6 +2518,11 @@ Transform:
   - {fileID: 1900458434}
   m_Father: {fileID: 1796756615}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1535751365 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 9067260262721702536, guid: dc195175812001f48aa7a61f08f64d95, type: 3}
+  m_PrefabInstance: {fileID: 2079458168}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1562845942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2660,6 +2675,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!212 &1706789210 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1772570432176832012, guid: 800a24b70a7a1734e8eba49c19541886, type: 3}
+  m_PrefabInstance: {fileID: 1032218092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1719166514
 GameObject:
   m_ObjectHideFlags: 0
@@ -4060,7 +4080,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 23.126423, y: 3.5843406}
+  m_Offset: {x: 23.126423, y: 4.409297}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4070,7 +4090,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 86.18238, y: 15.449166}
+  m_Size: {x: 86.18238, y: 17.09908}
   m_EdgeRadius: 0
 --- !u!1001 &2079458168
 PrefabInstance:
@@ -4265,21 +4285,57 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 232294408177494478, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1535751365}
+    - target: {fileID: 232294408177494478, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1238395328}
+    - target: {fileID: 232294408177494478, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_sprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 232294408177494478, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
     - target: {fileID: 250926119265147190, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 903693965}
     - target: {fileID: 250926119265147190, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnTrigger.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 250926119265147190, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 250926119265147190, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
       propertyPath: OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1238395328}
+      objectReference: {fileID: 1146299760}
+    - target: {fileID: 250926119265147190, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 250926119265147190, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
       propertyPath: OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: StartSequence
+      objectReference: {fileID: 0}
+    - target: {fileID: 250926119265147190, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DeltaDelayInvoker, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 250926119265147190, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
       propertyPath: OnTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
       value: FlameMonster_DestroyBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 250926119265147190, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1464879197983455011, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
       propertyPath: BabyObject
@@ -4297,9 +4353,77 @@ PrefabInstance:
       propertyPath: OnTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1053172772}
+    - target: {fileID: 3370752820607716684, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1032218093}
     - target: {fileID: 7326062083475823994, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
       propertyPath: m_Name
       value: NPC_FireMonster
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1706789210}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1053172772}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_sprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.SpriteRenderer, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: -4365489947345491555, guid: a0c12f5376626ee40bc35e36abc81a5b, type: 3}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[0].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Sprite, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733220886800821313, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: DelayUnityEvents.Array.data[2].myEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

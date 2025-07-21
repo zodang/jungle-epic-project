@@ -5,23 +5,20 @@ public class BowlingPinHitHandler : MonoBehaviour
 {
     public bool IsHit { get; private set; }
 
-    [SerializeField] private Rigidbody2D _rigidbody2D;
+    private Rigidbody2D _rigidbody2D;
 
     private void Awake()
     {
         IsHit = false;
 
+        _rigidbody2D = GetComponentInParent<Rigidbody2D>();
         if (_rigidbody2D.IsUnityNull())
         {
-            _rigidbody2D = GetComponentInParent<Rigidbody2D>();
-            if (_rigidbody2D.IsUnityNull())
-            {
-                ComponentHelper.TryGetOrAddComponent<Rigidbody2D>(ref _rigidbody2D, gameObject);
-            }
-            _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
-            _rigidbody2D.gravityScale = 0f;
-            _rigidbody2D.freezeRotation = true;
+            ComponentHelper.TryGetOrAddComponent<Rigidbody2D>(ref _rigidbody2D, gameObject);
         }
+        _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+        _rigidbody2D.gravityScale = 0f;
+        _rigidbody2D.freezeRotation = true;
 
     }
 
