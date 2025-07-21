@@ -460,20 +460,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TrackedObjects:
-  - rid: 4758862891604770826
-  - rid: 4758862891604770832
+  - rid: 6568114611968278528
   references:
     version: 2
     RefIds:
-    - rid: 4758862891604770826
+    - rid: 6568114611968278528
       type: {class: TrackedUGuiGraphic, ns: UnityEngine.Localization.PropertyVariants.TrackedObjects, asm: Unity.Localization}
       data:
         m_Target: {fileID: 225083696}
         m_TrackedProperties:
           items:
-          - rid: 4758862891604770827
+          - rid: 6568114611968278529
         m_UpdateType: 0
-    - rid: 4758862891604770827
+    - rid: 6568114611968278529
       type: {class: UnityObjectProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
       data:
         m_PropertyPath: m_Sprite
@@ -482,16 +481,10 @@ MonoBehaviour:
         m_VariantData:
         - localeIdentifier:
             m_Code: en
-          value: {fileID: 0}
+          value: {fileID: -9186011116919112236, guid: d2390a17e8298e147a42587d4cc0ab4f, type: 3}
         - localeIdentifier:
-            m_Code: zh-Hans
-          value: {fileID: 0}
-    - rid: 4758862891604770832
-      type: {class: TrackedRectTransform, ns: UnityEngine.Localization.PropertyVariants.TrackedObjects, asm: Unity.Localization}
-      data:
-        m_Target: {fileID: 225083693}
-        m_TrackedProperties:
-          items: []
+            m_Code: ko
+          value: {fileID: -9186011116919112236, guid: d2390a17e8298e147a42587d4cc0ab4f, type: 3}
 --- !u!114 &225083695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,14 +554,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -9186011116919112236, guid: d2390a17e8298e147a42587d4cc0ab4f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -828,10 +821,10 @@ MonoBehaviour:
         m_VariantData:
         - localeIdentifier:
             m_Code: en
-          value: 40
+          value: 30
         - localeIdentifier:
             m_Code: ko
-          value: 48
+          value: 30
     - rid: 4758862891604770821
       type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
       data:
@@ -839,10 +832,10 @@ MonoBehaviour:
         m_VariantData:
         - localeIdentifier:
             m_Code: en
-          value: 40
+          value: 30
         - localeIdentifier:
             m_Code: ko
-          value: 48
+          value: 30
 --- !u!114 &455076014
 MonoBehaviour:
   m_ObjectHideFlags: 0
