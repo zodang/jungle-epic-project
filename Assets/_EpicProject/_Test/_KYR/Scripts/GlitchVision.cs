@@ -24,6 +24,7 @@ public class GlitchVision : MonoBehaviour
     public bool isZoomOut = true;
     private float mainCamOrtho; // mainCam의 OrthographicSize 저장
     public float glitchCamOrtho = 6.5f; // GlitchCam의 OrthographicSize
+    public float maxGlitchCamOrtho = 10f;
 
     [Header("Glitch Volume")]
     private Volume _glitchVolume;
@@ -62,7 +63,7 @@ public class GlitchVision : MonoBehaviour
         // mainCam의 ortho 저장, glitchCam, glitchCam Group Framing의 ortho 설정
         mainCamOrtho = mainCam.Lens.OrthographicSize;
         _glitchCam.Lens.OrthographicSize = glitchCamOrtho;
-        _glitchCam.GetComponent<CinemachineGroupFraming>().OrthoSizeRange = new Vector2(glitchCamOrtho, 10);
+        _glitchCam.GetComponent<CinemachineGroupFraming>().OrthoSizeRange = new Vector2(glitchCamOrtho, maxGlitchCamOrtho);
         Debug.Log("Main Camera OrthographicSize: " + mainCamOrtho);
         Debug.Log("Glitch Camera OrthographicSize: " + glitchCamOrtho);
 
