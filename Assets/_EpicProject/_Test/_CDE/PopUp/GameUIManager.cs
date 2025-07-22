@@ -14,6 +14,10 @@ public class GameUIManager : MonoBehaviour
     {
         PopupUI = GetComponentInChildren<PopupUI>(true);
         SettingUI = GetComponentInChildren<SettingUI>();
+
+#if UNITY_EDITOR
+        if (SceneManager.GetActiveScene().buildIndex != 0) _isActive = true;
+#endif
     }
 
     public void ActivateGameUIManager(bool isActive)
