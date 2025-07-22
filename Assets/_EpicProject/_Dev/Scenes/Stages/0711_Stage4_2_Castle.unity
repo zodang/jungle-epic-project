@@ -744,7 +744,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.35
+  m_Radius: 0.45
 --- !u!4 &327660126 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6884947060564373888, guid: 2e0aa960ebbf61a4e8dc6992345b375d, type: 3}
@@ -4338,6 +4338,10 @@ PrefabInstance:
       value: Bowling ball
       objectReference: {fileID: 0}
     - target: {fileID: 3180464722824959662, guid: dc195175812001f48aa7a61f08f64d95, type: 3}
+      propertyPath: m_Radius
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180464722824959662, guid: dc195175812001f48aa7a61f08f64d95, type: 3}
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
@@ -4729,10 +4733,6 @@ PrefabInstance:
     - target: {fileID: 4646059681486352402, guid: aa03e418d649ccd45a54daf43b8847c1, type: 3}
       propertyPath: m_Name
       value: GridS4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6131652535454715508, guid: aa03e418d649ccd45a54daf43b8847c1, type: 3}
-      propertyPath: SortOrder
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
