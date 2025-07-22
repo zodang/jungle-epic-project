@@ -179,7 +179,10 @@ public class InputManager : MonoBehaviour
                 .ToArray();
 
             bool isMaskBypass = false;
-
+            bool isMask = false;
+            ClickableMask mask = null;
+            ClickableMaskSortOrder clickableMaskSortOrder = ClickableMaskSortOrder.ForePlayer;
+            
             for (int i = 0; i < hits.Length; i++)
             {
                 Collider2D coll = hits[i].collider;
@@ -193,12 +196,45 @@ public class InputManager : MonoBehaviour
                 }
                 else if (!clickableMask.IsUnityNull() && !isMaskBypass)
                 {
-                    break;
+                    if (clickableMask.SortOrder == ClickableMaskSortOrder.ForePlayer)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        mask = clickableMask;
+                        isMask = true;
+                        clickableMaskSortOrder = clickableMask.SortOrder;
+                        continue;
+                    }
                 }
 
                 IClickable clickable = coll.GetComponentInParent<IClickable>();
                 if (!clickable.IsUnityNull())
                 {
+                    if (isMask)
+                    {
+                        if (clickableMaskSortOrder == ClickableMaskSortOrder.PlayerAndObject)
+                        {
+                            if (coll.transform.position.y >= mask.transform.position.y)
+                            {
+                                if (!coll.TryGetComponent<ClickableYAnchor>(out ClickableYAnchor clickableYAnchor) ||
+                                    clickableYAnchor.YAnchor.IsUnityNull() ||
+                                    clickableYAnchor.YAnchor.transform.position.y >= mask.transform.position.y)
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                        else if (clickableMaskSortOrder == ClickableMaskSortOrder.MidGround)
+                        {
+                            if (!coll.GetComponent<ClickableUnterTag>().IsUnityNull())
+                            {
+                                continue;
+                            }
+                        }
+                    }
+
                     clickable.OnClicked();
                     break;
                 }
