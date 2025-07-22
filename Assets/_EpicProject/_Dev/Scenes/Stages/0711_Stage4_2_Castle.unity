@@ -4598,9 +4598,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 494188663}
     - target: {fileID: 1464879197983455011, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnDefeated.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464879197983455011, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464879197983455011, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
       propertyPath: OnDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 494188668}
+    - target: {fileID: 1464879197983455011, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464879197983455011, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InteractWithNPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464879197983455011, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NPCInteraction, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464879197983455011, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
+      propertyPath: OnDefeated.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3325941952533483791, guid: 463c12fc883e64c4abc20072d6b97c32, type: 3}
       propertyPath: target
       value: 
