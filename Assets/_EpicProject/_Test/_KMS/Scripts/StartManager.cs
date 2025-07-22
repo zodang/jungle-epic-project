@@ -137,7 +137,11 @@ public class StartManager : MonoBehaviour
     // 개인정보 처리방침 안내 팝업
     private void ShowPrivacyPolicyPopup()
     {
-        if (GameManager.Instance.SaveManager.LoadPrivacyConfirmData()) return;
+        if (GameManager.Instance.SaveManager.LoadPrivacyConfirmData())
+        {
+            GameManager.Instance.UIManager.ActivateGameUIManager(true);
+            return;
+        }
         
         privacyConfirmPopup.enabled = true;
         _isPopupActive = true;
@@ -156,6 +160,7 @@ public class StartManager : MonoBehaviour
                 privacyConfirmPopup.enabled = false;
                 _isPopupActive = false;
                 GameManager.Instance.SaveManager.SavePrivacyData(true);
+                GameManager.Instance.UIManager.ActivateGameUIManager(true);
             },
             onCancel: () =>
             {
@@ -164,6 +169,7 @@ public class StartManager : MonoBehaviour
                 privacyConfirmPopup.enabled = false;
                 _isPopupActive = false;
                 GameManager.Instance.SaveManager.SavePrivacyData(true);
+                GameManager.Instance.UIManager.ActivateGameUIManager(true);
             },
             okLabel,
             cancelLabel
