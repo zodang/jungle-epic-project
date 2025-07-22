@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement; // ← 추가
 using System.Collections;
+using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 
@@ -22,7 +23,6 @@ public class StartManager : MonoBehaviour
     private Vector3 _dragOffset;
 
     [SerializeField] private Canvas privacyConfirmPopup;
-    private bool _isPopupActive;
     
     private LocalizeSpriteEvent _keyLocalization;
     private SpriteRenderer[] _spriteRenderers;
@@ -68,10 +68,9 @@ public class StartManager : MonoBehaviour
 
     void Update()
     {
-        // Start Key 재드래그 제한
-        if (_isPopupActive) return;
-        if (_isStarted) return;
-        
+        if (_isStarted) return; // Start Key 재드래그 제한
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return; // 팝업 활성화 시 드래그 제한
+
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -144,7 +143,6 @@ public class StartManager : MonoBehaviour
         }
         
         privacyConfirmPopup.enabled = true;
-        _isPopupActive = true;
         
         string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Title");
         string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Message");
@@ -158,7 +156,6 @@ public class StartManager : MonoBehaviour
             onOk: () =>
             {
                 privacyConfirmPopup.enabled = false;
-                _isPopupActive = false;
                 GameManager.Instance.SaveManager.SavePrivacyData(true);
                 GameManager.Instance.UIManager.ActivateGameUIManager(true);
             },
@@ -167,7 +164,6 @@ public class StartManager : MonoBehaviour
                 OpenPrivacyPolicyPage(); 
                 
                 privacyConfirmPopup.enabled = false;
-                _isPopupActive = false;
                 GameManager.Instance.SaveManager.SavePrivacyData(true);
                 GameManager.Instance.UIManager.ActivateGameUIManager(true);
             },
