@@ -96,22 +96,22 @@ public class LogManager : MonoBehaviour
             { "section_id", sectionId }
         };
         AnalyticsService.Instance.RecordEvent(customEvent);
-        AnalyticsService.Instance.Flush();
 
         _lastSectionIndex = sectionId;
         Debug.Log($"LOG SYSTEM: glitch_use");
     }
-    
-    public void LogBlockControl(string stageId, string sectionId, string targetName, string blockType)
+
+    public void LogBlockControl(string stageId, string sectionId, string blockType, string blockValue, string targetObj)
     {
         if (!_isInitialized) return;
 
         CustomEvent customEvent = new CustomEvent("block_control")
         {
-            { "stage_id", stageId }, 
+            { "stage_id", stageId },
             { "section_id", sectionId },
-            { "target", targetName },
-            { "block", blockType}
+            { "block_type", blockType },
+            { "block_value", blockValue },
+            { "block_target", targetObj },
         };
         AnalyticsService.Instance.RecordEvent(customEvent);
 

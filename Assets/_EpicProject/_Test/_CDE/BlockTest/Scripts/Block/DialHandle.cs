@@ -3,9 +3,12 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DialHandle : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DialHandle : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     public event Action<float> OnValueChanged;
+    
+    public event Action OnControlStarted;
+    public event Action OnControlEnd;
 
     private RectTransform _rectTransform;
     private Vector2 _prevMouseDir;
@@ -80,5 +83,13 @@ public class DialHandle : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
         _lastSnapIndex = Mathf.RoundToInt(angle / (360f / _snapDivision));
     }
 
-    
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        OnControlStarted?.Invoke();
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        OnControlEnd?.Invoke();
+    }
 }

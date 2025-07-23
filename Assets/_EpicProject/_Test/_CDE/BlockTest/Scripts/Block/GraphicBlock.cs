@@ -17,6 +17,8 @@ public class GraphicBlock : ButtonControlBase<IGraphicChangeable>
     }
     protected override void OnButtonClicked(int buttonIndex)
     {
+        base.OnButtonClicked(buttonIndex);
+        
         Feature.SetValue((GraphicType)buttonIndex);
         ChangeOptionText(buttonIndex);
     }

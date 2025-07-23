@@ -100,8 +100,9 @@ public abstract class StageBaseManager : MonoBehaviour
 
 
     #region LogSystem
-    public string StageId { get; private set; }
-    public string SectionId { get; private set; }
+
+    public string StageId { get; private set; } = "";
+    public string SectionId { get; private set; } = "";
     public float StageStartTime { get; private set; }
     public float SectionStartTime { get; private set; }
 
