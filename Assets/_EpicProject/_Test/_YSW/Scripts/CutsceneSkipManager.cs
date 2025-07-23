@@ -39,6 +39,7 @@ public class CutsceneSkipManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("스킵");
         // UI가 연결되어 있다면, 시작 시 숨깁니다.
 
         if (skipPromptUI != null)
