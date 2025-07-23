@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
 {
+    //도전과제 변수
+    private const int MAX_SPEED_STEP = 3; 
+
     // Action
     public event Action<bool> OnControlEnabled;
     public event Action<PlayerSkinType> OnPlayerTwinkled;
@@ -69,6 +72,8 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
         
         _speedHandler.Init(_defaultSpeedStep);
         _speedHandler.OnSetValue += ChangeSpeed;
+
+        _graphicHandler.OnSetValue += Handsome;
     }
 
     private void Start()
@@ -91,6 +96,12 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
     void Scale(float scale)
     {
         transform.localScale = new Vector3(scale, scale, 1f);
+        if(scale == _minScale && !AchievementStatusManager._isAntManAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_ANT_MAN");
+            AchievementStatusManager._isAntManAchievementUnlocked = true; // 도전과제 해금
+            Debug.Log("도전과제 '개미 인간'이 완료되었습니다.");
+        }
     }
 
     void Twinkle(float bright)
@@ -109,6 +120,12 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
             if(!StageBaseManager.Instance.IsUnityNull())
             {
                 StageBaseManager.Instance.FlagManager.SetFlag("baldHead", isBright); // 예시로 baldHead 플래그 설정
+                if(isBright && !AchievementStatusManager._isbaldHeadAchievementUnlocked)
+                {
+                    SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_BALD_IS_BRIGHT");
+                    AchievementStatusManager._isbaldHeadAchievementUnlocked = true; // 도전과제 해금
+                    Debug.Log("도전과제 '대머리의 빛'이 완료되었습니다.");
+                }
             }
         }
     }
@@ -117,6 +134,24 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
     {
         float multiple = (step == 0) ? 0.5f : step;
         _movement2D.MultiplySpeed(multiple);
+        if(step == MAX_SPEED_STEP && !AchievementStatusManager._isMaxSpeedAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_MAX_SPEED");
+            AchievementStatusManager._isMaxSpeedAchievementUnlocked = true;
+            Debug.Log("도전과제 '최대 속도'가 완료되었습니다.");
+        }
+        
+    }
+
+    private void Handsome(int index)
+    {
+        if (index == 2 && !AchievementStatusManager._isHandsomeAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_HANDSOME");
+            AchievementStatusManager._isHandsomeAchievementUnlocked = true; // 도전과제 해금
+            Debug.Log("도전과제 '미남이시네요'이 완료되었습니다.");
+        }
+        
     }
 
     public void ResetFeature()

@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections; 
 
 public class StoneStatue : MonoBehaviour, IFeatureResetable, IControllable
 {
+    //도전과제 변수
+    private Coroutine _sortingCoroutine = null; // 정렬 확인 코루틴을 저장할 변수
+
     [SerializeField] private RotateHandler _rotateHandler;
     [SerializeField] private ScaleHandler _scaleHandler;
     [SerializeField] private LightHandler _lightHandler;
@@ -92,8 +96,50 @@ public class StoneStatue : MonoBehaviour, IFeatureResetable, IControllable
     void SetRotate(float angle)
     {
         model.localEulerAngles = new Vector3(0, 0, angle);
+
+        // 목표 각도 "범위"에 들어왔는지 확인
+        if (IsAngleInTargetRange(model.localEulerAngles.z))
+        {
+            // 도전과제가 아직 해금되지 않았고, 타이머 코루틴이 아직 실행 중이 아닐 때만
+            if (!AchievementStatusManager._isSortingAchievementUnlocked && _sortingCoroutine == null)
+            {
+                _sortingCoroutine = StartCoroutine(CheckSortingStateAfterDelay());
+            }
+        }
+        else // 목표 각도 "범위"에서 벗어났을 경우
+        {
+            // 만약 타이머 코루틴이 실행 중이었다면, 즉시 중단시킵니다.
+            if (_sortingCoroutine != null)
+            {
+                StopCoroutine(_sortingCoroutine);
+                _sortingCoroutine = null;
+            }
+        }
     }
-    
+
+    private IEnumerator CheckSortingStateAfterDelay()
+    {
+        // 1. 여기서 1초를 기다립니다.
+        yield return new WaitForSeconds(3.0f);
+
+        // 2. 1초 뒤, 각도가 여전히 목표 "범위" 안에 있는지 다시 한번 확인합니다.
+        if (IsAngleInTargetRange(model.localEulerAngles.z))
+        {
+            // 3. 조건이 여전히 만족되면 도전과제를 해금합니다.
+            AchievementStatusManager._isSortingAchievementUnlocked = true;
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_SORTING");
+            Debug.Log("도전과제 '정렬'이 1초 유지 후 완료되었습니다.");
+        }
+
+        // 코루틴의 역할이 끝났으므로 변수를 다시 null로 초기화합니다.
+        _sortingCoroutine = null;
+    }
+
+    private bool IsAngleInTargetRange(float angle)
+    {
+        return angle >= 355f || angle <= 5f;
+    }
+
     void SetScale(float scale)
     {
         transform.localScale = new Vector3(scale, scale, scale);

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
 {
+    
     [SerializeField] private Transform model;
     [SerializeField] private GameObject foot;
     [SerializeField] private Transform light;
@@ -92,6 +93,13 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
     public void SetDialogueFlag(string flag)
     {
         StageBaseManager.Instance.FlagManager.SetFlag(flag);
+        if(!AchievementStatusManager._isFairyAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_FAIRY_FRIEND");
+            AchievementStatusManager._isFairyAchievementUnlocked = true; // 도전과제 해금 상태 업데이트
+            Debug.Log("도전과제 '요정 친구'가 완료되었습니다.");
+        }
+        
     }
 
     public void ClearDialogueFlag(string flag)

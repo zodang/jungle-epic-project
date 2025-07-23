@@ -2,7 +2,9 @@ using Define;
 using UnityEngine;
 
 public class TutorialStageManager : StageBaseManager
-{
+{   
+    
+
     private TriggerArea _goalTrigger;
 
     protected override void Awake()
@@ -39,5 +41,12 @@ public class TutorialStageManager : StageBaseManager
         
         GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadNextScene();
+        if(!AchievementStatusManager._isStartAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_STORY_START");
+            AchievementStatusManager._isStartAchievementUnlocked = true;
+            Debug.Log("도전과제 '게임 시작'이 완료되었습니다.");
+        }
+        
     }
 }

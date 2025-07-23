@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GuardBarricade : MonoBehaviour
 {
+
     private DetectionRange _detectionRange;
     private BowlingPinHitHandler[] bowlingPinHitHandlers;
 
@@ -31,5 +32,13 @@ public class GuardBarricade : MonoBehaviour
 
         // 로그 시스템
         StageBaseManager.Instance.ChangeStageSection("51_1_pass_guard");
+
+        if (!AchievementStatusManager._isBowlingAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_PUZZLE_BOWLING");
+            AchievementStatusManager._isBowlingAchievementUnlocked = true;
+            Debug.Log("도전과제 '볼링 클리어'가 완료되었습니다.");
+        }
+        
     }
 }

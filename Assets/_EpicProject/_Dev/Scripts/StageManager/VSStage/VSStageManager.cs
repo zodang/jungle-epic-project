@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class VSStageManager : StageBaseManager
 {
+    
+
     private TriggerArea _goalTrigger;
 
     protected override void Awake()
@@ -45,5 +47,12 @@ public class VSStageManager : StageBaseManager
 
         GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadNextScene();
+        if (!AchievementStatusManager._isCliffAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_STORY_CLIFF_CLEAR");
+            AchievementStatusManager._isCliffAchievementUnlocked = true;
+            Debug.Log("도전과제 '절벽 클리어'가 완료되었습니다.");
+        }
+        
     }
 }

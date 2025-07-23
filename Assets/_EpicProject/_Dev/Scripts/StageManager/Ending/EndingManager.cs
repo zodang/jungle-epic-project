@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EndingManager : StageBaseManager
 {
+
+
     private void Awake()
     {
         stageFilePath = "StageInfos/Ending";
@@ -22,6 +24,13 @@ public class EndingManager : StageBaseManager
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
         ChangeStageSection("60_0_enter_ending");
+
+        if (!AchievementStatusManager._isHappyEndingAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_STORY_ENDING_HAPPY");
+            AchievementStatusManager._isHappyEndingAchievementUnlocked = true;
+            Debug.Log("도전과제 '행복한 결말'이 완료되었습니다.");
+        }
     }
 
     void LoadMenuScene()

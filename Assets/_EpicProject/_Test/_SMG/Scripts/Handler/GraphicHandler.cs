@@ -34,19 +34,20 @@ public class GraphicHandler : MonoBehaviour, IGraphicChangeable
     {
         // Index 체크 후 Sprite 변경
         if ((int)type >= _btnGraphicSprites.Count || _btnGraphicSprites[(int)type] == null) return;
-        
+
         _currentGraphicType = type;
-        
+
         _spriteRenderer.sprite = _btnGraphicSprites[(int)type];
         _spriteRenderer.flipX = false;
-        
+
         OnSetValue?.Invoke((int)type);
 
         // 애니메이션 관련 오브젝트 구분
         if (!_isAnimated) return;
         _animator.enabled = ((int)type == 1);
     }
-    
+
+
     public GraphicType GetCurrentValue()
     {
         return _currentGraphicType;

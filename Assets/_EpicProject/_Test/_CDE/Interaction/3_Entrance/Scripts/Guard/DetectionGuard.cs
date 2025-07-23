@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class DetectionGuard : MonoBehaviour
 {
+
     [SerializeField] private RuntimeAnimatorController RightIdleController; 
     [SerializeField] private AnimatorOverrideController IdleController; 
     
@@ -34,5 +35,13 @@ public class DetectionGuard : MonoBehaviour
         
         // 로그 시스템
         StageBaseManager.Instance.ChangeStageSection("40_1_pass_guard");
+
+        if(!AchievementStatusManager._isPosterAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_PUZZLE_POSTER");
+            AchievementStatusManager._isPosterAchievementUnlocked = true;
+            Debug.Log("도전과제 '포스터 퍼즐'이 완료되었습니다.");
+        }
+        
     }
 }
