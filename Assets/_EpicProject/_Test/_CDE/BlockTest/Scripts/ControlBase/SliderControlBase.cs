@@ -16,7 +16,9 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
     {
         base.Awake();
         _sliderDetector = _slider.GetComponent<SliderInteractionDetector>();
+        
         _sliderDetector.OnControlStarted += WhenControlStarted;
+        _sliderDetector.OnControlEnd += WhenControlEnd;
     }
 
     public override void Activate(object feature)
@@ -60,9 +62,23 @@ public abstract class SliderControlBase<TFeature> : EngineBlock where TFeature :
         _percentText.text = $"{Mathf.RoundToInt(percent * 100)}%";
     }
 
-    private void WhenControlStarted(bool isControl)
+    private void WhenControlStarted()
     {
-        IsControlStarted = isControl;
+        IsControlStarted = true;
+    }
+    
+    private void WhenControlEnd()
+    {
+        IsControlStarted = false;
+        
+        // 로그시스템
+        string stageId = StageBaseManager.Instance.StageId;
+        string sectionId = StageBaseManager.Instance.SectionId;
+        string blockType = Type.ToString();
+        string blockValue = _percentText.text;
+        string targetObj = CurrentSlot.GetTargetClickable().name;
+        GameManager.Instance.LogManager.LogBlockControl(stageId, sectionId, blockType, blockValue, targetObj);
+        // Debug.Log($"@@DE ---> {stageId} / {sectionId} / {blockType} / {blockValue} / {targetObj}");
     }
 
     protected abstract float GetMinValue();

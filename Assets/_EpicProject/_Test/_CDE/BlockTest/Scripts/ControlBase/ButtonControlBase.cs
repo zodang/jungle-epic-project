@@ -1,3 +1,5 @@
+using Define;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +10,8 @@ public abstract class ButtonControlBase<TFeature> : EngineBlock where TFeature :
     
     [SerializeField] private List<Button> _btnList;
     
+    public event Action OnControlStarted;
+    
     public override void Activate(object feature)
     {
         Feature = feature as TFeature;
@@ -16,6 +20,9 @@ public abstract class ButtonControlBase<TFeature> : EngineBlock where TFeature :
         // 버튼 리스너 연결
         for (int i = 0; i < _btnList.Count; i++)
         {
+            // 중복 연결 방지
+            _btnList[i].onClick.RemoveAllListeners();
+            
             int index = i;
             _btnList[index].onClick.AddListener(()=> OnButtonClicked(index));
         }
@@ -34,6 +41,19 @@ public abstract class ButtonControlBase<TFeature> : EngineBlock where TFeature :
         Feature = null;
     }
 
-    protected abstract void OnButtonClicked(int buttonIndex);
+    protected virtual void OnButtonClicked(int buttonIndex)
+    {
+        OnControlStarted?.Invoke();
+        
+        // 로그시스템
+        string stageId = StageBaseManager.Instance.StageId;
+        string sectionId = StageBaseManager.Instance.SectionId;
+        string blockType = Type.ToString();
+        string blockValue = ((GraphicType)buttonIndex).ToString();
+        string targetObj = CurrentSlot.GetTargetClickable().name;
+        GameManager.Instance.LogManager.LogBlockControl(stageId, sectionId, blockType, blockValue, targetObj);
+        Debug.Log($"@@DE ---> {stageId} / {sectionId} / {blockType} / {blockValue} / {targetObj}");
+    }
+    
     protected abstract int GetCurrentValue();
 }

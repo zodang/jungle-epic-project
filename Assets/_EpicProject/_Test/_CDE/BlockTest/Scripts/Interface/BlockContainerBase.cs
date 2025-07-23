@@ -86,10 +86,11 @@ public abstract class BlockContainerBase : MonoBehaviour
         inventory.AddBlock(block);
         
         // 새로운 Target의 기능 활성화
-        block.Activate(newFeature);
         inventorySlot.SetBlockPositionToInventory(block);
 
         block.ChangeTargetInfo(newTarget, newFeature, -1, inventorySlot);
+        
+        block.Activate(newFeature);
     }
     
     private void WhenDroppedEngineSlot(EngineBlock block, ISlot slot)
@@ -107,7 +108,6 @@ public abstract class BlockContainerBase : MonoBehaviour
         Clickable newTarget = slot.GetTargetClickable();
         object newFeature = newTarget.GetComponent(block.RequiredFeatureType);
         
-        block.Activate(newFeature);
         newTarget.EngineController.SlotList[targetIndex].SetBlockPosition(block);
         
         var (movedBlock, movedBlockIndex) = newTarget.EngineController.TryAddOrMoveOrReplaceBlock(targetIndex, block);
@@ -134,6 +134,7 @@ public abstract class BlockContainerBase : MonoBehaviour
         }
         
         block.ChangeTargetInfo(newTarget, newFeature, targetIndex, newTarget.EngineController.SlotList[targetIndex]);
+        block.Activate(newFeature);
     }
 
     protected void WhenDroppedToolBox(EngineBlock block, ISlot slot)
@@ -168,8 +169,8 @@ public abstract class BlockContainerBase : MonoBehaviour
         Clickable newTarget = slot.GetTargetClickable();
         object newFeature = newTarget.GetComponent(block.RequiredFeatureType);
         
-        block.Activate(newFeature);
         slot.SetBlockPosition(block);
+        block.Activate(newFeature);
     }
     
     private void WhenDroppedNone(EngineBlock block, ISlot slot)

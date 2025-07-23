@@ -37,8 +37,7 @@ public class ToolBoxSlot : BlockContainerBase, ISlot
 
     public Clickable GetTargetClickable()
     {
-        /*사용하지 않음*/
-        return null;
+        return tempTarget;
     }
 
     public Transform GetTransform()

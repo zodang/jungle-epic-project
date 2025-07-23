@@ -62,7 +62,7 @@ public class SimpleSlot : BlockContainerBase, ISlot
     
     public Clickable GetTargetClickable()
     {
-        return null;
+        return targetClickable;
     }
 
     public Transform GetTransform()
@@ -72,6 +72,6 @@ public class SimpleSlot : BlockContainerBase, ISlot
 
     public void SetTargetClickable(Clickable clickable)
     {
-        clickable = null;
+        targetClickable = clickable;
     }
 }

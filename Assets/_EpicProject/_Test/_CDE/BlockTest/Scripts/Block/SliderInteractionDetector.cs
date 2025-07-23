@@ -5,12 +5,13 @@ using UnityEngine.EventSystems;
 
 public class SliderInteractionDetector : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
 {
-    public event Action<bool> OnControlStarted;
+    public event Action OnControlStarted;
+    public event Action OnControlEnd;
     
     public void OnPointerDown(PointerEventData eventData)
     {
         //GameManager.Instance.AudioManager.PlaySfx(SfxType.Click);
-        OnControlStarted?.Invoke(true);
+        OnControlStarted?.Invoke();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -18,7 +19,7 @@ public class SliderInteractionDetector : MonoBehaviour, IPointerDownHandler, IPo
         EventSystem.current.SetSelectedGameObject(null);
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
         
-        OnControlStarted?.Invoke(false);
+        OnControlEnd?.Invoke();
     }
 
     public void OnPointerClick(PointerEventData eventData)
