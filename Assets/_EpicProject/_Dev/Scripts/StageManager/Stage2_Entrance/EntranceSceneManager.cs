@@ -91,6 +91,12 @@ public class EntranceSceneManager : StageBaseManager
 
     private void OnGoalTriggered()
     {
+        // 충돌 감지 제거
+        foreach (var detectionRange in FindObjectsByType<DetectionRange>(FindObjectsSortMode.None))
+        {
+            Destroy(detectionRange.gameObject);  
+        }
+        
         // 로그 시스템
         ChangeStageSection("40_2_exit_entrance");
         GameManager.Instance.LogManager.LogStageExit(StageId, SectionId,"clear", Time.realtimeSinceStartup - StageStartTime);
