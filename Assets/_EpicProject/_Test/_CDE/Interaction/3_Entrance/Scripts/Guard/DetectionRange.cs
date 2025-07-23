@@ -22,6 +22,8 @@ public class DetectionRange : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
+        if (StageBaseManager.Instance.DialogueManager.IsDialogueActive()) return;
+        
         OnPlayerDetected?.Invoke(other.gameObject);
     }
 
