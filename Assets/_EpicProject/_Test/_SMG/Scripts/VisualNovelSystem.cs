@@ -230,7 +230,7 @@ public class VisualNovelSystem : MonoBehaviour
         }
 
         // 목표 도달하면 즉시 씬 종료 콜
-        StartCoroutine(DelayFinishScene(0f));
+        StartCoroutine(DelayFinishScene(4f));
     }
 
 }
