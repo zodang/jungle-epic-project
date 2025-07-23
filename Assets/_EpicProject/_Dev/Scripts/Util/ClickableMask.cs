@@ -1,7 +1,16 @@
 using UnityEngine;
 
+public enum ClickableMaskSortOrder
+{
+    MidGround,
+    PlayerAndObject,
+    ForePlayer
+}
+
 public class ClickableMask : MonoBehaviour
 {
+    public ClickableMaskSortOrder SortOrder;
+
     private const float _zPos = -4f;
     void Start()
     {

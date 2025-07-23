@@ -30,7 +30,7 @@ public class BowlingPin : MonoBehaviour, IFeatureResetable, IControllable
         _rigidbody2D.gravityScale = 0;
 
         _visualRoot = transform.GetChild(0);
-        foot = _visualRoot.GetComponent<Collider2D>();
+        foot = GetComponentInChildren<FootTag>().GetComponent<Collider2D>();
 
         ComponentHelper.TryGetOrAddComponent<ScaleHandler>(ref _scaleHandler, gameObject);
         ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
@@ -63,7 +63,7 @@ public class BowlingPin : MonoBehaviour, IFeatureResetable, IControllable
     {
         _enableMove = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-        //foot.enabled = true;
+        foot.enabled = true;
         _movement2D.MoveDir = Vector3.zero;
     }
 
@@ -71,7 +71,7 @@ public class BowlingPin : MonoBehaviour, IFeatureResetable, IControllable
     {
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
-        //foot.enabled = false;
+        foot.enabled = false;
         _movement2D.MoveDir = Vector3.zero;
     }
 
@@ -82,6 +82,6 @@ public class BowlingPin : MonoBehaviour, IFeatureResetable, IControllable
 
     void SetRotate(float rotate)
     {
-        _visualRoot.localEulerAngles = new Vector3(0, 0, -rotate);
+        _visualRoot.localEulerAngles = new Vector3(0, 0, rotate);
     }
 }

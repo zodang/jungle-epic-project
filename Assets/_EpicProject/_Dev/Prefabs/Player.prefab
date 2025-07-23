@@ -262,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9360a060de13447ade7a8a9292fc68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sortingOrderBias: 0
 --- !u!114 &2709387765077418503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,7 +432,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4316620389178057458}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -636,6 +637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 636837826175497698}
+  - component: {fileID: 1939646353144832929}
   m_Layer: 0
   m_Name: PlayerSpeechAnchor
   m_TagString: Untagged
@@ -658,6 +660,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3102259547665352990}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1939646353144832929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6616660777416801082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ea64c396f207d6468dd048749d94efa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObj: {fileID: 3102259547665352990}
+  minScale: 0.5
+  maxScale: 2
+  offsetAtMinScale: 3.3
+  offsetAtMaxScale: 1.7
 --- !u!1001 &1785239488095993913
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Define;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -133,14 +134,37 @@ public class InputManager : MonoBehaviour
         _actionMap = null;
     }
 
+    private bool IsPointOverPassUI()
+    {
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Mouse.current.position.ReadValue()
+        };
+
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+
+        if (results.Count == 0) return false;
+
+        // 가장 위에 있는(리스트 첫번째) UI가 tagName인지 확인
+        var topUI = results[0].gameObject;
+        return topUI.CompareTag("ClickPassUI");
+    }
+
     private void Update()
     {
         if (_isClicked)
         {
             _isClicked = false;
             
-            // UI 감지 시 return
-            if (EventSystem.current.IsPointerOverGameObject()) return;
+            // UI 감지 시 Click Pass UI인지 검사 후 return
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                if (!IsPointOverPassUI())
+                {
+                    return;
+                }
+            }
             
             Vector2 screenPos = Mouse.current.position.ReadValue();
             Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
@@ -155,7 +179,10 @@ public class InputManager : MonoBehaviour
                 .ToArray();
 
             bool isMaskBypass = false;
-
+            bool isMask = false;
+            ClickableMask mask = null;
+            ClickableMaskSortOrder clickableMaskSortOrder = ClickableMaskSortOrder.ForePlayer;
+            
             for (int i = 0; i < hits.Length; i++)
             {
                 Collider2D coll = hits[i].collider;
@@ -169,12 +196,45 @@ public class InputManager : MonoBehaviour
                 }
                 else if (!clickableMask.IsUnityNull() && !isMaskBypass)
                 {
-                    break;
+                    if (clickableMask.SortOrder == ClickableMaskSortOrder.ForePlayer)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        mask = clickableMask;
+                        isMask = true;
+                        clickableMaskSortOrder = clickableMask.SortOrder;
+                        continue;
+                    }
                 }
 
                 IClickable clickable = coll.GetComponentInParent<IClickable>();
                 if (!clickable.IsUnityNull())
                 {
+                    if (isMask)
+                    {
+                        if (clickableMaskSortOrder == ClickableMaskSortOrder.PlayerAndObject)
+                        {
+                            if (coll.transform.position.y >= mask.transform.position.y)
+                            {
+                                if (!coll.TryGetComponent<ClickableYAnchor>(out ClickableYAnchor clickableYAnchor) ||
+                                    clickableYAnchor.YAnchor.IsUnityNull() ||
+                                    clickableYAnchor.YAnchor.transform.position.y >= mask.transform.position.y)
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                        else if (clickableMaskSortOrder == ClickableMaskSortOrder.MidGround)
+                        {
+                            if (!coll.GetComponent<ClickableUnterTag>().IsUnityNull())
+                            {
+                                continue;
+                            }
+                        }
+                    }
+
                     clickable.OnClicked();
                     break;
                 }

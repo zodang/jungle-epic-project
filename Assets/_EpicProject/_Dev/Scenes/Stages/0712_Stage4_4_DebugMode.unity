@@ -685,6 +685,7 @@ GameObject:
   - component: {fileID: 127387711}
   - component: {fileID: 127387713}
   - component: {fileID: 127387712}
+  - component: {fileID: 127387714}
   m_Layer: 0
   m_Name: WallCollider
   m_TagString: Untagged
@@ -751,7 +752,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &127387713
 SpriteRenderer:
@@ -808,6 +809,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &127387714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127387710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83e51a02aec59f24badc6361b7d6969e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos1609: 34
+  pos1610: 33
 --- !u!1 &135580202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,7 +1364,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.6}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1359,7 +1374,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.03125, y: 0.65625}
+  m_Size: {x: 2.3, y: 2.3}
   m_EdgeRadius: 0
 --- !u!1 &440588826
 GameObject:
@@ -1624,8 +1639,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3976,8 +3991,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4938,8 +4953,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6112,6 +6127,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4093107645702389802, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093107645702389802, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
+      propertyPath: m_Size.y
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4093107645702389802, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
       propertyPath: m_IsTrigger
       value: 1

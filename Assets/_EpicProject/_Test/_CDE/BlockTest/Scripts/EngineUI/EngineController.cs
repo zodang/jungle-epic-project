@@ -101,7 +101,7 @@ public class EngineController : BlockContainerBase
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
     }
     
-    private void Deactivate()
+    public void Deactivate()
     {
         IsActivate = false;
         if (!gameObject.activeSelf) return;

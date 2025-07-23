@@ -3,6 +3,7 @@ using UnityEngine;
 public class BowlingBall : MonoBehaviour, IFeatureResetable, IControllable
 {
     private Transform _visualRoot;
+    private Collider2D foot;
 
     // IControllable
     private Rigidbody2D _rigidbody2D;
@@ -30,6 +31,7 @@ public class BowlingBall : MonoBehaviour, IFeatureResetable, IControllable
         _rigidbody2D.gravityScale = 0;
 
         _visualRoot = transform.GetChild(0);
+        foot = GetComponentInChildren<FootTag>().GetComponent<Collider2D>();
 
         ComponentHelper.TryGetOrAddComponent<ScaleHandler>(ref _scaleHandler, gameObject);
         ComponentHelper.TryGetOrAddComponent<RotateHandler>(ref _rotateHandler, gameObject);
@@ -73,7 +75,7 @@ public class BowlingBall : MonoBehaviour, IFeatureResetable, IControllable
     {
         _enableMove = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-        //foot.SetActive(true);
+        foot.enabled = true;
         _movement2D.MoveDir = Vector3.zero;
     }
 
@@ -81,7 +83,7 @@ public class BowlingBall : MonoBehaviour, IFeatureResetable, IControllable
     {
         _enableMove = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
-        //foot.SetActive(false);
+        foot.enabled = false;
         _movement2D.MoveDir = Vector3.zero;
     }
 
@@ -96,6 +98,6 @@ public class BowlingBall : MonoBehaviour, IFeatureResetable, IControllable
 
     void SetRotate(float rotate)
     {
-        _visualRoot.localEulerAngles = new Vector3(0, 0, -rotate);
+        _visualRoot.localEulerAngles = new Vector3(0, 0, rotate);
     }
 }

@@ -15,7 +15,7 @@ public class Sun : MonoBehaviour, IFeatureResetable, IControllable//, ILightAdju
     // RotateHandler
     private float _minAngle = 0f;
     private float _maxAngle = 359.9f;
-    private const float _defaultAngle = 160f;
+    private const float _defaultAngle = 200f;
 
     // ScaleHandler
     private float _minScale = 0.8f;
@@ -95,8 +95,8 @@ public class Sun : MonoBehaviour, IFeatureResetable, IControllable//, ILightAdju
     // 0 ~ 359
     void SetRotate(float angle)
     {
-        _model.localEulerAngles = new Vector3(0, 0, -angle);
-        _lightDir.localEulerAngles = new Vector3(0, 0, -angle);
+        _model.localEulerAngles = new Vector3(0, 0, angle);
+        _lightDir.localEulerAngles = new Vector3(0, 0, angle);
     }
 
     void SetScale(float scale)

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement; // ← 추가
 using System.Collections;
+using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 
@@ -21,6 +22,8 @@ public class StartManager : MonoBehaviour
     private Transform _dragging;
     private Vector3 _dragOffset;
 
+    [SerializeField] private Canvas privacyConfirmPopup;
+    
     private LocalizeSpriteEvent _keyLocalization;
     private SpriteRenderer[] _spriteRenderers;
     private ArrowWaveSmooth _arrowWaveSmooth;
@@ -39,6 +42,8 @@ public class StartManager : MonoBehaviour
         {
             spriteRenderer.color = Color.clear;
         }
+
+        privacyConfirmPopup.enabled = false;
     }
 
     private void Start()
@@ -57,13 +62,15 @@ public class StartManager : MonoBehaviour
         {
             spriteRenderer.color = Color.white;
         }
+        
+        ShowPrivacyPolicyPopup();
     }
 
     void Update()
     {
-        // Start Key 재드래그 제한
-        if (_isStarted) return;
-        
+        if (_isStarted) return; // Start Key 재드래그 제한
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return; // 팝업 활성화 시 드래그 제한
+
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -124,5 +131,49 @@ public class StartManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         // MenuScene 로드 (씬 이름을 프로젝트에 맞게 바꿔주세요)
         SceneManager.LoadScene("MenuScene");
+    }
+
+    // 개인정보 처리방침 안내 팝업
+    private void ShowPrivacyPolicyPopup()
+    {
+        if (GameManager.Instance.SaveManager.LoadPrivacyConfirmData())
+        {
+            GameManager.Instance.UIManager.ActivateGameUIManager(true);
+            return;
+        }
+        
+        privacyConfirmPopup.enabled = true;
+        
+        string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Title");
+        string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Message");
+        string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Confirm");
+        string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_More");
+
+        GameManager.Instance.UIManager.PopupUI.ShowPopup
+        (
+            title,
+            message,
+            onOk: () =>
+            {
+                privacyConfirmPopup.enabled = false;
+                GameManager.Instance.SaveManager.SavePrivacyData(true);
+                GameManager.Instance.UIManager.ActivateGameUIManager(true);
+            },
+            onCancel: () =>
+            {
+                OpenPrivacyPolicyPage(); 
+                
+                privacyConfirmPopup.enabled = false;
+                GameManager.Instance.SaveManager.SavePrivacyData(true);
+                GameManager.Instance.UIManager.ActivateGameUIManager(true);
+            },
+            okLabel,
+            cancelLabel
+        );
+    }
+
+    private void OpenPrivacyPolicyPage()
+    {
+        Application.OpenURL("https://marked-ocicat-59a.notion.site/Privacy-Policy-2377fce732a680b287f6e418581ccea4?source=copy_link");
     }
 }

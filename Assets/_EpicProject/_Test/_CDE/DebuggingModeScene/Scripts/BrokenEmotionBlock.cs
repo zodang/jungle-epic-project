@@ -116,7 +116,7 @@ public class BrokenEmotionBlock : MonoBehaviour
 
         if (_currentBlock == null) return;
         
-        // 정답 판정
+        // 빛 정답 판정
         if (!_isLightCorrect)
         {
             var lightSlider = _currentBlock as SliderControlBase<ILightAdjustable>;
@@ -124,7 +124,7 @@ public class BrokenEmotionBlock : MonoBehaviour
             {
                 bool inRange = _currentLight >= _optimalLightRange.x && _currentLight <= _optimalLightRange.y;
 
-                // 1) 조작 중에도 2초 이상 구간 유지 시 정답
+                // 조작 중 정답 판정
                 if (lightSlider.IsControlStarted)
                 {
                     if (inRange)
@@ -141,7 +141,8 @@ public class BrokenEmotionBlock : MonoBehaviour
                         _lightTimer = 0f;
                     }
                 }
-                // 2) 조작이 끝난 시점에서 범위 안이면 즉시 정답
+                
+                // 조작 종료 시 정답 판정
                 else
                 {
                     if (inRange)
@@ -149,11 +150,12 @@ public class BrokenEmotionBlock : MonoBehaviour
                         OnLightCorrect?.Invoke();
                         _isLightCorrect = true;
                     }
-                    _lightTimer = 0f; // (조작이 끝났으므로 누적시간 초기화)
+                    _lightTimer = 0f;
                 }
             }
         }
         
+        // 크기 정답 판정
         if (!_isScaleCorrect)
         {
             var scaleSlider = _currentBlock as SliderControlBase<IScalable>;
@@ -161,7 +163,7 @@ public class BrokenEmotionBlock : MonoBehaviour
             {
                 bool inRange = _currentScale >= _optimalScaleRange.x && _currentScale <= _optimalScaleRange.y;
 
-                // 1) 조작 중에도 2초 이상 구간 유지 시 정답
+                // 조작 중 정답 판정
                 if (scaleSlider.IsControlStarted)
                 {
                     if (inRange)
@@ -178,7 +180,8 @@ public class BrokenEmotionBlock : MonoBehaviour
                         _scaleTimer = 0f;
                     }
                 }
-                // 2) 조작이 끝난 시점에서 범위 안이면 즉시 정답
+                
+                // 조작 종료 시 정답 판정
                 else
                 {
                     if (inRange)
@@ -191,14 +194,15 @@ public class BrokenEmotionBlock : MonoBehaviour
             }
         }
         
+        // 속도 정답 판정
         if (!_isSpeedCorrect)
         {
             var speedSlider = _currentBlock as SnapSliderControlBase<ISpeedChangeable>;
             if (speedSlider != null)
             {
                 bool inRange = _currentSpeed == _optimalSpeed;
-                Debug.Log($"@@DE ---> {speedSlider.IsControlStarted} / {_currentSpeed} / {_optimalSpeed}");
-                // 1) 조작 중에도 2초 이상 구간 유지 시 정답
+                
+                // 조작 중 정답 판정
                 if (speedSlider.IsControlStarted)
                 {
                     if (inRange)
@@ -215,7 +219,8 @@ public class BrokenEmotionBlock : MonoBehaviour
                         _speedTimer = 0f;
                     }
                 }
-                // 2) 조작이 끝난 시점에서 범위 안이면 즉시 정답
+                
+                // 조작 종료 시 정답 판정
                 else
                 {
                     if (inRange)
