@@ -89,34 +89,34 @@ public class FinalMeetingStageManager : StageBaseManager
             return;
         }
 
-        if (Input.GetKey(_skipKey))
-        {
-            _skipTimer += Time.unscaledDeltaTime;
+        //if (Input.GetKey(_skipKey))
+        //{
+        //    _skipTimer += Time.unscaledDeltaTime;
 
-            // UI 보이기 및 진행 상태 업데이트
-            if (_skipPromptUI != null && !_skipPromptUI.activeInHierarchy)
-                _skipPromptUI.SetActive(true);
+        //    // UI 보이기 및 진행 상태 업데이트
+        //    if (_skipPromptUI != null && !_skipPromptUI.activeInHierarchy)
+        //        _skipPromptUI.SetActive(true);
 
-            if (_skipProgressImage != null)
-                _skipProgressImage.fillAmount = _skipTimer / _timeToSkip;
+        //    if (_skipProgressImage != null)
+        //        _skipProgressImage.fillAmount = _skipTimer / _timeToSkip;
 
-            if (_skipTimer >= _timeToSkip)
-            {
-                SkipCurrentTimeline();
-            }
-        }
+        //    if (_skipTimer >= _timeToSkip)
+        //    {
+        //        SkipCurrentTimeline();
+        //    }
+        //}
 
-        if (Input.GetKeyUp(_skipKey))
-        {
-            _skipTimer = 0f;
+        //if (Input.GetKeyUp(_skipKey))
+        //{
+        //    _skipTimer = 0f;
 
-            // UI 초기화 및 숨기기
-            if (_skipProgressImage != null)
-                _skipProgressImage.fillAmount = 0f;
+        //    // UI 초기화 및 숨기기
+        //    if (_skipProgressImage != null)
+        //        _skipProgressImage.fillAmount = 0f;
 
-            if (_skipPromptUI != null)
-                _skipPromptUI.SetActive(false);
-        }
+        //    if (_skipPromptUI != null)
+        //        _skipPromptUI.SetActive(false);
+        //}
     }
 
     private void PlayTimeline(int index)
