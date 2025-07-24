@@ -4158,6 +4158,8 @@ PlayableDirector:
     value: {fileID: 454067538}
   - key: {fileID: 6465195732836560221, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
     value: {fileID: 1930697452}
+  - key: {fileID: 9202187484853463631, guid: 2eb4b9d257f353443888673469a8a52a, type: 2}
+    value: {fileID: 1924819233}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &1308466451
@@ -5531,6 +5533,7 @@ GameObject:
   - component: {fileID: 1924819229}
   - component: {fileID: 1924819228}
   - component: {fileID: 1924819232}
+  - component: {fileID: 1924819233}
   m_Layer: 0
   m_Name: CinemachineGlitchVision
   m_TagString: Untagged
@@ -5655,8 +5658,31 @@ MonoBehaviour:
   mainCam: {fileID: 638017722}
   isZoomOut: 1
   glitchCamOrtho: 6.5
+  maxGlitchCamOrtho: 10
   normalCutoff: 5000
   glitchCutoff: 400
+--- !u!95 &1924819233
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924819227}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1930697449
 GameObject:
   m_ObjectHideFlags: 0
