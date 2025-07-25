@@ -371,7 +371,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.833333, y: -7.25, z: -10}
+  m_LocalPosition: {x: -5.9000006, y: -7.25, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -716,6 +716,125 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ceb6b21a05c0e545a45634c178c1822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &236139563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 236139564}
+  - component: {fileID: 236139568}
+  - component: {fileID: 236139565}
+  - component: {fileID: 236139569}
+  m_Layer: 0
+  m_Name: CutsceneCinemachineCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &236139564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236139563}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.63, y: -7.64, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1310882147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &236139565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236139563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BoundingShape2D: {fileID: 636732635}
+  Damping: 0.5
+  SlowingDistance: 5
+  OversizeWindow:
+    Enabled: 0
+    MaxWindowSize: 0
+    Padding: 0
+  m_LegacyMaxWindowSize: -2
+--- !u!114 &236139568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236139563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 1
+    m_Value: 11
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 1365295980}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 60
+    OrthographicSize: 6
+    NearClipPlane: 0.3
+    FarClipPlane: 1000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
+--- !u!95 &236139569
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236139563}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &301793643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,8 +2103,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Priority:
-    Enabled: 0
-    m_Value: 0
+    Enabled: 1
+    m_Value: 10
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -3464,9 +3583,6 @@ PrefabInstance:
       addedObject: {fileID: 1235821947}
     - targetCorrespondingSourceObject: {fileID: 2065458046306195251, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1235821950}
-    - targetCorrespondingSourceObject: {fileID: 2065458046306195251, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1235821951}
   m_SourcePrefab: {fileID: 100100000, guid: b8b861a9330e87d4fbc9ecb3107dcddb, type: 3}
 --- !u!1 &1235821946 stripped
@@ -3490,9 +3606,9 @@ PlayableDirector:
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 1950122845189377635, guid: 93e5f74df51f5c043b38398e2266d0af, type: 2}
-    value: {fileID: 638017726}
+    value: {fileID: 236139569}
   - key: {fileID: -45425125576093147, guid: 93e5f74df51f5c043b38398e2266d0af, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1924819235}
   - key: {fileID: 7459460106565494135, guid: 93e5f74df51f5c043b38398e2266d0af, type: 2}
     value: {fileID: 1723781835}
   - key: {fileID: 7761193414047978014, guid: 93e5f74df51f5c043b38398e2266d0af, type: 2}
@@ -3503,100 +3619,10 @@ PlayableDirector:
     value: {fileID: 1221493429}
   - key: {fileID: 1617311902783605072, guid: 93e5f74df51f5c043b38398e2266d0af, type: 2}
     value: {fileID: 2130730923}
+  - key: {fileID: 4896190584816320814, guid: 93e5f74df51f5c043b38398e2266d0af, type: 2}
+    value: {fileID: 236139569}
   m_ExposedReferences:
     m_References: []
---- !u!114 &1235821950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235821946}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5f298b5e7944d34c8179853f909b635, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cutsceneTimeline: {fileID: 1235821947}
-  OnCutsceneFinished:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 638017721}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 638017724}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1924819228}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1924819229}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 2130730921}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1723781834}
-        m_TargetAssemblyTypeName: TimelineDialogue, Assembly-CSharp
-        m_MethodName: FinishDialogue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  skipPromptUI: {fileID: 0}
-  skipProgressImage: {fileID: 0}
-  skipKey: 48
-  timeToSkip: 1.5
 --- !u!114 &1235821951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3615,7 +3641,7 @@ MonoBehaviour:
     m_Events:
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1235821950}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CutsceneSkipManager, Assembly-CSharp
           m_MethodName: Skip
           m_Mode: 1
@@ -3886,6 +3912,7 @@ Transform:
   m_Children:
   - {fileID: 35853011}
   - {fileID: 638017723}
+  - {fileID: 236139564}
   - {fileID: 1924819231}
   - {fileID: 1365295980}
   - {fileID: 636732634}
@@ -20312,6 +20339,7 @@ GameObject:
   - component: {fileID: 1924819228}
   - component: {fileID: 1924819232}
   - component: {fileID: 1924819234}
+  - component: {fileID: 1924819235}
   m_Layer: 0
   m_Name: CinemachineGlitchVision
   m_TagString: Untagged
@@ -20459,6 +20487,28 @@ MonoBehaviour:
     MaxWindowSize: 0
     Padding: 0
   m_LegacyMaxWindowSize: -2
+--- !u!95 &1924819235
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924819227}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1952430302 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7803493268474526356, guid: 50bf711b5fc512d47917f512f2ba4fc3, type: 3}
@@ -20791,11 +20841,6 @@ Transform:
 --- !u!1 &2130730916 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3649806500779231583, guid: d0cdca60a086e4b48b59f49560fc2edb, type: 3}
-  m_PrefabInstance: {fileID: 2018267319}
-  m_PrefabAsset: {fileID: 0}
---- !u!58 &2130730921 stripped
-CircleCollider2D:
-  m_CorrespondingSourceObject: {fileID: 7368131794974651380, guid: d0cdca60a086e4b48b59f49560fc2edb, type: 3}
   m_PrefabInstance: {fileID: 2018267319}
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &2130730923
