@@ -49,7 +49,8 @@ public class VisualNovelSystem : MonoBehaviour
 
     private bool _isUsing;
     private bool _isEndAll;
-    private float _delayDeltaTime;
+    private float _skipDeltaTime;
+    private bool _isPushKey;
 
     public Action OnFinish;
 
@@ -68,8 +69,9 @@ public class VisualNovelSystem : MonoBehaviour
         _illustrationsIdx = 0;
 
         _isUsing = false;
-        _delayDeltaTime = 0f;
+        _skipDeltaTime = 0f;
         _isEndAll = false;
+        _isPushKey = false;
         _language = LocalizationSettings.SelectedLocale.Identifier.Code;
     }
 
@@ -77,49 +79,71 @@ public class VisualNovelSystem : MonoBehaviour
     {
         if (_isEndAll) return;
 
-        if (!_isUsing && _delayDeltaTime <= 0f)
+        if(Input.GetKeyDown(KeyCode.E) && !_isPushKey)
         {
-            _delayDeltaTime = 2f;
-
-            bool isEndIllustration = _illustrationsIdx >= Illustrations.Count;
-            bool isEndDialogueId = _dialogueIdIdx >= DialogueIds.Count;
-
-            if (isEndIllustration && isEndDialogueId)
+            if(_typeEffect.IsPlaying)
             {
-                _isEndAll = true;
-                StartCoroutine(FadeThenCredits());
+                _typeEffect.FinishEffect();
             }
-
             else
             {
-                if (!isEndIllustration)
+                if (_isUsing)
                 {
-                    SetImage(_illustrationsIdx);
-                    _illustrationsIdx++;
-                }
-                if (!isEndDialogueId)
-                {
-                    StartDialogue(DialogueIds[_dialogueIdIdx]);
-                    for (int i = 0; i < DialogueEventEntries.Count; i++)
-                    {
-                        if (DialogueEventEntries[i].DialogueId == DialogueIds[_dialogueIdIdx])
-                        {
-                            DialogueEventEntries[i].OnStartDialogue?.Invoke();
-                            break;
-                        }
-                    }
-                    _dialogueIdIdx++;
+                    _isPushKey = true;
                 }
                 else
                 {
-                    SpeakerText.text = "";
-                    _typeEffect.SetMsg("");
+                    bool isEndIllustration = _illustrationsIdx >= Illustrations.Count;
+                    bool isEndDialogueId = _dialogueIdIdx >= DialogueIds.Count;
+
+                    if (isEndIllustration && isEndDialogueId)
+                    {
+                        _isEndAll = true;
+                        StartCoroutine(FadeThenCredits());
+                    }
+
+                    else
+                    {
+                        if (!isEndIllustration)
+                        {
+                            SetImage(_illustrationsIdx);
+                            _illustrationsIdx++;
+                        }
+                        if (!isEndDialogueId)
+                        {
+                            StartDialogue(DialogueIds[_dialogueIdIdx]);
+                            for (int i = 0; i < DialogueEventEntries.Count; i++)
+                            {
+                                if (DialogueEventEntries[i].DialogueId == DialogueIds[_dialogueIdIdx])
+                                {
+                                    DialogueEventEntries[i].OnStartDialogue?.Invoke();
+                                    break;
+                                }
+                            }
+                            _dialogueIdIdx++;
+                        }
+                        else
+                        {
+                            SpeakerText.text = "";
+                            _typeEffect.SetMsg("");
+                        }
+                    }
                 }
             }
         }
-        if (_delayDeltaTime > 0f)
+
+        if(Input.GetKey(KeyCode.E))
         {
-            _delayDeltaTime -= Time.deltaTime;
+            _skipDeltaTime += Time.deltaTime;
+            if(_skipDeltaTime >= 3.0f)
+            {
+                OnFinish?.Invoke();
+                _isEndAll = true;
+            }
+        }
+        else
+        {
+            _skipDeltaTime = 0f;
         }
     }
 
@@ -144,13 +168,12 @@ public class VisualNovelSystem : MonoBehaviour
 
     IEnumerator DialogueCoroutine(DialogueEntry entry)
     {
-        float initialDelay = 0.1f;
-        float postEffectDelay = 2f;
         int cnt = entry.lines.Count;
 
         _isUsing = true;
         for (int i = 0; i < cnt; i++)
         {
+            _isPushKey = false;
             _language = LocalizationSettings.SelectedLocale.Identifier.Code;
             switch (_language)
             {
@@ -176,9 +199,7 @@ public class VisualNovelSystem : MonoBehaviour
                 _typeEffect.SetMsg(text);
             }
 
-            yield return new WaitForSeconds(initialDelay);
-            while (_typeEffect.IsPlaying) yield return null;
-            yield return new WaitForSeconds(postEffectDelay);
+            while ((i + 1 < cnt) && !_isPushKey) yield return null;
         }
         _isUsing = false;
     }
