@@ -29,6 +29,8 @@ public class VisualNovelSystem : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI ContentText;
     public TextMeshProUGUI SpeakerText;
+    public GameObject NextButton;
+    public Image SkipGage;
     private TypeEffect _typeEffect;
 
     [Header("Fonts")]
@@ -46,11 +48,11 @@ public class VisualNovelSystem : MonoBehaviour
     public float fastMultiplier = 3f;  // 마우스 누를 때 배수
     public float targetY = 3400f;      // 최종 Y 위치
 
-
     private bool _isUsing;
     private bool _isEndAll;
     private float _skipDeltaTime;
     private bool _isPushKey;
+    private float _skipThreshold = 2.5f;
 
     public Action OnFinish;
 
@@ -70,9 +72,24 @@ public class VisualNovelSystem : MonoBehaviour
 
         _isUsing = false;
         _skipDeltaTime = 0f;
-        _isEndAll = false;
+        _isEndAll = true;
         _isPushKey = false;
         _language = LocalizationSettings.SelectedLocale.Identifier.Code;
+
+        StartCoroutine(InitCoroutine());
+    }
+
+    IEnumerator InitCoroutine()
+    {
+        ShowVisualNovel(true, false);
+        yield return new WaitForSeconds(1f);
+        ShowVisualNovel(false, true);
+        _isEndAll = false;
+    }
+
+    void Init()
+    {
+        ShowVisualNovel(false, true);
     }
 
     void Update()
@@ -101,32 +118,9 @@ public class VisualNovelSystem : MonoBehaviour
                         _isEndAll = true;
                         StartCoroutine(FadeThenCredits());
                     }
-
                     else
                     {
-                        if (!isEndIllustration)
-                        {
-                            SetImage(_illustrationsIdx);
-                            _illustrationsIdx++;
-                        }
-                        if (!isEndDialogueId)
-                        {
-                            StartDialogue(DialogueIds[_dialogueIdIdx]);
-                            for (int i = 0; i < DialogueEventEntries.Count; i++)
-                            {
-                                if (DialogueEventEntries[i].DialogueId == DialogueIds[_dialogueIdIdx])
-                                {
-                                    DialogueEventEntries[i].OnStartDialogue?.Invoke();
-                                    break;
-                                }
-                            }
-                            _dialogueIdIdx++;
-                        }
-                        else
-                        {
-                            SpeakerText.text = "";
-                            _typeEffect.SetMsg("");
-                        }
+                        ShowVisualNovel(!isEndIllustration, !isEndDialogueId);
                     }
                 }
             }
@@ -135,15 +129,56 @@ public class VisualNovelSystem : MonoBehaviour
         if(Input.GetKey(KeyCode.E))
         {
             _skipDeltaTime += Time.deltaTime;
-            if(_skipDeltaTime >= 3.0f)
+            if(_skipDeltaTime >= _skipThreshold)
             {
                 OnFinish?.Invoke();
                 _isEndAll = true;
+            }
+            if(!SkipGage.IsUnityNull())
+            {
+                SkipGage.fillAmount = _skipDeltaTime / _skipThreshold;
             }
         }
         else
         {
             _skipDeltaTime = 0f;
+            if (!SkipGage.IsUnityNull())
+            {
+                SkipGage.fillAmount = 0f;
+            }
+        }
+
+
+        if(!NextButton.IsUnityNull() && NextButton.activeSelf == _typeEffect.IsPlaying)
+        {
+            NextButton.SetActive(!_typeEffect.IsPlaying);
+        }
+    }
+
+    void ShowVisualNovel(bool showIllust, bool showDialogue)
+    {
+        if (showIllust)
+        {
+            SetImage(_illustrationsIdx);
+            _illustrationsIdx++;
+        }
+        if (showDialogue)
+        {
+            StartDialogue(DialogueIds[_dialogueIdIdx]);
+            for (int i = 0; i < DialogueEventEntries.Count; i++)
+            {
+                if (DialogueEventEntries[i].DialogueId == DialogueIds[_dialogueIdIdx])
+                {
+                    DialogueEventEntries[i].OnStartDialogue?.Invoke();
+                    break;
+                }
+            }
+            _dialogueIdIdx++;
+        }
+        else
+        {
+            SpeakerText.text = "";
+            _typeEffect.SetMsg("");
         }
     }
 
