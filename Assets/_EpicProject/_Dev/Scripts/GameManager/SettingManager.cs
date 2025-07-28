@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 
@@ -69,6 +70,8 @@ public class SettingManager : MonoBehaviour
 
     public void CloseSetting(bool isSave)
     {
+        EventSystem.current.SetSelectedGameObject(null);
+        
         _isSettingUIOpen = false;
         _settingUI.OpenSettingUI(_isSettingUIOpen);
         
