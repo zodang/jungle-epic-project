@@ -4,8 +4,16 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
+
+[System.Serializable]
+public class DialogueEventEntry
+{
+    public string DialogueId;
+    public UnityEvent OnStartDialogue;
+}
 
 public class VisualNovelSystem : MonoBehaviour
 {
@@ -16,6 +24,7 @@ public class VisualNovelSystem : MonoBehaviour
     private DialogueLoader _dialogueLoader;
     private DialogueCollection _dialogueCollection;
     private string _language = "ko";
+    public List<DialogueEventEntry> DialogueEventEntries = new List<DialogueEventEntry>();
 
     [Header("UI")]
     public TextMeshProUGUI ContentText;
@@ -91,6 +100,14 @@ public class VisualNovelSystem : MonoBehaviour
                 if (!isEndDialogueId)
                 {
                     StartDialogue(DialogueIds[_dialogueIdIdx]);
+                    for (int i = 0; i < DialogueEventEntries.Count; i++)
+                    {
+                        if (DialogueEventEntries[i].DialogueId == DialogueIds[_dialogueIdIdx])
+                        {
+                            DialogueEventEntries[i].OnStartDialogue?.Invoke();
+                            break;
+                        }
+                    }
                     _dialogueIdIdx++;
                 }
                 else
@@ -192,7 +209,6 @@ public class VisualNovelSystem : MonoBehaviour
         OnFinish?.Invoke();
     }
 
-
     IEnumerator FadeThenCredits()
     {
         // 1) 페이드 아웃이 끝날 때까지 대기
@@ -214,7 +230,6 @@ public class VisualNovelSystem : MonoBehaviour
         yield return StartCoroutine(CreditScrollCoroutine());
     }
 
-
     IEnumerator CreditScrollCoroutine()
     {
         // 크레딧 루트가 시작 Y = 0 이라고 가정
@@ -232,5 +247,4 @@ public class VisualNovelSystem : MonoBehaviour
         // 목표 도달하면 즉시 씬 종료 콜
         StartCoroutine(DelayFinishScene(4f));
     }
-
 }
