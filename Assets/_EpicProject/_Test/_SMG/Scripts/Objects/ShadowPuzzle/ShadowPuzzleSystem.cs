@@ -17,6 +17,7 @@ public class ShadowPuzzleSystem : MonoBehaviour
     private void Awake()
     {
         _init = false;
+        _targetAlignmentCheckers = new List<TargetAlignmentChecker>();
         TargetAlignmentChecker[] targetAlignmentCheckers = GetComponentsInChildren<TargetAlignmentChecker>();
 
         for(int i = 0; i < targetAlignmentCheckers.Length; i++)
@@ -24,8 +25,13 @@ public class ShadowPuzzleSystem : MonoBehaviour
             _targetAlignmentCheckers.Add(targetAlignmentCheckers[i]);
         }
         _init = true;
-
     }
+
+    private void Start()
+    {
+        _prevAllAligned = !IsAllAligned;
+    }
+
 
     private void Update()
     {
@@ -33,6 +39,7 @@ public class ShadowPuzzleSystem : MonoBehaviour
         if(_prevAllAligned != isAllAligned)
         {
             _prevAllAligned = isAllAligned;
+            Debug.Log("isAllAligned: " + isAllAligned);
             OnAlignmentChanged?.Invoke(isAllAligned);
         }
         

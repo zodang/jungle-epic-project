@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
 using Define;
+using Unity.VisualScripting;
 
 public class CaveDoor : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class CaveDoor : MonoBehaviour
     [SerializeField] private SpriteRenderer door;
 
     private CaveSwitch _caveSwitch;
+    private ShadowPuzzleSystem _shadowPuzzleSystem;
 
     [Header("DOTween")] 
     private Tween _doorTween;
@@ -21,11 +23,19 @@ public class CaveDoor : MonoBehaviour
     private void Awake()
     {
         _caveSwitch = FindAnyObjectByType<CaveSwitch>();
+        _shadowPuzzleSystem = FindAnyObjectByType<ShadowPuzzleSystem>();
     }
 
     private void Start()
     {
-        _caveSwitch.OnSwitchPressed += ChangeDoorState;
+        if (!_caveSwitch.IsUnityNull())
+        {
+            _caveSwitch.OnSwitchPressed += ChangeDoorState;
+        }
+        if(!_shadowPuzzleSystem.IsUnityNull())
+        {
+            _shadowPuzzleSystem.OnAlignmentChanged.AddListener(ChangeDoorStateInvert);
+        }
     }
 
     private void ChangeDoorState(bool isOpen)
@@ -38,5 +48,10 @@ public class CaveDoor : MonoBehaviour
 
         OnChangeDoorState?.Invoke(!isOpen);
         
+    }
+
+    private void ChangeDoorStateInvert(bool isOpen)
+    {
+        ChangeDoorState(!isOpen);
     }
 }
