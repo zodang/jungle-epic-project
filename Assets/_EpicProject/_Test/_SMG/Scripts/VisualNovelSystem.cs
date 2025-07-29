@@ -30,6 +30,7 @@ public class VisualNovelSystem : MonoBehaviour
     public TextMeshProUGUI ContentText;
     public TextMeshProUGUI SpeakerText;
     public GameObject NextButton;
+    public VisualNovelNextButton DialogueNextButton;
     public Image SkipGage;
     private TypeEffect _typeEffect;
 
@@ -52,7 +53,7 @@ public class VisualNovelSystem : MonoBehaviour
     private bool _isEndAll;
     private float _skipDeltaTime;
     private bool _isPushKey;
-    private float _skipThreshold = 2.5f;
+    private float _skipThreshold = 2.3f;
 
     public Action OnFinish;
 
@@ -87,16 +88,12 @@ public class VisualNovelSystem : MonoBehaviour
         _isEndAll = false;
     }
 
-    void Init()
-    {
-        ShowVisualNovel(false, true);
-    }
-
     void Update()
     {
         if (_isEndAll) return;
 
-        if(Input.GetKeyDown(KeyCode.E) && !_isPushKey)
+        if((Input.GetKeyDown(KeyCode.E) || (!DialogueNextButton.IsUnityNull() && DialogueNextButton.GetKeyDown)) 
+            && !_isPushKey)
         {
             if(_typeEffect.IsPlaying)
             {
@@ -126,17 +123,17 @@ public class VisualNovelSystem : MonoBehaviour
             }
         }
 
-        if(Input.GetKey(KeyCode.E))
+        if(Input.GetKey(KeyCode.E) || (!DialogueNextButton.IsUnityNull() && DialogueNextButton.GetKey))
         {
             _skipDeltaTime += Time.deltaTime;
-            if(_skipDeltaTime >= _skipThreshold)
+            if(CreditRoot.IsUnityNull() && _skipDeltaTime >= _skipThreshold)
             {
                 OnFinish?.Invoke();
                 _isEndAll = true;
             }
             if(!SkipGage.IsUnityNull())
             {
-                SkipGage.fillAmount = _skipDeltaTime / _skipThreshold;
+                SkipGage.fillAmount = Mathf.Clamp01((_skipDeltaTime - 0.3f) / (_skipThreshold - 0.3f));
             }
         }
         else
@@ -149,20 +146,20 @@ public class VisualNovelSystem : MonoBehaviour
         }
 
 
-        if(!NextButton.IsUnityNull() && NextButton.activeSelf == _typeEffect.IsPlaying)
-        {
-            NextButton.SetActive(!_typeEffect.IsPlaying);
-        }
+        //if(!NextButton.IsUnityNull() && NextButton.activeSelf == _typeEffect.IsPlaying)
+        //{
+        //    NextButton.SetActive(!_typeEffect.IsPlaying);
+        //}
     }
 
     void ShowVisualNovel(bool showIllust, bool showDialogue)
     {
-        if (showIllust)
+        if (showIllust && _illustrationsIdx < Illustrations.Count)
         {
             SetImage(_illustrationsIdx);
             _illustrationsIdx++;
         }
-        if (showDialogue)
+        if (showDialogue && _dialogueIdIdx < DialogueIds.Count)
         {
             StartDialogue(DialogueIds[_dialogueIdIdx]);
             for (int i = 0; i < DialogueEventEntries.Count; i++)
@@ -275,7 +272,11 @@ public class VisualNovelSystem : MonoBehaviour
             StartCoroutine(DelayFinishScene(1f));
             yield break;
         }
-            
+
+        if(!NextButton.IsUnityNull())
+        {
+            NextButton.SetActive(false);
+        }
 
         // 2) 에디터에서 false로 꺼둔 크레딧 오브젝트 활성화
         CreditRoot.gameObject.SetActive(true);
