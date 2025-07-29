@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class BowlingPinHitHandler : MonoBehaviour
@@ -6,6 +7,8 @@ public class BowlingPinHitHandler : MonoBehaviour
     public bool IsHit { get; private set; }
 
     private Rigidbody2D _rigidbody2D;
+
+    public UnityEvent OnLaunchAway;
 
     private void Awake()
     {
@@ -85,6 +88,7 @@ public class BowlingPinHitHandler : MonoBehaviour
 
     void LaunchAway(Rigidbody2D pin, Transform ball)
     {
+        OnLaunchAway?.Invoke();
         Collider2D[] collider2Ds = pin.GetComponentsInChildren<Collider2D>();
         for (int i = 0; i < collider2Ds.Length; i++)
         {

@@ -242,8 +242,8 @@ public class InputManager : MonoBehaviour
         }
 
         // 테스트 커맨드
-        // StageTest();
-        // BlockTest();
+         StageTest();
+         BlockTest();
     }
 
     private void StageTest()

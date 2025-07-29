@@ -18,6 +18,8 @@ public static class AchievementStatusManager
     public static bool _isFairyAchievementUnlocked = false;
     public static bool _isSortingAchievementUnlocked = false;
     public static bool _isHandsomeAchievementUnlocked = false;
+    public static bool _isTitanAchievementUnlocked = false;
+    public static bool _isSweepAchievementUnlocked = false; 
 
     // ... 다른 도전과제 변수들도 여기에 추가 ...
 
@@ -39,6 +41,8 @@ public static class AchievementStatusManager
         _isFairyAchievementUnlocked = false;
         _isSortingAchievementUnlocked = false;
         _isHandsomeAchievementUnlocked = false;
+        _isTitanAchievementUnlocked = false;
+        _isSweepAchievementUnlocked = false; 
         // ...
 
         Debug.Log("All local achievement flags have been reset.");
