@@ -30,6 +30,7 @@ public class VisualNovelSystem : MonoBehaviour
     public TextMeshProUGUI ContentText;
     public TextMeshProUGUI SpeakerText;
     public GameObject NextButton;
+    public VisualNovelNextButton DialogueNextButton;
     public Image SkipGage;
     private TypeEffect _typeEffect;
 
@@ -87,16 +88,12 @@ public class VisualNovelSystem : MonoBehaviour
         _isEndAll = false;
     }
 
-    void Init()
-    {
-        ShowVisualNovel(false, true);
-    }
-
     void Update()
     {
         if (_isEndAll) return;
 
-        if(Input.GetKeyDown(KeyCode.E) && !_isPushKey)
+        if((Input.GetKeyDown(KeyCode.E) || (!DialogueNextButton.IsUnityNull() && DialogueNextButton.GetKeyDown)) 
+            && !_isPushKey)
         {
             if(_typeEffect.IsPlaying)
             {
@@ -126,7 +123,7 @@ public class VisualNovelSystem : MonoBehaviour
             }
         }
 
-        if(Input.GetKey(KeyCode.E))
+        if(Input.GetKey(KeyCode.E) || (!DialogueNextButton.IsUnityNull() && DialogueNextButton.GetKey))
         {
             _skipDeltaTime += Time.deltaTime;
             if(_skipDeltaTime >= _skipThreshold)
@@ -149,10 +146,10 @@ public class VisualNovelSystem : MonoBehaviour
         }
 
 
-        if(!NextButton.IsUnityNull() && NextButton.activeSelf == _typeEffect.IsPlaying)
-        {
-            NextButton.SetActive(!_typeEffect.IsPlaying);
-        }
+        //if(!NextButton.IsUnityNull() && NextButton.activeSelf == _typeEffect.IsPlaying)
+        //{
+        //    NextButton.SetActive(!_typeEffect.IsPlaying);
+        //}
     }
 
     void ShowVisualNovel(bool showIllust, bool showDialogue)

@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 85117264}
   - component: {fileID: 85117263}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Skip Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -657,6 +657,7 @@ GameObject:
   - component: {fileID: 1094592633}
   - component: {fileID: 1094592632}
   - component: {fileID: 1094592634}
+  - component: {fileID: 1094592635}
   m_Layer: 5
   m_Name: Next
   m_TagString: Untagged
@@ -766,6 +767,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1094592635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094592630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8beafe75eb7b05240bca9d9bf9a958e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1151470271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,6 +1292,7 @@ MonoBehaviour:
   ContentText: {fileID: 1567066578}
   SpeakerText: {fileID: 1366313745}
   NextButton: {fileID: 1094592630}
+  DialogueNextButton: {fileID: 1094592635}
   SkipGage: {fileID: 85117263}
   Default_Font: {fileID: 11400000, guid: 8656fcac61445cd4480cc576a59f3e5c, type: 2}
   ZhHans_Font: {fileID: 11400000, guid: 3631377776b0d444db7f43e94e157ed0, type: 2}
