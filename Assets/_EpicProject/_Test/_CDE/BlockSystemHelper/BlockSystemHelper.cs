@@ -16,11 +16,6 @@ public class BlockSystemHelper : MonoBehaviour
     {
         FindAnyObjectByType<EngineManager>().OnEngineSettingEnd += SetBlinkingSlots;
     }
-
-    private void OnDestroy()
-    {
-        StageBaseManager.Instance.EngineManager.OnEngineSettingEnd -= SetBlinkingSlots;
-    }
     
     private void SetBlinkingSlots()
     {
