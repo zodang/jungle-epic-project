@@ -21,8 +21,10 @@ public static class AchievementStatusManager
     public static bool _isHandsomeAchievementUnlocked = false;
     public static bool _isTitanAchievementUnlocked = false;
     public static bool _isSweepAchievementUnlocked = false;
+    public static bool isTinkerbellAchievementUnlocked = false;
+    public static bool isBeautyGuardAchievementUnlocked = false;
 
-    
+
     public static int fallCount = 0; // 낙하 횟수 카운터
     public static bool isFallAchievementUnlocked = false; // '손이 미끄러졌네' 도전과제 해금 여부
 
@@ -52,6 +54,8 @@ public static class AchievementStatusManager
         _isHandsomeAchievementUnlocked = false;
         _isTitanAchievementUnlocked = false;
         _isSweepAchievementUnlocked = false;
+        isTinkerbellAchievementUnlocked = false;
+        isBeautyGuardAchievementUnlocked = false;
 
         // << 아래 두 줄을 새로 추가하세요. >>
         fallCount = 0;
