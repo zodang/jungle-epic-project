@@ -166,13 +166,19 @@ public class EngineController : BlockContainerBase
                 }
                 else
                 {
-                    // 기존 슬롯으로 이동
+                    // 블록 교체
                     ISlot prevSlot = block.CurrentSlot;
                     Clickable prevTarget = block.CurrentTarget;
                     object prevFeature = block.GetComponent(block.RequiredFeatureType);
                 
                     prevSlot.SetCurrentBlock(movedBlock);
                     movedBlock.ChangeTargetInfo(prevTarget, prevFeature, prevSlot.GetSlotIndex(), prevSlot);
+
+                    if (prevSlot.GetSlotType() == SlotType.InventorySlot)
+                    {
+                        movedBlock.Deactivate(prevFeature);
+                        _inventory.TryAddBlock(movedBlock);
+                    }
                 }
             }
         
