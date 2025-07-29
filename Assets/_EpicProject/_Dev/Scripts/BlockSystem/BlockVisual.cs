@@ -8,6 +8,7 @@ public class BlockVisual : MonoBehaviour,
     IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, 
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public Action OnDragStart;
     public Action<ISlot> OnDragEnd;
     public Action OnLeftClicked;
     public Action OnRightClicked;
@@ -133,6 +134,8 @@ public class BlockVisual : MonoBehaviour,
         transform.SetParent(_canvas.transform);
         transform.SetAsLastSibling();
         ChangeBlockVisual(SlotType.InventorySlot);
+        
+        OnDragStart?.Invoke();
     }
     
     public void OnDrag(PointerEventData eventData)

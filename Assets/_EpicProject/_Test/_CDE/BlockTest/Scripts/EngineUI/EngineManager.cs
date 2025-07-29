@@ -1,9 +1,12 @@
 using Define;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EngineManager : MonoBehaviour
 {
+    public event Action OnEngineSettingEnd;
+    
     [SerializeField] private EngineController engineUIPrefab;
 
     private Dictionary<Clickable, EngineController> _engineDictionary = new();
@@ -33,6 +36,8 @@ public class EngineManager : MonoBehaviour
             clickable.InitBlockContainerBase(engineController);
             clickable.InitEngineController(engineController);
         }
+        
+        OnEngineSettingEnd?.Invoke();
     }
     
     private void OnDestroy()

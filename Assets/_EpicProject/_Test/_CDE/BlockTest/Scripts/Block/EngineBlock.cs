@@ -21,6 +21,7 @@ public abstract class EngineBlock : MonoBehaviour
     
     private BlockVisual _visual;
 
+    public event Action<EngineBlock, ISlot> OnBlockDragStarted;
     public event Action<EngineBlock, ISlot> OnBlockDragEnd;
     public event Action<EngineBlock> OnBlockLeftClick;
     public event Action<EngineBlock> OnBlockRightClick;
@@ -38,6 +39,7 @@ public abstract class EngineBlock : MonoBehaviour
     private void Start()
     {
         if (_visual == null) return;
+        _visual.OnDragStart += WhenDragStarted;
         _visual.OnDragEnd += WhenDragEnd;
         _visual.OnLeftClicked += WhenBlockLeftClicked;
         _visual.OnRightClicked += WhenBlockRightClicked;
@@ -77,6 +79,11 @@ public abstract class EngineBlock : MonoBehaviour
         }
         
         _visual.ChangeBlockVisual(slot.GetSlotType());
+    }
+    
+    private void WhenDragStarted()
+    {
+        OnBlockDragStarted?.Invoke(this, CurrentSlot);
     }
     
     private void WhenDragEnd(ISlot slot)
