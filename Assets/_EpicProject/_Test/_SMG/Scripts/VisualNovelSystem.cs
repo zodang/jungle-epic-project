@@ -53,7 +53,7 @@ public class VisualNovelSystem : MonoBehaviour
     private bool _isEndAll;
     private float _skipDeltaTime;
     private bool _isPushKey;
-    private float _skipThreshold = 2.5f;
+    private float _skipThreshold = 2.3f;
 
     public Action OnFinish;
 
@@ -133,7 +133,7 @@ public class VisualNovelSystem : MonoBehaviour
             }
             if(!SkipGage.IsUnityNull())
             {
-                SkipGage.fillAmount = _skipDeltaTime / _skipThreshold;
+                SkipGage.fillAmount = Mathf.Clamp01((_skipDeltaTime - 0.3f) / (_skipThreshold - 0.3f));
             }
         }
         else
