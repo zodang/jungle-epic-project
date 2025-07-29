@@ -126,7 +126,7 @@ public class VisualNovelSystem : MonoBehaviour
         if(Input.GetKey(KeyCode.E) || (!DialogueNextButton.IsUnityNull() && DialogueNextButton.GetKey))
         {
             _skipDeltaTime += Time.deltaTime;
-            if(_skipDeltaTime >= _skipThreshold)
+            if(CreditRoot.IsUnityNull() && _skipDeltaTime >= _skipThreshold)
             {
                 OnFinish?.Invoke();
                 _isEndAll = true;
