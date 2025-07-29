@@ -154,12 +154,12 @@ public class VisualNovelSystem : MonoBehaviour
 
     void ShowVisualNovel(bool showIllust, bool showDialogue)
     {
-        if (showIllust)
+        if (showIllust && _illustrationsIdx < Illustrations.Count)
         {
             SetImage(_illustrationsIdx);
             _illustrationsIdx++;
         }
-        if (showDialogue)
+        if (showDialogue && _dialogueIdIdx < DialogueIds.Count)
         {
             StartDialogue(DialogueIds[_dialogueIdIdx]);
             for (int i = 0; i < DialogueEventEntries.Count; i++)
@@ -272,7 +272,11 @@ public class VisualNovelSystem : MonoBehaviour
             StartCoroutine(DelayFinishScene(1f));
             yield break;
         }
-            
+
+        if(!NextButton.IsUnityNull())
+        {
+            NextButton.SetActive(false);
+        }
 
         // 2) 에디터에서 false로 꺼둔 크레딧 오브젝트 활성화
         CreditRoot.gameObject.SetActive(true);
