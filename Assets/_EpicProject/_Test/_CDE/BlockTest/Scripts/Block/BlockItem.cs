@@ -15,10 +15,8 @@ public class BlockItem : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
-        
-        
         // Inventory에 추가
-        _inventory.Collect(blockType);
+        // _inventory.Collect(blockType);
         Destroy(gameObject);
     }
 }

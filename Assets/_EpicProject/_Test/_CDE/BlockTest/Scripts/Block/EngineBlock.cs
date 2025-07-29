@@ -21,13 +21,14 @@ public abstract class EngineBlock : MonoBehaviour
     
     private BlockVisual _visual;
 
+    public event Action<EngineBlock, ISlot> OnBlockDragStarted;
     public event Action<EngineBlock, ISlot> OnBlockDragEnd;
     public event Action<EngineBlock> OnBlockLeftClick;
     public event Action<EngineBlock> OnBlockRightClick;
 
-    public Clickable PrevTarget { get; private set; }
-    public object PrevFeature { get; private set; }
-    public int PrevSlotIndex { get; private set; } = -1;
+    public Clickable CurrentTarget { get; private set; }
+    public object CurrentFeature { get; private set; }
+    public int CurrentSlotIndex { get; private set; } = -1;
     public ISlot CurrentSlot { get; private set; }
 
     protected virtual void Awake()
@@ -38,6 +39,7 @@ public abstract class EngineBlock : MonoBehaviour
     private void Start()
     {
         if (_visual == null) return;
+        _visual.OnDragStart += WhenDragStarted;
         _visual.OnDragEnd += WhenDragEnd;
         _visual.OnLeftClicked += WhenBlockLeftClicked;
         _visual.OnRightClicked += WhenBlockRightClicked;
@@ -58,25 +60,30 @@ public abstract class EngineBlock : MonoBehaviour
     
     public void ChangeTargetInfo(Clickable target, object feature, int slotIndex, ISlot slot)
     {
-        PrevTarget = target;
-        PrevFeature = feature;
-        PrevSlotIndex = slotIndex;
+        CurrentTarget = target;
+        CurrentFeature = feature;
+        CurrentSlotIndex = slotIndex;
         CurrentSlot = slot;
     }
 
     public void InitDefaultBlock(Clickable target, ISlot slot, int index = -1)
     {
-        PrevTarget = target;
-        PrevFeature = target?.GetComponent(RequiredFeatureType);
-        PrevSlotIndex = index;
+        CurrentTarget = target;
+        CurrentFeature = target?.GetComponent(RequiredFeatureType);
+        CurrentSlotIndex = index;
         CurrentSlot = slot;
 
-        if (PrevFeature != null)
+        if (CurrentFeature != null)
         {
-            Activate(PrevFeature);
+            Activate(CurrentFeature);
         }
         
         _visual.ChangeBlockVisual(slot.GetSlotType());
+    }
+    
+    private void WhenDragStarted()
+    {
+        OnBlockDragStarted?.Invoke(this, CurrentSlot);
     }
     
     private void WhenDragEnd(ISlot slot)
@@ -108,13 +115,11 @@ public abstract class EngineBlock : MonoBehaviour
 
     public void RaiseEngineBlock()
     {
-        _visual.ChangeBlockVisual(SlotType.EngineSlot);
         _visual.RaiseVisual(true);
     }
     
     public void DropEngineBlock()
     {
-        _visual.ChangeBlockVisual(SlotType.InventorySlot);
         _visual.RaiseVisual(false);
     }
 

@@ -715,7 +715,6 @@ GameObject:
   - component: {fileID: 8959592710724833533}
   - component: {fileID: 6580557355186621603}
   - component: {fileID: 9115474801208288203}
-  - component: {fileID: 1296591783151834044}
   m_Layer: 5
   m_Name: ScaleBlock
   m_TagString: Untagged
@@ -763,11 +762,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1eb95b9d92842419dbf37bf68c6081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EngineBlock: {fileID: 1547601580139814497}
-  InventoryBlock: {fileID: 3648511223139461310}
-  NumpadBlock: {fileID: 0}
-  _visualObject: {fileID: 8850917645110592473}
-  IsRaised: 0
+  visualObject: {fileID: 8850917645110592473}
+  engineBlock: {fileID: 1547601580139814497}
+  inventoryBlock: {fileID: 3648511223139461310}
 --- !u!114 &9115474801208288203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,26 +779,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slider: {fileID: 5581605983941228829}
   _percentText: {fileID: 3039495156771912340}
---- !u!114 &1296591783151834044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4848125936218835853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
 --- !u!1 &4893862203758297638
 GameObject:
   m_ObjectHideFlags: 0
