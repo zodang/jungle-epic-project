@@ -5,6 +5,7 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
+using Define;
 
 public class StartManager : MonoBehaviour
 {
@@ -100,6 +101,7 @@ public class StartManager : MonoBehaviour
                     _dragging.position = dropHit.collider.transform.position;
                     // 애니메이션 재생
                     _startAni.Play("Start Ani");
+                    GameManager.Instance.AudioManager.PlaySfx(SfxType.Open);
                     // 1초 딜레이 후 페이드 시작
                     StartCoroutine(DelayedFade(fadeDelay));
                 }

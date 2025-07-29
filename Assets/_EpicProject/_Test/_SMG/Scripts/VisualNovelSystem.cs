@@ -4,8 +4,16 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
+
+[System.Serializable]
+public class DialogueEventEntry
+{
+    public string DialogueId;
+    public UnityEvent OnStartDialogue;
+}
 
 public class VisualNovelSystem : MonoBehaviour
 {
@@ -16,10 +24,14 @@ public class VisualNovelSystem : MonoBehaviour
     private DialogueLoader _dialogueLoader;
     private DialogueCollection _dialogueCollection;
     private string _language = "ko";
+    public List<DialogueEventEntry> DialogueEventEntries = new List<DialogueEventEntry>();
 
     [Header("UI")]
     public TextMeshProUGUI ContentText;
     public TextMeshProUGUI SpeakerText;
+    public GameObject NextButton;
+    public VisualNovelNextButton DialogueNextButton;
+    public Image SkipGage;
     private TypeEffect _typeEffect;
 
     [Header("Fonts")]
@@ -37,10 +49,11 @@ public class VisualNovelSystem : MonoBehaviour
     public float fastMultiplier = 3f;  // 마우스 누를 때 배수
     public float targetY = 3400f;      // 최종 Y 위치
 
-
     private bool _isUsing;
     private bool _isEndAll;
-    private float _delayDeltaTime;
+    private float _skipDeltaTime;
+    private bool _isPushKey;
+    private float _skipThreshold = 2.3f;
 
     public Action OnFinish;
 
@@ -59,50 +72,110 @@ public class VisualNovelSystem : MonoBehaviour
         _illustrationsIdx = 0;
 
         _isUsing = false;
-        _delayDeltaTime = 0f;
-        _isEndAll = false;
+        _skipDeltaTime = 0f;
+        _isEndAll = true;
+        _isPushKey = false;
         _language = LocalizationSettings.SelectedLocale.Identifier.Code;
+
+        StartCoroutine(InitCoroutine());
+    }
+
+    IEnumerator InitCoroutine()
+    {
+        ShowVisualNovel(true, false);
+        yield return new WaitForSeconds(1f);
+        ShowVisualNovel(false, true);
+        _isEndAll = false;
     }
 
     void Update()
     {
         if (_isEndAll) return;
 
-        if (!_isUsing && _delayDeltaTime <= 0f)
+        if((Input.GetKeyDown(KeyCode.E) || (!DialogueNextButton.IsUnityNull() && DialogueNextButton.GetKeyDown)) 
+            && !_isPushKey)
         {
-            _delayDeltaTime = 2f;
-
-            bool isEndIllustration = _illustrationsIdx >= Illustrations.Count;
-            bool isEndDialogueId = _dialogueIdIdx >= DialogueIds.Count;
-
-            if (isEndIllustration && isEndDialogueId)
+            if(_typeEffect.IsPlaying)
             {
-                _isEndAll = true;
-                StartCoroutine(FadeThenCredits());
+                _typeEffect.FinishEffect();
             }
-
             else
             {
-                if (!isEndIllustration)
+                if (_isUsing)
                 {
-                    SetImage(_illustrationsIdx);
-                    _illustrationsIdx++;
-                }
-                if (!isEndDialogueId)
-                {
-                    StartDialogue(DialogueIds[_dialogueIdIdx]);
-                    _dialogueIdIdx++;
+                    _isPushKey = true;
                 }
                 else
                 {
-                    SpeakerText.text = "";
-                    _typeEffect.SetMsg("");
+                    bool isEndIllustration = _illustrationsIdx >= Illustrations.Count;
+                    bool isEndDialogueId = _dialogueIdIdx >= DialogueIds.Count;
+
+                    if (isEndIllustration && isEndDialogueId)
+                    {
+                        _isEndAll = true;
+                        StartCoroutine(FadeThenCredits());
+                    }
+                    else
+                    {
+                        ShowVisualNovel(!isEndIllustration, !isEndDialogueId);
+                    }
                 }
             }
         }
-        if (_delayDeltaTime > 0f)
+
+        if(Input.GetKey(KeyCode.E) || (!DialogueNextButton.IsUnityNull() && DialogueNextButton.GetKey))
         {
-            _delayDeltaTime -= Time.deltaTime;
+            _skipDeltaTime += Time.deltaTime;
+            if(CreditRoot.IsUnityNull() && _skipDeltaTime >= _skipThreshold)
+            {
+                OnFinish?.Invoke();
+                _isEndAll = true;
+            }
+            if(!SkipGage.IsUnityNull())
+            {
+                SkipGage.fillAmount = Mathf.Clamp01((_skipDeltaTime - 0.3f) / (_skipThreshold - 0.3f));
+            }
+        }
+        else
+        {
+            _skipDeltaTime = 0f;
+            if (!SkipGage.IsUnityNull())
+            {
+                SkipGage.fillAmount = 0f;
+            }
+        }
+
+
+        //if(!NextButton.IsUnityNull() && NextButton.activeSelf == _typeEffect.IsPlaying)
+        //{
+        //    NextButton.SetActive(!_typeEffect.IsPlaying);
+        //}
+    }
+
+    void ShowVisualNovel(bool showIllust, bool showDialogue)
+    {
+        if (showIllust && _illustrationsIdx < Illustrations.Count)
+        {
+            SetImage(_illustrationsIdx);
+            _illustrationsIdx++;
+        }
+        if (showDialogue && _dialogueIdIdx < DialogueIds.Count)
+        {
+            StartDialogue(DialogueIds[_dialogueIdIdx]);
+            for (int i = 0; i < DialogueEventEntries.Count; i++)
+            {
+                if (DialogueEventEntries[i].DialogueId == DialogueIds[_dialogueIdIdx])
+                {
+                    DialogueEventEntries[i].OnStartDialogue?.Invoke();
+                    break;
+                }
+            }
+            _dialogueIdIdx++;
+        }
+        else
+        {
+            SpeakerText.text = "";
+            _typeEffect.SetMsg("");
         }
     }
 
@@ -127,13 +200,12 @@ public class VisualNovelSystem : MonoBehaviour
 
     IEnumerator DialogueCoroutine(DialogueEntry entry)
     {
-        float initialDelay = 0.1f;
-        float postEffectDelay = 2f;
         int cnt = entry.lines.Count;
 
         _isUsing = true;
         for (int i = 0; i < cnt; i++)
         {
+            _isPushKey = false;
             _language = LocalizationSettings.SelectedLocale.Identifier.Code;
             switch (_language)
             {
@@ -159,9 +231,7 @@ public class VisualNovelSystem : MonoBehaviour
                 _typeEffect.SetMsg(text);
             }
 
-            yield return new WaitForSeconds(initialDelay);
-            while (_typeEffect.IsPlaying) yield return null;
-            yield return new WaitForSeconds(postEffectDelay);
+            while ((i + 1 < cnt) && !_isPushKey) yield return null;
         }
         _isUsing = false;
     }
@@ -192,7 +262,6 @@ public class VisualNovelSystem : MonoBehaviour
         OnFinish?.Invoke();
     }
 
-
     IEnumerator FadeThenCredits()
     {
         // 1) 페이드 아웃이 끝날 때까지 대기
@@ -203,7 +272,11 @@ public class VisualNovelSystem : MonoBehaviour
             StartCoroutine(DelayFinishScene(1f));
             yield break;
         }
-            
+
+        if(!NextButton.IsUnityNull())
+        {
+            NextButton.SetActive(false);
+        }
 
         // 2) 에디터에서 false로 꺼둔 크레딧 오브젝트 활성화
         CreditRoot.gameObject.SetActive(true);
@@ -213,7 +286,6 @@ public class VisualNovelSystem : MonoBehaviour
         // 3) 활성화된 크레딧을 스크롤
         yield return StartCoroutine(CreditScrollCoroutine());
     }
-
 
     IEnumerator CreditScrollCoroutine()
     {
@@ -232,5 +304,4 @@ public class VisualNovelSystem : MonoBehaviour
         // 목표 도달하면 즉시 씬 종료 콜
         StartCoroutine(DelayFinishScene(4f));
     }
-
 }
