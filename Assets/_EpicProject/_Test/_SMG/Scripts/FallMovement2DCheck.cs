@@ -12,7 +12,6 @@ public class FallMovement2DCheck : MonoBehaviour
         {
             movement2D.Respawn(ReaspwanPoint.position);
 
-            // --- 아래 도전과제 로직을 추가하세요 ---
 
             // 1. 아직 도전과제가 해금되지 않았을 때만 카운트를 셉니다.
             if (!AchievementStatusManager.isFallAchievementUnlocked)
