@@ -1,3 +1,4 @@
+using Define;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,8 @@ public class ShadowPuzzleSystem : MonoBehaviour
     private bool _prevAllAligned;
 
     public UnityEvent<bool> OnAlignmentChanged;
+
+    private bool _isInitialAlignChanged = false;
 
     private void Awake()
     {
@@ -41,6 +44,17 @@ public class ShadowPuzzleSystem : MonoBehaviour
             _prevAllAligned = isAllAligned;
             Debug.Log("isAllAligned: " + isAllAligned);
             OnAlignmentChanged?.Invoke(isAllAligned);
+            
+            // 문 효과음 재생
+            if (_isInitialAlignChanged)
+            {
+                GameManager.Instance.AudioManager.PlaySfx(SfxType.CaveButton);
+            }
+            else
+            {
+                // 초기 1회 효과음 무시
+                _isInitialAlignChanged = true;
+            }
         }
         
     }
