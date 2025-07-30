@@ -102,7 +102,7 @@ MonoBehaviour:
       m_KeyId: 1501807749062656
       m_Key: 
     m_FallbackState: 0
-    m_WaitForCompletion: 0
+    m_WaitForCompletion: 1
   m_UpdateAsset:
     m_PersistentCalls:
       m_Calls:
@@ -754,10 +754,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1eb95b9d92842419dbf37bf68c6081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EngineBlock: {fileID: 2038594202551845731}
-  InventoryBlock: {fileID: 8677190303923641058}
-  _visualObject: {fileID: 8850917645110592473}
-  IsRaised: 0
+  visualObject: {fileID: 8850917645110592473}
+  engineBlock: {fileID: 2038594202551845731}
+  inventoryBlock: {fileID: 8677190303923641058}
 --- !u!114 &3470816018509577653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1164,7 +1163,7 @@ MonoBehaviour:
       m_KeyId: 1502065132527616
       m_Key: 
     m_FallbackState: 0
-    m_WaitForCompletion: 0
+    m_WaitForCompletion: 1
   m_UpdateAsset:
     m_PersistentCalls:
       m_Calls:
@@ -1197,7 +1196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4925193555803256296
 RectTransform:
   m_ObjectHideFlags: 0

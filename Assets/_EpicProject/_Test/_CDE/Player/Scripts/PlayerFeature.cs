@@ -102,6 +102,13 @@ public class PlayerFeature : MonoBehaviour, IControllable, IFeatureResetable
             AchievementStatusManager._isAntManAchievementUnlocked = true; // 도전과제 해금
             Debug.Log("도전과제 '개미 인간'이 완료되었습니다.");
         }
+
+        if (scale == _maxScale && !AchievementStatusManager._isTitanAchievementUnlocked)
+        {
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_TITAN");
+            AchievementStatusManager._isTitanAchievementUnlocked = true; // 도전과제 해금
+            Debug.Log("도전과제 '거인 인간'이 완료되었습니다.");
+        }
     }
 
     void Twinkle(float bright)

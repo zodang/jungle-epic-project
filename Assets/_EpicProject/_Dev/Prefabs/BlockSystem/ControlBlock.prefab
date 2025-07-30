@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4632025450849307882}
   - component: {fileID: 2432218089737978171}
   - component: {fileID: 9177770351111346012}
-  - component: {fileID: 2597428058060658036}
   - component: {fileID: 6064436501335794350}
   - component: {fileID: 4823566226256566252}
   - component: {fileID: 2577605579037892786}
@@ -101,7 +100,7 @@ MonoBehaviour:
       m_KeyId: 56323033489408
       m_Key: 
     m_FallbackState: 0
-    m_WaitForCompletion: 0
+    m_WaitForCompletion: 1
   m_UpdateAsset:
     m_PersistentCalls:
       m_Calls:
@@ -117,22 +116,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2597428058060658036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2038594202551845731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69beb381e244f92449b8c4cf954630e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TrackedObjects: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &6064436501335794350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,11 +223,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1eb95b9d92842419dbf37bf68c6081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EngineBlock: {fileID: 2038594202551845731}
-  InventoryBlock: {fileID: 8677190303923641058}
-  NumpadBlock: {fileID: 0}
-  _visualObject: {fileID: 8850917645110592473}
-  IsRaised: 0
+  visualObject: {fileID: 8850917645110592473}
+  engineBlock: {fileID: 2038594202551845731}
+  inventoryBlock: {fileID: 8677190303923641058}
 --- !u!114 &3782840704502228020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,7 +506,7 @@ MonoBehaviour:
       m_KeyId: 61675338686464
       m_Key: 
     m_FallbackState: 0
-    m_WaitForCompletion: 0
+    m_WaitForCompletion: 1
   m_UpdateAsset:
     m_PersistentCalls:
       m_Calls:

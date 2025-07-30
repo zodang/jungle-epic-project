@@ -21,13 +21,16 @@ public class TransitionManager : MonoBehaviour
         ChangeAnimation(type);
         
         _animator.Play(_onAnimation);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(2f);
     } 
 
     public IEnumerator TurnOffAni()
     {
+        // 한 프레임동안 애니메이터 초기화 대기
+        yield return null;
+            
         _animator.Play(_offAnimation);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(2f);
     }
 
     private void ChangeAnimation(TransitionType type)

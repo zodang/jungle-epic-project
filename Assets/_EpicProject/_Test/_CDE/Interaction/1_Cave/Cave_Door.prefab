@@ -347,8 +347,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4375555824516121017}
-  - component: {fileID: 1107502335916441990}
-  - component: {fileID: 4728403089674787624}
   m_Layer: 0
   m_Name: Column_L
   m_TagString: Untagged
@@ -372,31 +370,6 @@ Transform:
   - {fileID: 3350626300464521126}
   m_Father: {fileID: 4009997615038237478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1107502335916441990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5496255907478497474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc9360a060de13447ade7a8a9292fc68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingOrderBias: 0
---- !u!210 &4728403089674787624
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5496255907478497474}
-  m_Enabled: 1
-  m_SortingLayerID: -1418347685
-  m_SortingLayer: 4
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
 --- !u!1 &5662306517450007886
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +421,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -648,7 +621,6 @@ GameObject:
   - component: {fileID: 536346500785445565}
   - component: {fileID: 1124876669170429668}
   - component: {fileID: 7356837748027506808}
-  - component: {fileID: 881731570207936344}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -774,17 +746,3 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &881731570207936344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8475971838035899605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4840bd7ecf3311948929bda2fe4a522f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingOrderBias: 0
-  forceToBottom: 0

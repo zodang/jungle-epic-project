@@ -11,38 +11,35 @@ public class EngineController : BlockContainerBase
     
     private Clickable _currentTarget;
     private EngineUIController _engineUIController;
+    
     private Dictionary<int, EngineBlock> _blockDictionary = new();
     private List<BlockType> _defaultBlockList;
-    public List<ISlot> SlotList = new List<ISlot>();
     
+    private List<ISlot> _slotList = new List<ISlot>();
+
+    private Inventory _inventory;
+    private ToolBoxSlot _toolBox;
     public event Action OnBlockChanged;
     
     protected void Awake()
     {
-        base.Awake();
-        
         _engineUIController = GetComponent<EngineUIController>();
-        SlotList = new List<ISlot>(GetComponentsInChildren<ISlot>());
+        _slotList = new List<ISlot>(GetComponentsInChildren<ISlot>());
     }
 
     private void Start()
     {
+        _inventory = StageBaseManager.Instance.PlayerManager.Inventory;
+        _toolBox = FindAnyObjectByType<ToolBoxSlot>();
+
         // Button 기능 연결
         _engineUIController.OnClickCloseBtn += Deactivate;
         _engineUIController.OnResetBtnClicked += ResetFeature;
         _engineUIController.OnTabBtnClicked += Deactivate;
-        _engineUIController.OnClearBtnClicked += ClearBlock;
+        _engineUIController.OnClearBtnClicked += ClearAllBlock;
         
         // OnBlockChanged += CheckBlockDictionary;
         gameObject.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        _engineUIController.OnClickCloseBtn -= Deactivate;
-        _engineUIController.OnResetBtnClicked -= ResetFeature;
-        _engineUIController.OnTabBtnClicked -= Deactivate;
-        _engineUIController.OnClearBtnClicked -= ClearBlock;
     }
     
     private void CheckBlockDictionary()
@@ -57,11 +54,11 @@ public class EngineController : BlockContainerBase
         _currentTarget = target;
         _defaultBlockList = defaultBlockList;
         
-        
         // Slot의 Target Clickable 설정
-        foreach (var slot in SlotList)
+        foreach (var slot in _slotList)
         {
             slot.SetTargetClickable(_currentTarget);
+            slot.SetBlockContainerBase(this);
         }
         
         // Clickable의 기본 블록 세팅
@@ -81,8 +78,8 @@ public class EngineController : BlockContainerBase
             if (block == null) continue;
             
             // 블록 기능 활성화
-            block.InitDefaultBlock(_currentTarget, SlotList[i], i);
-            SlotList[i].SetBlockPosition(block);
+            block.InitDefaultBlock(_currentTarget, _slotList[i], i);
+            _slotList[i].SetCurrentBlock(block);
             
             // 블록 상태 갱신
             _blockDictionary[i] = block;
@@ -108,8 +105,7 @@ public class EngineController : BlockContainerBase
         
         _engineUIController.DeactivateEffect(activationType);
         GameManager.Instance.AudioManager.PlaySfx(SfxType.Close);
-        ClearBlock();
-
+        ClearAllBlock();
     }
 
     public void DeactivateSilently()
@@ -118,12 +114,90 @@ public class EngineController : BlockContainerBase
         if (!gameObject.activeSelf) return;
         
         _engineUIController.DeactivateEffect(activationType);
-        ClearBlock();
+        ClearAllBlock();
+    }
+
+    public bool TryAddBlock(EngineBlock block)
+    {
+        int emptyIndex = -1;
+
+        for (int i = 0; i < _slotList.Count; i++)
+        {
+            if (!_blockDictionary.ContainsKey(i))
+            {
+                emptyIndex = i;
+                break;
+            }
+        }
+
+        // 빈 슬롯 없을 시 중단
+        if (emptyIndex == -1) return false;
+
+        WhenBlockDropped(block, _slotList[emptyIndex]);
+        return true;
     }
     
-    public (EngineBlock movedBlock, int movedBlockIndex) TryAddOrMoveOrReplaceBlock(int targetIndex, EngineBlock block)
+    protected override void WhenBlockDropped(EngineBlock block, ISlot slot)
     {
-        int slotCount = SlotList.Count;
+        if (slot.GetSlotType() == SlotType.EngineSlot)
+        {
+            // Prev Target의 기능 비활성화
+            if (block.CurrentTarget != null && block.CurrentFeature != null)
+            {
+                block.CurrentTarget.BlockContainerBase.RemoveBlock(block.CurrentSlotIndex);
+                block.Deactivate(block.CurrentFeature);
+            }
+        
+            // New Target 기능 활성화
+            Clickable newTarget = slot.GetTargetClickable();
+            object newFeature = newTarget.GetComponent(block.RequiredFeatureType);
+            int targetIndex = slot.GetSlotIndex();
+        
+            var (movedBlock, movedBlockIndex) = newTarget.EngineController.TryAddOrMoveOrReplaceBlock(targetIndex, block);
+
+            // Moved Block 관련 처리
+            if (movedBlock != null)
+            {
+                if (movedBlockIndex >= 0)
+                {
+                    // 빈 슬롯으로 이동
+                    newTarget.EngineController._slotList[movedBlockIndex].SetCurrentBlock(movedBlock);
+                    movedBlock.ChangeTargetInfo(newTarget, newFeature, movedBlockIndex, newTarget.EngineController._slotList[movedBlockIndex]);
+                }
+                else
+                {
+                    // 블록 교체
+                    ISlot prevSlot = block.CurrentSlot;
+                    Clickable prevTarget = block.CurrentTarget;
+                    object prevFeature = block.GetComponent(block.RequiredFeatureType);
+                
+                    prevSlot.SetCurrentBlock(movedBlock);
+                    movedBlock.ChangeTargetInfo(prevTarget, prevFeature, prevSlot.GetSlotIndex(), prevSlot);
+
+                    if (prevSlot.GetSlotType() == SlotType.InventorySlot)
+                    {
+                        movedBlock.Deactivate(prevFeature);
+                        _inventory.TryAddBlock(movedBlock);
+                    }
+                }
+            }
+        
+            block.ChangeTargetInfo(newTarget, newFeature, targetIndex, slot);
+            block.Activate(newFeature);
+        
+            slot.SetCurrentBlock(block);
+            return;
+        }
+
+        if (slot.GetSlotType() == SlotType.DebugSlot)
+        {
+            DropToDebugSlot(block, slot);
+        }
+    }
+    
+    private (EngineBlock movedBlock, int movedBlockIndex) TryAddOrMoveOrReplaceBlock(int targetIndex, EngineBlock block)
+    {
+        int slotCount = _slotList.Count;
 
         // Target Index에 Block 없을 때
         if (!_blockDictionary.TryGetValue(targetIndex, out var existingBlock))
@@ -163,13 +237,27 @@ public class EngineController : BlockContainerBase
         return (existingBlock, -1);
     }
 
-    protected override void RemoveBlock(int index)
+    public override void RemoveBlock(int index)
     {
         if (!_blockDictionary.ContainsKey(index)) return;
+        
         _blockDictionary.Remove(index);
-        SlotList[index].SetBlockPosition(null);
+        _slotList[index].SetCurrentBlock(null);
         OnBlockChanged?.Invoke();
     }
+
+    protected override void WhenLeftClicked(EngineBlock block)
+    {
+        // 기능 X
+    }
+    
+    protected override void WhenRightClicked(EngineBlock block)
+    {
+        int index = block.CurrentSlotIndex;
+        if (!_blockDictionary.ContainsKey(index)) return;
+        ClearBlock(index);
+    }
+
     private void ResetFeature()
     {
         if (_currentTarget == null) return;
@@ -186,31 +274,49 @@ public class EngineController : BlockContainerBase
         }
     }
 
-    private void ClearBlock()
+    private void ClearBlock(int index)
     {
-        foreach (var block in _blockDictionary.ToList())
+        if (_inventory == null) return;
+        
+        bool canDrop = _inventory.TryAddBlock(_blockDictionary[index]);
+        if (canDrop) RemoveBlock(index);
+    }
+    
+    private void ClearAllBlock()
+    {
+        if (_inventory == null) return;
+
+        // 인벤토리로 블록 이동
+        foreach (var kvp in _blockDictionary.ToList())
         {
-            DropToInventorySlot(block.Value);
+            int index = kvp.Key;
+            EngineBlock block = kvp.Value;
+    
+            bool canDrop = _inventory.TryAddBlock(block);
+            if (canDrop) RemoveBlock(index);
         }
     }
     
-    public void DropToInventorySlot(EngineBlock block)
-    {
-        // 인벤토리로 블록 이동
-        if (InventorySlot == null) return;
-        WhenDroppedInventorySlot(block, InventorySlot);
-        block.SetVisualState(SlotType.InventorySlot);
-    }
-
     public void DropToToolBoxSlot(EngineBlock block)
     {
-        if (ToolBoxSlot == null) return;
-        WhenDroppedToolBox(block, ToolBoxSlot);
+        if (_toolBox == null) return;
+        _toolBox.TryAddBlock(block);
     }
 
-    public void DisableEngineDeactivate()
+    private void DropToDebugSlot(EngineBlock block, ISlot slot)
     {
-        _engineUIController.OnTabBtnClicked -= Deactivate;
-        _engineUIController.DisableTabBtn();
+        DebugSlot debugSlot = slot as DebugSlot;
+        if (debugSlot != null && debugSlot.GetCurrentBlock() != null)
+        {
+            WhenDroppedNone(block);
+            return;
+        }
+        
+        // New Target 기능 활성화
+        Clickable newTarget = slot.GetTargetClickable();
+        object newFeature = newTarget.GetComponent(block.RequiredFeatureType);
+        
+        slot.SetCurrentBlock(block);
+        block.Activate(newFeature);
     }
 }

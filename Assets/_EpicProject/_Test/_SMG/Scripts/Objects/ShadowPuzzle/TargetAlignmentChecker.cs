@@ -3,12 +3,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum ShadowStatueType
+{
+    Cube,
+    Pyramid,
+    Sphere
+}
 public class TargetAlignmentChecker : MonoBehaviour
 {
     [SerializeField] private Transform _target;
     [SerializeField] private List<Vector3> _rotationAnswers;
-
-    
+    private List<Transform> _targets; 
 
     [Header("Offset")]
     public Vector3 _offsetPosition;
@@ -21,11 +26,14 @@ public class TargetAlignmentChecker : MonoBehaviour
     public Vector3 _rangeScale = new Vector3(0.15f, 0.15f, 0.15f);
 
     [Header("State")]
+    public Color AlignedColor = new Color(0f, 1f, 0f);
+    public Color UnalignedColor = new Color(0f, 0f, 0f);
+    private SpriteRenderer _slot;
     public bool IsAligned { get; private set; }
-    private bool _prevIsAligend;
-    public bool IsAligendPosition { get; private set; }
+    private bool _prevIsAligned;
+    public bool IsAlignedPosition { get; private set; }
     public bool IsAlignedRotation { get; private set; }
-    public bool IsAligendScale { get; private set; }
+    public bool IsAlignedScale { get; private set; }
 
     public UnityEvent<bool> OnIsAligend;
 
@@ -33,6 +41,10 @@ public class TargetAlignmentChecker : MonoBehaviour
     {
         if (_rotationAnswers.Count < 1)
             _rotationAnswers.Add(Vector3.zero);
+
+        TryGetComponent<SpriteRenderer>(out _slot);
+
+        _prevIsAligned = true;
     }
 
     private void Update()
@@ -41,7 +53,7 @@ public class TargetAlignmentChecker : MonoBehaviour
 
         Vector3 goalPos = transform.position + _offsetPosition;
         //bool isAligendPosition =
-        IsAligendPosition =
+        IsAlignedPosition =
             Mathf.Abs(goalPos.x - _target.position.x) <= _rangePosition.x &&
             Mathf.Abs(goalPos.y - _target.position.y) <= _rangePosition.y;// &&
             //Mathf.Abs(goalPos.z - _target.position.z) <= _rangePosition.z;
@@ -61,15 +73,19 @@ public class TargetAlignmentChecker : MonoBehaviour
 
         Vector3 goalScale = transform.localScale + _offsetScale;
         //bool isAligendScale =
-        IsAligendScale =
+        IsAlignedScale =
             Mathf.Abs(goalScale.x - _target.localScale.x) <= _rangeScale.x &&
             Mathf.Abs(goalScale.y - _target.localScale.y) <= _rangeScale.y;// &&
             //Mathf.Abs(goalScale.z - _target.localScale.z) <= _rangeScale.z;
 
-        IsAligned = IsAligendPosition && IsAlignedRotation && IsAligendScale;
-        if(_prevIsAligend != IsAligned)
+        IsAligned = IsAlignedPosition && IsAlignedRotation && IsAlignedScale;
+        if(_prevIsAligned != IsAligned)
         {
-            _prevIsAligend = IsAligned;
+            _prevIsAligned = IsAligned;
+            if(!_slot.IsUnityNull())
+            {
+                _slot.color = IsAligned ? AlignedColor : UnalignedColor;
+            }
             OnIsAligend?.Invoke(IsAligned);
         }
         

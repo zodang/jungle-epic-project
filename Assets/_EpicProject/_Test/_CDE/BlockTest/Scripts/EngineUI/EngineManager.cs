@@ -1,21 +1,16 @@
 using Define;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EngineManager : MonoBehaviour
 {
+    public event Action OnEngineSettingEnd;
+    
     [SerializeField] private EngineController engineUIPrefab;
 
     private Dictionary<Clickable, EngineController> _engineDictionary = new();
-    private EngineUIManager _engineUIManager;
-    private bool _isTabHomeGroupActive = true;
-
     private BlockContainerBase _inventory;
-
-    private void Awake()
-    {
-        _engineUIManager = GetComponent<EngineUIManager>();
-    }
 
     private void Start()
     {
@@ -41,6 +36,8 @@ public class EngineManager : MonoBehaviour
             clickable.InitBlockContainerBase(engineController);
             clickable.InitEngineController(engineController);
         }
+        
+        OnEngineSettingEnd?.Invoke();
     }
     
     private void OnDestroy()
@@ -102,11 +99,5 @@ public class EngineManager : MonoBehaviour
                 engineController.DeactivateSilently();
             }
         }
-    }
-
-    private void ToggleTabHome()
-    {
-        _isTabHomeGroupActive = !_isTabHomeGroupActive;
-        _engineUIManager.ActivateTabHomeGroup(_isTabHomeGroupActive);
     }
 }

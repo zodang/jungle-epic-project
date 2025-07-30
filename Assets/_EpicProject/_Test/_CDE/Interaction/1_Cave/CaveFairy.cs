@@ -1,8 +1,13 @@
+using System;
 using UnityEngine;
 
 public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
 {
-    
+    // << 1. 이벤트를 추가합니다. >>
+    // 어떤 CaveFairy든 상태가 바뀌면 이 이벤트가 발생합니다.
+    public static event Action OnAnyFairyStateChanged;
+
+
     [SerializeField] private Transform model;
     [SerializeField] private GameObject foot;
     [SerializeField] private Transform light;
@@ -59,14 +64,29 @@ public class CaveFairy : MonoBehaviour, IFeatureResetable, IControllable
     private void SetScale(float scale)
     {
         model.localScale = new Vector3(scale, scale, 1f);
+        OnAnyFairyStateChanged?.Invoke(); // << 2. 상태 변경을 알립니다. >>
     }
 
     private void SetLight(float bright)
     {
         // Todo: Light 변경 효과
         light.transform.localScale = new Vector3(bright, bright, 1f);
+        OnAnyFairyStateChanged?.Invoke(); // << 2. 상태 변경을 알립니다. >>
     }
-    
+
+    // << 3. 이 함수를 새로 추가합니다. >>
+    /// <summary>
+    /// 이 요정이 '작고 밝은' 상태인지 확인하는 함수
+    /// </summary>
+    public bool IsSmallAndBright()
+    {
+        // ScaleHandler와 LightHandler로부터 현재 값을 가져와서 비교합니다.
+        // (GetCurrentValue()는 예시이며, 핸들러의 실제 현재값 가져오는 함수 이름으로 변경해야 할 수 있습니다.)
+        bool isSmall = _scaleHandler.GetCurrentValue() <= MinScale;
+        bool isBright = _lightHandler.GetCurrentValue() >= MaxBright;
+        return isSmall && isBright;
+    }
+
     public void EnableControl()
     {
         _enableMove = true;

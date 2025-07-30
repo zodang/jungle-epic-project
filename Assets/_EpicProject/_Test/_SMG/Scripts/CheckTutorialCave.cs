@@ -43,7 +43,7 @@ public class CheckTutorialCave : MonoBehaviour
     {
         if (!_isInit) return;
 
-        _playerBlockCnt = Player.GetComponent<Inventory>().BlockList.Count;
+        _playerBlockCnt = Player.GetComponent<Inventory>().BlockDictionary.Count;
 
         if(_tutorialStep == 1 && _playerBlockCnt > 1)
         {

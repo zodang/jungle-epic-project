@@ -40,4 +40,11 @@ public class Castle2Manager : StageBaseManager
         GameManager.Instance.AudioManager.FadeOutAudio(1.0f);
         GameManager.Instance.FadeManager.LoadNextScene();
     }
+
+    public void AchievementClear()
+    {
+        SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_SWEEP");
+        AchievementStatusManager._isSweepAchievementUnlocked = true;
+        Debug.Log("도전과제 '싹슬이'가 완료되었습니다.");
+    }
 }

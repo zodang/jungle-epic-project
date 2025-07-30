@@ -243,7 +243,7 @@ public class InputManager : MonoBehaviour
 
         // 테스트 커맨드
         // StageTest();
-        // BlockTest();
+         //BlockTest();
     }
 
     private void StageTest()
@@ -262,32 +262,32 @@ public class InputManager : MonoBehaviour
         // 테스트용 코드
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            FindAnyObjectByType<Inventory>().Collect(BlockType.PlayerControl);
+            FindAnyObjectByType<Inventory>().SpawnBlock(BlockType.PlayerControl);
         }
 
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            FindAnyObjectByType<Inventory>().Collect(BlockType.Scale);
+            FindAnyObjectByType<Inventory>().SpawnBlock(BlockType.Scale);
         }
 
         if (Input.GetKeyDown(KeyCode.F3))
         {
-            FindAnyObjectByType<Inventory>().Collect(BlockType.Rotate);
+            FindAnyObjectByType<Inventory>().SpawnBlock(BlockType.Rotate);
         }
 
         if (Input.GetKeyDown(KeyCode.F4))
         {
-            FindAnyObjectByType<Inventory>().Collect(BlockType.Light);
+            FindAnyObjectByType<Inventory>().SpawnBlock(BlockType.Light);
         }
         
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            FindAnyObjectByType<Inventory>().Collect(BlockType.Graphic);
+            FindAnyObjectByType<Inventory>().SpawnBlock(BlockType.Graphic);
         }
         
         if (Input.GetKeyDown(KeyCode.F6))
         {
-            FindAnyObjectByType<Inventory>().Collect(BlockType.Speed);
+            FindAnyObjectByType<Inventory>().SpawnBlock(BlockType.Speed);
         }
     }
 }

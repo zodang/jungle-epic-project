@@ -9,7 +9,7 @@ public class BlockCanvasConverter : MonoBehaviour, IBeginDragHandler, IDragHandl
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
-        _dragCanvas = FindAnyObjectByType<EngineUIManager>().GetComponentInParent<Canvas>();
+        _dragCanvas = FindAnyObjectByType<EngineManager>().GetComponentInParent<Canvas>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)

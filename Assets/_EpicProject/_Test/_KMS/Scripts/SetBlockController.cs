@@ -8,7 +8,7 @@ public class SetBlockController : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        EngineSlot.OnBlockPlaced += OnBlockAnimation;
+        // EngineSlot.OnBlockPlaced += OnBlockAnimation;
     }
     void OnBlockAnimation()
     {

@@ -4,6 +4,8 @@ using System.Collections.Generic; // List 사용을 위해 추가
 
 public class NPCInteraction : MonoBehaviour
 {
+    [Header("NPC 고유 ID")] // << 추가
+    [SerializeField] private string npcId; //
     public bool CanProcessInput { get; set; } = true;
     [Header("Default Dialogue")]
     [Tooltip("조건에 해당하지 않을 때 사용될 기본 대화 ID")]
@@ -97,6 +99,9 @@ public class NPCInteraction : MonoBehaviour
 
     public void InteractWithNPC()
     {
+        // 대화를 시작하기 직전에, 이 NPC와 대화했다고 중앙 관리자에게 보고합니다.
+        AchievementStatusManager.RegisterNpcTalk(npcId);
+
         string dialogueIdToStart = GetDialogueIdBasedOnConditions();
 
         if (StageBaseManager.Instance.DialogueManager != null && !string.IsNullOrEmpty(dialogueIdToStart) && speechBubbleAnchor != null)
