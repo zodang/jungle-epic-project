@@ -52,7 +52,7 @@ public abstract class ButtonControlBase<TFeature> : EngineBlock where TFeature :
         string blockValue = ((GraphicType)buttonIndex).ToString();
         string targetObj = CurrentSlot.GetTargetClickable().name;
         GameManager.Instance.LogManager.LogBlockControl(stageId, sectionId, blockType, blockValue, targetObj);
-        Debug.Log($"@@DE ---> {stageId} / {sectionId} / {blockType} / {blockValue} / {targetObj}");
+        // Debug.Log($"@@DE ---> {stageId} / {sectionId} / {blockType} / {blockValue} / {targetObj}");
     }
     
     protected abstract int GetCurrentValue();

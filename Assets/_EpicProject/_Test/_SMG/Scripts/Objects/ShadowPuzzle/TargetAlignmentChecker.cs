@@ -3,12 +3,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum ShadowStatueType
+{
+    Cube,
+    Pyramid,
+    Sphere
+}
 public class TargetAlignmentChecker : MonoBehaviour
 {
     [SerializeField] private Transform _target;
     [SerializeField] private List<Vector3> _rotationAnswers;
-
-    
+    private List<Transform> _targets; 
 
     [Header("Offset")]
     public Vector3 _offsetPosition;

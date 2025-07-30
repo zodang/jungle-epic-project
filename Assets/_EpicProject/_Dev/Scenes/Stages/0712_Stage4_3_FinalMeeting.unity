@@ -572,7 +572,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 45, y: 2.5, z: -10}
+  m_LocalPosition: {x: 40, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -656,6 +656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockType: 7
   targetClickable: {fileID: 8193647378930119906}
+  index: -1
 --- !u!222 &46915639
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1826,6 +1827,10 @@ PrefabInstance:
       value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 4167682959913579366, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -300
+      objectReference: {fileID: 0}
+    - target: {fileID: 5346886617609963976, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -300
       objectReference: {fileID: 0}

@@ -621,6 +621,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tempTarget: {fileID: 1930827583}
   defaultBlockList: 010000000200000003000000040000000500000006000000
+  index: -1
 --- !u!95 &70214637
 Animator:
   serializedVersion: 7
@@ -2788,6 +2789,10 @@ PrefabInstance:
       value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 4167682959913579366, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -300
+      objectReference: {fileID: 0}
+    - target: {fileID: 5346886617609963976, guid: 00666a769f8122348a35e3365ecc1ece, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -300
       objectReference: {fileID: 0}

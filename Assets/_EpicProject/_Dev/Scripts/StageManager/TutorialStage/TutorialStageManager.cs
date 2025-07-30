@@ -1,4 +1,5 @@
 using Define;
+using System.Collections;
 using UnityEngine;
 
 public class TutorialStageManager : StageBaseManager
@@ -6,6 +7,9 @@ public class TutorialStageManager : StageBaseManager
     
 
     private TriggerArea _goalTrigger;
+
+    private BlockSystemHelper _blockSystemHelper;
+    private EngineBlock[] _blocks;
 
     protected override void Awake()
     {
@@ -31,6 +35,23 @@ public class TutorialStageManager : StageBaseManager
         // 로그 시스템
         GameManager.Instance.LogManager.LogStageEnter(StageId);
         ChangeStageSection("10_0_enter_tutorial");
+        
+        // Block System Helper 세팅
+        StartCoroutine(SetBlockSystemHelper());
+    }
+
+    private IEnumerator SetBlockSystemHelper()
+    {
+        yield return new WaitForSeconds(1.0f);
+        
+        _blockSystemHelper = FindAnyObjectByType<BlockSystemHelper>();
+        _blocks = FindObjectsByType<EngineBlock>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        
+        foreach (var block in _blocks)
+        {
+            block.OnBlockDragStarted += _blockSystemHelper.StartBlinking;
+            block.OnBlockDragEnd += _blockSystemHelper.StopBlinking;
+        }
     }
 
     private void OnGoalTriggered()

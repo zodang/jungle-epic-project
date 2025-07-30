@@ -7,9 +7,21 @@ public class ToolBoxSlot : BlockContainerBase, ISlot
 {
     [SerializeField] private Clickable tempTarget;
     [SerializeField] private List<BlockType> defaultBlockList;
+    
+    public event Action<EngineBlock> OnBlockSet;
+
+    [SerializeField] private int index = -1;
+    private Clickable _targetClickable;
+    private EngineBlock _currentBlock;
+    private BlockContainerBase _blockContainer;
+
+    private DebugSlot _debugSlot;
 
     private void Start()
     {
+        SetTargetClickable(tempTarget);
+        SetBlockContainerBase(this);
+        
         for (int i = 0; i < defaultBlockList.Count; i++)
         {
             BlockType type = defaultBlockList[i];
@@ -18,49 +30,79 @@ public class ToolBoxSlot : BlockContainerBase, ISlot
             RegisterBlockEvents(block);
             
             block.InitDefaultBlock(tempTarget, this);
-            block.SetInteraction(false, true, true);
+            block.SetInteraction(true, true, true);
         }
     }
 
-
-    public event Action<EngineBlock> OnBlockSet;
-
-    public int GetSlotIndex()
+    public void TryAddBlock(EngineBlock block)
     {
-        return -1;
+        WhenBlockDropped(block, this);
     }
 
-    public SlotType GetSlotType()
+    protected override void WhenBlockDropped(EngineBlock block, ISlot slot)
     {
-        return SlotType.ToolBoxSlot;
+        // 이전 Target의 기능 비활성화
+        if (block.CurrentTarget != null && block. CurrentFeature != null)
+        {
+            block.Deactivate(block.CurrentFeature);
+            block.CurrentTarget.BlockContainerBase.RemoveBlock(block.CurrentSlotIndex);
+        }
+        
+        slot.SetCurrentBlock(block);
+    }
+    
+    public override void RemoveBlock(int index)
+    {
+    }
+    
+    protected override void WhenLeftClicked(EngineBlock block)
+    {
+        // 기능 X
+    }
+    
+    protected override void WhenRightClicked(EngineBlock block)
+    {
+        if (FindAnyObjectByType<DebugSlot>().GetCurrentBlock() != null) return;
+        
+        EngineController activeEngine = null;
+        foreach (EngineController engineController in FindObjectsByType<EngineController>(FindObjectsSortMode.None))
+        {
+            if (engineController.IsActivate) activeEngine = engineController;
+        }
+
+        if (activeEngine == null) return;
+
+        activeEngine.TryAddBlock(block);
     }
 
-    public Clickable GetTargetClickable()
-    {
-        return tempTarget;
-    }
+    #region ISlot
 
-    public Transform GetTransform()
-    {
-        return transform;
-    }
+    public int GetSlotIndex() => index;
+    public SlotType GetSlotType() => SlotType.ToolBoxSlot;
 
-    public void SetBlockPosition(EngineBlock block)
+    public Clickable GetTargetClickable() => _targetClickable;
+    public Transform GetTransform() => transform;
+
+    public BlockContainerBase GetBlockContainerBase() => _blockContainer;
+
+    public void SetCurrentBlock(EngineBlock block)
     {
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
         block.SetVisualState(SlotType.ToolBoxSlot);
-        
+
         OnBlockSet?.Invoke(block);
     }
 
     public void SetTargetClickable(Clickable clickable)
     {
-        /*사용하지 않음*/
+        _targetClickable = clickable;
     }
-    
-    protected override void RemoveBlock(int index)
+
+    public void SetBlockContainerBase(BlockContainerBase blockContainer)
     {
-        /*사용하지 않음*/
+        _blockContainer = blockContainer;
     }
+
+    #endregion
 }

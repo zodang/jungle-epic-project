@@ -27,7 +27,7 @@ public class ShadowFollower : MonoBehaviour
         shadow.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + shadowRotationOffset.z);
 
         float distanceY = Mathf.Abs(transform.position.y - shadow.position.y);
-        Debug.Log("distanceY: " + distanceY);
+        //Debug.Log("distanceY: " + distanceY);
         float scaleMultiplier = CalculateScaleMultiplier(distanceY);
 
         shadow.localScale = Vector3.Scale(transform.localScale, shadowScaleMultiplier * scaleMultiplier);
