@@ -139,7 +139,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1582577997
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 4093480436322176185, guid: d814eaff01c8fa145b193403276ade34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -270,6 +270,7 @@ MonoBehaviour:
   nextIsGround: 0
   testdist: 0
   IsFalling: 0
+  FootColliders: []
 --- !u!1 &7052506055152083630
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,6 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9360a060de13447ade7a8a9292fc68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sortingOrderBias: 0
 --- !u!1 &7092604460622075436
 GameObject:
   m_ObjectHideFlags: 0
