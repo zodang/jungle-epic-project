@@ -6,6 +6,9 @@ using Unity.VisualScripting;
 
 public class CaveDoor : MonoBehaviour
 {
+    [Tooltip("이 문이 그림자 퍼즐과 연결되어 도전과제를 해금하는 문인지 체크합니다.")]
+    [SerializeField] private bool isShadowPuzzleDoor = false;
+
     [Header("Sprite")]
     [SerializeField] private SpriteRenderer door;
 
@@ -52,13 +55,15 @@ public class CaveDoor : MonoBehaviour
         bool isDoorOpening = !isOpen;
 
         // 문이 열리고, 아직 도전과제가 해금되지 않았다면
-        if (isDoorOpening && !AchievementStatusManager._isShadowPuzzleAchievementUnlocked)
+        if (isShadowPuzzleDoor && isDoorOpening && !AchievementStatusManager._isShadowPuzzleAchievementUnlocked)
         {
             AchievementStatusManager._isShadowPuzzleAchievementUnlocked = true;
             // API 이름은 '빛과 그림자' 도전과제에 해당하는 "ACH_PUZZLE_SHADOW"를 사용했습니다.
             SteamAchievementManager.Instance.UnlockAchievement("ACH_PUZZLE_SHADOW");
             Debug.Log("도전과제 '빛과 그림자'가 완료되었습니다.");
         }
+
+       
 
     }
 
