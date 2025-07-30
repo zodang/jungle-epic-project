@@ -30,7 +30,7 @@ public static class AchievementStatusManager
     public static bool isFallAchievementUnlocked = false; // '손이 미끄러졌네' 도전과제 해금 여부
 
     private const int TOTAL_NPC_COUNT = 11; // << 게임에 있는 전체 NPC 수를 여기에 입력하세요.
-    public static HashSet<string> talkedToNpcIds = new HashSet<string>(); // 대화한 NPC ID 목록
+    public static List<string> talkedToNpcIds = new List<string>(); // 대화한 NPC ID 목록
     public static bool isChatterboxAchievementUnlocked = false; // '수다쟁이' 도전과제 해금 여부
 
     // ... 다른 도전과제 변수들도 여기에 추가 ...
@@ -84,8 +84,8 @@ public static class AchievementStatusManager
         }
 
         // 저장된 데이터 기준으로 중복 체크
-        List<string> savedTalkedNpc = GameManager.Instance.SaveManager.LoadTalkedNpcData();
-        if (savedTalkedNpc.Contains(npcId)) return;
+        talkedToNpcIds = GameManager.Instance.SaveManager.LoadTalkedNpcData();
+        if (talkedToNpcIds.Contains(npcId)) return;
 
         talkedToNpcIds.Add(npcId);
         GameManager.Instance.SaveManager.SaveTalkedNpcData(npcId);
