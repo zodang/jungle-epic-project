@@ -4412,6 +4412,7 @@ GameObject:
   - component: {fileID: 7503295621025128505}
   - component: {fileID: 9065184776945658816}
   - component: {fileID: 9065184776945658817}
+  - component: {fileID: 9065184776945658818}
   m_Layer: 6
   m_Name: Block
   m_TagString: Untagged
@@ -4599,7 +4600,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.49, y: 0.4765407, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.47, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5079588251756454846}
@@ -4896,6 +4897,53 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9065184776945658818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5540022471606977214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69beb381e244f92449b8c4cf954630e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TrackedObjects:
+  - rid: 8545196144495427703
+  references:
+    version: 2
+    RefIds:
+    - rid: 8545196144495427703
+      type: {class: TrackedTransform, ns: UnityEngine.Localization.PropertyVariants.TrackedObjects, asm: Unity.Localization}
+      data:
+        m_Target: {fileID: 6836015967923465182}
+        m_TrackedProperties:
+          items:
+          - rid: 8545196144495427704
+          - rid: 8545196144495427705
+    - rid: 8545196144495427704
+      type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_PropertyPath: m_LocalScale.x
+        m_VariantData:
+        - localeIdentifier:
+            m_Code: en
+          value: 0.5
+        - localeIdentifier:
+            m_Code: ja
+          value: 0.245
+    - rid: 8545196144495427705
+      type: {class: FloatTrackedProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
+      data:
+        m_PropertyPath: m_LocalScale.y
+        m_VariantData:
+        - localeIdentifier:
+            m_Code: en
+          value: 0.47
+        - localeIdentifier:
+            m_Code: ja
+          value: 0.235
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
