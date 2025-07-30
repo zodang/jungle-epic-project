@@ -53,7 +53,7 @@ public abstract class DialControlBase<TFeature>: EngineBlock where TFeature : cl
         string blockValue = ((int)GetCurrentValue()).ToString();
         string targetObj = CurrentSlot.GetTargetClickable().name;
         GameManager.Instance.LogManager.LogBlockControl(stageId, sectionId, blockType, blockValue, targetObj);
-        Debug.Log($"@@DE ---> {stageId} / {sectionId} / {blockType} / {blockValue} / {targetObj}");
+        // Debug.Log($"@@DE ---> {stageId} / {sectionId} / {blockType} / {blockValue} / {targetObj}");
     }
     
     protected abstract float GetMinValue();

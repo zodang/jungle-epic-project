@@ -8,27 +8,29 @@ public class BlockVisual : MonoBehaviour,
     IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, 
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public Action OnDragStart;
     public Action<ISlot> OnDragEnd;
     public Action OnLeftClicked;
     public Action OnRightClicked;
+    
+    public bool IsRaised { get; private set; }
+    
+    [SerializeField] private RectTransform visualObject;
+    [SerializeField] private GameObject engineBlock;
+    [SerializeField] private GameObject inventoryBlock;
     
     public static event Action OnAnyBlockBeginDrag;
     public static event Action OnAnyBlockEndDrag;
     
     private ISlot _detectedSlot;
     
-    public GameObject EngineBlock;
-    public GameObject InventoryBlock;
-    
     private Canvas _canvas;
     private RectTransform _rectTransform;
 
-    public RectTransform _visualObject;
     private bool _isAnimating = false;
     private bool _isPointerOver = false;
     private Tween _hoverTween;
 
-    public bool IsRaised;
     private float _yRaisedPos = 150;
 
     private bool _isDragInitialized;
@@ -42,7 +44,6 @@ public class BlockVisual : MonoBehaviour,
     private void Awake()
     {
         ChangeBlockVisual(SlotType.InventorySlot);
-        _visualObject = transform.GetChild(0).GetComponent<RectTransform>();
     }
 
     private void Start()
@@ -80,14 +81,14 @@ public class BlockVisual : MonoBehaviour,
     {
         if (!_canHover) return;
         
-        if (!InventoryBlock.activeSelf) return;
+        if (!inventoryBlock.activeSelf) return;
         
         _isPointerOver = true;
         if (_isAnimating) return;
 
         _hoverTween?.Kill();
         _isAnimating = true;
-        _hoverTween = _visualObject.DOAnchorPosY(_visualObject.anchoredPosition.y + 30, 0.3f)
+        _hoverTween = visualObject.DOAnchorPosY(visualObject.anchoredPosition.y + 30, 0.3f)
             .SetEase(Ease.OutQuad)
             .OnComplete(() =>
             {
@@ -100,14 +101,14 @@ public class BlockVisual : MonoBehaviour,
     {
         if (!_canHover) return;
         
-        if (!InventoryBlock.activeSelf) return;
+        if (!inventoryBlock.activeSelf) return;
         
         _isPointerOver = false;
         if (_isAnimating) return;
 
         _hoverTween?.Kill();
         _isAnimating = true;
-        _hoverTween = _visualObject.DOAnchorPosY(0, 0.1f)
+        _hoverTween = visualObject.DOAnchorPosY(0, 0.1f)
             .SetEase(Ease.OutQuad)
             .OnComplete(() =>
             {
@@ -133,6 +134,8 @@ public class BlockVisual : MonoBehaviour,
         transform.SetParent(_canvas.transform);
         transform.SetAsLastSibling();
         ChangeBlockVisual(SlotType.InventorySlot);
+        
+        OnDragStart?.Invoke();
     }
     
     public void OnDrag(PointerEventData eventData)
@@ -171,7 +174,7 @@ public class BlockVisual : MonoBehaviour,
         
         _hoverTween?.Kill();
         _isAnimating = false;
-        _visualObject.anchoredPosition = Vector2.zero;
+        visualObject.anchoredPosition = Vector2.zero;
         
         OnDragEnd?.Invoke(_detectedSlot);
         OnAnyBlockEndDrag?.Invoke();
@@ -204,8 +207,10 @@ public class BlockVisual : MonoBehaviour,
 
     public void ChangeBlockVisual(SlotType slotType)
     {
-        InventoryBlock.SetActive(slotType == SlotType.InventorySlot || slotType == SlotType.ToolBoxSlot);
-        EngineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot || slotType == SlotType.DebugSlot);
+        inventoryBlock.SetActive(slotType == SlotType.InventorySlot || slotType == SlotType.ToolBoxSlot);
+        engineBlock.SetActive(slotType == SlotType.EngineSlot || slotType == SlotType.SimpleSlot || slotType == SlotType.DebugSlot);
+
+        visualObject.anchoredPosition = Vector2.zero;
     }
     
     public void RaiseVisual(bool raise)
@@ -217,11 +222,14 @@ public class BlockVisual : MonoBehaviour,
         IsRaised = raise;
 
         if (IsRaised)
-            _visualObject.anchoredPosition = _yRaisedPos * Vector2.up;
+        {
+            ChangeBlockVisual(SlotType.EngineSlot);            
+            visualObject.anchoredPosition = _yRaisedPos * Vector2.up;
+        }
         else
         {
-            _visualObject.anchoredPosition = Vector2.zero;
             ChangeBlockVisual(SlotType.InventorySlot);
+            visualObject.anchoredPosition = Vector2.zero;
         }
     }
 }
