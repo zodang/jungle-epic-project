@@ -36,6 +36,10 @@ public class LanguageSetting : MonoBehaviour
                 optimalLanguage = 2;
                 break;
             
+            case SystemLanguage.Japanese:
+                optimalLanguage = 3;
+                break;
+            
             case SystemLanguage.English:
             default:
                 optimalLanguage = 0;
