@@ -21,7 +21,7 @@ public class FairyAchievementChecker : MonoBehaviour
 
     private void CheckFairyStates()
     {
-        if (AchievementStatusManager.isTinkerbellAchievementUnlocked) return;
+        if (AchievementStatusManager._isTinkerbellAchievementUnlocked) return;
         if (fairiesToCheck == null || fairiesToCheck.Count == 0) return;
 
         foreach (var fairy in fairiesToCheck)
@@ -38,7 +38,7 @@ public class FairyAchievementChecker : MonoBehaviour
 
     private void UnlockTinkerbellAchievement()
     {
-        AchievementStatusManager.isTinkerbellAchievementUnlocked = true;
+        AchievementStatusManager._isTinkerbellAchievementUnlocked = true;
         SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_FAIRY"); // '팅커벨' API 이름
         Debug.Log("도전과제 '팅커벨'이 완료되었습니다: 모든 요정이 작고 빛납니다!");
     }

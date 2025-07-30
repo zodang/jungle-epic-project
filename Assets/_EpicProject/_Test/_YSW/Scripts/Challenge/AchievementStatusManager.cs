@@ -21,8 +21,9 @@ public static class AchievementStatusManager
     public static bool _isHandsomeAchievementUnlocked = false;
     public static bool _isTitanAchievementUnlocked = false;
     public static bool _isSweepAchievementUnlocked = false;
-    public static bool isTinkerbellAchievementUnlocked = false;
-    public static bool isBeautyGuardAchievementUnlocked = false;
+    public static bool _isTinkerbellAchievementUnlocked = false;
+    public static bool _isBeautyGuardAchievementUnlocked = false;
+    public static bool _isShadowPuzzleAchievementUnlocked = false; 
 
 
     public static int fallCount = 0; // 낙하 횟수 카운터
@@ -54,8 +55,9 @@ public static class AchievementStatusManager
         _isHandsomeAchievementUnlocked = false;
         _isTitanAchievementUnlocked = false;
         _isSweepAchievementUnlocked = false;
-        isTinkerbellAchievementUnlocked = false;
-        isBeautyGuardAchievementUnlocked = false;
+        _isTinkerbellAchievementUnlocked = false;
+        _isBeautyGuardAchievementUnlocked = false;
+        _isShadowPuzzleAchievementUnlocked = false;
 
         // << 아래 두 줄을 새로 추가하세요. >>
         fallCount = 0;

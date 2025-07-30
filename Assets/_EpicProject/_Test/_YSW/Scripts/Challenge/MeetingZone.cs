@@ -8,7 +8,7 @@ public class MeetingZone : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 1. 이미 도전과제가 해금되었다면 아무것도 하지 않음
-        if (AchievementStatusManager.isBeautyGuardAchievementUnlocked)
+        if (AchievementStatusManager._isBeautyGuardAchievementUnlocked)
         {
             return;
         }
@@ -17,7 +17,7 @@ public class MeetingZone : MonoBehaviour
         if (other.CompareTag("GuardToMeet"))
         {
             // 3. 조건이 맞으면 도전과제를 해금합니다.
-            AchievementStatusManager.isBeautyGuardAchievementUnlocked = true;
+            AchievementStatusManager._isBeautyGuardAchievementUnlocked = true;
             SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_BEAUTY_GUARD");
             Debug.Log("도전과제 '미녀와 경비병'이 완료되었습니다.");
 
