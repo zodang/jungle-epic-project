@@ -83,18 +83,20 @@ public static class AchievementStatusManager
             return;
         }
 
-        // 목록에 새로운 NPC ID를 추가하고, 실제로 추가되었는지(기존에 없었는지) 확인
-        if (talkedToNpcIds.Add(npcId))
-        {
-            Debug.Log($"새로운 NPC와 대화: {npcId}. 현재 대화한 NPC 수: {talkedToNpcIds.Count}/{TOTAL_NPC_COUNT}");
+        // 저장된 데이터 기준으로 중복 체크
+        List<string> savedTalkedNpc = GameManager.Instance.SaveManager.LoadTalkedNpcData();
+        if (savedTalkedNpc.Contains(npcId)) return;
 
-            // 대화한 NPC 수가 목표치에 도달했는지 확인
-            if (talkedToNpcIds.Count >= TOTAL_NPC_COUNT)
-            {
-                isChatterboxAchievementUnlocked = true;
-                SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_CHATTERBOX"); // '수다쟁이' API 이름
-                Debug.Log("도전과제 '수다쟁이'가 완료되었습니다.");
-            }
+        talkedToNpcIds.Add(npcId);
+        GameManager.Instance.SaveManager.SaveTalkedNpcData(npcId);
+        Debug.Log($"새로운 NPC와 대화: {npcId}. 현재 대화한 NPC 수: {talkedToNpcIds.Count}/{TOTAL_NPC_COUNT}");
+
+        // 대화한 NPC 수가 목표치에 도달했는지 확인
+        if (talkedToNpcIds.Count >= TOTAL_NPC_COUNT)
+        {
+            isChatterboxAchievementUnlocked = true;
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_CHATTERBOX"); // '수다쟁이' API 이름
+            Debug.Log("도전과제 '수다쟁이'가 완료되었습니다.");
         }
     }
 }

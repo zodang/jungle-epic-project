@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -28,6 +29,16 @@ public class SaveManager : MonoBehaviour
         SaveAllData(data);
     }
 
+    public void SaveTalkedNpcData(string id)
+    {
+        GameSaveData data = LoadData();
+        
+        if (data.TalkedNpcHashSet.Contains(id)) return;
+
+        data.TalkedNpcHashSet.Add(id);
+        SaveAllData(data);
+    }
+
     public SettingData LoadSettingData()
     {
         return LoadData().SettingData;
@@ -41,6 +52,11 @@ public class SaveManager : MonoBehaviour
     public bool LoadPrivacyConfirmData()
     {
         return LoadData().IsPrivacyConfirmation;
+    }
+
+    public List<string> LoadTalkedNpcData()
+    {
+        return LoadData().TalkedNpcHashSet;
     }
     
     public void DeleteSettingData()
@@ -94,6 +110,7 @@ public class SaveManager : MonoBehaviour
         saveData.SettingData = new SettingData();
         saveData.StageData = new StageData();
         saveData.IsPrivacyConfirmation = false;
+        saveData.TalkedNpcHashSet = new List<string>();
         
         // 기본값 세팅
         saveData.SettingData.LanguageIndex = 
@@ -119,6 +136,7 @@ public class GameSaveData
     public SettingData SettingData = new SettingData(); // 설정 데이터
     public StageData StageData = new StageData(); // 스테이지 데이터
     public bool IsPrivacyConfirmation; // 개인정보 처리방침 확인 여부
+    public List<string> TalkedNpcHashSet = new List<string>(); // 대화한 Npc ID
 }
 
 [Serializable]
