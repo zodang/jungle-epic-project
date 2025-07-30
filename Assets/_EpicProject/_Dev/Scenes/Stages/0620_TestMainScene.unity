@@ -371,7 +371,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9000006, y: -7.25, z: -10}
+  m_LocalPosition: {x: -4.8285637, y: -7.25, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2713,9 +2713,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3848284646218821197, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
-      propertyPath: npcId
-      value: "\uB098\uBB34\uAFBC"
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171911].m_VariantData.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171912].m_VariantData.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171911].m_VariantData.Array.data[2].value
+      value: 
+      objectReference: {fileID: 11400000, guid: 903c433060abe92459f39b0e4b47a58a, type: 2}
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171912].m_VariantData.Array.data[2].value
+      value: 
+      objectReference: {fileID: -7000256516718564864, guid: 903c433060abe92459f39b0e4b47a58a, type: 2}
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171911].m_VariantData.Array.data[2].localeIdentifier.m_Code
+      value: ja
+      objectReference: {fileID: 0}
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171912].m_VariantData.Array.data[2].localeIdentifier.m_Code
+      value: ja
       objectReference: {fileID: 0}
     - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3995,10 +4015,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6204484023157412195, guid: 50bf711b5fc512d47917f512f2ba4fc3, type: 3}
-      propertyPath: npcId
-      value: "\uAF2C\uB9C8"
-      objectReference: {fileID: 0}
     - target: {fileID: 6204484023157412195, guid: 50bf711b5fc512d47917f512f2ba4fc3, type: 3}
       propertyPath: conditionalDialogues.Array.size
       value: 2

@@ -609,8 +609,8 @@ Transform:
   m_GameObject: {fileID: 268102217}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.1458006, z: 0}
-  m_LocalScale: {x: 0.7451, y: 1.6493285, z: 1}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalScale: {x: 0.79, y: 1.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 532827717}
@@ -737,7 +737,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 135130019380869672, guid: cb499943ecd172e4bb7d55161033f30d, type: 3}
       propertyPath: m_SortingOrder
-      value: -1876
+      value: -1997
       objectReference: {fileID: 0}
     - target: {fileID: 713224248957958559, guid: cb499943ecd172e4bb7d55161033f30d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -790,14 +790,6 @@ PrefabInstance:
     - target: {fileID: 2871296244650590183, guid: cb499943ecd172e4bb7d55161033f30d, type: 3}
       propertyPath: m_Name
       value: GridS1-2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3996153279893120432, guid: cb499943ecd172e4bb7d55161033f30d, type: 3}
-      propertyPath: m_SortingLayer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3996153279893120432, guid: cb499943ecd172e4bb7d55161033f30d, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1582577997
       objectReference: {fileID: 0}
     - target: {fileID: 4706055298278035342, guid: cb499943ecd172e4bb7d55161033f30d, type: 3}
       propertyPath: m_SortingOrder
@@ -951,6 +943,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5863403868127309433, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
+      propertyPath: _rangeRotation.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863403868127309433, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
       propertyPath: OnIsAligend.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -1056,7 +1052,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7835906252784219578, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
       propertyPath: _rangeRotation.z
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7835906252784219578, guid: d443bb013a0275c4d8ea11e795031c9e, type: 3}
       propertyPath: OnIsAligend.m_PersistentCalls.m_Calls.Array.size
@@ -1244,8 +1240,8 @@ Transform:
   m_GameObject: {fileID: 532827716}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.66, y: 12.939, z: 0}
-  m_LocalScale: {x: 1, y: 1.07, z: 1}
+  m_LocalPosition: {x: -12.5, y: 13, z: 0}
+  m_LocalScale: {x: 1, y: 1.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 268102219}
