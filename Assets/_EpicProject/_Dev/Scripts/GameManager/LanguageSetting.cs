@@ -8,7 +8,7 @@ public class LanguageSetting : MonoBehaviour
     public int CurrentIndex { get; private set; }
 
     private TMP_Dropdown _languageDropdown;
-    private readonly List<string> _languageOptions = new List<string> {"English", "한국어", "中文"/*, "日本語"*/};
+    private readonly List<string> _languageOptions = new List<string> {"English", "한국어", "中文", "日本語"};
     
     private bool _suppressDropdownEvent = false;
     
