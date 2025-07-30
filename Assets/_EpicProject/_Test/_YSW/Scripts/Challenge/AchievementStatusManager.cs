@@ -30,7 +30,7 @@ public static class AchievementStatusManager
     public static bool isFallAchievementUnlocked = false; // '손이 미끄러졌네' 도전과제 해금 여부
 
     private const int TOTAL_NPC_COUNT = 11; // << 게임에 있는 전체 NPC 수를 여기에 입력하세요.
-    public static HashSet<string> talkedToNpcIds = new HashSet<string>(); // 대화한 NPC ID 목록
+    public static List<string> talkedToNpcIds = new List<string>(); // 대화한 NPC ID 목록
     public static bool isChatterboxAchievementUnlocked = false; // '수다쟁이' 도전과제 해금 여부
 
     // ... 다른 도전과제 변수들도 여기에 추가 ...
@@ -83,18 +83,20 @@ public static class AchievementStatusManager
             return;
         }
 
-        // 목록에 새로운 NPC ID를 추가하고, 실제로 추가되었는지(기존에 없었는지) 확인
-        if (talkedToNpcIds.Add(npcId))
-        {
-            Debug.Log($"새로운 NPC와 대화: {npcId}. 현재 대화한 NPC 수: {talkedToNpcIds.Count}/{TOTAL_NPC_COUNT}");
+        // 저장된 데이터 기준으로 중복 체크
+        talkedToNpcIds = GameManager.Instance.SaveManager.LoadTalkedNpcData();
+        if (talkedToNpcIds.Contains(npcId)) return;
 
-            // 대화한 NPC 수가 목표치에 도달했는지 확인
-            if (talkedToNpcIds.Count >= TOTAL_NPC_COUNT)
-            {
-                isChatterboxAchievementUnlocked = true;
-                SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_CHATTERBOX"); // '수다쟁이' API 이름
-                Debug.Log("도전과제 '수다쟁이'가 완료되었습니다.");
-            }
+        talkedToNpcIds.Add(npcId);
+        GameManager.Instance.SaveManager.SaveTalkedNpcData(npcId);
+        Debug.Log($"새로운 NPC와 대화: {npcId}. 현재 대화한 NPC 수: {talkedToNpcIds.Count}/{TOTAL_NPC_COUNT}");
+
+        // 대화한 NPC 수가 목표치에 도달했는지 확인
+        if (talkedToNpcIds.Count >= TOTAL_NPC_COUNT)
+        {
+            isChatterboxAchievementUnlocked = true;
+            SteamAchievementManager.Instance.UnlockAchievement("ACH_SECRET_CHATTERBOX"); // '수다쟁이' API 이름
+            Debug.Log("도전과제 '수다쟁이'가 완료되었습니다.");
         }
     }
 }
