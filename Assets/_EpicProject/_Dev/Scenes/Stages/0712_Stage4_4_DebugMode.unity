@@ -5363,51 +5363,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e0aa960ebbf61a4e8dc6992345b375d, type: 3}
---- !u!1 &1816775019 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5540022469955325906, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
-  m_PrefabInstance: {fileID: 1211709008360679200}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &1816775020 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 7503295619373215061, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
-  m_PrefabInstance: {fileID: 1211709008360679200}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1816775026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1816775019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f55fcc3768689a4f9cf863b8c11c618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LocalizedAssetReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:9c3d0e54189f5fd478f283ebabf97beb
-    m_TableEntryReference:
-      m_KeyId: 6189127274291200
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  m_UpdateAsset:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1816775020}
-        m_TargetAssemblyTypeName: UnityEngine.SpriteRenderer, UnityEngine
-        m_MethodName: set_sprite
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1851804889
 GameObject:
   m_ObjectHideFlags: 0
@@ -6161,18 +6116,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4093107645702389802, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
-      propertyPath: m_Size.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4093107645702389802, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
-      propertyPath: m_Size.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4093107645702389802, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4133875417820947921, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
       propertyPath: m_Name
       value: BrokenEmotionBlock
@@ -6217,21 +6160,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6836015967344502450, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.49
-      objectReference: {fileID: 0}
-    - target: {fileID: 6836015967344502450, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.4765407
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5540022469955325906, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1816775026}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0d7c46aeaafa8445bdbb811ed8e4563, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
