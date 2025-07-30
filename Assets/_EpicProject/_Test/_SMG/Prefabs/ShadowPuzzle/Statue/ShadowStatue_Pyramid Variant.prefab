@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.09
       objectReference: {fileID: 0}
+    - target: {fileID: 7970064952525236684, guid: db5ee868e516bd840a1412fd6f989f84, type: 3}
+      propertyPath: ID
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8480448855942370187, guid: db5ee868e516bd840a1412fd6f989f84, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7
@@ -147,7 +151,7 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.4}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
