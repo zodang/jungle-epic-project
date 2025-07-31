@@ -209,6 +209,9 @@ public class VisualNovelSystem : MonoBehaviour
             _language = LocalizationSettings.SelectedLocale.Identifier.Code;
             switch (_language)
             {
+                // 번체 추가용 
+                case "zh-Hant":
+
                 case "zh-Hans":
                     SpeakerText.font = ZhHans_Font;
                     ContentText.font = ZhHans_Font;
