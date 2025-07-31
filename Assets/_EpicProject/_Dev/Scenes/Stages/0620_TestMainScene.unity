@@ -371,7 +371,7 @@ Transform:
   m_GameObject: {fileID: 35853006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.833333, y: -7.25, z: -10}
+  m_LocalPosition: {x: -4.837579, y: -7.25, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2723,14 +2723,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: managedReferences[518334561266171911].m_VariantData.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: managedReferences[518334561266171912].m_VariantData.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: managedReferences[518334561266171911].m_VariantData.Array.data[2].value
+      value: 
+      objectReference: {fileID: 11400000, guid: 903c433060abe92459f39b0e4b47a58a, type: 2}
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171911].m_VariantData.Array.data[3].value
       value: 
       objectReference: {fileID: 11400000, guid: 903c433060abe92459f39b0e4b47a58a, type: 2}
     - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
@@ -2738,12 +2742,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -7000256516718564864, guid: 903c433060abe92459f39b0e4b47a58a, type: 2}
     - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171912].m_VariantData.Array.data[3].value
+      value: 
+      objectReference: {fileID: -7000256516718564864, guid: 903c433060abe92459f39b0e4b47a58a, type: 2}
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: managedReferences[518334561266171911].m_VariantData.Array.data[2].localeIdentifier.m_Code
       value: ja
       objectReference: {fileID: 0}
     - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171911].m_VariantData.Array.data[3].localeIdentifier.m_Code
+      value: zh-Hant
+      objectReference: {fileID: 0}
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: managedReferences[518334561266171912].m_VariantData.Array.data[2].localeIdentifier.m_Code
       value: ja
+      objectReference: {fileID: 0}
+    - target: {fileID: 377174051997456929, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
+      propertyPath: managedReferences[518334561266171912].m_VariantData.Array.data[3].localeIdentifier.m_Code
+      value: zh-Hant
       objectReference: {fileID: 0}
     - target: {fileID: 5858981914853298407, guid: 87eca6bdd4852314dbce03f1317380f4, type: 3}
       propertyPath: m_LocalPosition.x
