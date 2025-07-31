@@ -30,8 +30,10 @@ public class DialogueManager : MonoBehaviour
         { "ko", "당신" },
         { "en", "You" },
         { "zh-Hans", "你" },
+        { "zh-Hant", "你" },
         { "ja", "あなた" }
     };
+    
 
     private IDialogueState currentState;
     public readonly DialogueIdleState IdleState = new DialogueIdleState();
