@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using Define;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class EngineBlock : MonoBehaviour
@@ -34,6 +36,7 @@ public abstract class EngineBlock : MonoBehaviour
     protected virtual void Awake()
     {
         _visual = GetComponent<BlockVisual>();
+        _animator = GetComponent<Animator>();
     }
     
     private void Start()
@@ -129,4 +132,39 @@ public abstract class EngineBlock : MonoBehaviour
         _visual.ActivateHoverEvent(canHover);
         _visual.ActivateDragEvent(canDrag);
     }
+
+    // 블록 애니메이터 
+    private Animator _animator;
+    private Coroutine _animatorCo;
+
+    public void OnBlockAnimation()
+    {
+        if (_animator == null)
+        {
+            Debug.LogWarning("Animator is not assigned or missing.");
+            return;
+        }
+
+        // 이전 코루틴 정지
+        if (_animatorCo != null)
+        {
+            StopCoroutine(_animatorCo);
+            _animatorCo = null;
+        }
+
+        // 애니메이션 강제 초기화 재생
+        _animator.Play("Set Block", 0, 0f); // 레이어 0, 시간 0초부터 재생
+
+        // 다시 코루틴 시작
+        _animatorCo = StartCoroutine(NextAni());
+    }
+
+    private IEnumerator NextAni()
+    {
+        yield return new WaitForSeconds(1f);
+        _animator.Play("Empty Block", 0, 0f);
+        _animatorCo = null;
+    }
+
+
 }
