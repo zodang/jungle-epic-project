@@ -30,7 +30,7 @@ public class EngineSlot : MonoBehaviour, ISlot
         block.transform.SetParent(transform, false);
         block.transform.localPosition = Vector3.zero;
         block.DropEngineBlock();
-        
+        block.OnBlockAnimation();
         block.SetVisualState(SlotType.EngineSlot);
         
         _currentBlock = block;

@@ -28,7 +28,7 @@ public class InventorySlot : MonoBehaviour, ISlot
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
         block.transform.localScale = Vector3.one;
-        
+        block.OnBlockAnimation();
         block.SetVisualState(SlotType.InventorySlot);
     }
 

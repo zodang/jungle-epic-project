@@ -5284,7 +5284,6 @@ GameObject:
   - component: {fileID: 1308466449}
   - component: {fileID: 1308466450}
   - component: {fileID: 1308466451}
-  - component: {fileID: 1308466452}
   m_Layer: 0
   m_Name: Stage1Manager
   m_TagString: Untagged
@@ -5374,21 +5373,6 @@ MonoBehaviour:
   skipProgressImage: {fileID: 0}
   skipKey: 48
   timeToSkip: 1.5
---- !u!114 &1308466452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308466446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89dc90c00b268d345ae24a75cd57ae71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fairiesToCheck:
-  - {fileID: 1586713914}
-  - {fileID: 2103060152}
 --- !u!1 &1310882146
 GameObject:
   m_ObjectHideFlags: 0
@@ -6627,9 +6611,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC_FairyRed
       objectReference: {fileID: 0}
-    - target: {fileID: 7709748375629812306, guid: 85c91d639f7bd3040833c75883d93079, type: 3}
-      propertyPath: npcId
-      value: NPC_01
+    - target: {fileID: 3419506415641235180, guid: 85c91d639f7bd3040833c75883d93079, type: 3}
+      propertyPath: MinBright
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419506415641235180, guid: 85c91d639f7bd3040833c75883d93079, type: 3}
+      propertyPath: DefaultLight
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9116,21 +9104,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3927368015006594418, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
+      propertyPath: MinBright
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5146658067610238795, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
       propertyPath: m_Name
       value: NPC_FairyGreen
       objectReference: {fileID: 0}
-    - target: {fileID: 6780428592906111673, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
-      propertyPath: npcId
-      value: NPC_02
-      objectReference: {fileID: 0}
     - target: {fileID: 7996107856185881127, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.255
+      value: 7.88
       objectReference: {fileID: 0}
     - target: {fileID: 7996107856185881127, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.072
+      value: 3.61
       objectReference: {fileID: 0}
     - target: {fileID: 7996107856185881127, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9172,17 +9160,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2104458879}
   m_SourcePrefab: {fileID: 100100000, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
---- !u!114 &2103060152 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3927368015006594418, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}
-  m_PrefabInstance: {fileID: 2103060151}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c04c9236ab343644f80c369cd0910278, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2104458874 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5848176820569590026, guid: fb7b5d737db73804aa5225665cce96f7, type: 3}

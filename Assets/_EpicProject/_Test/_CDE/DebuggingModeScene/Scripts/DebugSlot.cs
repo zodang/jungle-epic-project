@@ -27,7 +27,8 @@ public class DebugSlot : MonoBehaviour, ISlot
         block.transform.SetParent(transform);
         block.transform.localPosition = Vector3.zero;
         block.SetVisualState(SlotType.DebugSlot);
-        
+        block.OnBlockAnimation();
+
         OnBlockSet?.Invoke(block);
     }
 
