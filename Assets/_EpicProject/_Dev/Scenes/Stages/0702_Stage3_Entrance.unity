@@ -427,11 +427,11 @@ PrefabInstance:
       objectReference: {fileID: 1679724373}
     - target: {fileID: 4118026918698963776, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.65
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4118026918698963776, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.65
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4118026918698963776, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
       propertyPath: m_LocalPosition.x
@@ -472,6 +472,14 @@ PrefabInstance:
     - target: {fileID: 4118026918698963776, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5785721303880515364, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 5785721303880515364, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 8413344444309064997, guid: ece60d10d5b30a744b4c912bba8fb797, type: 3}
       propertyPath: m_Name
@@ -2176,6 +2184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e316a816d83d4934eb2e18c8daec1922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graphicHandlersToCheck: []
 --- !u!320 &1308466450
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -191632,6 +191641,10 @@ PrefabInstance:
       propertyPath: interactionPromptCanvas
       value: 
       objectReference: {fileID: 1679536700}
+    - target: {fileID: 1265292087987370893, guid: c23e8946cc7447149a303774255ef7ed, type: 3}
+      propertyPath: npcId
+      value: NPC_06
+      objectReference: {fileID: 0}
     - target: {fileID: 2844166699228183363, guid: c23e8946cc7447149a303774255ef7ed, type: 3}
       propertyPath: m_SortingLayer
       value: 4
@@ -191762,6 +191775,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264913291}
     m_Modifications:
+    - target: {fileID: 2609403120875910248, guid: 5abcfa178fba21d4ca11f12f62ad7e37, type: 3}
+      propertyPath: npcId
+      value: NPC_05
+      objectReference: {fileID: 0}
     - target: {fileID: 3278096948933108881, guid: 5abcfa178fba21d4ca11f12f62ad7e37, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.88
