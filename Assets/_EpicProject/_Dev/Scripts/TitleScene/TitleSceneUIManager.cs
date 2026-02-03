@@ -41,8 +41,8 @@ public class TitleSceneUIManager : MonoBehaviour
     {
         string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Title");
         string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Message");
-        string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Confirm");
-        string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_More");
+        string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Agree");
+        string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Disagree");
 
         GameManager.Instance.UIManager.PopupUI.ShowPopup
         (
