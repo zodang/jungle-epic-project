@@ -39,7 +39,28 @@ public class TitleSceneUIManager : MonoBehaviour
 
     private void OnClickPrivacyPolicyBtn()
     {
-        Application.OpenURL("https://marked-ocicat-59a.notion.site/Privacy-Policy-2377fce732a680b287f6e418581ccea4?source=copy_link");
+        string title = LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Title");
+        string message =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Message");
+        string okLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_Confirm");
+        string cancelLabel =  LocalizationSettings.StringDatabase.GetLocalizedString("PopupUI", "PrivacyConfirm_More");
+
+        GameManager.Instance.UIManager.PopupUI.ShowPopup
+        (
+            title,
+            message,
+            onOk: () =>
+            {
+                GameManager.Instance.SaveManager.SavePrivacyData(true);
+                GameManager.Instance.UIManager.ActivateGameUIManager(true);
+            },
+            onCancel: () =>
+            {
+                GameManager.Instance.SaveManager.SavePrivacyData(true);
+                GameManager.Instance.UIManager.ActivateGameUIManager(true);
+            },
+            okLabel,
+            cancelLabel
+        );
     }
     
     public void SetContinueBtn(bool isNew)
