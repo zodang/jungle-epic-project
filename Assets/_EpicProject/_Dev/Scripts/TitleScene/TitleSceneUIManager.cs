@@ -50,12 +50,20 @@ public class TitleSceneUIManager : MonoBehaviour
             message,
             onOk: () =>
             {
+                GameManager.Instance.LogManager.OptIn();
+                
+                GameManager.Instance.SaveManager.SavePrivacyAgreement(true);
                 GameManager.Instance.SaveManager.SavePrivacyData(true);
+                
                 GameManager.Instance.UIManager.ActivateGameUIManager(true);
             },
             onCancel: () =>
             {
+                GameManager.Instance.LogManager.OptOut();
+                
+                GameManager.Instance.SaveManager.SavePrivacyAgreement(false);
                 GameManager.Instance.SaveManager.SavePrivacyData(true);
+                
                 GameManager.Instance.UIManager.ActivateGameUIManager(true);
             },
             okLabel,

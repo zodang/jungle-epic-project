@@ -157,25 +157,26 @@ public class StartManager : MonoBehaviour
             message,
             onOk: () =>
             {
-                privacyConfirmPopup.enabled = false;
+                GameManager.Instance.LogManager.OptIn();
+                
+                GameManager.Instance.SaveManager.SavePrivacyAgreement(true);
                 GameManager.Instance.SaveManager.SavePrivacyData(true);
+                
+                privacyConfirmPopup.enabled = false;
                 GameManager.Instance.UIManager.ActivateGameUIManager(true);
             },
             onCancel: () =>
             {
-                OpenPrivacyPolicyPage(); 
+                GameManager.Instance.LogManager.OptOut();
+                
+                GameManager.Instance.SaveManager.SavePrivacyAgreement(false);
+                GameManager.Instance.SaveManager.SavePrivacyData(true);
                 
                 privacyConfirmPopup.enabled = false;
-                GameManager.Instance.SaveManager.SavePrivacyData(true);
                 GameManager.Instance.UIManager.ActivateGameUIManager(true);
             },
             okLabel,
             cancelLabel
         );
-    }
-
-    private void OpenPrivacyPolicyPage()
-    {
-        Application.OpenURL("https://marked-ocicat-59a.notion.site/Privacy-Policy-2377fce732a680b287f6e418581ccea4?source=copy_link");
     }
 }
