@@ -28,6 +28,13 @@ public class SaveManager : MonoBehaviour
         SaveAllData(data);
     }
 
+    public void SavePrivacyAgreement(bool isAgree)
+    {
+        GameSaveData data = LoadData();
+        data.IsPrivacyAgreement = isAgree;
+        SaveAllData(data);
+    }
+
     public SettingData LoadSettingData()
     {
         return LoadData().SettingData;
@@ -41,6 +48,11 @@ public class SaveManager : MonoBehaviour
     public bool LoadPrivacyConfirmData()
     {
         return LoadData().IsPrivacyConfirmation;
+    }
+    
+    public bool LoadPrivacyAgreementData()
+    {
+        return LoadData().IsPrivacyAgreement;
     }
     
     public void DeleteSettingData()
@@ -94,6 +106,7 @@ public class SaveManager : MonoBehaviour
         saveData.SettingData = new SettingData();
         saveData.StageData = new StageData();
         saveData.IsPrivacyConfirmation = false;
+        saveData.IsPrivacyAgreement = false;
         
         // 기본값 세팅
         saveData.SettingData.LanguageIndex = 
@@ -119,6 +132,7 @@ public class GameSaveData
     public SettingData SettingData = new SettingData(); // 설정 데이터
     public StageData StageData = new StageData(); // 스테이지 데이터
     public bool IsPrivacyConfirmation; // 개인정보 처리방침 확인 여부
+    public bool IsPrivacyAgreement; // 개인정보 처리방침 동의 여부
 }
 
 [Serializable]
