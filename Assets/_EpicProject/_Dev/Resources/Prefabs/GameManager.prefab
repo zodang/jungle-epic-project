@@ -1203,6 +1203,7 @@ GameObject:
   - component: {fileID: 5199743409858885553}
   - component: {fileID: 6940610262061522920}
   - component: {fileID: 7928256959915361817}
+  - component: {fileID: 2101255880100673658}
   m_Layer: 0
   m_Name: MessageText
   m_TagString: Untagged
@@ -1396,6 +1397,18 @@ MonoBehaviour:
         - localeIdentifier:
             m_Code: zh-Hant
           value: {fileID: -7000256516718564864, guid: 903c433060abe92459f39b0e4b47a58a, type: 2}
+--- !u!114 &2101255880100673658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069474366417551086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1ade7569beea1a49aaf5b8bcaf8c87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1075903651290752296
 GameObject:
   m_ObjectHideFlags: 0
@@ -4390,7 +4403,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6615057551529501050}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

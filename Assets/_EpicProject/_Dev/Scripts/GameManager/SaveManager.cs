@@ -29,6 +29,13 @@ public class SaveManager : MonoBehaviour
         data.IsPrivacyConfirmation = isConfirm;
         SaveAllData(data);
     }
+    
+    public void SavePrivacyAgreement(bool isAgree)
+    {
+        GameSaveData data = LoadData();
+        data.IsPrivacyAgreement = isAgree;
+        SaveAllData(data);
+    }
 
     public void SaveTalkedNpcData(string id)
     {
@@ -58,6 +65,11 @@ public class SaveManager : MonoBehaviour
     public List<string> LoadTalkedNpcData()
     {
         return LoadData().TalkedNpcList;
+    }
+    
+    public bool LoadPrivacyAgreementData()
+    {
+        return LoadData().IsPrivacyAgreement;
     }
     
     public void DeleteSettingData()
@@ -111,6 +123,7 @@ public class SaveManager : MonoBehaviour
         saveData.SettingData = new SettingData();
         saveData.StageData = new StageData();
         saveData.IsPrivacyConfirmation = false;
+        saveData.IsPrivacyAgreement = false;
         saveData.TalkedNpcList = new List<string>();
         
         // 기본값 세팅
@@ -137,6 +150,7 @@ public class GameSaveData
     public SettingData SettingData = new SettingData(); // 설정 데이터
     public StageData StageData = new StageData(); // 스테이지 데이터
     public bool IsPrivacyConfirmation; // 개인정보 처리방침 확인 여부
+    public bool IsPrivacyAgreement; // 개인정보 처리방침 동의 여부
     public List<string> TalkedNpcList = new List<string>(); // 대화한 Npc ID
 }
 

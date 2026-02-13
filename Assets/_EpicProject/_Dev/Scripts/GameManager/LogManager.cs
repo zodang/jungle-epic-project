@@ -5,18 +5,35 @@ using UnityEngine;
 public class LogManager : MonoBehaviour
 {
     private bool _isInitialized = false;
+    private bool _isAgreed = false;
 
     private string _lastStageId = "";
     private string _lastSectionIndex = "";
     private float _gameStartTime;
 
-    private async void Awake()
+    private async void Start()
     {
         await UnityServices.InitializeAsync();
-        AnalyticsService.Instance.StartDataCollection();
         _isInitialized = true;
         
+        _isAgreed = GameManager.Instance.SaveManager.LoadPrivacyAgreementData();
+
+        // 동의 시에만 정보 수집
+        if (_isAgreed) OptIn();
+        
         _gameStartTime = Time.realtimeSinceStartup;
+    }
+
+    public void OptIn()
+    {
+        _isAgreed = true;
+        AnalyticsService.Instance.StartDataCollection();
+    }
+    
+    public void OptOut()
+    {
+        _isAgreed = false;
+        AnalyticsService.Instance.StopDataCollection();
     }
 
     private void OnApplicationQuit()
@@ -26,7 +43,7 @@ public class LogManager : MonoBehaviour
 
     private void LogGameExit(string stageId, string sectionId, float totalTime)
     {
-        if (!_isInitialized) return;
+        if (!_isInitialized || !_isAgreed) return;
 
         CustomEvent customEvent = new CustomEvent("game_exit")
         {
@@ -41,7 +58,7 @@ public class LogManager : MonoBehaviour
 
     public void LogStageEnter(string stageId)
     {
-        if (!_isInitialized) return;
+        if (!_isInitialized || !_isAgreed) return;
 
         CustomEvent customEvent = new CustomEvent("stage_enter")
         {
@@ -55,7 +72,7 @@ public class LogManager : MonoBehaviour
 
     public void LogStageExit(string stageId, string sectionId, string exitType, float elapsedTime)
     {
-        if (!_isInitialized) return;
+        if (!_isInitialized || !_isAgreed) return;
 
         CustomEvent customEvent = new CustomEvent("stage_exit")
         {
@@ -72,7 +89,7 @@ public class LogManager : MonoBehaviour
 
     public void LogSectionEnter(string stageId, string sectionId, float elapsedTime)
     {
-        if (!_isInitialized) return;
+        if (!_isInitialized || !_isAgreed) return;
 
         CustomEvent customEvent = new CustomEvent("section_enter")
         {
@@ -88,7 +105,7 @@ public class LogManager : MonoBehaviour
 
     public void LogGlitchUse(string stageId, string sectionId)
     {
-        if (!_isInitialized) return;
+        if (!_isInitialized || !_isAgreed) return;
 
         CustomEvent customEvent = new CustomEvent("glitch_use")
         {
@@ -103,7 +120,7 @@ public class LogManager : MonoBehaviour
 
     public void LogBlockControl(string stageId, string sectionId, string blockType, string blockValue, string targetObj)
     {
-        if (!_isInitialized) return;
+        if (!_isInitialized || !_isAgreed) return;
 
         CustomEvent customEvent = new CustomEvent("block_control")
         {
