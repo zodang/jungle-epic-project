@@ -1,12 +1,12 @@
 using UnityEngine;
-using TMPro;             // TextMeshPro 사용 시
-// using UnityEngine.UI;  // Unity UI Text 사용 시
+using TMPro;
 
 public class DateTimeDisplay : MonoBehaviour
 {
     [Header("Assign your UI Text here")]
     [SerializeField] private TextMeshProUGUI dateTimeText;
-    // [SerializeField] private Text dateTimeText; // Unity UI Text 용
+    private const float UpdateInterval = 1f;
+    private float _nextUpdateTime;
 
     void Start()
     {
@@ -16,7 +16,10 @@ public class DateTimeDisplay : MonoBehaviour
 
     void Update()
     {
-        // 현재 로컬 시간(Asia/Seoul) 기준으로 포맷팅
-        dateTimeText.text = System.DateTime.Now.ToString("yyyy.MM.dd / HH:mm");
+        // 현재 로컬 시간 기준으로 포맷팅
+        if (dateTimeText == null || Time.time < _nextUpdateTime) return;
+
+        _nextUpdateTime = Time.time + UpdateInterval;
+        dateTimeText.text = System.DateTime.UtcNow.ToLocalTime().ToString("yyyy.MM.dd / HH:mm");
     }
 }
