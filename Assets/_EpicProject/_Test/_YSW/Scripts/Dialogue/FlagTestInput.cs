@@ -28,8 +28,9 @@ public class FlagTestInput : MonoBehaviour
             if (!string.IsNullOrEmpty(flag1Name))
             {
                 bool currentFlagState = StageBaseManager.Instance.FlagManager.IsFlagSet(flag1Name);
-                StageBaseManager.Instance.FlagManager.SetFlag(flag1Name, !currentFlagState); // 현재 상태의 반대로 설정
-                Debug.Log($"<FlagTestInput> Toggled flag '{flag1Name}' to {!currentFlagState}");
+                bool nextFlagState = !currentFlagState; // 현재 상태의 반대로 설정
+                StageBaseManager.Instance.FlagManager.SetFlag(flag2Name, nextFlagState);
+                Debug.Log($"<FlagTestInput> Toggled flag '{flag2Name}' to {nextFlagState.ToString()}");
             }
             else
             {
@@ -43,8 +44,9 @@ public class FlagTestInput : MonoBehaviour
             if (!string.IsNullOrEmpty(flag2Name))
             {
                 bool currentFlagState = StageBaseManager.Instance.FlagManager.IsFlagSet(flag2Name);
-                StageBaseManager.Instance.FlagManager.SetFlag(flag2Name, !currentFlagState);
-                Debug.Log($"<FlagTestInput> Toggled flag '{flag2Name}' to {!currentFlagState}");
+                bool nextFlagState = !currentFlagState; // 현재 상태의 반대로 설정
+                StageBaseManager.Instance.FlagManager.SetFlag(flag2Name, nextFlagState);
+                Debug.Log($"<FlagTestInput> Toggled flag '{flag2Name}' to {nextFlagState.ToString()}");
             }
             else
             {

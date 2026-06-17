@@ -85,7 +85,7 @@ public class NPCInteraction : MonoBehaviour
             // 플래그 상태가 요구되는 값과 일치하는지 확인
             if (flagState == conditionEntry.requiredFlagValue)
             {
-                Debug.Log($"<NPCInteraction> Condition met for '{gameObject.name}': Flag '{conditionEntry.requiredFlagName}' is {flagState} (required: {conditionEntry.requiredFlagValue}). Using dialogue: {conditionEntry.dialogueId}");
+                Debug.Log($"<NPCInteraction> Condition met for '{gameObject.name}': Flag '{conditionEntry.requiredFlagName}' is {flagState.ToString()} (required: {conditionEntry.requiredFlagValue.ToString()}). Using dialogue: {conditionEntry.dialogueId}");
                 return conditionEntry.dialogueId;
             }
         }

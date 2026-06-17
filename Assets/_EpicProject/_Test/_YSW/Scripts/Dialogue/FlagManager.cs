@@ -21,7 +21,7 @@ public class FlagManager : MonoBehaviour
             return;
         }
         flags[flagName] = value;
-        Debug.Log($"<FlagManager> Flag '{flagName}' set to {value}.");
+        Debug.Log($"<FlagManager> Flag '{flagName}' set to {value.ToString()}.");
     }
 
     /// <summary>
