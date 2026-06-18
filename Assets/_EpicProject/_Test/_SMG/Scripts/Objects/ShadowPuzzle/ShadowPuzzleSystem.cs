@@ -78,6 +78,7 @@ public class ShadowPuzzleSystem : MonoBehaviour
         }
         else if (_checkerAlignedStates[checkerIndex] != isAligned)
         {
+            // 전체 정렬 여부는 개수로 비교
             _alignedCheckerCount += isAligned ? 1 : -1;
         }
         else
