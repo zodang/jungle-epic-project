@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Define;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -26,6 +25,8 @@ public class InputManager : MonoBehaviour
     private InputAction _toggleSettingAction;
     private InputAction _toggleInventoryAction;
     private InputAction _glitchVisionAction;
+    private RaycastHit2D[] _clickableHitBuffer = new RaycastHit2D[10];
+    private ContactFilter2D _clickableFilter;
     
     private bool _isClicked;
     
@@ -45,7 +46,6 @@ public class InputManager : MonoBehaviour
         _toggleSettingAction = _actionMap.FindAction("ToggleSetting");
         _toggleInventoryAction = _actionMap.FindAction("ToggleInventory");
         _glitchVisionAction = _actionMap.FindAction("GlitchVision");
-        
 
         _moveAction.performed += OnMovePerformed;
         _moveAction.canceled += OnMoveCanceled;
@@ -56,6 +56,12 @@ public class InputManager : MonoBehaviour
         _glitchVisionAction.performed += OnGlitchVisioPerformed;
 
         _actionMap.Enable();
+        
+        // 클릭 위치 오브젝트 검출을 위해 Clickable 레이어만 검사
+        int clickableLayerMask = LayerMask.GetMask("Clickable");
+        _clickableFilter = new ContactFilter2D();
+        _clickableFilter.SetLayerMask(clickableLayerMask);
+        _clickableFilter.useTriggers = Physics2D.queriesHitTriggers;
     }
     
     public void ActivatePlayerInput(bool isActive)
@@ -170,22 +176,16 @@ public class InputManager : MonoBehaviour
             Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
 
             // RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, float.PositiveInfinity, LayerMask.GetMask("Clickable"));
-            RaycastHit2D[] hits = Physics2D.RaycastAll(
-                    worldPos,
-                    Vector2.zero,
-                    float.PositiveInfinity,
-                    LayerMask.GetMask("Clickable"))
-                .OrderBy(h => h.collider.transform.position.z)
-                .ToArray();
+            int hitCount = GetSortedClickableHits(worldPos);
 
             bool isMaskBypass = false;
             bool isMask = false;
             ClickableMask mask = null;
             ClickableMaskSortOrder clickableMaskSortOrder = ClickableMaskSortOrder.ForePlayer;
             
-            for (int i = 0; i < hits.Length; i++)
+            for (int i = 0; i < hitCount; i++)
             {
-                Collider2D coll = hits[i].collider;
+                Collider2D coll = _clickableHitBuffer[i].collider;
                 
                 ClickableMask clickableMask = coll.GetComponent<ClickableMask>();
                 ClickableMaskBypass clickableMaskBypass = coll.GetComponent<ClickableMaskBypass>();
@@ -288,6 +288,37 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F6))
         {
             FindAnyObjectByType<Inventory>().SpawnBlock(BlockType.Speed);
+        }
+    }
+    
+    private int GetSortedClickableHits(Vector2 worldPos)
+    {
+        int hitCount;
+        while (true)
+        {
+            hitCount = Physics2D.Raycast(
+                worldPos,
+                Vector2.zero,
+                _clickableFilter,
+                _clickableHitBuffer,
+                float.PositiveInfinity);
+
+            if (hitCount < _clickableHitBuffer.Length) break;
+
+            Array.Resize(ref _clickableHitBuffer, _clickableHitBuffer.Length * 2);
+        }
+
+        Array.Sort(_clickableHitBuffer, 0, hitCount, RaycastHitZComparer.Instance);
+        return hitCount;
+    }
+
+    private sealed class RaycastHitZComparer : IComparer<RaycastHit2D>
+    {
+        public static readonly RaycastHitZComparer Instance = new RaycastHitZComparer();
+
+        public int Compare(RaycastHit2D x, RaycastHit2D y)
+        {
+            return x.collider.transform.position.z.CompareTo(y.collider.transform.position.z);
         }
     }
 }
