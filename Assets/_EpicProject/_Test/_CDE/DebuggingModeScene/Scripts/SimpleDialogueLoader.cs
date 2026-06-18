@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class SimpleDialogueLoader : MonoBehaviour
@@ -14,7 +13,7 @@ public class SimpleDialogueLoader : MonoBehaviour
 
     public int GetLineCount(string id)
     {
-        var entry = _dialogueCollection.dialogues.FirstOrDefault(d => d.id == id);
+        var entry = GetDialogueEntry(id);
         return entry.lines.Count;
     }
 
@@ -25,7 +24,7 @@ public class SimpleDialogueLoader : MonoBehaviour
         // 현재 언어 코드
         string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
 
-        var entry = _dialogueCollection.dialogues.FirstOrDefault(d => d.id == id);
+        var entry = GetDialogueEntry(id);
         if (entry.lines[index].speaker.TryGetValue(lang, out var spk))
         {
             speaker = spk;
@@ -41,12 +40,27 @@ public class SimpleDialogueLoader : MonoBehaviour
         // 현재 언어 코드
         string lang = UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code;
 
-        var entry = _dialogueCollection.dialogues.FirstOrDefault(d => d.id == id);
+        var entry = GetDialogueEntry(id);
         if (entry.lines[index].text.TryGetValue(lang, out var txt))
         {
             dialogue = txt;
         }
 
         return dialogue;
+    }
+
+    private DialogueEntry GetDialogueEntry(string id)
+    {
+        // 전체 dialogues 중 특정 대화 묶음(id)에서 특정 줄(index) 반환
+        for (int i = 0; i < _dialogueCollection.dialogues.Count; i++)
+        {
+            DialogueEntry entry = _dialogueCollection.dialogues[i];
+            if (entry.id == id)
+            {
+                return entry;
+            }
+        }
+
+        return null;
     }
 }
