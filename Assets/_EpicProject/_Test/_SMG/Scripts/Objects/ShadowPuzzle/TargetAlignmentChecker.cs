@@ -31,11 +31,12 @@ public class TargetAlignmentChecker : MonoBehaviour
     private SpriteRenderer _slot;
     public bool IsAligned { get; private set; }
     private bool _prevIsAligned;
+    private bool _hasAlignmentState;
     public bool IsAlignedPosition { get; private set; }
     public bool IsAlignedRotation { get; private set; }
     public bool IsAlignedScale { get; private set; }
 
-    public UnityEvent<bool> OnIsAligend;
+    public UnityEvent<TargetAlignmentChecker, bool> OnIsAligend;
 
     private void Start()
     {
@@ -43,8 +44,6 @@ public class TargetAlignmentChecker : MonoBehaviour
             _rotationAnswers.Add(Vector3.zero);
 
         TryGetComponent<SpriteRenderer>(out _slot);
-
-        _prevIsAligned = true;
     }
 
     private void Update()
@@ -79,14 +78,15 @@ public class TargetAlignmentChecker : MonoBehaviour
             //Mathf.Abs(goalScale.z - _target.localScale.z) <= _rangeScale.z;
 
         IsAligned = IsAlignedPosition && IsAlignedRotation && IsAlignedScale;
-        if(_prevIsAligned != IsAligned)
+        if(!_hasAlignmentState || _prevIsAligned != IsAligned)
         {
+            _hasAlignmentState = true;
             _prevIsAligned = IsAligned;
             if(!_slot.IsUnityNull())
             {
                 _slot.color = IsAligned ? AlignedColor : UnalignedColor;
             }
-            OnIsAligend?.Invoke(IsAligned);
+            OnIsAligend?.Invoke(this, IsAligned);
         }
         
     }
