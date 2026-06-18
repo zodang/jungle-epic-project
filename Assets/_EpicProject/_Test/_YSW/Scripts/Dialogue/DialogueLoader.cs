@@ -1,6 +1,5 @@
 // DialogueLoader.cs
 using UnityEngine;
-using System.Linq; // FirstOrDefault 사용 시 (선택적 헬퍼 함수용)
 using Newtonsoft.Json;
 
 public class DialogueLoader : MonoBehaviour
@@ -52,6 +51,17 @@ public class DialogueLoader : MonoBehaviour
         {
             return null;
         }
-        return collection.dialogues.FirstOrDefault(d => d.id == dialogueId);
+
+        // 전체 dialogues 중 특정 대화 묶음(id)에서 특정 줄(index) 반환
+        for (int index = 0; index < collection.dialogues.Count; index++)
+        {
+            DialogueEntry dialogue = collection.dialogues[index];
+            if (dialogue.id == dialogueId)
+            {
+                return dialogue;
+            }
+        }
+
+        return null;
     }
 }
