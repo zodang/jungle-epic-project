@@ -34,9 +34,9 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
     float FanLv1Threshold = 0.3f;
     float FanLv2Threshold = 12f;
     float FanLv3Threshold = 20f;
-    [SerializeField] GameObject WindZoneLv1;
-    [SerializeField] GameObject WindZoneLv2;
-    [SerializeField] GameObject WindZoneLv3;
+    [SerializeField] PinwheelWindZone WindZoneLv1;
+    [SerializeField] PinwheelWindZone WindZoneLv2;
+    [SerializeField] PinwheelWindZone WindZoneLv3;
     private float _prevRotate;
 
     private float _decayDelay;
@@ -117,63 +117,52 @@ public class Pinwheel : MonoBehaviour, IFeatureResetable, IControllable, IWindEm
         
         FanPower = Mathf.Abs(_fanSpeed);
 
-        int lv = 0;
-        GameObject windZone;
+        PinwheelWindZone windZone;
         if (FanPower >= FanLv3Threshold)
         {
-            lv = 3;
             windZone = WindZoneLv3;
         }
         else if (FanPower >= FanLv2Threshold)
         {
-            lv = 2;
             windZone = WindZoneLv2;
         }
         else
         {
-            lv = 1;
             windZone = WindZoneLv1;
         }
 
         if (FanPower >= FanLv3Threshold)
         {
-            WindZoneLv3.SetActive(true);
-            WindZoneLv1.SetActive(false);
-            WindZoneLv2.SetActive(false);
+            WindZoneLv1.gameObject.SetActive(false);
+            WindZoneLv2.gameObject.SetActive(false);
+            WindZoneLv3.gameObject.SetActive(true);
         }
         else if (FanPower >= FanLv2Threshold)
         {
-            WindZoneLv2.SetActive(true);
-            WindZoneLv1.SetActive(false);
-            WindZoneLv3.SetActive(false);
+            WindZoneLv1.gameObject.SetActive(false);
+            WindZoneLv2.gameObject.SetActive(true);
+            WindZoneLv3.gameObject.SetActive(false);
         }
         else if (FanPower >= FanLv1Threshold)
         {
-            WindZoneLv1.SetActive(true);
-            WindZoneLv2.SetActive(false);
-            WindZoneLv3.SetActive(false);
+            WindZoneLv1.gameObject.SetActive(true);
+            WindZoneLv2.gameObject.SetActive(false);
+            WindZoneLv3.gameObject.SetActive(false);
         }
         else
         {
-            WindZoneLv1.SetActive(false);
-            WindZoneLv2.SetActive(false);
-            WindZoneLv3.SetActive(false);
+            WindZoneLv1.gameObject.SetActive(false);
+            WindZoneLv2.gameObject.SetActive(false);
+            WindZoneLv3.gameObject.SetActive(false);
         }
 
-        Animator[] animators = windZone.GetComponentsInChildren<Animator>();
-        for (int i = 0; i < animators.Length; i++)
+        if (FanPower >= FanLv1Threshold)
         {
-            animators[i].speed = Mathf.Clamp(FanPower/10f, 0.5f, 3f);
-        }
-
-        SpriteRenderer[] spriteRenderers = windZone.GetComponentsInChildren<SpriteRenderer>();
-        for (int i = 0; i < spriteRenderers.Length; i++)
-        {
-            Color color = spriteRenderers[i].color;
-            color.a = Mathf.Clamp01(FanPower / (FanLv1Threshold*2f));
-            spriteRenderers[i].color = color;
+            windZone.ApplyAnimator(FanPower, FanLv1Threshold);
+            windZone.ApplyAlpha(FanPower, FanLv1Threshold);
         }
     }
+
 
     public void ResetFeature()
     {
