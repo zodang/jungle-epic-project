@@ -11,12 +11,14 @@ public class FireMonster : MonoBehaviour
 
     [SerializeField] float _firePowerBase = 86f;
     float _firePower;
+    SpriteRenderer[] _spriteRenderers;
 
     public UnityEvent OnDefeated;
 
     private void Start()
     {
         _firePower = _firePowerBase;
+        _spriteRenderers = model.GetComponentsInChildren<SpriteRenderer>();
     }
 
 
@@ -46,7 +48,7 @@ public class FireMonster : MonoBehaviour
             float alpha = Mathf.InverseLerp(0, _firePowerBase, _firePower);
             float delta = Mathf.Lerp(0.4f, 1f, alpha);
             model.transform.localScale = new Vector3(delta, delta, 1f);
-            foreach (var spirte in model.GetComponentsInChildren<SpriteRenderer>())
+            foreach (var spirte in _spriteRenderers)
             {
                 Color color = spirte.color;
                 color.a = alpha;
