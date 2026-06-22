@@ -43,6 +43,8 @@ public class Movement2D : MonoBehaviour
     private int _YLock; // 1: Up, -1: down
     private int _XLock; // 1: right, -1: left;
 
+    private string _objectName;
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -67,6 +69,8 @@ public class Movement2D : MonoBehaviour
         {
             FootColliders.Add(transform);
         }
+
+        _objectName = gameObject.name;
     }
 
     private void FixedUpdate()
@@ -93,7 +97,7 @@ public class Movement2D : MonoBehaviour
                 if (_fallDeltaTime > 0.07f)
                 {
                     IsFalling = true;
-                    Debug.Log(name + ": Falling");
+                    Debug.Log(_objectName + ": Falling");
                 }
             }
             else

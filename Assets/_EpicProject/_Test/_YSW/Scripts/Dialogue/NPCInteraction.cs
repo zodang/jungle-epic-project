@@ -30,15 +30,18 @@ public class NPCInteraction : MonoBehaviour
     public Transform speechBubbleAnchor;
 
     private bool playerInRange = false;
+    private string _objectName;
 
     void Awake()
     {
+        _objectName = gameObject.name;
+        
         if (speechBubbleAnchor == null)
         {
             Transform anchorInChildren = transform.Find("SpeechBubbleAnchor"); // 프리팹 내 자식 이름 고정
             speechBubbleAnchor = anchorInChildren ?? transform;
             if (anchorInChildren == null)
-                Debug.LogWarning($"NPCInteraction on '{gameObject.name}': Using NPC's root for speech anchor. Consider adding 'SpeechBubbleAnchor' child.");
+                Debug.LogWarning($"NPCInteraction on '{_objectName}': Using NPC's root for speech anchor. Consider adding 'SpeechBubbleAnchor' child.");
         }
 
         // 우선순위에 따라 정렬 (선택 사항, Inspector에서 직접 순서 조정도 가능)
@@ -65,7 +68,7 @@ public class NPCInteraction : MonoBehaviour
     {
         if (StageBaseManager.Instance.FlagManager == null)
         {
-            Debug.LogWarning($"<NPCInteraction> StageBaseManager.Instance.FlagManager is null on '{gameObject.name}'. Cannot check conditions. Returning default dialogue: {defaultDialogueId}");
+            Debug.LogWarning($"<NPCInteraction> StageBaseManager.Instance.FlagManager is null on '{_objectName}'. Cannot check conditions. Returning default dialogue: {defaultDialogueId}");
             return defaultDialogueId;
         }
 
@@ -75,7 +78,7 @@ public class NPCInteraction : MonoBehaviour
             if (string.IsNullOrEmpty(conditionEntry.requiredFlagName) || string.IsNullOrEmpty(conditionEntry.dialogueId))
             {
                 // 필수 정보 누락 시 이 조건은 건너뜀 (또는 경고)
-                // Debug.LogWarning($"<NPCInteraction> Conditional entry on '{gameObject.name}' is missing requiredFlagName or dialogueId.");
+                // Debug.LogWarning($"<NPCInteraction> Conditional entry on '{_objectName}' is missing requiredFlagName or dialogueId.");
                 continue;
             }
 
@@ -85,13 +88,13 @@ public class NPCInteraction : MonoBehaviour
             // 플래그 상태가 요구되는 값과 일치하는지 확인
             if (flagState == conditionEntry.requiredFlagValue)
             {
-                Debug.Log($"<NPCInteraction> Condition met for '{gameObject.name}': Flag '{conditionEntry.requiredFlagName}' is {flagState.ToString()} (required: {conditionEntry.requiredFlagValue.ToString()}). Using dialogue: {conditionEntry.dialogueId}");
+                Debug.Log($"<NPCInteraction> Condition met for '{_objectName}': Flag '{conditionEntry.requiredFlagName}' is {flagState.ToString()} (required: {conditionEntry.requiredFlagValue.ToString()}). Using dialogue: {conditionEntry.dialogueId}");
                 return conditionEntry.dialogueId;
             }
         }
 
         // 모든 특정 조건에 해당하지 않으면 기본 대화 ID 반환
-        // Debug.Log($"<NPCInteraction> No specific conditions met for '{gameObject.name}'. Using default dialogue: {defaultDialogueId}");
+        // Debug.Log($"<NPCInteraction> No specific conditions met for '{_objectName}'. Using default dialogue: {defaultDialogueId}");
         return defaultDialogueId;
     }
 
@@ -106,9 +109,9 @@ public class NPCInteraction : MonoBehaviour
         else
         {
             if (string.IsNullOrEmpty(dialogueIdToStart))
-                Debug.LogWarning($"NPCInteraction on '{gameObject.name}': No suitable dialogue ID determined by conditions for InteractWithNPC.");
-            if (StageBaseManager.Instance.DialogueManager == null) Debug.LogError($"NPCInteraction on '{gameObject.name}': StageBaseManager.Instance.DialogueManager is null.");
-            if (speechBubbleAnchor == null) Debug.LogWarning($"NPCInteraction on '{gameObject.name}': SpeechBubbleAnchor is null.");
+                Debug.LogWarning($"NPCInteraction on '{_objectName}': No suitable dialogue ID determined by conditions for InteractWithNPC.");
+            if (StageBaseManager.Instance.DialogueManager == null) Debug.LogError($"NPCInteraction on '{_objectName}': StageBaseManager.Instance.DialogueManager is null.");
+            if (speechBubbleAnchor == null) Debug.LogWarning($"NPCInteraction on '{_objectName}': SpeechBubbleAnchor is null.");
         }
     }
 
