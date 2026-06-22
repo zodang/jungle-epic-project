@@ -33,11 +33,13 @@ public class ResolutionSetting : MonoBehaviour
     private Toggle _fullScreenToggle;
     
     private List<Resolution> _resolutions = new List<Resolution>();
+    private Resolution[] _allResolutions;
     
     private void Awake()
     {
         _resolutionDropDown = GetComponentInChildren<TMP_Dropdown>();
         _fullScreenToggle = GetComponentInChildren<Toggle>();
+        _allResolutions = Screen.resolutions;
         
         InitDropdown();
     }
@@ -80,7 +82,6 @@ public class ResolutionSetting : MonoBehaviour
     public int GetOptimalResolutionIndex()
     {
         _resolutions.Clear();
-        Resolution[] allRes = Screen.resolutions;
 
         var current = Screen.currentResolution;
         int closestIndex = 0;
@@ -91,7 +92,7 @@ public class ResolutionSetting : MonoBehaviour
         {
             // 실제 모니터에서 지원하는 해상도만 포함
             Resolution? match = null;
-            foreach (var res in allRes)
+            foreach (var res in _allResolutions)
             {
                 if (res.width == resVec.x && res.height == resVec.y)
                 {
