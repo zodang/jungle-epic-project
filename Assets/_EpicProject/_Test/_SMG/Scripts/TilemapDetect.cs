@@ -21,6 +21,8 @@ public class AnimCtrlPair
 
 public class TilemapDetect : MonoBehaviour
 {
+    private readonly Collider2D[] rangedColls = new Collider2D[128];
+
     public TilePair[] tilePairs;
     public AnimCtrlPair[] animatorPairs;
 
@@ -44,7 +46,7 @@ public class TilemapDetect : MonoBehaviour
         //    ChangeTile(groundTilemap, testTilesPos[i]);
         //}
 
-        GetCollidersInsector(transform.position, transform.up, Radius, Angle, ref testColls);
+        GetCollidersInspector(transform.position, transform.up, Radius, Angle, ref testColls);
         for(int i = 0; i < testColls.Count; i++)
         {
             ChageGrassToDry(testColls[i].GetComponentInParent<GrassLeaf>());
@@ -147,13 +149,13 @@ public class TilemapDetect : MonoBehaviour
         }
     }
 
-    public void GetCollidersInsector(Vector2 center, Vector2 direction, float radius, float angle, ref List<Collider2D> colliders)
+    public void GetCollidersInspector(Vector2 center, Vector2 direction, float radius, float angle, ref List<Collider2D> colliders)
     {
         colliders.Clear();
 
-        Collider2D[] rangedColls = Physics2D.OverlapCircleAll(center, radius);
+        int rangedCollCount = Physics2D.OverlapCircleNonAlloc(center, radius, rangedColls);
         
-        for(int i = 0; i < rangedColls.Length; i++)
+        for(int i = 0; i < rangedCollCount; i++)
         {
             Collider2D col = rangedColls[i];
             if (col.gameObject == gameObject)
