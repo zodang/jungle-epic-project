@@ -13,6 +13,7 @@ public class FieldOfView : MonoBehaviour
     private Mesh mesh;                          //시야각을 그려줄 메쉬
 
     private MeshRenderer meshRenderer;
+    private Color originalMaterialColor;
     public float alpha = 0.2f;
 
     private void Start()
@@ -22,6 +23,19 @@ public class FieldOfView : MonoBehaviour
         mesh.name = "FOV_Effect";
         GetComponent<MeshFilter>().mesh = mesh;
         meshRenderer = GetComponent<MeshRenderer>();
+        
+        if (meshRenderer.sharedMaterial != null)
+        {
+            originalMaterialColor = meshRenderer.sharedMaterial.color;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (meshRenderer != null && meshRenderer.sharedMaterial != null)
+        {
+            meshRenderer.sharedMaterial.color = originalMaterialColor;
+        }
     }
 
     int step = 0;
@@ -36,13 +50,13 @@ public class FieldOfView : MonoBehaviour
             switch(step%3)
             {
                 case 0:
-                    meshRenderer.material.color = new Color(1f, 1f, 1f, alpha);
+                    meshRenderer.sharedMaterial.color = new Color(1f, 1f, 1f, alpha);
                     break;
                 case 1:
-                    meshRenderer.material.color = new Color(1f, 1f, 0f, alpha);
+                    meshRenderer.sharedMaterial.color = new Color(1f, 1f, 0f, alpha);
                     break;
                 case 2:
-                    meshRenderer.material.color = new Color(1f, 0f, 0f, alpha);
+                    meshRenderer.sharedMaterial.color = new Color(1f, 0f, 0f, alpha);
                     break;
             }
             
